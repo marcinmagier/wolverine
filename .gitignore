@@ -1,0 +1,33 @@
+
+#ignore rubbish
+*~
+Thumbs.db
+
+#Ignore files build by compiler
+*.o
+*.so
+*.so.*
+*.a
+
+*.obj
+*.lib
+*.tlog
+*.log
+*.ipch
+*.sdf
+*.opensdf
+*.suo
+*.pch
+*.sbr
+
+*.pyc
+
+#Ignore qt specific files
+*.pro.user
+moc_*.cpp
+Makefile
+
+
+#Ignore build directories
+build_debug/
+build_release/
