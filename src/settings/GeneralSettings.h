@@ -1,4 +1,7 @@
 
+#ifndef __GENERAL_SETTINGS_H_
+ #define __GENERAL_SETTINGS_H_
+
 #include <QObject>
 #include <QString>
 #include <QSettings>
@@ -28,3 +31,5 @@ private:
 	bool m_valBool;
 	QString m_valString;
 };
+
+#endif //__GENERAL_SETTINGS_H_

@@ -1,4 +1,7 @@
 
+#ifndef __HIDDEN_SETTINGS_H_
+ #define __HIDDEN_SETTINGS_H_
+
 #include <QObject>
 #include <QString>
 #include <QSettings>
@@ -29,3 +32,5 @@ private:
     QPoint m_position;
     QSize m_size;
 };
+
+#endif //__HIDDEN_SETTINGS_H_

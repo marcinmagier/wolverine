@@ -1,12 +1,12 @@
 
-#include "Settings.h"
+#include "qtconfig.h"
 #include <QMetaObject>
 #include <QMetaProperty>
 #include <QVariant>
 
 
 //Read all qobj properties using QSettings qset
-void Settings::readGroup(QSettings &qset, QObject *qobj)
+void QtConfig::loadGroup(QSettings &qset, QObject *qobj)
 {
     const QMetaObject* metaObject = qobj->metaObject();
     const QString group_name = metaObject->className();
@@ -21,7 +21,7 @@ void Settings::readGroup(QSettings &qset, QObject *qobj)
 }
 
 //Write all qobj properties using QSettings qset
-void Settings::writeGroup(QSettings &qset, QObject *qobj)
+void QtConfig::saveGroup(QSettings &qset, QObject *qobj)
 {
     const QMetaObject* metaObject = qobj->metaObject();
     const QString group_name = metaObject->className();

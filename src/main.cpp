@@ -1,15 +1,15 @@
 // main.cpp
 
-#include "AppSettings.h"
+#include "AppConfig.h"
 
 
 int main(int argc, char *argv[])
 {
 
-    AppSettings *settings = AppSettings::getInstance();
+    AppConfig *settings = AppConfig::getInstance();
 
-    settings->readSettings();
-    settings->writeSettings();
+    settings->loadConfiguration();
+    settings->saveConfiguration();
 
     return 0;
 }

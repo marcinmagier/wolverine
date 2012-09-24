@@ -11,16 +11,16 @@ TEMPLATE = app
 
 
 SOURCES += \
-    ../lib/Settings.cpp \
     ../src/main.cpp \
-    ../src/settings/AppSettings.cpp
+    ../src/settings/AppConfig.cpp \
+    ../lib/qtconfig.cpp
 
 HEADERS  += \
-    ../lib/Settings.h \
     ../src/settings/ScintillaSettings.h \
     ../src/settings/HiddenSettings.h \
     ../src/settings/GeneralSettings.h \
-    ../src/settings/AppSettings.h
+    ../src/settings/AppConfig.h \
+    ../lib/qtconfig.h
 
 INCLUDEPATH += ../lib \
     ../src/settings
