@@ -6,10 +6,10 @@
 int main(int argc, char *argv[])
 {
 
-    AppSettings settings;
+    AppSettings *settings = AppSettings::getInstance();
 
-    settings.readSettings();
-    settings.writeSettings();
+    settings->readSettings();
+    settings->writeSettings();
 
     return 0;
 }

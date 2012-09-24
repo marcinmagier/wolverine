@@ -4,26 +4,34 @@
 #include <QMetaProperty>
 #include <QVariant>
 
+AppSettings* AppSettings::s_settings = NULL;
+
+AppSettings* AppSettings::getInstance()
+{
+    if(s_settings == NULL)
+        s_settings = new AppSettings();
+    return s_settings;
+}
 
 bool AppSettings::readSettings()
 {
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "host_test", "settings_test");
+    QSettings qset(QSettings::IniFormat, QSettings::UserScope, "wolverine", "wolverine");
 
-    readGroup(settings, &general);
-    readGroup(settings, &hidden);
-    readGroup(settings, &scintilla);
+    readGroup(qset, &general);
+    readGroup(qset, &hidden);
+    readGroup(qset, &scintilla);
 	return true;
 }
 
 bool AppSettings::writeSettings()
 {
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "host_test", "settings_test");
+    QSettings qset(QSettings::IniFormat, QSettings::UserScope, "wolverine", "wolverine");
 
-    if (!settings.isWritable())
+    if (!qset.isWritable())
         return false;
 
-    writeGroup(settings, &general);
-    writeGroup(settings, &hidden);
-    writeGroup(settings, &scintilla);
+    writeGroup(qset, &general);
+    writeGroup(qset, &hidden);
+    writeGroup(qset, &scintilla);
 	return true;
 }

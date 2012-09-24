@@ -2,29 +2,30 @@
 #include <QObject>
 #include <QString>
 #include <QSettings>
+#include <QPoint>
+#include <QSize>
+
 
 class HiddenSettings : public QObject
 {
 	Q_OBJECT
-	Q_PROPERTY(int		valInt		READ getValInt		WRITE setValInt)
-	Q_PROPERTY(bool		valBool		READ getValBool		WRITE setValBool)
-	Q_PROPERTY(QString	valString	READ getValString	WRITE setValString)
+
+    Q_PROPERTY(QPoint       windowPosition	READ getPosition		WRITE setPosition)
+    Q_PROPERTY(QSize		windowSize		READ getSize            WRITE setSize)
+
+
 
 public:
-	// valInt
-	int getValInt() {return m_valInt;}
-	void setValInt(int val) {m_valInt = val;}
-	
-	// valBool
-	bool getValBool() {return m_valBool;}
-	void setValBool(bool val) {m_valBool = val;}
 
-	// valString
-	QString getValString() {return m_valString;}
-	void setValString(QString val) {m_valString = val;}
+    // position
+    QPoint getPosition() {return m_position;}
+    void setPosition(QPoint val) {m_position = val;}
+
+    // size
+    QSize getSize() {return m_size;}
+    void setSize(QSize val) {m_size = val;}
 	
 private:
-	int m_valInt;
-	bool m_valBool;
-	QString m_valString;
+    QPoint m_position;
+    QSize m_size;
 };
