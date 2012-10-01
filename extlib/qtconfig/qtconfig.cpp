@@ -1,8 +1,10 @@
 
 #include "qtconfig.h"
+#include <QObject>
 #include <QMetaObject>
 #include <QMetaProperty>
 #include <QVariant>
+#include <QSettings>
 
 
 //Read all qobj properties using QSettings qset

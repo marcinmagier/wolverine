@@ -1,21 +1,23 @@
 
 #include "AppConfig.h"
+#include <QApplication>
 #include <QMetaObject>
 #include <QMetaProperty>
 #include <QVariant>
+#include <QSettings>
 
-AppConfig* AppConfig::s_settings = NULL;
+AppConfig* AppConfig::s_appconfig = NULL;
 
-AppConfig* AppConfig::getInstance()
+AppConfig* AppConfig::instance()
 {
-    if(s_settings == NULL)
-        s_settings = new AppConfig();
-    return s_settings;
+    if(s_appconfig == NULL)
+        s_appconfig = new AppConfig();
+    return s_appconfig;
 }
 
 bool AppConfig::loadConfiguration()
 {
-    QSettings qset(QSettings::IniFormat, QSettings::UserScope, "wolverine", "wolverine");
+    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "appconfig");
 
     loadGroup(qset, &general);
     loadGroup(qset, &hidden);
@@ -25,7 +27,7 @@ bool AppConfig::loadConfiguration()
 
 bool AppConfig::saveConfiguration()
 {
-    QSettings qset(QSettings::IniFormat, QSettings::UserScope, "wolverine", "wolverine");
+    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "appconfig");
 
     if (!qset.isWritable())
         return false;

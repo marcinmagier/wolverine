@@ -3,8 +3,8 @@
  #define __QT_CONFIG_H_
 
 
-#include <QObject>
-#include <QSettings>
+class QObject;
+class QSettings;
 
 class QtConfig
 {
@@ -19,4 +19,4 @@ protected:
 
 };
 
-#endif //__QCONFIG_H_
+#endif //__QT_CONFIG_H_

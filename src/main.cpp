@@ -6,7 +6,7 @@
 int main(int argc, char *argv[])
 {
 
-    AppConfig *settings = AppConfig::getInstance();
+    AppConfig *settings = AppConfig::instance();
 
     settings->loadConfiguration();
     settings->saveConfiguration();

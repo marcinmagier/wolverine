@@ -4,7 +4,6 @@
 
 #include <QObject>
 #include <QString>
-#include <QSettings>
 #include <QPoint>
 #include <QSize>
 

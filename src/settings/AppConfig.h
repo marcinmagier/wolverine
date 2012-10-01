@@ -1,6 +1,6 @@
 
-#ifndef __APP_SETTINGS_H_
- #define __APP_SETTINGS_H_
+#ifndef __APP_CONFIG_H_
+ #define __APP_CONFIG_H_
 
 #include "qtconfig.h"
 
@@ -19,12 +19,12 @@ public:
     HiddenSettings hidden;
     ScintillaSettings scintilla;
 
-    static AppConfig* getInstance();
+    static AppConfig* instance();
     virtual bool loadConfiguration();
     virtual bool saveConfiguration();
 
 private:
-    static AppConfig *s_settings;
+    static AppConfig *s_appconfig;
 };
 
-#endif //__APP_SETTINGS_H_
+#endif //__APP_CONFIG_H_
