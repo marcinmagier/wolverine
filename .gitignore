@@ -18,7 +18,11 @@ Thumbs.db
 *.opensdf
 *.suo
 *.pch
+*.pdb
 *.sbr
+*.exe
+*.ilk
+*.intermediate.manifest
 
 *.pyc
 
@@ -26,6 +30,8 @@ Thumbs.db
 *.pro.user
 moc_*.cpp
 Makefile
+Makefile.Debug
+Makefile.Release
 
 
 #Ignore build directories
