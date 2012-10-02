@@ -26,12 +26,17 @@ Thumbs.db
 
 *.pyc
 
+
 #Ignore qt specific files
 *.pro.user
 moc_*.cpp
+qrc_*.cpp
+ui_*.h
 Makefile
 Makefile.Debug
 Makefile.Release
+object_script.*.Debug
+object_script.*.Release
 
 
 #Ignore build directories
