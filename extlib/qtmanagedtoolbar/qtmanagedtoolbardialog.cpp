@@ -44,8 +44,7 @@ void QtManagedToolBarDialog::fillActionsAvailable()
     //We need to have possibility to add separators
     ui->listAvailable->addItem("Separator");
 
-    for(int i=0; i<actionsAvailable->length(); i++) {
-        QAction *action = actionsAvailable->at(i);
+    foreach( QAction *action, *actionsAvailable) {
         QListWidgetItem *item = new QListWidgetItem(ui->listAvailable);
         item->setText(action->text());
         item->setIcon(action->icon());
@@ -56,14 +55,14 @@ void QtManagedToolBarDialog::fillActionsAvailable()
 
 void QtManagedToolBarDialog::fillActionsVisible()
 {
-    for (int i=0; i<actionsVisible->size(); ++i) {
-        if (actionsVisible->at(i) == "Separator") {
+    foreach(QString action, *actionsVisible) {
+        if(action == "Separator") {
             ui->listVisible->addItem("Separator");
             continue;
         }
         QListWidgetItem *itemVisible = new QListWidgetItem(ui->listVisible);
-        itemVisible->setText(actionsVisible->at(i));
-        QListWidgetItem *itemAvailable = findActionAvailable(itemVisible->text());
+        itemVisible->setText(action);
+        QListWidgetItem *itemAvailable = findActionAvailable(action);
         if (itemAvailable)
             itemVisible->setIcon(itemAvailable->icon());
     }
@@ -74,9 +73,8 @@ QListWidgetItem* QtManagedToolBarDialog::findActionAvailable(QString name)
 {
     for (int i=0; i< ui->listAvailable->count(); i++) {
         QListWidgetItem *item = ui->listAvailable->item(i);
-        if (item->text() == name) {
+        if (item->text() == name)
             return item;
-        }
     }
     return 0;
 }

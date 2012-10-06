@@ -8,37 +8,42 @@
 #include <QContextMenuEvent>
 
 
+#define QT_MANAGEDTOOLBAR_ICON_CUSTOMIZE	":/qtmanagedtoolbar/customize.png"
+
+
+
+
 QtManagedToolBar::QtManagedToolBar(QWidget *parent, QString toolbarName) :
     QToolBar(parent), m_toolbarName(toolbarName)
 { 
     m_actionsAvailable.clear();
     m_isManagerEnabled = true;
-    contextMenu = 0;
 }
 
 
 void QtManagedToolBar::contextMenuEvent(QContextMenuEvent *event)
 {
-    bool isLocalMenu = false;
-
     if(m_isManagerEnabled) {
-        if(!contextMenu) {
-            //There is no menu created by successor, create it for "Customize" item
-            contextMenu = new QMenu(this);
-            isLocalMenu = true;
-        }
+        QMenu *contextMenu = new QMenu(this);
         QAction *action = contextMenu->addAction(tr("Customize"));
-        action->setIcon(QIcon(":/qtmanagedtoolbar/customize.png"));
+        action->setIcon(QIcon(QT_MANAGEDTOOLBAR_ICON_CUSTOMIZE));
         connect(action, SIGNAL(triggered()), this, SLOT(showManagerDialog()));
-    }
 
-    if(contextMenu)
         contextMenu->exec(event->globalPos());
 
-    if(isLocalMenu) {
         delete contextMenu;
-        contextMenu = 0;
     }
+}
+
+void QtManagedToolBar::showContextMenu(QContextMenuEvent *event, QMenu *menu)
+{
+	if(m_isManagerEnabled) {
+		QAction *action = menu->addAction(tr("Customize"));
+		action->setIcon(QIcon(QT_MANAGEDTOOLBAR_ICON_CUSTOMIZE));
+		connect(action, SIGNAL(triggered()), this, SLOT(showManagerDialog()));
+	}
+
+	menu->exec(event->globalPos());
 }
 
 
@@ -83,14 +88,14 @@ void QtManagedToolBar::saveConfig()
 void QtManagedToolBar::findActionsAvailable()
 {
     QList<QAction*> tmp = this->actions();
+	m_actionsAvailable.clear();
 
     //Currently we only remove separators
-    //We assume that acctions with the same name wan't be added
-    //TODO: Add removing dupplicates if necessary.
-    for (int i=0; i< tmp.size(); ++i) {
-        if (tmp.at(i)->isSeparator())
-            continue;
-        m_actionsAvailable.append(tmp.at(i));
+    //We assume that actions with the same name won't be added
+    foreach(QAction *action, tmp) {
+    	if(action->isSeparator())
+    		continue;
+    	m_actionsAvailable.append(action);
     }
 }
 

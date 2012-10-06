@@ -17,15 +17,14 @@ public:
 
 void Toolbar::contextMenuEvent(QContextMenuEvent *event)
 {
-    contextMenu = new QMenu(this);
-    contextMenu->addAction(tr("TestAction"));
-    contextMenu->addAction(tr("TestAction2"));
-    contextMenu->addSeparator();
+    QMenu *menu = new QMenu(this);
+    menu->addAction(tr("TestAction"));
+    menu->addAction(tr("TestAction2"));
+    menu->addSeparator();
 
-    QtManagedToolBar::contextMenuEvent(event);
+    showContextMenu(event, menu);
 
-    delete contextMenu;
-    contextMenu = 0;
+    delete menu;
 }
 
 
@@ -46,8 +45,6 @@ int main(int argc, char **argv)
     QAction *action2 = new QAction("Cut", &mainWin);
     action2->setIcon(QIcon(":/cut.png"));
     toolbar->addAction(action2);
-
-    toolbar->addSeparator();
 
     QAction *action1 = new QAction("Find", &mainWin);
     action1->setIcon(QIcon(":/find.png"));
