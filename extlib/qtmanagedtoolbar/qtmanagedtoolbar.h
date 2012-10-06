@@ -5,6 +5,9 @@
 
 #include <QToolBar>
 
+class QMenu;
+class QString;
+
 class QtManagedToolBar : public QToolBar
 {
     Q_OBJECT
@@ -12,25 +15,13 @@ class QtManagedToolBar : public QToolBar
 
 
 public:
-    explicit QtManagedToolBar(QWidget *parent = 0);
+    QtManagedToolBar(QWidget *parent = 0, QString toolbarName = "Default");
 
     void contextMenuEvent(QContextMenuEvent *);
 
-    //QWidget
-    void addAction(QAction *action);
-    void addActions(QList<QAction*> actions);
-    void insertAction(QAction *before, QAction *action);
-    void insertActions(QAction *before, QList<QAction*> actions);
-    void removeAction(QAction *action);
-
-    //QToolBar
-    QAction *addAction(const QString &text);
-    QAction *addAction(const QIcon &icon, const QString &text);
-    QAction *addAction(const QString &text, const QObject *receiver, const char* member);
-    QAction *addAction(const QIcon &icon, const QString &text, const QObject *receiver, const char* member);
-
 
     bool isManagerEnabled() { return m_isManagerEnabled; }
+    void restoreConfig();
 
 
 public slots:
@@ -39,10 +30,24 @@ public slots:
 private slots:
     void showManagerDialog();
 
+protected:
+    QMenu *contextMenu;
+
+
+public:
+    void saveConfig();
+
+
+private:
+    QAction* getActionFromString(const QString &name);
+    void findActionsAvailable();
+    void applyConfiguration(const QStringList &config);
+    QStringList createConfiguration();
+
 private:
     bool m_isManagerEnabled;
+    QString m_toolbarName;
     QList<QAction*> m_actionsAvailable;
-    QList<QAction*> m_actionsVisible;
 };
 
 #endif //__QT_MANAGED_TOOLBAR_H_

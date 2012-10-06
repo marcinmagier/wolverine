@@ -31,7 +31,10 @@ INCLUDEPATH += ../extlib/qtconfig \
     ../src/settings
 
 RESOURCES += \
-    ../resources/images.qrc
+    ../resources/images.qrc \
+    ../extlib/qtmanagedtoolbar/resources.qrc
 
 FORMS += \
     ../extlib/qtmanagedtoolbar/qtmanagedtoolbardialog.ui
+
+OTHER_FILES +=

@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+class QListWidgetItem;
+
 namespace Ui {
 class QtManagedToolBarDialog;
 }
@@ -14,8 +16,21 @@ class QtManagedToolBarDialog : public QDialog
 public:
     explicit QtManagedToolBarDialog(QWidget *parent = 0);
     ~QtManagedToolBarDialog();
+
+    int exec();
+
     
+    QList<QAction*> *actionsAvailable;
+    QStringList *actionsVisible;
+
 private:
+    bool isActionVisible(QAction *action);
+    void fillActionsAvailable();
+    void fillActionsVisible();
+    QListWidgetItem* findActionAvailable(QString name);
+    void setActionAvailableHidden(QString name, bool visible);
+
+
     Ui::QtManagedToolBarDialog *ui;
 };
 

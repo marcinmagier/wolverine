@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -32,8 +32,8 @@
    <string>Customize toolbar</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../resources/images.qrc">
-    <normaloff>:/settings.png</normaloff>:/settings.png</iconset>
+   <iconset resource="resources.qrc">
+    <normaloff>:/qtmanagedtoolbar/customize.png</normaloff>:/qtmanagedtoolbar/customize.png</iconset>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <property name="spacing">
@@ -127,7 +127,17 @@
       </widget>
      </item>
      <item>
-      <widget class="QListWidget" name="listVisible"/>
+      <widget class="QListWidget" name="listVisible">
+       <property name="dragEnabled">
+        <bool>true</bool>
+       </property>
+       <property name="dragDropMode">
+        <enum>QAbstractItemView::DragDrop</enum>
+       </property>
+       <property name="defaultDropAction">
+        <enum>Qt::MoveAction</enum>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -144,7 +154,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../resources/images.qrc"/>
+  <include location="resources.qrc"/>
  </resources>
  <connections>
   <connection>
