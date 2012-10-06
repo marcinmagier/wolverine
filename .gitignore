@@ -38,6 +38,8 @@ Makefile.Release
 object_script.*.Debug
 object_script.*.Release
 
+#Ignore eclipse secific files
+.metadata
 
 #Ignore build directories
 build_debug/
