@@ -6,11 +6,11 @@
 #include <QVariant>
 #include <QSettings>
 
-AppConfig* AppConfig::s_appconfig = NULL;
+AppConfig* AppConfig::s_appconfig = 0;
 
 AppConfig* AppConfig::instance()
 {
-    if(s_appconfig == NULL)
+    if(s_appconfig == 0)
         s_appconfig = new AppConfig();
     return s_appconfig;
 }

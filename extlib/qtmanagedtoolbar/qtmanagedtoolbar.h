@@ -31,7 +31,7 @@ private slots:
     void showManagerDialog();
 
 protected:
-    QMenu *contextMenu;
+    void showContextMenu(QContextMenuEvent *event, QMenu *menu);
 
 
 public:
