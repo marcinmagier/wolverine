@@ -36,6 +36,7 @@ protected:
 
 public:
     void saveConfig();
+    void saveConfig(QStringList &actionList);
 
 
 private:

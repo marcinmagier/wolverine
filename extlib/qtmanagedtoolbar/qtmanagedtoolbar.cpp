@@ -56,6 +56,7 @@ void QtManagedToolBar::showManagerDialog()
 
     if(dlg.exec()) {
         applyConfiguration(tmpActionsVisible);
+        saveConfig(tmpActionsVisible);
     }
 }
 
@@ -74,12 +75,17 @@ void QtManagedToolBar::restoreConfig()
 
 void QtManagedToolBar::saveConfig()
 {
+    QStringList actionsVisible = createConfiguration();
+    saveConfig(actionsVisible);
+}
+
+void QtManagedToolBar::saveConfig(QStringList &actionList)
+{
     QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "toolbars");
 
     if (!qset.isWritable())
         return;
 
-    QStringList actionList = createConfiguration();
     qset.setValue(m_toolbarName, QVariant::fromValue(actionList));
 }
 

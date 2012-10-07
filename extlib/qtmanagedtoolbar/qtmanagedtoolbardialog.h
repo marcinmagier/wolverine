@@ -23,6 +23,15 @@ public:
     QList<QAction*> *actionsAvailable;
     QStringList *actionsVisible;
 
+
+private slots:
+    void moveActionUp();
+    void moveActionDown();
+    void moveActionToLeft();
+    void moveActionToLeft(QListWidgetItem *item);
+    void moveActionToRight();
+    void moveActionToRight(QListWidgetItem *item);
+
 private:
     bool isActionVisible(QAction *action);
     void fillActionsAvailable();
