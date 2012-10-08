@@ -12,14 +12,14 @@ class QtManagedToolBarDialog;
 class QtManagedToolBarDialog : public QDialog
 {
     Q_OBJECT
-    
+
+
 public:
     explicit QtManagedToolBarDialog(QWidget *parent = 0);
     ~QtManagedToolBarDialog();
 
     int exec();
 
-    
     QList<QAction*> *actionsAvailable;
     QStringList *actionsVisible;
 
@@ -31,6 +31,7 @@ private slots:
     void moveActionToLeft(QListWidgetItem *item);
     void moveActionToRight();
     void moveActionToRight(QListWidgetItem *item);
+
 
 private:
     bool isActionVisible(QAction *action);

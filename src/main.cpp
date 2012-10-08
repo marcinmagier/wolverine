@@ -54,6 +54,10 @@ int main(int argc, char **argv)
     action1->setIcon(QIcon(":/paste.png"));
     toolbar->addAction(action1);
 
+    QSpinBox *spin = new QSpinBox(toolbar);
+    action1 = toolbar->addWidget(spin);
+    action1->setText("SpinBox");
+
     toolbar->restoreConfig();
     toolbar->saveConfig();
 

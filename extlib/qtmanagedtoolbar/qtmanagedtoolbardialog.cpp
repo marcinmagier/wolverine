@@ -1,6 +1,10 @@
 #include "qtmanagedtoolbardialog.h"
 #include "ui_qtmanagedtoolbardialog.h"
 
+
+#define QT_MANAGEDTOOLBAR_ICON_WIDGET	":/qtmanagedtoolbar/widget.png"
+
+
 QtManagedToolBarDialog::QtManagedToolBarDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::QtManagedToolBarDialog)
@@ -64,7 +68,11 @@ void QtManagedToolBarDialog::fillActionsAvailable()
     foreach( QAction *action, *actionsAvailable) {
         QListWidgetItem *item = new QListWidgetItem(ui->listAvailable);
         item->setText(action->text());
-        item->setIcon(action->icon());
+        QIcon icon = action->icon();
+        if(icon.isNull())
+            item->setIcon(QIcon(QT_MANAGEDTOOLBAR_ICON_WIDGET));
+        else
+            item->setIcon(icon);
         if (isActionVisible(action))
             item->setHidden(true);
     }

@@ -19,15 +19,14 @@ public:
 // Additional item "Customize" is added only if manager is enabled - setManagerEnabled()
 void Toolbar::contextMenuEvent(QContextMenuEvent *event)
 {
-    contextMenu = new QMenu(this);
-    contextMenu->addAction(tr("TestAction"));
-    contextMenu->addAction(tr("TestAction2"));
-    contextMenu->addSeparator();
+    QMenu *menu = new QMenu(this);
+    menu->addAction(tr("TestAction"));
+    menu->addAction(tr("TestAction2"));
+    menu->addSeparator();
 
-    QtManagedToolBar::contextMenuEvent(event);
+    showContextMenu(event, menu);
 
-    delete contextMenu;
-    contextMenu = 0;
+    delete menu;
 }
 
 int main(int argc, char **argv)

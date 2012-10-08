@@ -15,37 +15,34 @@ class QtManagedToolBar : public QToolBar
 
 
 public:
-    QtManagedToolBar(QWidget *parent = 0, QString toolbarName = "Default");
+    QtManagedToolBar(QWidget *parent = 0, QString toolbarName = "NoNameToolbar");
 
     void contextMenuEvent(QContextMenuEvent *);
 
-
     bool isManagerEnabled() { return m_isManagerEnabled; }
     void restoreConfig();
+    void saveConfig();
+    void saveConfig(QStringList &actionList);
 
 
 public slots:
     void setManagerEnabled(bool val) { m_isManagerEnabled = val; }
 
-private slots:
-    void showManagerDialog();
 
 protected:
     void showContextMenu(QContextMenuEvent *event, QMenu *menu);
 
 
-public:
-    void saveConfig();
-    void saveConfig(QStringList &actionList);
+private slots:
+    void showManagerDialog();
 
 
 private:
-    QAction* getActionFromString(const QString &name);
+    QAction* getActionAvailableFromString(const QString &name);
     void findActionsAvailable();
     void applyConfiguration(const QStringList &config);
     QStringList createConfiguration();
 
-private:
     bool m_isManagerEnabled;
     QString m_toolbarName;
     QList<QAction*> m_actionsAvailable;

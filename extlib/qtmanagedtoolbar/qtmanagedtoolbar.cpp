@@ -35,6 +35,7 @@ void QtManagedToolBar::contextMenuEvent(QContextMenuEvent *event)
     }
 }
 
+
 void QtManagedToolBar::showContextMenu(QContextMenuEvent *event, QMenu *menu)
 {
 	if(m_isManagerEnabled) {
@@ -45,7 +46,6 @@ void QtManagedToolBar::showContextMenu(QContextMenuEvent *event, QMenu *menu)
 
 	menu->exec(event->globalPos());
 }
-
 
 void QtManagedToolBar::showManagerDialog()
 {
@@ -71,7 +71,6 @@ void QtManagedToolBar::restoreConfig()
 
     applyConfiguration(list);
 }
-
 
 void QtManagedToolBar::saveConfig()
 {
@@ -106,7 +105,7 @@ void QtManagedToolBar::findActionsAvailable()
 }
 
 
-QAction* QtManagedToolBar::getActionFromString(const QString &name)
+QAction* QtManagedToolBar::getActionAvailableFromString(const QString &name)
 {
     for (int i=0; i<m_actionsAvailable.size(); ++i) {
         if (m_actionsAvailable.at(i)->text() == name)
@@ -118,13 +117,16 @@ QAction* QtManagedToolBar::getActionFromString(const QString &name)
 
 void QtManagedToolBar::applyConfiguration(const QStringList &config)
 {
+    if(config.size() == 0)
+        return;
+
     clear();
     for (int i=0; i<config.size(); ++i) {
         if(config.at(i) == "Separator") {
             addSeparator();
             continue;
         }
-        QAction *action = getActionFromString(config.at(i));
+        QAction *action = getActionAvailableFromString(config.at(i));
         if (action != 0)
             addAction(action);
     }

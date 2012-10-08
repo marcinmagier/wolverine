@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/qtmanagedtoolbar">
         <file>customize.png</file>
+        <file>widget.png</file>
     </qresource>
 </RCC>
