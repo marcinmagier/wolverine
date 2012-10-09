@@ -11,6 +11,7 @@ Thumbs.db
 
 *.obj
 *.lib
+*.dll
 *.tlog
 *.log
 *.ipch
@@ -22,7 +23,7 @@ Thumbs.db
 *.sbr
 *.exe
 *.ilk
-*.intermediate.manifest
+*.manifest
 
 *.pyc
 
