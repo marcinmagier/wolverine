@@ -1,9 +1,11 @@
 
+
 QT       += core gui
 
 TARGET = Wolverine
 TEMPLATE = app
 
+CONFIG += debug_and_release build_all uselib
 
 include(../extlib/qtmanagedtoolbar/qtmanagedtoolbar.pri)
 
