@@ -1,10 +1,11 @@
 
-QT       += core gui
+QT       *= core gui
 
-TEMPLATE  = app
+
+#uncomment if you want to build project with libraries - see ../wolverine_build.pro
 #CONFIG   += uselib
 
-
+TEMPLATE  = app
 TARGET    = Wolverine
 
 
