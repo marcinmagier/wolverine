@@ -2,7 +2,7 @@
 QT       += core gui
 
 TEMPLATE  = app
-CONFIG   += uselib
+#CONFIG   += uselib
 
 
 TARGET    = Wolverine
