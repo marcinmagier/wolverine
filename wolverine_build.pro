@@ -3,6 +3,6 @@ CONFIG += ordered
 
 
 SUBDIRS += extlib/qtmanagedtoolbar
-#SUBDIRS += extlib/qtsingleapplication
+SUBDIRS += extlib/qtsingleapplication
 
-SUBDIRS += build
+SUBDIRS += Wolverine
