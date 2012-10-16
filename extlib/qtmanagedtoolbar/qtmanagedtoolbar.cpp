@@ -11,14 +11,112 @@
 #define QT_MANAGEDTOOLBAR_ICON_CUSTOMIZE	":/qtmanagedtoolbar/customize.png"
 
 
+static int defToolbarCount = 0;
+static const QString defToolbarName = "NoNamedToolbar";
 
 
-QtManagedToolBar::QtManagedToolBar(QWidget *parent, QString toolbarName) :
-    QToolBar(parent), m_toolbarName(toolbarName)
+QtManagedToolBar::QtManagedToolBar(QWidget *parent) :
+    QToolBar(parent)
+{
+    //This constructor should not be used in reliable application
+    //Calculate unique name to prevent future problems
+    QString toolbarName = defToolbarName + QString::number(defToolbarCount);
+    defToolbarCount++;
+    init(toolbarName);
+}
+
+QtManagedToolBar::QtManagedToolBar(QWidget *parent, const QString &toolbarName) :
+    QToolBar(parent)
 { 
+    init(toolbarName);
+}
+
+void QtManagedToolBar::init(const QString &name)
+{
+    m_toolbarName = name;
     m_actionsAvailable.clear();
     m_isManagerEnabled = true;
 }
+
+
+
+
+void QtManagedToolBar::addAction(QAction *action)
+{
+    m_actionsAvailable.append(action);
+    QToolBar::addAction(action);
+}
+
+QAction* QtManagedToolBar::addAction(const QString &text)
+{
+    QAction *tmp = QToolBar::addAction(text);
+    m_actionsAvailable.append(tmp);
+    return tmp;
+}
+
+QAction* QtManagedToolBar::addAction(const QIcon &icon, const QString &text)
+{
+    QAction *tmp = QToolBar::addAction(icon, text);
+    m_actionsAvailable.append(tmp);
+    return tmp;
+}
+
+QAction* QtManagedToolBar::addAction(const QString &text, const QObject *receiver, const char* member)
+{
+    QAction *tmp = QToolBar::addAction(text, receiver, member);
+    m_actionsAvailable.append(tmp);
+    return tmp;
+}
+
+QAction* QtManagedToolBar::addAction(const QIcon &icon, const QString &text, const QObject *receiver, const char* member)
+{
+    QAction *tmp = QToolBar::addAction(icon, text, receiver, member);
+    m_actionsAvailable.append(tmp);
+    return tmp;
+}
+
+
+QAction* QtManagedToolBar::addWidget(QWidget *widget)
+{
+    QAction *tmp = QToolBar::addWidget(widget);
+    m_actionsAvailable.append(tmp);
+    return tmp;
+}
+
+QAction* QtManagedToolBar::insertWidget(QAction *before, QWidget *widget)
+{
+    QAction *tmp = QToolBar::insertWidget(before, widget);
+    m_actionsAvailable.append(tmp);
+    return tmp;
+}
+
+
+void QtManagedToolBar::addActions(QList<QAction*> actions)
+{
+    m_actionsAvailable.append(actions);
+    QWidget::addActions(actions);
+}
+
+void QtManagedToolBar::insertAction(QAction *before, QAction *action)
+{
+    m_actionsAvailable.append(action);
+    QWidget::insertAction(before, action);
+}
+
+void QtManagedToolBar::insertActions(QAction *before, QList<QAction*> actions)
+{
+    m_actionsAvailable.append(actions);
+    QWidget::insertActions(before, actions);
+}
+
+void QtManagedToolBar::removeAction(QAction *action)
+{
+    m_actionsAvailable.removeAll(action);
+    QWidget::removeAction(action);
+}
+
+
+
 
 
 void QtManagedToolBar::contextMenuEvent(QContextMenuEvent *event)
@@ -35,7 +133,6 @@ void QtManagedToolBar::contextMenuEvent(QContextMenuEvent *event)
     }
 }
 
-
 void QtManagedToolBar::showContextMenu(QContextMenuEvent *event, QMenu *menu)
 {
 	if(m_isManagerEnabled) {
@@ -46,6 +143,8 @@ void QtManagedToolBar::showContextMenu(QContextMenuEvent *event, QMenu *menu)
 
 	menu->exec(event->globalPos());
 }
+
+
 
 void QtManagedToolBar::showManagerDialog()
 {

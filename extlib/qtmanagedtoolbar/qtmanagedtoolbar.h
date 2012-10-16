@@ -15,34 +15,63 @@ class QtManagedToolBar : public QToolBar
 
 
 public:
-    QtManagedToolBar(QWidget *parent = 0, QString toolbarName = "NoNameToolbar");
+    explicit QtManagedToolBar(QWidget *parent = 0);
+    explicit QtManagedToolBar(QWidget *parent, const QString &toolbarName);
 
+     //Redefine QToolBar's methods related to QAction
+    void addAction(QAction *action);
+    QAction *addAction(const QString &text);
+    QAction *addAction(const QIcon &icon, const QString &text);
+    QAction *addAction(const QString &text, const QObject *receiver, const char* member);
+    QAction *addAction(const QIcon &icon, const QString &text, const QObject *receiver, const char* member);
+
+    QAction *addWidget(QWidget *widget);
+    QAction *insertWidget(QAction *before, QWidget *widget);
+
+     //Redefine QWidget's methods related to QAction
+    void addActions(QList<QAction*> actions);
+    void insertAction(QAction *before, QAction *action);
+    void insertActions(QAction *before, QList<QAction*> actions);
+    void removeAction(QAction *action);
+
+     //Provide default context menu
     void contextMenuEvent(QContextMenuEvent *);
 
+     //Property getters
     bool isManagerEnabled() { return m_isManagerEnabled; }
-    void restoreConfig();
+
+     //Misc
     void saveConfig();
-    void saveConfig(QStringList &actionList);
+    void restoreConfig();
+
 
 
 public slots:
+    //Property setters
     void setManagerEnabled(bool val) { m_isManagerEnabled = val; }
+
 
 
 protected:
     void showContextMenu(QContextMenuEvent *event, QMenu *menu);
+    void saveConfig(QStringList &actionList);
+
 
 
 private slots:
     void showManagerDialog();
 
 
+
 private:
+     //Private methods
+    void init(const QString &name);
     QAction* getActionAvailableFromString(const QString &name);
     void findActionsAvailable();
     void applyConfiguration(const QStringList &config);
     QStringList createConfiguration();
 
+     //Private fields
     bool m_isManagerEnabled;
     QString m_toolbarName;
     QList<QAction*> m_actionsAvailable;
