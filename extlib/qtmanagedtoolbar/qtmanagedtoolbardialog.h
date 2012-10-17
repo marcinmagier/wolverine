@@ -1,5 +1,5 @@
-#ifndef __MANAGED_TOOLBAR_DIALOG_H_
- #define __MANAGED_TOOLBAR_DIALOG_H_
+#ifndef __QT_MANAGED_TOOLBAR_DIALOG_H_
+ #define __QT_MANAGED_TOOLBAR_DIALOG_H_
 
 #include <QDialog>
 
@@ -44,4 +44,4 @@ private:
     Ui::QtManagedToolBarDialog *ui;
 };
 
-#endif // __MANAGED_TOOLBAR_DIALOG_H_
+#endif // __QT_MANAGED_TOOLBAR_DIALOG_H_

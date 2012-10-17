@@ -14,14 +14,16 @@
 static int defToolbarCount = 0;
 static const QString defToolbarName = "NoNamedToolbar";
 
+static int defItemCount = 0;
+static const QString defItemName = "NoNamedItem";
+
 
 QtManagedToolBar::QtManagedToolBar(QWidget *parent) :
     QToolBar(parent)
 {
     //This constructor should not be used in reliable application
     //Calculate unique name to prevent future problems
-    QString toolbarName = defToolbarName + QString::number(defToolbarCount);
-    defToolbarCount++;
+    QString toolbarName = defToolbarName + QString::number(defToolbarCount++);
     init(toolbarName);
 }
 
@@ -43,35 +45,35 @@ void QtManagedToolBar::init(const QString &name)
 
 void QtManagedToolBar::addAction(QAction *action)
 {
-    m_actionsAvailable.append(action);
+    addActionAvailable(action);
     QToolBar::addAction(action);
 }
 
 QAction* QtManagedToolBar::addAction(const QString &text)
 {
     QAction *tmp = QToolBar::addAction(text);
-    m_actionsAvailable.append(tmp);
+    addActionAvailable(tmp);
     return tmp;
 }
 
 QAction* QtManagedToolBar::addAction(const QIcon &icon, const QString &text)
 {
     QAction *tmp = QToolBar::addAction(icon, text);
-    m_actionsAvailable.append(tmp);
+    addActionAvailable(tmp);
     return tmp;
 }
 
 QAction* QtManagedToolBar::addAction(const QString &text, const QObject *receiver, const char* member)
 {
     QAction *tmp = QToolBar::addAction(text, receiver, member);
-    m_actionsAvailable.append(tmp);
+    addActionAvailable(tmp);
     return tmp;
 }
 
 QAction* QtManagedToolBar::addAction(const QIcon &icon, const QString &text, const QObject *receiver, const char* member)
 {
     QAction *tmp = QToolBar::addAction(icon, text, receiver, member);
-    m_actionsAvailable.append(tmp);
+    addActionAvailable(tmp);
     return tmp;
 }
 
@@ -79,33 +81,33 @@ QAction* QtManagedToolBar::addAction(const QIcon &icon, const QString &text, con
 QAction* QtManagedToolBar::addWidget(QWidget *widget)
 {
     QAction *tmp = QToolBar::addWidget(widget);
-    m_actionsAvailable.append(tmp);
+    addActionAvailable(tmp);
     return tmp;
 }
 
 QAction* QtManagedToolBar::insertWidget(QAction *before, QWidget *widget)
 {
     QAction *tmp = QToolBar::insertWidget(before, widget);
-    m_actionsAvailable.append(tmp);
+    addActionAvailable(tmp);
     return tmp;
 }
 
 
 void QtManagedToolBar::addActions(QList<QAction*> actions)
 {
-    m_actionsAvailable.append(actions);
+    addActionsAvailable(actions);
     QWidget::addActions(actions);
 }
 
 void QtManagedToolBar::insertAction(QAction *before, QAction *action)
 {
-    m_actionsAvailable.append(action);
+    addActionAvailable(action);
     QWidget::insertAction(before, action);
 }
 
 void QtManagedToolBar::insertActions(QAction *before, QList<QAction*> actions)
 {
-    m_actionsAvailable.append(actions);
+    addActionsAvailable(actions);
     QWidget::insertActions(before, actions);
 }
 
@@ -190,8 +192,24 @@ void QtManagedToolBar::restoreConfig()
 
 
 
+void QtManagedToolBar::addActionAvailable(QAction *action)
+{
+    if(action->text().isEmpty())
+        action->setText( defItemName + QString::number(defItemCount++) );
+    m_actionsAvailable.append(action);
+}
 
-QAction* QtManagedToolBar::getActionAvailableFromString(const QString &name)
+void QtManagedToolBar::addActionsAvailable(QList<QAction *> actions)
+{
+    foreach(QAction *action, actions) {
+        addActionAvailable(action);
+    }
+}
+
+
+
+
+QAction* QtManagedToolBar::getActionAvailable(const QString &name)
 {
     foreach(QAction *action, m_actionsAvailable) {
         if(action->text() == name)
@@ -212,7 +230,7 @@ void QtManagedToolBar::applyConfiguration(const QStringList &config)
             QToolBar::addSeparator();
             continue;
         }
-        QAction *action = getActionAvailableFromString(item);
+        QAction *action = getActionAvailable(item);
         if(action)
              //Don't add action to m_actionsAvailable
             QToolBar::addAction(action);

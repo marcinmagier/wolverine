@@ -66,7 +66,11 @@ private slots:
 private:
      //Private methods
     void init(const QString &name);
-    QAction* getActionAvailableFromString(const QString &name);
+
+    void addActionAvailable(QAction *action);
+    void addActionsAvailable(QList<QAction*> actions);
+    QAction* getActionAvailable(const QString &name);
+
     void applyConfiguration(const QStringList &config);
     QStringList createConfiguration();
 
