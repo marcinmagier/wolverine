@@ -54,7 +54,7 @@ public slots:
 
 protected:
     void showContextMenu(QContextMenuEvent *event, QMenu *menu);
-    void saveConfig(QStringList &actionList);
+    void saveConfig(const QStringList &actionList);
 
 
 
@@ -67,7 +67,6 @@ private:
      //Private methods
     void init(const QString &name);
     QAction* getActionAvailableFromString(const QString &name);
-    void findActionsAvailable();
     void applyConfiguration(const QStringList &config);
     QStringList createConfiguration();
 

@@ -160,16 +160,6 @@ void QtManagedToolBar::showManagerDialog()
 }
 
 
-void QtManagedToolBar::restoreConfig()
-{
-    findActionsAvailable();
-
-    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "toolbars");
-    QVariant var = qset.value(m_toolbarName);
-    QStringList list = var.toStringList();
-
-    applyConfiguration(list);
-}
 
 void QtManagedToolBar::saveConfig()
 {
@@ -177,7 +167,7 @@ void QtManagedToolBar::saveConfig()
     saveConfig(actionsVisible);
 }
 
-void QtManagedToolBar::saveConfig(QStringList &actionList)
+void QtManagedToolBar::saveConfig(const QStringList &actionList)
 {
     QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "toolbars");
 
@@ -187,28 +177,25 @@ void QtManagedToolBar::saveConfig(QStringList &actionList)
     qset.setValue(m_toolbarName, QVariant::fromValue(actionList));
 }
 
-
-
-void QtManagedToolBar::findActionsAvailable()
+void QtManagedToolBar::restoreConfig()
 {
-    QList<QAction*> tmp = this->actions();
-	m_actionsAvailable.clear();
 
-    //Currently we only remove separators
-    //We assume that actions with the same name won't be added
-    foreach(QAction *action, tmp) {
-    	if(action->isSeparator())
-    		continue;
-    	m_actionsAvailable.append(action);
-    }
+    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "toolbars");
+    QVariant var = qset.value(m_toolbarName);
+    QStringList list = var.toStringList();
+
+    applyConfiguration(list);
 }
+
+
+
 
 
 QAction* QtManagedToolBar::getActionAvailableFromString(const QString &name)
 {
-    for (int i=0; i<m_actionsAvailable.size(); ++i) {
-        if (m_actionsAvailable.at(i)->text() == name)
-            return m_actionsAvailable.at(i);
+    foreach(QAction *action, m_actionsAvailable) {
+        if(action->text() == name)
+            return action;
     }
 
     return 0;
@@ -220,14 +207,15 @@ void QtManagedToolBar::applyConfiguration(const QStringList &config)
         return;
 
     clear();
-    for (int i=0; i<config.size(); ++i) {
-        if(config.at(i) == "Separator") {
-            addSeparator();
+    foreach(QString item, config) {
+        if(item == "Separator") {
+            QToolBar::addSeparator();
             continue;
         }
-        QAction *action = getActionAvailableFromString(config.at(i));
-        if (action != 0)
-            addAction(action);
+        QAction *action = getActionAvailableFromString(item);
+        if(action)
+             //Don't add action to m_actionsAvailable
+            QToolBar::addAction(action);
     }
 }
 
@@ -236,12 +224,12 @@ QStringList QtManagedToolBar::createConfiguration()
     QStringList list;
     QList<QAction*> actions = this->actions();
 
-    for (int i=0; i<actions.size(); ++i) {
-        if (actions.at(i)->isSeparator()) {
+    foreach(QAction *action, actions) {
+        if(action->isSeparator()) {
             list.append("Separator");
             continue;
         }
-        list.append( actions.at(i)->text() );
+        list.append(action->text());
     }
     return list;
 }
