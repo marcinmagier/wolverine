@@ -46,10 +46,17 @@
        <property name="text">
         <string>Items available:</string>
        </property>
+       <property name="buddy">
+        <cstring>listAvailable</cstring>
+       </property>
       </widget>
      </item>
      <item>
-      <widget class="QListWidget" name="listAvailable"/>
+      <widget class="QtManagedToolbarListbox" name="listAvailable">
+       <property name="dragDropMode">
+        <enum>QAbstractItemView::DropOnly</enum>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -124,6 +131,9 @@
        <property name="text">
         <string>Items visible:</string>
        </property>
+       <property name="buddy">
+        <cstring>listVisible</cstring>
+       </property>
       </widget>
      </item>
      <item>
@@ -153,6 +163,22 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QtManagedToolbarListbox</class>
+   <extends>QListWidget</extends>
+   <header>qtmanagedtoolbarlistbox.h</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>btnBox</tabstop>
+  <tabstop>listAvailable</tabstop>
+  <tabstop>listVisible</tabstop>
+  <tabstop>btnUp</tabstop>
+  <tabstop>btnToRight</tabstop>
+  <tabstop>btnToLeft</tabstop>
+  <tabstop>btnDown</tabstop>
+ </tabstops>
  <resources>
   <include location="resources.qrc"/>
  </resources>

@@ -9,10 +9,12 @@ uselib {
     LIBS += -L$$QTMANAGEDTOOLBAR_LIBDIR -l$$QTMANAGEDTOOLBAR_LIBNAME
 } else {
     SOURCES   += $$PWD/qtmanagedtoolbar.cpp \
-                 $$PWD/qtmanagedtoolbardialog.cpp
+                 $$PWD/qtmanagedtoolbardialog.cpp \
+                 $$PWD/qtmanagedtoolbarlistbox.cpp
 
     HEADERS   += $$PWD/qtmanagedtoolbar.h \
-                 $$PWD/qtmanagedtoolbardialog.h
+                 $$PWD/qtmanagedtoolbardialog.h \
+                 $$PWD/qtmanagedtoolbarlistbox.h
 
     RESOURCES += $$PWD/resources.qrc
 
