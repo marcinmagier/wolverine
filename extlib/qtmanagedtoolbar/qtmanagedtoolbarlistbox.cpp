@@ -34,3 +34,11 @@ void QtManagedToolbarListbox::dropEvent(QDropEvent *event)
         }
     }
 }
+
+// Redefine mouseMoveEvent in order to prevent dragging items
+// Without this function it is possible to start dragging list item dropped before (DropOnly mode)
+// Bug in Qt??
+void QtManagedToolbarListbox::mouseMoveEvent(QMouseEvent *event)
+{
+    //no action
+}

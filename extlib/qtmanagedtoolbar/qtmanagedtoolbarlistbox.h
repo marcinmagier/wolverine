@@ -11,6 +11,7 @@ public:
     explicit QtManagedToolbarListbox(QWidget *parent = 0);
 
     void dropEvent(QDropEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
 
 };
 
