@@ -1,6 +1,7 @@
 
 #include "AppConfig.h"
 #include "qtmanagedtoolbar.h"
+#include "qtactionmanager.h"
 
 #include <QApplication>
 #include <QMainWindow>
@@ -35,6 +36,11 @@ int main(int argc, char **argv)
     QApplication app(argc, argv);
     app.setApplicationName("Wolverine");
 
+
+    QtActionManager amanager;
+
+
+
     AppConfig *settings = AppConfig::instance();
     settings->loadConfiguration();
     settings->saveConfiguration();
@@ -46,13 +52,19 @@ int main(int argc, char **argv)
     action2->setIcon(QIcon(":/cut.png"));
     toolbar->addAction(action2);
 
+    amanager.addAction(action2);
+
     QAction *action1 = new QAction("Find", &mainWin);
     action1->setIcon(QIcon(":/find.png"));
     toolbar->addAction(action1);
 
+    amanager.addAction(action1);
+
     action1 = new QAction("Paste", &mainWin);
     action1->setIcon(QIcon(":/paste.png"));
     toolbar->addAction(action1);
+
+    amanager.addAction("New", action1);
 
     QSpinBox *spin = new QSpinBox(toolbar);
     action1 = toolbar->addWidget(spin);
@@ -60,6 +72,9 @@ int main(int argc, char **argv)
 
     toolbar->restoreConfig();
     toolbar->saveConfig();
+
+    amanager.removeAll("Paste");
+    amanager.removeAction("Paste");
 
     mainWin.addToolBar(toolbar);
     //toolbar->setManagerEnabled(false);
