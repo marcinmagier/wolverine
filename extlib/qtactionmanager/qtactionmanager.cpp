@@ -5,7 +5,7 @@
 
 void QtActionManager::addAction(QAction *action)
 {
-    m_actionGroups["Default"].insert(action->text(), action);
+    addAction("Default", action);
 }
 
 void QtActionManager::addAction(const QString &group, QAction *action)
@@ -15,12 +15,14 @@ void QtActionManager::addAction(const QString &group, QAction *action)
 
 void QtActionManager::removeAction(const QString &name)
 {
-    m_actionGroups["Default"].remove(name);
+    removeAction("Default", name);
 }
 
 void QtActionManager::removeAction(const QString &group, const QString &name)
 {
     m_actionGroups[group].remove(name);
+    if(m_actionGroups[group].empty())
+        m_actionGroups.remove(group);
 }
 
 void QtActionManager::removeAll(const QString &name)
