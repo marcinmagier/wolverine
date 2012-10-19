@@ -12,7 +12,7 @@ class Toolbar : public QtManagedToolBar
 {
 public:
     Toolbar(QWidget *parent, QString toolbarName):
-        QtManagedToolBar(parent, toolbarName){};
+        QtManagedToolBar(parent, toolbarName){}
     void contextMenuEvent(QContextMenuEvent *);
 };
 
