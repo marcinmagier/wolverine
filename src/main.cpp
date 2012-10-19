@@ -1,5 +1,5 @@
 
-#include "AppConfig.h"
+#include "CfgAppSettings.h"
 #include "qtmanagedtoolbar.h"
 #include "qtactionmanager.h"
 
@@ -41,7 +41,7 @@ int main(int argc, char **argv)
 
 
 
-    AppConfig *settings = AppConfig::instance();
+    CfgAppSettings *settings = CfgAppSettings::instance();
     settings->loadConfiguration();
     settings->saveConfiguration();
 

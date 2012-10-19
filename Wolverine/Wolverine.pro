@@ -15,13 +15,13 @@ include(../extlib/qtsingleapplication/qtsingleapplication.pri)
 
 SOURCES     += \
         ../src/main.cpp \
-        ../src/settings/AppConfig.cpp 
+    ../src/settings/CfgAppSettings.cpp
 
 HEADERS     += \
-        ../src/settings/ScintillaSettings.h \
-        ../src/settings/HiddenSettings.h \
-        ../src/settings/GeneralSettings.h \
-        ../src/settings/AppConfig.h 
+    ../src/settings/CfgAppSettings.h \
+    ../src/settings/CfgGeneralSettings.h \
+    ../src/settings/CfgHiddenSettings.h \
+    ../src/settings/CfgScintillaSettings.h
 
 INCLUDEPATH += \
         ../src/settings
