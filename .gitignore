@@ -23,6 +23,7 @@ Thumbs.db
 *.sbr
 *.exe
 *.ilk
+*.exp
 *.manifest
 
 *.pyc
