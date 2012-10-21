@@ -3,6 +3,11 @@
 #include "qtmanagedtoolbar.h"
 #include "qtactionmanager.h"
 
+
+#include "Logger.h"
+#include "ConsoleAppender.h"
+#include "FileAppender.h"
+
 #include <QApplication>
 #include <QMainWindow>
 #include <QtGui>
@@ -36,6 +41,21 @@ int main(int argc, char **argv)
     QApplication app(argc, argv);
     app.setApplicationName("Wolverine");
 
+
+    ConsoleAppender *consoleAppender = new ConsoleAppender();
+    consoleAppender->setFormat("%t{yyyy-MM-dd mm:ss} [%-7L] %F %i <%C> %m\n");
+    FileAppender *fileAppender = new FileAppender("log.log");
+    fileAppender->setFormat("%t{yyyy-MM-dd mm:ss} [%-7L] %F %i <%C> %m\n");
+    Logger::registerAppender(consoleAppender);
+    Logger::registerAppender(fileAppender);
+
+    consoleAppender->setDetailsLevel(Logger::Error);
+    LOG_INFO("Starting the application");
+    LOG_DEBUG("Starting ");
+    LOG_TRACE("Starting the application");
+    LOG_WARNING("Starting ");
+    //LOG_FATAL("Starting the application");
+    LOG_ERROR("Starting ");
 
     QtActionManager amanager;
 
