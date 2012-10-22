@@ -11,20 +11,29 @@
 
 class CfgAppSettings : public QtConfig
 {
-private:
-    CfgAppSettings() {};
-	
+
 public:
     CfgGeneralSettings general;
     CfgHiddenSettings hidden;
     CfgScintillaSettings scintilla;
 
+
     static CfgAppSettings* instance();
     virtual bool loadConfiguration();
     virtual bool saveConfiguration();
 
+    void createConfigurationBackup();
+    void restoreConfigurationBackup();
+    void dropConfigurationBackup();
+
+
 private:
+    CfgAppSettings() {}
+
+    void copy(CfgAppSettings *to, const CfgAppSettings *from);
+
     static CfgAppSettings *s_appconfig;
+    static CfgAppSettings *s_backup;
 };
 
 #endif //__CFG_APP_SETTINGS_H_

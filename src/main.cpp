@@ -65,6 +65,10 @@ int main(int argc, char **argv)
     settings->loadConfiguration();
     settings->saveConfiguration();
 
+    settings->createConfigurationBackup();
+    settings->general.setValBool(!settings->general.getValBool());
+    settings->restoreConfigurationBackup();
+
     QMainWindow mainWin;
     mainWin.resize(800, 600);
     Toolbar *toolbar = new Toolbar(&mainWin, "MainToolbar");
@@ -98,6 +102,8 @@ int main(int argc, char **argv)
 
     mainWin.addToolBar(toolbar);
     //toolbar->setManagerEnabled(false);
+
+
     mainWin.show();
     return app.exec();
 }

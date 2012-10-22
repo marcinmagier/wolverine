@@ -36,3 +36,21 @@ void QtConfig::saveGroup(QSettings &qset, QObject *qobj)
     }
     qset.endGroup();
 }
+
+//Copy all properties - backup
+void QtConfig::copyGroup(QObject *to, const QObject *from)
+{
+    const QMetaObject *metaObjectFrom = from->metaObject();
+    const QMetaObject *metaObjectTo = to->metaObject();
+
+    if(metaObjectFrom != metaObjectTo)
+        return;  //Different objects, bug
+
+    for(int i = metaObjectFrom->propertyOffset(); i < metaObjectFrom->propertyCount(); ++i) {
+        QMetaProperty objPropFrom = metaObjectFrom->property(i);
+        QMetaProperty objPropTo = metaObjectTo->property(i);
+         //Copy property
+        QVariant val = objPropFrom.read(from);
+        objPropTo.write(to, val);
+    }
+}

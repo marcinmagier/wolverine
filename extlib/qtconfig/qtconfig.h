@@ -17,6 +17,8 @@ protected:
     void loadGroup(QSettings &qset, QObject *qobj);
     void saveGroup(QSettings &qset, QObject *qobj);
 
+    void copyGroup(QObject *to, const QObject *from);
+
 };
 
 #endif //__QT_CONFIG_H_

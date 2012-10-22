@@ -16,17 +16,23 @@ include(../extlib/qtsingleapplication/qtsingleapplication.pri)
 
 SOURCES     += \
         ../src/main.cpp \
-    ../src/CfgAppSettings.cpp
+    ../src/settings/CfgAppSettings.cpp \
+    ../src/settings/DlgSettings.cpp
 
 HEADERS     += \
     ../include/CfgAppSettings.h \
     ../include/CfgGeneralSettings.h \
     ../include/CfgHiddenSettings.h \
-    ../include/CfgScintillaSettings.h
+    ../include/CfgScintillaSettings.h \
+    ../src/settings/DlgSettings.h
 
 INCLUDEPATH += \
-        ../include
+        ../include \
+		../src/settings
 
 RESOURCES   += \
         ../resources/images.qrc 
+
+FORMS += \
+    ../src/settings/DlgSettings.ui
 

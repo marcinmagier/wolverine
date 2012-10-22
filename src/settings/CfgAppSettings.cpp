@@ -1,12 +1,15 @@
 
 #include "CfgAppSettings.h"
+
 #include <QApplication>
 #include <QMetaObject>
 #include <QMetaProperty>
 #include <QVariant>
 #include <QSettings>
 
+
 CfgAppSettings* CfgAppSettings::s_appconfig = 0;
+CfgAppSettings* CfgAppSettings::s_backup = 0;
 
 CfgAppSettings* CfgAppSettings::instance()
 {
@@ -17,6 +20,7 @@ CfgAppSettings* CfgAppSettings::instance()
     return s_appconfig;
 }
 
+
 bool CfgAppSettings::loadConfiguration()
 {
     QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "appconfig");
@@ -26,6 +30,7 @@ bool CfgAppSettings::loadConfiguration()
     loadGroup(qset, &scintilla);
 	return true;
 }
+
 
 bool CfgAppSettings::saveConfiguration()
 {
@@ -38,4 +43,29 @@ bool CfgAppSettings::saveConfiguration()
     saveGroup(qset, &hidden);
     saveGroup(qset, &scintilla);
 	return true;
+}
+
+void CfgAppSettings::copy(CfgAppSettings *to, const CfgAppSettings *from)
+{
+    copyGroup(&to->general,   &from->general);
+    copyGroup(&to->hidden,    &from->hidden);
+    copyGroup(&to->scintilla, &from->scintilla);
+}
+
+
+void CfgAppSettings::createConfigurationBackup()
+{
+    s_backup = new CfgAppSettings();
+    copy(s_backup, s_appconfig);
+}
+
+void CfgAppSettings::restoreConfigurationBackup()
+{
+    copy(s_appconfig, s_backup);
+    delete s_backup;
+}
+
+void CfgAppSettings::dropConfigurationBackup()
+{
+    delete s_backup;
 }
