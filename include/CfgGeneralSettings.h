@@ -1,11 +1,11 @@
 
-#ifndef __GENERAL_SETTINGS_H_
- #define __GENERAL_SETTINGS_H_
+#ifndef __CFG_GENERAL_SETTINGS_H_
+ #define __CFG_GENERAL_SETTINGS_H_
 
 #include <QObject>
 #include <QString>
 
-class GeneralSettings : public QObject
+class CfgGeneralSettings : public QObject
 {
 	Q_OBJECT
 	Q_PROPERTY(int		valInt		READ getValInt		WRITE setValInt)
@@ -31,4 +31,4 @@ private:
 	QString m_valString;
 };
 
-#endif //__GENERAL_SETTINGS_H_
+#endif //__CFG_GENERAL_SETTINGS_H_

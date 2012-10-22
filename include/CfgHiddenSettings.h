@@ -1,6 +1,6 @@
 
-#ifndef __HIDDEN_SETTINGS_H_
- #define __HIDDEN_SETTINGS_H_
+#ifndef __CFG_HIDDEN_SETTINGS_H_
+ #define __CFG_HIDDEN_SETTINGS_H_
 
 #include <QObject>
 #include <QString>
@@ -8,7 +8,7 @@
 #include <QSize>
 
 
-class HiddenSettings : public QObject
+class CfgHiddenSettings : public QObject
 {
 	Q_OBJECT
 
@@ -32,4 +32,4 @@ private:
     QSize m_size;
 };
 
-#endif //__HIDDEN_SETTINGS_H_
+#endif //__CFG_HIDDEN_SETTINGS_H_

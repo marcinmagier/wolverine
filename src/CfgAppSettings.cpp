@@ -1,21 +1,23 @@
 
-#include "AppConfig.h"
+#include "CfgAppSettings.h"
 #include <QApplication>
 #include <QMetaObject>
 #include <QMetaProperty>
 #include <QVariant>
 #include <QSettings>
 
-AppConfig* AppConfig::s_appconfig = 0;
+CfgAppSettings* CfgAppSettings::s_appconfig = 0;
 
-AppConfig* AppConfig::instance()
+CfgAppSettings* CfgAppSettings::instance()
 {
-    if(s_appconfig == 0)
-        s_appconfig = new AppConfig();
+    if(s_appconfig == 0) {
+        s_appconfig = new CfgAppSettings();
+        s_appconfig->loadConfiguration();
+    }
     return s_appconfig;
 }
 
-bool AppConfig::loadConfiguration()
+bool CfgAppSettings::loadConfiguration()
 {
     QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "appconfig");
 
@@ -25,7 +27,7 @@ bool AppConfig::loadConfiguration()
 	return true;
 }
 
-bool AppConfig::saveConfiguration()
+bool CfgAppSettings::saveConfiguration()
 {
     QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "appconfig");
 

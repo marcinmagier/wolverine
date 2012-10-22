@@ -1,5 +1,5 @@
 
-#include "AppConfig.h"
+#include "CfgAppSettings.h"
 #include "qtmanagedtoolbar.h"
 #include "qtactionmanager.h"
 
@@ -17,7 +17,7 @@ class Toolbar : public QtManagedToolBar
 {
 public:
     Toolbar(QWidget *parent, QString toolbarName):
-        QtManagedToolBar(parent, toolbarName){};
+        QtManagedToolBar(parent, toolbarName){}
     void contextMenuEvent(QContextMenuEvent *);
 };
 
@@ -61,7 +61,7 @@ int main(int argc, char **argv)
 
 
 
-    AppConfig *settings = AppConfig::instance();
+    CfgAppSettings *settings = CfgAppSettings::instance();
     settings->loadConfiguration();
     settings->saveConfiguration();
 

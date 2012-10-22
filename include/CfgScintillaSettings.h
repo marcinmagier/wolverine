@@ -1,11 +1,11 @@
 
-#ifndef __SCINTILLA_SETTINGS_H_
- #define __SCINTILLA_SETTINGS_H_
+#ifndef __CFG_SCINTILLA_SETTINGS_H_
+ #define __CFG_SCINTILLA_SETTINGS_H_
 
 #include <QObject>
 #include <QString>
 
-class ScintillaSettings : public QObject
+class CfgScintillaSettings : public QObject
 {
 	Q_OBJECT
 	Q_PROPERTY(int		valInt		READ getValInt		WRITE setValInt)
@@ -31,4 +31,4 @@ private:
 	QString m_valString;
 };
 
-#endif //__SCINTILLA_SETTINGS_H_
+#endif //__CFG_SCINTILLA_SETTINGS_H_
