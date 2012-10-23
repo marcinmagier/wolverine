@@ -10,8 +10,13 @@ class QtConfig
 {
 
 public:
+    virtual ~QtConfig() {}
+
     virtual bool loadConfiguration() = 0;
     virtual bool saveConfiguration() = 0;
+    virtual void createConfigurationBackup() = 0;
+    virtual void restoreConfigurationBackup() = 0;
+    virtual void dropConfigurationBackup() =0;
 
 protected:
     void loadGroup(QSettings &qset, QObject *qobj);

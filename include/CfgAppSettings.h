@@ -22,9 +22,9 @@ public:
     virtual bool loadConfiguration();
     virtual bool saveConfiguration();
 
-    void createConfigurationBackup();
-    void restoreConfigurationBackup();
-    void dropConfigurationBackup();
+    virtual void createConfigurationBackup();
+    virtual void restoreConfigurationBackup();
+    virtual void dropConfigurationBackup();
 
 
 private:
