@@ -55,6 +55,8 @@ void CfgAppSettings::copy(CfgAppSettings *to, const CfgAppSettings *from)
 
 void CfgAppSettings::createConfigurationBackup()
 {
+    if(s_backup)
+        delete s_backup;
     s_backup = new CfgAppSettings();
     copy(s_backup, s_appconfig);
 }
@@ -63,9 +65,11 @@ void CfgAppSettings::restoreConfigurationBackup()
 {
     copy(s_appconfig, s_backup);
     delete s_backup;
+    s_backup = 0;
 }
 
 void CfgAppSettings::dropConfigurationBackup()
 {
     delete s_backup;
+    s_backup = 0;
 }
