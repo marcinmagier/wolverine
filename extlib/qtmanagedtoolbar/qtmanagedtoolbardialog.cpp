@@ -20,6 +20,8 @@ QtManagedToolBarDialog::QtManagedToolBarDialog(QWidget *parent) :
     connect(ui->btnToRight, SIGNAL(clicked()), this, SLOT(moveActionToRight()));
     connect(ui->listVisible, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(moveActionToLeft(QListWidgetItem*)));
     connect(ui->listAvailable, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(moveActionToRight(QListWidgetItem*)));
+
+    this->setWindowFlags(this->windowFlags() & ~Qt::WindowContextHelpButtonHint);
 }
 
 QtManagedToolBarDialog::~QtManagedToolBarDialog()

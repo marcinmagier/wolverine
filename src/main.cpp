@@ -2,6 +2,7 @@
 #include "CfgAppSettings.h"
 #include "qtmanagedtoolbar.h"
 #include "qtactionmanager.h"
+#include "DlgSettings.h"
 
 
 #include "Logger.h"
@@ -103,6 +104,8 @@ int main(int argc, char **argv)
     mainWin.addToolBar(toolbar);
     //toolbar->setManagerEnabled(false);
 
+    Wolverine::DlgSettings *set = new Wolverine::DlgSettings(settings, &mainWin);
+    set->showDialog();
 
     mainWin.show();
     return app.exec();
