@@ -7,6 +7,7 @@
 #include <QSettings>
 
 
+
 //Read all qobj properties using QSettings qset
 void QtConfig::loadGroup(QSettings &qset, QObject *qobj)
 {

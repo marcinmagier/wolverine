@@ -2,7 +2,6 @@
 #include "qtdialogsettings.h"
 #include "ui_qtdialogsettings.h"
 
-#include <QTreeWidgetItem>
 #include <QCloseEvent>
 
 
@@ -18,6 +17,8 @@ QtDialogSettings::QtDialogSettings(QtConfig *config, QWidget *parent) :
     connect(ui->btnOK, SIGNAL(clicked()), this, SLOT(ok()));
     connect(ui->btnApply, SIGNAL(clicked()), this, SLOT(accept()));
     connect(ui->btnCancel, SIGNAL(clicked()), this, SLOT(reject()));
+
+    connect(ui->treePages, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(changeCurrentPage(QTreeWidgetItem*,QTreeWidgetItem*)));
 }
 
 QtDialogSettings::~QtDialogSettings()
@@ -65,12 +66,27 @@ void QtDialogSettings::addSettingsPage(const QString &name, QWidget *page)
 {
     int idx = ui->stackedPages->addWidget(page);
     QTreeWidgetItem *item = new QTreeWidgetItem(QStringList(name));
+    m_pageMap[item] = idx;
     ui->treePages->addTopLevelItem(item);
-
 }
 
 void QtDialogSettings::addSettingsPage(const QString &name, const QString &parent, QWidget *page)
 {
+    QList<QTreeWidgetItem*> items = ui->treePages->findItems(parent, Qt::MatchFixedString);
 
+    if(items.isEmpty())
+        return;
+
+    QTreeWidgetItem *parentItem = items[0];
+    QTreeWidgetItem *item = new QTreeWidgetItem(parentItem, QStringList(name));
+    int idx = ui->stackedPages->addWidget(page);
+    m_pageMap[item] = idx;
+    parentItem->setExpanded(true);
+}
+
+void QtDialogSettings::changeCurrentPage( QTreeWidgetItem * current, QTreeWidgetItem *)
+{
+    int idx = m_pageMap[current];
+    ui->stackedPages->setCurrentIndex(idx);
 }
 

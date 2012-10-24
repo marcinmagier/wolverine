@@ -2,10 +2,9 @@
   #define __QT_DIALOG_SETTINGS_H_
 
 #include "qtconfig.h"
-#include <QDialog>
 
-class QtSettingsPage;
-class QCloseEvent;
+#include <QDialog>
+#include <QTreeWidgetItem>
 
 
 namespace Ui {
@@ -23,10 +22,10 @@ class QtDialogSettings : public QDialog
 
     
 public:
-    explicit QtDialogSettings ( QtConfig *config, QWidget *parent = 0 );
+    explicit QtDialogSettings( QtConfig *config, QWidget *parent = 0 );
     ~QtDialogSettings();
 
-    void closeEvent ( QCloseEvent *e );
+    void closeEvent( QCloseEvent *e );
 
     void addSettingsPage( const QString &name, QWidget *page );
     void addSettingsPage( const QString &name, const QString &parent, QWidget *page );
@@ -42,8 +41,14 @@ public slots:
     virtual void reject();
     int exec();
 
+
+private slots:
+    void changeCurrentPage(  QTreeWidgetItem * current, QTreeWidgetItem * previous );
+
+
 private:
     Ui::QtDialogSettings *ui;
+    QMap<QTreeWidgetItem*, int> m_pageMap;
     QtConfig *m_config;
 };
 
