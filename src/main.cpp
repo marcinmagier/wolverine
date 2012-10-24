@@ -64,7 +64,6 @@ int main(int argc, char **argv)
 
     CfgAppSettings *settings = CfgAppSettings::instance();
     settings->loadConfiguration();
-    settings->saveConfiguration();
 
     settings->createConfigurationBackup();
     settings->general.setValBool(!settings->general.getValBool());
@@ -108,5 +107,6 @@ int main(int argc, char **argv)
     set->showDialog();
 
     mainWin.show();
+    settings->saveConfiguration();
     return app.exec();
 }

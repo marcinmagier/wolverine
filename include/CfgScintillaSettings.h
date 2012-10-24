@@ -18,10 +18,28 @@ public:
 	QString getValString() {return m_valString;}
 
 
+signals:
+    void valBoolChanged(bool val);
+    void valIntChanged(int val);
+    void valStringChanged(QString val);
+
+
 public slots:
-    void setValInt(int val) {m_valInt = val;}
-    void setValBool(bool val) {m_valBool = val;}
-    void setValString(QString val) {m_valString = val;}
+    void setValInt(int val) {
+        if(val != m_valInt)
+            emit valIntChanged(val);
+        m_valInt = val;
+    }
+    void setValBool(bool val) {
+        if(val != m_valBool)
+            emit valBoolChanged(val);
+        m_valBool = val;
+    }
+    void setValString(QString val) {
+        if(val !=m_valString)
+            emit valStringChanged(val);
+        m_valString = val;
+    }
 
 
 private:
