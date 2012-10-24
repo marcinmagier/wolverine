@@ -13,18 +13,17 @@ class CfgScintillaSettings : public QObject
 	Q_PROPERTY(QString	valString	READ getValString	WRITE setValString)
 
 public:
-	// valInt
 	int getValInt() {return m_valInt;}
-	void setValInt(int val) {m_valInt = val;}
-	
-	// valBool
 	bool getValBool() {return m_valBool;}
-	void setValBool(bool val) {m_valBool = val;}
-
-	// valString
 	QString getValString() {return m_valString;}
-	void setValString(QString val) {m_valString = val;}
-	
+
+
+public slots:
+    void setValInt(int val) {m_valInt = val;}
+    void setValBool(bool val) {m_valBool = val;}
+    void setValString(QString val) {m_valString = val;}
+
+
 private:
 	int m_valInt;
 	bool m_valBool;

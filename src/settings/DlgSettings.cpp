@@ -1,7 +1,9 @@
 
 
 #include "DlgSettings.h"
+
 #include "PageGeneral.h"
+#include "PageScintilla.h"
 
 #include <QIcon>
 
@@ -19,6 +21,13 @@ DlgSettings::DlgSettings(CfgAppSettings *settings, QWidget *parent) :
 void DlgSettings::showDialog()
 {
     Settings::PageGeneral *general = new Settings::PageGeneral(m_settings, this);
-    addSettingsPage("General", general);
+    addSettingsPage(tr("General"), general);
+
+    Settings::PageScintilla *scintilla = new Settings::PageScintilla(m_settings, this);
+    addSettingsPage(tr("Scintilla"), scintilla);
+
     exec();
+
+    delete general;
+    delete scintilla;
 }

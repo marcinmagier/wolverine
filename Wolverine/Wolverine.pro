@@ -21,7 +21,8 @@ SOURCES     += \
     ../src/settings/CfgAppSettings.cpp \
     ../src/MainWindow.cpp \
     ../src/settings/DlgSettings.cpp \
-    ../src/settings/PageGeneral.cpp
+    ../src/settings/PageGeneral.cpp \
+    ../src/settings/PageScintilla.cpp
 
 HEADERS     += \
     ../include/CfgAppSettings.h \
@@ -30,7 +31,8 @@ HEADERS     += \
     ../include/CfgScintillaSettings.h \
     ../src/MainWindow.h \
     ../src/settings/DlgSettings.h \
-    ../src/settings/PageGeneral.h
+    ../src/settings/PageGeneral.h \
+    ../src/settings/PageScintilla.h
 
 INCLUDEPATH += \
         ../include \
@@ -40,5 +42,6 @@ RESOURCES   += \
         ../resources/images.qrc 
 
 FORMS += \
-    ../src/settings/PageGeneral.ui
+    ../src/settings/PageGeneral.ui \
+    ../src/settings/PageScintilla.ui
 
