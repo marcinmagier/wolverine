@@ -1,6 +1,9 @@
-#include "qtactionmanager.h"
 
-#include <QDebug>
+#include "qtactionmanager.h"
+#include "qtactionmanagerwidget.h"
+
+#include <QAction>
+
 
 
 void QtActionManager::addAction(QAction *action)
@@ -39,3 +42,8 @@ void QtActionManager::removeAll(const QString &name)
     }
 }
 
+
+QWidget* QtActionManager::getActionManagerWidget(QWidget *parent)
+{
+    return new QtActionManagerWidget(m_actionGroups, parent);
+}

@@ -1,18 +1,24 @@
+
 #ifndef __QT_ACTION_MANAGER_H_
-  #define __QT_ACTION_MANAGER_H_
+ #define __QT_ACTION_MANAGER_H_
+
+
+class QAction;
+class QString;
+class QWidget;
+
 
 #include <QMap>
-#include <QAction>
-#include <QWidget>
 
+
+typedef QMap<QString, QAction *> QActionMapper;
 
 
 class QtActionManager
 {
     
 public:
-    //explicit QtActionManager(){};
-   // ~QtActionManager();
+    explicit QtActionManager() {}
 
     void addAction(QAction *action);
     void addAction(const QString &group, QAction *action);
@@ -20,10 +26,9 @@ public:
     void removeAction(const QString &group, const QString &name);
     void removeAll(const QString &name);
 
-
+    QWidget* getActionManagerWidget(QWidget *parent = 0);
 
 private:
-    typedef QMap<QString, QAction *> QActionMapper;
     QMap<QString, QActionMapper > m_actionGroups;
 };
 

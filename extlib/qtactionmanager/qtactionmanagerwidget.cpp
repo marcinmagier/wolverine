@@ -1,7 +1,8 @@
+
 #include "qtactionmanagerwidget.h"
 #include "ui_qtactionmanagerwidget.h"
 
-QtActionManagerWidget::QtActionManagerWidget(QWidget *parent) :
+QtActionManagerWidget::QtActionManagerWidget(QMap<QString, QActionMapper > &actionMap, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::QtActionManagerWidget)
 {
