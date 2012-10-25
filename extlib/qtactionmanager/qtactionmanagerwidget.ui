@@ -56,11 +56,9 @@
    </item>
    <item>
     <widget class="QTreeWidget" name="treeActions">
-     <column>
-      <property name="text">
-       <string notr="true">1</string>
-      </property>
-     </column>
+     <property name="rootIsDecorated">
+      <bool>false</bool>
+     </property>
     </widget>
    </item>
   </layout>

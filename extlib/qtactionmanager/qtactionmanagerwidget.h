@@ -24,7 +24,7 @@ public:
     
 private:
     Ui::QtActionManagerWidget *ui;
-    QMap<QTreeWidgetItem *, QAction*> m_actionMap;
+    QMap<QTreeWidgetItem *, QtAction*> m_actionMap;
     QtActionManager *m_actionManager;
 };
 

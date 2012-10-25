@@ -24,7 +24,10 @@ QtActionManagerWidget::QtActionManagerWidget(QtActionManager *actionManager, QWi
             QStringList row;
             row << action->text() << action->shortcut().toString() << category;
             QTreeWidgetItem *item = new QTreeWidgetItem(row);
+            item->setIcon(0, action->icon());
             ui->treeActions->addTopLevelItem(item);
+
+            m_actionMap.insert(item, &qtactions[i]);
         }
     }
 }
