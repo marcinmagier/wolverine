@@ -4,36 +4,46 @@
 
 
 class QAction;
-class QString;
+//class QString;
 class QWidget;
 class QtActionManagerWidget;
 
 
 #include <QMap>
+#include <QString>
 
 
-typedef QMap<QString, QAction *> QMapActionName;
-typedef QMap<QString, QMapActionName> QMapActionGroupName;
 
-typedef QMap<QString, QString> QMapBindingName;
-typedef QMap<QString, QMapBindingName> QMapBindingGroupName;
-typedef QMap<QString, QMapBindingGroupName> QMapBindingSchemeName;
+class QtAction
+{
+public:
+    explicit QtAction(QAction *action);
+    explicit QtAction(const QtAction &other);
+
+    QtAction& operator =(const QtAction &other);
+
+
+    QAction *action;
+    QMap<QString, QString> schemeBinding;
+};
+
+
+typedef QList<QtAction> QListQtActions;
+typedef QMap<QString, QListQtActions> QMapActionCategory;
+
 
 
 class QtActionManager
 {
 
 private:
-    QtActionManager();
+    explicit QtActionManager();
 
 public:
     static QtActionManager* instance();
 
     void addAction(QAction *action);
     void addAction(const QString &group, QAction *action);
-    //void removeAction(const QString &name);
-    //void removeAction(const QString &group, const QString &name);
-    //void removeAll(const QString &name);
 
     void saveConfig();
     void restoreConfig();
@@ -52,8 +62,9 @@ protected:
 
 private:
     static QtActionManager* s_actionManager;
-    QMapActionGroupName m_actionGroups;
-    QMapBindingSchemeName m_actionSchemes;
+    QString m_currentScheme;
+    QList<QString> m_schemes;
+    QMapActionCategory m_actionCategories;
 
     friend class QtActionManagerWidget;
 };

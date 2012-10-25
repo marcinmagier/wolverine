@@ -2,15 +2,39 @@
 #include "qtactionmanager.h"
 #include "qtactionmanagerwidget.h"
 
+#include <QObject>
 #include <QAction>
 
 
 QtActionManager* QtActionManager::s_actionManager = 0;
 
 
+
+QtAction::QtAction(QAction *action)
+{
+    this->action = action;
+    this->schemeBinding["Default"] = action->shortcut().toString();
+}
+
+QtAction::QtAction(const QtAction &other)
+{
+    this->action = other.action;
+    this->schemeBinding = other.schemeBinding;
+}
+
+QtAction& QtAction::operator =(const QtAction &other)
+{
+    this->action = other.action;
+    this->schemeBinding = other.schemeBinding;
+    return *this;
+}
+
+
+
 QtActionManager::QtActionManager()
 {
-    m_actionSchemes["Default"].clear();
+    m_currentScheme = "Default";
+    m_schemes.append("Default");
 }
 
 QtActionManager* QtActionManager::instance()
@@ -26,53 +50,22 @@ void QtActionManager::addAction(QAction *action)
     addAction("Default", action);
 }
 
-void QtActionManager::addAction(const QString &group, QAction *action)
+void QtActionManager::addAction(const QString &category, QAction *action)
 {
-    m_actionGroups[group].insert(action->text(), action);
-
-    QMutableMapIterator<QString, QMapBindingGroupName> scheme(m_actionSchemes);
-    while(scheme.hasNext()) {
-        scheme.next();
-        scheme.value()[group].insert(action->text(), action->shortcut().toString());
-    }
+    QtAction qtAction(action);
+    m_actionCategories[category].append(qtAction);
 }
 
 
 void QtActionManager::setCurrentScheme(const QString &name)
 {
-    if(m_actionSchemes.contains(name))
-        return;
+//    if(m_actionSchemes.contains(name))
+//        return;
 
-    m_actionSchemes[name].clear();
+//    m_actionSchemes[name].clear();
 }
 
-/*
-void QtActionManager::removeAction(const QString &name)
-{
-    removeAction("Default", name);
-}
 
-void QtActionManager::removeAction(const QString &group, const QString &name)
-{
-    m_actionGroups[group].remove(name);
-    if(m_actionGroups[group].empty())
-        m_actionGroups.remove(group);
-}
-
-void QtActionManager::removeAll(const QString &name)
-{
-    QMutableMapIterator<QString, QMapActionName> i(m_actionGroups);
-    while(i.hasNext()) {
-        i.next();
-
-        QMapActionName &mapper = i.value();
-        mapper.remove(name);
-
-        if(mapper.empty())
-            i.remove();
-    }
-}
-*/
 
 QWidget* QtActionManager::getActionManagerWidget(QWidget *parent)
 {

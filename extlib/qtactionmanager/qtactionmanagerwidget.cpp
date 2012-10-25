@@ -8,6 +8,43 @@ QtActionManagerWidget::QtActionManagerWidget(QtActionManager *actionManager, QWi
     m_actionManager(actionManager)
 {
     ui->setupUi(this);
+
+    ui->cmbSchemes->addItem(m_actionManager->m_currentScheme);
+
+    QStringList headers;
+    headers << tr("Command") << tr("Binding") << tr("Category");
+    ui->treeActions->setHeaderLabels(headers);
+
+
+    foreach(QString category, m_actionManager->m_actionCategories.keys()) {
+        QListQtActions qtactions = m_actionManager->m_actionCategories.value(category);
+
+        for(int i=0; i<qtactions.length(); ++i) {
+            QAction *action = qtactions[i].action;
+            QStringList row;
+            row << action->text() << action->shortcut().toString() << category;
+            QTreeWidgetItem *item = new QTreeWidgetItem(row);
+            ui->treeActions->addTopLevelItem(item);
+        }
+    }
+
+/*    QMapIterator<QString, QListQtActions> categories(m_actionManager->m_actionCategories);
+    while(categories.hasNext()) {
+        categories.next();
+        const QString &categoryName = categories.key();
+        const QListQtActions &actions = group.value();
+        QMapIterator<QString, QAction*> i(actions);
+        while(i.hasNext()) {
+            i.next();
+            QAction *action = i.value();
+
+            QStringList row;
+            row << action->text() << action->shortcut().toString() << categoryName;
+            QTreeWidgetItem *item = new QTreeWidgetItem(row);
+            ui->treeActions->addTopLevelItem(item);
+        }
+
+    }*/
 }
 
 QtActionManagerWidget::~QtActionManagerWidget()
