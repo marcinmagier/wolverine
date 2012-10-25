@@ -2,9 +2,10 @@
 #include "qtactionmanagerwidget.h"
 #include "ui_qtactionmanagerwidget.h"
 
-QtActionManagerWidget::QtActionManagerWidget(QMap<QString, QActionMapper > &actionMap, QWidget *parent) :
+QtActionManagerWidget::QtActionManagerWidget(QtActionManager *actionManager, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::QtActionManagerWidget)
+    ui(new Ui::QtActionManagerWidget),
+    m_actionManager(actionManager)
 {
     ui->setupUi(this);
 }

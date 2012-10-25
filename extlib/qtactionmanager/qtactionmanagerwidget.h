@@ -19,12 +19,13 @@ class QtActionManagerWidget : public QWidget
     Q_OBJECT
     
 public:
-    explicit QtActionManagerWidget(QMap<QString, QActionMapper > &actionMap, QWidget *parent = 0);
+    explicit QtActionManagerWidget(QtActionManager *actionManager, QWidget *parent = 0);
     ~QtActionManagerWidget();
     
 private:
     Ui::QtActionManagerWidget *ui;
     QMap<QTreeWidgetItem *, QAction*> m_actionMap;
+    QtActionManager *m_actionManager;
 };
 
 #endif // __QT_ACTION_MANAGER_WIDGET_H_

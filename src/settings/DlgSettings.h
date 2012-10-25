@@ -3,7 +3,9 @@
 
 
 #include "qtdialogsettings.h"
-#include "CfgAppSettings.h"
+
+class CfgAppSettings;
+class QtActionManager;
 
 
 namespace Wolverine {
@@ -22,7 +24,7 @@ public slots:
 
 private:
     CfgAppSettings *m_settings;
-    
+    QtActionManager *m_actionManager;
 };
 
 

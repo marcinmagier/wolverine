@@ -58,7 +58,7 @@ int main(int argc, char **argv)
     //LOG_FATAL("Starting the application");
     LOG_ERROR("Starting ");
 
-    QtActionManager amanager;
+    QtActionManager *amanager = QtActionManager::instance();
 
 
 
@@ -76,19 +76,19 @@ int main(int argc, char **argv)
     action2->setIcon(QIcon(":/cut.png"));
     toolbar->addAction(action2);
 
-    amanager.addAction(action2);
+    amanager->addAction(action2);
 
     QAction *action1 = new QAction("Find", &mainWin);
     action1->setIcon(QIcon(":/find.png"));
     toolbar->addAction(action1);
 
-    amanager.addAction(action1);
+    amanager->addAction(action1);
 
     action1 = new QAction("Paste", &mainWin);
     action1->setIcon(QIcon(":/paste.png"));
     toolbar->addAction(action1);
 
-    amanager.addAction("New", action1);
+    amanager->addAction("New", action1);
 
     QSpinBox *spin = new QSpinBox(toolbar);
     action1 = toolbar->addWidget(spin);
@@ -97,8 +97,6 @@ int main(int argc, char **argv)
     toolbar->restoreConfig();
     toolbar->saveConfig();
 
-    amanager.removeAll("Paste");
-    amanager.removeAction("Paste");
 
     mainWin.addToolBar(toolbar);
     //toolbar->setManagerEnabled(false);
