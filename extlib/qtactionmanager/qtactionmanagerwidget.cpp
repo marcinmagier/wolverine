@@ -27,24 +27,6 @@ QtActionManagerWidget::QtActionManagerWidget(QtActionManager *actionManager, QWi
             ui->treeActions->addTopLevelItem(item);
         }
     }
-
-/*    QMapIterator<QString, QListQtActions> categories(m_actionManager->m_actionCategories);
-    while(categories.hasNext()) {
-        categories.next();
-        const QString &categoryName = categories.key();
-        const QListQtActions &actions = group.value();
-        QMapIterator<QString, QAction*> i(actions);
-        while(i.hasNext()) {
-            i.next();
-            QAction *action = i.value();
-
-            QStringList row;
-            row << action->text() << action->shortcut().toString() << categoryName;
-            QTreeWidgetItem *item = new QTreeWidgetItem(row);
-            ui->treeActions->addTopLevelItem(item);
-        }
-
-    }*/
 }
 
 QtActionManagerWidget::~QtActionManagerWidget()
