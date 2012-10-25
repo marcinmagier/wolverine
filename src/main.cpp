@@ -59,7 +59,8 @@ int main(int argc, char **argv)
     LOG_ERROR("Starting ");
 
     QtActionManager *amanager = QtActionManager::instance();
-
+    amanager->setCurrentScheme("Default");
+    amanager->setCurrentScheme("Nowa");
 
 
     CfgAppSettings *settings = CfgAppSettings::instance();

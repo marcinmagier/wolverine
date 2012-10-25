@@ -7,6 +7,12 @@
 
 QtActionManager* QtActionManager::s_actionManager = 0;
 
+
+QtActionManager::QtActionManager()
+{
+    m_actionSchemes["Default"].clear();
+}
+
 QtActionManager* QtActionManager::instance()
 {
     if(s_actionManager == 0)
@@ -29,6 +35,15 @@ void QtActionManager::addAction(const QString &group, QAction *action)
         scheme.next();
         scheme.value()[group].insert(action->text(), action->shortcut().toString());
     }
+}
+
+
+void QtActionManager::setCurrentScheme(const QString &name)
+{
+    if(m_actionSchemes.contains(name))
+        return;
+
+    m_actionSchemes[name].clear();
 }
 
 /*
