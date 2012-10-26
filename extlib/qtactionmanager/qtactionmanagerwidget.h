@@ -23,8 +23,14 @@ class QtActionManagerWidget : public QWidget
 public:
     explicit QtActionManagerWidget(QtActionManager *actionManager, QWidget *parent = 0);
     ~QtActionManagerWidget();
-    
+
+
+public slots:
+    void changeCurrentScheme(QString scheme);
+
 private:
+    void updateUI();
+
     Ui::QtActionManagerWidget *ui;
     QMap<QTreeWidgetItem *, QtAction*> m_actionMap;
     QtActionManager *m_actionManager;
