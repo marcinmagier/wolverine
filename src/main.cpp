@@ -77,12 +77,14 @@ int main(int argc, char **argv)
     action2->setIcon(QIcon(":/cut.png"));
     toolbar->addAction(action2);
 
+    action2->setShortcut(QKeySequence::Print);
     amanager->addAction(action2);
 
     QAction *action1 = new QAction("Find", &mainWin);
     action1->setIcon(QIcon(":/find.png"));
     toolbar->addAction(action1);
 
+    action1->setShortcut(QKeySequence("Ctrl+Shift+End"));
     amanager->addAction(action1);
 
     action1 = new QAction("Paste", &mainWin);
@@ -90,6 +92,7 @@ int main(int argc, char **argv)
     toolbar->addAction(action1);
 
     amanager->addAction("New", action1);
+    amanager->setCurrentScheme("FakeVim");
 
     QSpinBox *spin = new QSpinBox(toolbar);
     action1 = toolbar->addWidget(spin);

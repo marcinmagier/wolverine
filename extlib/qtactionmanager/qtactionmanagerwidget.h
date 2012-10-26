@@ -3,10 +3,12 @@
  #define __QT_ACTION_MANAGER_WIDGET_H_
 
 
+class QTreeWidgetItem;
+
+
 #include "qtactionmanager.h"
 
 #include <QWidget>
-#include <QTreeWidgetItem>
 
 
 

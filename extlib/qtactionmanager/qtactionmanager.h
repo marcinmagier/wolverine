@@ -4,7 +4,6 @@
 
 
 class QAction;
-//class QString;
 class QWidget;
 class QtActionManagerWidget;
 
@@ -20,7 +19,7 @@ public:
     explicit QtAction(QAction *action);
     explicit QtAction(const QtAction &other);
 
-    QtAction& operator =(const QtAction &other);
+    QtAction& operator=(const QtAction &other);
 
 
     QAction *action;
@@ -28,8 +27,8 @@ public:
 };
 
 
-typedef QList<QtAction> QListQtActions;
-typedef QMap<QString, QListQtActions> QMapActionCategory;
+typedef QList<QtAction> QtActionsList;
+typedef QMap<QString, QtActionsList> QtActionCategoryMap;
 
 
 
@@ -64,7 +63,7 @@ private:
     static QtActionManager* s_actionManager;
     QString m_currentScheme;
     QList<QString> m_schemes;
-    QMapActionCategory m_actionCategories;
+    QtActionCategoryMap m_actionCategories;
 
     friend class QtActionManagerWidget;
 };

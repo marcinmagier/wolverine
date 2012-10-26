@@ -59,10 +59,21 @@ void QtActionManager::addAction(const QString &category, QAction *action)
 
 void QtActionManager::setCurrentScheme(const QString &name)
 {
-//    if(m_actionSchemes.contains(name))
-//        return;
+    if(!m_schemes.contains(name))
+        m_schemes.append(name);
 
-//    m_actionSchemes[name].clear();
+    m_currentScheme = name;
+
+    foreach(QString category, m_actionCategories.keys()) {
+        QtActionsList qtactions = m_actionCategories.value(category);
+
+        for(int i=0; i<qtactions.length(); ++i) {
+            QtAction &qtaction = qtactions[i];
+            QKeySequence shortcut = qtaction.schemeBinding[m_currentScheme];
+            qtaction.action->setShortcut(shortcut);
+        }
+    }
+
 }
 
 

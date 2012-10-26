@@ -2,6 +2,10 @@
 #include "qtactionmanagerwidget.h"
 #include "ui_qtactionmanagerwidget.h"
 
+#include <QTreeWidgetItem>
+
+
+
 QtActionManagerWidget::QtActionManagerWidget(QtActionManager *actionManager, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::QtActionManagerWidget),
@@ -9,7 +13,9 @@ QtActionManagerWidget::QtActionManagerWidget(QtActionManager *actionManager, QWi
 {
     ui->setupUi(this);
 
-    ui->cmbSchemes->addItem(m_actionManager->m_currentScheme);
+    ui->cmbSchemes->addItems(m_actionManager->m_schemes);
+    int idxCurrentScheme = m_actionManager->m_schemes.indexOf(m_actionManager->m_currentScheme);
+    ui->cmbSchemes->setCurrentIndex(idxCurrentScheme);
 
     QStringList headers;
     headers << tr("Command") << tr("Binding") << tr("Category");
@@ -17,7 +23,7 @@ QtActionManagerWidget::QtActionManagerWidget(QtActionManager *actionManager, QWi
 
 
     foreach(QString category, m_actionManager->m_actionCategories.keys()) {
-        QListQtActions qtactions = m_actionManager->m_actionCategories.value(category);
+        QtActionsList qtactions = m_actionManager->m_actionCategories.value(category);
 
         for(int i=0; i<qtactions.length(); ++i) {
             QAction *action = qtactions[i].action;
