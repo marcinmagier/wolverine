@@ -4,6 +4,7 @@
 
 
 class QTreeWidgetItem;
+class QKeyEvent;
 
 
 #include "qtactionmanager.h"
@@ -27,12 +28,19 @@ public:
 
 public slots:
     void changeCurrentScheme(QString scheme);
+    void onItemDoubleClicked(QTreeWidgetItem* item, int col);
+
+protected:
+    virtual void keyPressEvent(QKeyEvent *event);
 
 private:
     void updateUI();
+    void restoreSelected();
+    QTreeWidgetItem* findShortcut(QString shortcut);
 
     Ui::QtActionManagerWidget *ui;
     QMap<QTreeWidgetItem *, QtAction*> m_actionMap;
+    QTreeWidgetItem *m_itemSelected;
     QtActionManager *m_actionManager;
 };
 

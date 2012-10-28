@@ -1,6 +1,8 @@
 
+
 #include "qtactionmanager.h"
 #include "qtactionmanagerwidget.h"
+#include "qtaction.h"
 
 #include <QObject>
 #include <QAction>
@@ -10,31 +12,22 @@ QtActionManager* QtActionManager::s_actionManager = 0;
 
 
 
-QtAction::QtAction(QAction *action)
-{
-    this->action = action;
-    this->schemeBinding["Default"] = action->shortcut().toString();
-}
-
-QtAction::QtAction(const QtAction &other)
-{
-    this->action = other.action;
-    this->schemeBinding = other.schemeBinding;
-}
-
-QtAction& QtAction::operator =(const QtAction &other)
-{
-    this->action = other.action;
-    this->schemeBinding = other.schemeBinding;
-    return *this;
-}
-
-
-
 QtActionManager::QtActionManager()
 {
     m_currentScheme = "Default";
     m_schemes.append("Default");
+}
+
+QtActionManager::~QtActionManager()
+{
+    foreach(QString category, m_actionCategories.keys()) {
+        QtActionsList qtactions = m_actionCategories.value(category);
+
+        for(int i=0; i<qtactions.length(); ++i) {
+            QtAction *qtAction = qtactions[i];
+            delete qtAction;
+        }
+    }
 }
 
 QtActionManager* QtActionManager::instance()
@@ -52,7 +45,7 @@ void QtActionManager::addAction(QAction *action)
 
 void QtActionManager::addAction(const QString &category, QAction *action)
 {
-    QtAction qtAction(action);
+    QtAction *qtAction = new QtAction(action);
     m_actionCategories[category].append(qtAction);
 }
 
@@ -68,9 +61,9 @@ void QtActionManager::setCurrentScheme(const QString &name)
         QtActionsList qtactions = m_actionCategories.value(category);
 
         for(int i=0; i<qtactions.length(); ++i) {
-            QtAction &qtaction = qtactions[i];
-            QKeySequence shortcut = qtaction.schemeBinding[m_currentScheme];
-            qtaction.action->setShortcut(shortcut);
+            QtAction *qtAction = qtactions[i];
+            QKeySequence shortcut = qtAction->shortcut(m_currentScheme);
+            qtAction->action->setShortcut(shortcut);
         }
     }
 

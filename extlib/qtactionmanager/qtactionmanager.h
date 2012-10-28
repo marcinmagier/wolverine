@@ -5,6 +5,7 @@
 
 class QAction;
 class QWidget;
+class QtAction;
 class QtActionManagerWidget;
 
 
@@ -13,21 +14,7 @@ class QtActionManagerWidget;
 
 
 
-class QtAction
-{
-public:
-    explicit QtAction(QAction *action);
-    explicit QtAction(const QtAction &other);
-
-    QtAction& operator=(const QtAction &other);
-
-
-    QAction *action;
-    QMap<QString, QString> schemeBinding;
-};
-
-
-typedef QList<QtAction> QtActionsList;
+typedef QList<QtAction*> QtActionsList;
 typedef QMap<QString, QtActionsList> QtActionCategoryMap;
 
 
@@ -38,7 +25,9 @@ class QtActionManager
 private:
     explicit QtActionManager();
 
+
 public:
+    ~QtActionManager();
     static QtActionManager* instance();
 
     void addAction(QAction *action);

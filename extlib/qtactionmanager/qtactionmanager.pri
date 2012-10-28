@@ -8,10 +8,12 @@ QTACTIONMANAGER_LIBDIR = $$PWD/bin
 uselib {
     LIBS += -L$$QTACTIONMANAGER_LIBDIR -l$$QTACTIONMANAGER_LIBNAME
 } else {
-    SOURCES   += $$PWD/qtactionmanager.cpp \
+    SOURCES   += $$PWD/qtaction.cpp \
+                 $$PWD/qtactionmanager.cpp \
                  $$PWD/qtactionmanagerwidget.cpp
 
-    HEADERS   += $$PWD/qtactionmanager.h \
+    HEADERS   += $$PWD/qtaction.h \
+                 $$PWD/qtactionmanager.h \
                  $$PWD/qtactionmanagerwidget.h
 
     FORMS     += $$PWD/qtactionmanagerwidget.ui
