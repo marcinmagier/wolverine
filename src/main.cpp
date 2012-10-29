@@ -12,14 +12,17 @@
 #include <QApplication>
 #include <QMainWindow>
 #include <QtGui>
+#include <QObject>
 
 
 class Toolbar : public QtManagedToolBar
 {
+
 public:
     Toolbar(QWidget *parent, QString toolbarName):
         QtManagedToolBar(parent, toolbarName){}
     void contextMenuEvent(QContextMenuEvent *);
+
 };
 
 void Toolbar::contextMenuEvent(QContextMenuEvent *event)
@@ -75,6 +78,7 @@ int main(int argc, char **argv)
     QAction *action2 = new QAction("Cut", &mainWin);
     action2->setIcon(QIcon(":/cut.png"));
     toolbar->addAction(action2);
+    QObject::connect(action2, SIGNAL(triggered()), qApp, SLOT(quit()));
 
     action2->setShortcut(QKeySequence::Print);
     amanager->addAction(action2);
