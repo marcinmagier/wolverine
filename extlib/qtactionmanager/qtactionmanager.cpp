@@ -49,8 +49,7 @@ QtActionManager::~QtActionManager()
         }
     }
 
-    if(m_actionManagerBackup)
-        dropConfigurationBackup();
+    dropConfigurationBackup();
 }
 
 QtActionManager* QtActionManager::instance()
@@ -123,12 +122,20 @@ void QtActionManager::createConfigurationBackup()
 
 void QtActionManager::restoreConfigurationBackup()
 {
+    if(m_actionManagerBackup == 0)
+        return;
 
+    foreach(QString category, m_actionManagerBackup->m_actionCategories.keys()) {
+        QtActionsList qtactions = m_actionManagerBackup->m_actionCategories.value(category);
+    }
 }
 
 void QtActionManager::dropConfigurationBackup()
 {
-
+    if(m_actionManagerBackup) {
+        delete m_actionManagerBackup;
+        m_actionManagerBackup = 0;
+    }
 }
 
 

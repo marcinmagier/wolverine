@@ -17,8 +17,7 @@ CfgAppSettings::CfgAppSettings()
 
 CfgAppSettings::~CfgAppSettings()
 {
-    if(m_backup)
-        dropConfigurationBackup();
+    dropConfigurationBackup();
 }
 
 CfgAppSettings* CfgAppSettings::instance()
@@ -73,13 +72,17 @@ void CfgAppSettings::createConfigurationBackup()
 
 void CfgAppSettings::restoreConfigurationBackup()
 {
-    copy(s_appconfig, m_backup);
-    delete m_backup;
-    m_backup = 0;
+    if(m_backup) {
+        copy(s_appconfig, m_backup);
+        delete m_backup;
+        m_backup = 0;
+    }
 }
 
 void CfgAppSettings::dropConfigurationBackup()
 {
-    delete m_backup;
-    m_backup = 0;
+    if(m_backup) {
+        delete m_backup;
+        m_backup = 0;
+    }
 }
