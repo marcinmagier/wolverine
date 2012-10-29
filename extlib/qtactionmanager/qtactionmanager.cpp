@@ -6,6 +6,8 @@
 
 #include <QObject>
 #include <QAction>
+#include <QSettings>
+#include <QApplication>
 
 
 QtActionManager* QtActionManager::s_actionManager = 0;
@@ -47,6 +49,62 @@ void QtActionManager::addAction(const QString &category, QAction *action)
 {
     QtAction *qtAction = new QtAction(action);
     m_actionCategories[category].append(qtAction);
+}
+
+
+void QtActionManager::saveConfig()
+{
+    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "actionbinding");
+
+    if(!qset.isWritable())
+        return;
+
+    foreach(QString category, m_actionCategories.keys()) {
+        qset.beginGroup(category);
+        QtActionsList qtactions = m_actionCategories.value(category);
+        for(int i=0; i<qtactions.length(); ++i) {
+            QtAction *qtAction = qtactions[i];
+            QStringList tmpList = qtAction->createBindingList();
+            qset.setValue(qtAction->action->text(), QVariant::fromValue(tmpList));
+        }
+        qset.endGroup();
+    }
+}
+
+void QtActionManager::restoreConfig()
+{
+    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "actionbinding");
+
+    //Read only valid values, ommit not existed actions/schemes etc.
+    foreach(QString category, m_actionCategories.keys()) {
+        qset.beginGroup(category);
+        QtActionsList qtactions = m_actionCategories.value(category);
+        for(int i=0; i<qtactions.length(); ++i) {
+            QtAction *qtAction = qtactions[i];
+            QVariant var = qset.value(qtAction->action->text());
+            QStringList tmpList = var.toStringList();
+            if(!tmpList.isEmpty())
+                qtAction->applyBindingList(tmpList);
+        }
+        qset.endGroup();
+    }
+    //Reload shortcuts for current scheme
+    setCurrentScheme(m_currentScheme);
+}
+
+void QtActionManager::createConfigurationBackup()
+{
+
+}
+
+void QtActionManager::restoreConfigurationBackup()
+{
+
+}
+
+void QtActionManager::dropConfigurationBackup()
+{
+
 }
 
 

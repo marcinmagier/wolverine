@@ -35,6 +35,7 @@ protected:
 
 private:
     void updateUI();
+    void clearSelected();
     void restoreSelected();
     QTreeWidgetItem* findShortcut(QString shortcut);
 

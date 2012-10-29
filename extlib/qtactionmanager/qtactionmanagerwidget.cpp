@@ -77,6 +77,11 @@ void QtActionManagerWidget::keyPressEvent(QKeyEvent *event)
         return;
     }
 
+    if(event->key()==Qt::Key_Delete) {
+        clearSelected();
+        return;
+    }
+
     QString key, modifiers;
     bool singleAllowed = false;
     Qt::KeyboardModifiers mods = event->modifiers();
@@ -218,6 +223,16 @@ void QtActionManagerWidget::updateUI()
 
             m_actionMap.insert(item, qtactions[i]);
         }
+    }
+}
+
+void QtActionManagerWidget::clearSelected()
+{
+    if(m_itemSelected != 0) {
+        QtAction *qtaction = m_actionMap[m_itemSelected];
+        qtaction->action->setShortcut(QKeySequence(""));
+        m_itemSelected->setText(1, "");
+        m_itemSelected = 0;
     }
 }
 

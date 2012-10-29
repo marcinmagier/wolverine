@@ -44,9 +44,6 @@ public:
     QWidget* getActionManagerWidget(QWidget *parent = 0);
 
 
-protected:
-    void createScheme(const QString &name);
-
 
 private:
     static QtActionManager* s_actionManager;

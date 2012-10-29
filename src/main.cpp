@@ -60,7 +60,6 @@ int main(int argc, char **argv)
 
     QtActionManager *amanager = QtActionManager::instance();
     amanager->setCurrentScheme("Default");
-    amanager->setCurrentScheme("Nowa");
 
 
     CfgAppSettings *settings = CfgAppSettings::instance();
@@ -101,12 +100,15 @@ int main(int argc, char **argv)
     toolbar->restoreConfig();
     toolbar->saveConfig();
 
+    amanager->setCurrentScheme("Nowa");
+    amanager->restoreConfig();
 
     mainWin.addToolBar(toolbar);
     //toolbar->setManagerEnabled(false);
 
     Wolverine::DlgSettings *set = new Wolverine::DlgSettings(settings, &mainWin);
     set->showDialog();
+    amanager->saveConfig();
 
     mainWin.show();
     settings->saveConfiguration();
