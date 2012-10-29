@@ -24,6 +24,7 @@ class QtActionManager
 
 private:
     explicit QtActionManager();
+    explicit QtActionManager(const QtActionManager &other);
 
 
 public:
@@ -47,6 +48,7 @@ public:
 
 private:
     static QtActionManager* s_actionManager;
+    QtActionManager* m_actionManagerBackup;
     QString m_currentScheme;
     QList<QString> m_schemes;
     QtActionCategoryMap m_actionCategories;

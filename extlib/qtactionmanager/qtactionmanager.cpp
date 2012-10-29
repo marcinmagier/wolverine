@@ -13,11 +13,29 @@
 QtActionManager* QtActionManager::s_actionManager = 0;
 
 
-
 QtActionManager::QtActionManager()
 {
     m_currentScheme = "Default";
     m_schemes.append("Default");
+    m_actionManagerBackup = 0;
+}
+
+QtActionManager::QtActionManager(const QtActionManager &other)
+{
+    foreach(QString category, other.m_actionCategories.keys()) {
+        QtActionsList qtactions = other.m_actionCategories.value(category);
+        QtActionsList tmp;
+
+        for(int i=0; i<qtactions.length(); ++i) {
+            QtAction *qtAction = qtactions[i];
+            QtAction *newAction = new QtAction(*qtAction);
+            tmp.append(newAction);
+        }
+        this->m_actionCategories[category] = tmp;
+    }
+    this->m_currentScheme = other.m_currentScheme;
+    this->m_schemes = other.m_schemes;
+    this->m_actionManagerBackup = 0;
 }
 
 QtActionManager::~QtActionManager()
@@ -30,6 +48,9 @@ QtActionManager::~QtActionManager()
             delete qtAction;
         }
     }
+
+    if(m_actionManagerBackup)
+        dropConfigurationBackup();
 }
 
 QtActionManager* QtActionManager::instance()
@@ -94,6 +115,9 @@ void QtActionManager::restoreConfig()
 
 void QtActionManager::createConfigurationBackup()
 {
+    if(m_actionManagerBackup)
+        delete m_actionManagerBackup;
+    m_actionManagerBackup = new QtActionManager(*this);
 
 }
 

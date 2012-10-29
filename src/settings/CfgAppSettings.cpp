@@ -9,7 +9,17 @@
 
 
 CfgAppSettings* CfgAppSettings::s_appconfig = 0;
-CfgAppSettings* CfgAppSettings::s_backup = 0;
+
+CfgAppSettings::CfgAppSettings()
+{
+    m_backup = 0;
+}
+
+CfgAppSettings::~CfgAppSettings()
+{
+    if(m_backup)
+        dropConfigurationBackup();
+}
 
 CfgAppSettings* CfgAppSettings::instance()
 {
@@ -55,21 +65,21 @@ void CfgAppSettings::copy(CfgAppSettings *to, const CfgAppSettings *from)
 
 void CfgAppSettings::createConfigurationBackup()
 {
-    if(s_backup)
-        delete s_backup;
-    s_backup = new CfgAppSettings();
-    copy(s_backup, s_appconfig);
+    if(m_backup)
+        delete m_backup;
+    m_backup = new CfgAppSettings();
+    copy(m_backup, s_appconfig);
 }
 
 void CfgAppSettings::restoreConfigurationBackup()
 {
-    copy(s_appconfig, s_backup);
-    delete s_backup;
-    s_backup = 0;
+    copy(s_appconfig, m_backup);
+    delete m_backup;
+    m_backup = 0;
 }
 
 void CfgAppSettings::dropConfigurationBackup()
 {
-    delete s_backup;
-    s_backup = 0;
+    delete m_backup;
+    m_backup = 0;
 }

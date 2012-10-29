@@ -102,6 +102,7 @@ int main(int argc, char **argv)
 
     amanager->setCurrentScheme("Nowa");
     amanager->restoreConfig();
+    amanager->createConfigurationBackup();
 
     mainWin.addToolBar(toolbar);
     //toolbar->setManagerEnabled(false);

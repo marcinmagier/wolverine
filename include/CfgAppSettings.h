@@ -18,6 +18,7 @@ public:
     CfgScintillaSettings scintilla;
 
 
+    virtual ~CfgAppSettings();
     static CfgAppSettings* instance();
     virtual bool loadConfiguration();
     virtual bool saveConfiguration();
@@ -28,12 +29,12 @@ public:
 
 
 private:
-    CfgAppSettings() {}
+    CfgAppSettings();
 
     void copy(CfgAppSettings *to, const CfgAppSettings *from);
 
     static CfgAppSettings *s_appconfig;
-    static CfgAppSettings *s_backup;
+    CfgAppSettings *m_backup;
 };
 
 #endif //__CFG_APP_SETTINGS_H_
