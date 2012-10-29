@@ -6,12 +6,13 @@
 class QTreeWidgetItem;
 class QKeyEvent;
 
-
-#include "qtactionmanager.h"
+#include "qtaction.h"
 
 #include <QWidget>
 
-
+namespace Private {
+class QtActionManager;
+}
 
 namespace Ui {
 class QtActionManagerWidget;
@@ -22,7 +23,7 @@ class QtActionManagerWidget : public QWidget
     Q_OBJECT
     
 public:
-    explicit QtActionManagerWidget(QtActionManager *actionManager, QWidget *parent = 0);
+    explicit QtActionManagerWidget(Private::QtActionManager *actionManager, QWidget *parent = 0);
     ~QtActionManagerWidget();
 
 
@@ -40,9 +41,9 @@ private:
     QTreeWidgetItem* findShortcut(QString shortcut);
 
     Ui::QtActionManagerWidget *ui;
+    Private::QtActionManager *m_actionManager;
     QMap<QTreeWidgetItem *, QtAction*> m_actionMap;
     QTreeWidgetItem *m_itemSelected;
-    QtActionManager *m_actionManager;
 };
 
 #endif // __QT_ACTION_MANAGER_WIDGET_H_

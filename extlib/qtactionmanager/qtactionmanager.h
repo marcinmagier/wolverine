@@ -4,19 +4,13 @@
 
 
 class QAction;
+class QString;
 class QWidget;
-class QtAction;
-class QtActionManagerWidget;
 
 
-#include <QMap>
-#include <QString>
-
-
-
-typedef QList<QtAction*> QtActionsList;
-typedef QMap<QString, QtActionsList> QtActionCategoryMap;
-
+namespace Private {
+class QtActionManager;
+}
 
 
 class QtActionManager
@@ -24,11 +18,11 @@ class QtActionManager
 
 private:
     explicit QtActionManager();
-    explicit QtActionManager(const QtActionManager &other);
 
 
 public:
     ~QtActionManager();
+
     static QtActionManager* instance();
 
     void addAction(QAction *action);
@@ -45,15 +39,11 @@ public:
     QWidget* getActionManagerWidget(QWidget *parent = 0);
 
 
-
 private:
     static QtActionManager* s_actionManager;
-    QtActionManager* m_actionManagerBackup;
-    QString m_currentScheme;
-    QList<QString> m_schemes;
-    QtActionCategoryMap m_actionCategories;
 
-    friend class QtActionManagerWidget;
+    Private::QtActionManager* m_actionManager;
+    Private::QtActionManager* m_actionManagerBackup;
 };
 
 #endif // __QT_ACTION_MANAGER_H_

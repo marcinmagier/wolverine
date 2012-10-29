@@ -18,3 +18,9 @@ uselib {
 
     FORMS     += $$PWD/qtactionmanagerwidget.ui
 }
+
+HEADERS += \
+    ../extlib/qtactionmanager/qtactionmanager_prv.h
+
+SOURCES += \
+    ../extlib/qtactionmanager/qtactionmanager_prv.cpp

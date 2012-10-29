@@ -1,19 +1,21 @@
 
 #include "qtactionmanagerwidget.h"
-#include "qtaction.h"
+#include "qtactionmanager_prv.h"
 #include "ui_qtactionmanagerwidget.h"
 
 #include <QMessageBox>
 #include <QTreeWidgetItem>
 #include <QKeyEvent>
 
+using namespace Private;
 
 
 QtActionManagerWidget::QtActionManagerWidget(QtActionManager *actionManager, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::QtActionManagerWidget),
-    m_itemSelected(0),
-    m_actionManager(actionManager)
+    m_actionManager(actionManager),
+    m_itemSelected(0)
+
 {
     ui->setupUi(this);
 
