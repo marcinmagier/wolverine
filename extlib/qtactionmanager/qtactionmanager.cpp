@@ -1,7 +1,7 @@
 
 
 #include "qtactionmanager.h"
-#include "qtactionmanager_prv.h"
+#include "qtactionmanager_impl.h"
 #include "qtactionmanagerwidget.h"
 #include "qtaction.h"
 
@@ -17,7 +17,7 @@ QtActionManager* QtActionManager::s_actionManager = 0;
 
 QtActionManager::QtActionManager()
 {
-    m_actionManager = new Private::QtActionManager();
+    m_actionManager = new Impl::QtActionManager();
     m_actionManagerBackup = 0;
 }
 
@@ -62,7 +62,7 @@ void QtActionManager::createConfigurationBackup()
 {
     if(m_actionManagerBackup)
         delete m_actionManagerBackup;
-    m_actionManagerBackup = new Private::QtActionManager(*m_actionManager);
+    m_actionManagerBackup = new Impl::QtActionManager(*m_actionManager);
 
 }
 
@@ -72,7 +72,7 @@ void QtActionManager::restoreConfigurationBackup()
         return;
 
      //TODO: Add quards against threading
-    Private::QtActionManager *tmp = m_actionManager;
+    Impl::QtActionManager *tmp = m_actionManager;
     m_actionManager = m_actionManagerBackup;
     delete tmp;
     m_actionManagerBackup = 0;

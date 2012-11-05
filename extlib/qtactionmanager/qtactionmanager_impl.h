@@ -16,7 +16,7 @@ typedef QMap<QString, QtActionsList> QtActionCategoryMap;
 
 
 
-namespace Private {
+namespace Impl {
 
 
 class QtActionManager

@@ -10,7 +10,7 @@ class QKeyEvent;
 
 #include <QWidget>
 
-namespace Private {
+namespace Impl {
 class QtActionManager;
 }
 
@@ -23,7 +23,7 @@ class QtActionManagerWidget : public QWidget
     Q_OBJECT
     
 public:
-    explicit QtActionManagerWidget(Private::QtActionManager *actionManager, QWidget *parent = 0);
+    explicit QtActionManagerWidget(Impl::QtActionManager *actionManager, QWidget *parent = 0);
     ~QtActionManagerWidget();
 
 
@@ -41,7 +41,7 @@ private:
     QTreeWidgetItem* findShortcut(QString shortcut);
 
     Ui::QtActionManagerWidget *ui;
-    Private::QtActionManager *m_actionManager;
+    Impl::QtActionManager *m_actionManager;
     QMap<QTreeWidgetItem *, QtAction*> m_actionMap;
     QTreeWidgetItem *m_itemSelected;
 };

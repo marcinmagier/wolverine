@@ -1,13 +1,13 @@
 
 #include "qtactionmanagerwidget.h"
-#include "qtactionmanager_prv.h"
+#include "qtactionmanager_impl.h"
 #include "ui_qtactionmanagerwidget.h"
 
 #include <QMessageBox>
 #include <QTreeWidgetItem>
 #include <QKeyEvent>
 
-using namespace Private;
+using namespace Impl;
 
 
 QtActionManagerWidget::QtActionManagerWidget(QtActionManager *actionManager, QWidget *parent) :

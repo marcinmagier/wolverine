@@ -10,17 +10,13 @@ uselib {
 } else {
     SOURCES   += $$PWD/qtaction.cpp \
                  $$PWD/qtactionmanager.cpp \
+                 $$PWD/qtactionmanager_impl.cpp \
                  $$PWD/qtactionmanagerwidget.cpp
 
     HEADERS   += $$PWD/qtaction.h \
                  $$PWD/qtactionmanager.h \
+                 $$PWD/qtactionmanager_impl.h \
                  $$PWD/qtactionmanagerwidget.h
 
     FORMS     += $$PWD/qtactionmanagerwidget.ui
 }
-
-HEADERS += \
-    ../extlib/qtactionmanager/qtactionmanager_prv.h
-
-SOURCES += \
-    ../extlib/qtactionmanager/qtactionmanager_prv.cpp

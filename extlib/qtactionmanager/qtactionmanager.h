@@ -8,7 +8,7 @@ class QString;
 class QWidget;
 
 
-namespace Private {
+namespace Impl {
 class QtActionManager;
 }
 
@@ -42,8 +42,8 @@ public:
 private:
     static QtActionManager* s_actionManager;
 
-    Private::QtActionManager* m_actionManager;
-    Private::QtActionManager* m_actionManagerBackup;
+    Impl::QtActionManager* m_actionManager;
+    Impl::QtActionManager* m_actionManagerBackup;
 };
 
 #endif // __QT_ACTION_MANAGER_H_

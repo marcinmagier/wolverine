@@ -1,7 +1,7 @@
 
 
 
-#include "qtactionmanager_prv.h"
+#include "qtactionmanager_impl.h"
 #include "qtaction.h"
 
 #include <QObject>
@@ -10,7 +10,7 @@
 #include <QApplication>
 
 
-using namespace Private;
+using namespace Impl;
 
 
 
