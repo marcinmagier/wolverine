@@ -5,7 +5,7 @@
 #include <QObject>
 #include <QString>
 
-class CfgScintillaSettings : public QObject
+class ScintillaSettings : public QObject
 {
 	Q_OBJECT
 	Q_PROPERTY(int		valInt		READ getValInt		WRITE setValInt)
@@ -13,6 +13,8 @@ class CfgScintillaSettings : public QObject
 	Q_PROPERTY(QString	valString	READ getValString	WRITE setValString)
 
 public:
+    explicit ScintillaSettings();
+
 	int getValInt() {return m_valInt;}
 	bool getValBool() {return m_valBool;}
 	QString getValString() {return m_valString;}

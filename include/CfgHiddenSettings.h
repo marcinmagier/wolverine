@@ -8,28 +8,35 @@
 #include <QSize>
 
 
-class CfgHiddenSettings : public QObject
+class HiddenSettings : public QObject
 {
 	Q_OBJECT
 
-    Q_PROPERTY(QPoint       windowPosition	READ getPosition		WRITE setPosition)
-    Q_PROPERTY(QSize		windowSize		READ getSize            WRITE setSize)
+    Q_PROPERTY(QPoint       mwPosition      READ getMWPosition		WRITE setMWPosition)
+    Q_PROPERTY(QSize		mwSize          READ getMWSize            WRITE setMWSize)
 
 
 
 public:
+    explicit HiddenSettings();
 
-    // position
-    QPoint getPosition() {return m_position;}
-    void setPosition(QPoint val) {m_position = val;}
+    QPoint getMWPosition() {return m_mwPosition;}
+    QSize getMWSize() {return m_mwSize;}
 
-    // size
-    QSize getSize() {return m_size;}
-    void setSize(QSize val) {m_size = val;}
+
+signals:
+    void mwPositionChanged(QPoint val);
+    void mwSizeChanged(QSize val);
+
+
+public slots:
+    void setMWPosition(QPoint val);
+    void setMWSize(QSize val);
+
 	
 private:
-    QPoint m_position;
-    QSize m_size;
+    QPoint m_mwPosition;
+    QSize m_mwSize;
 };
 
 #endif //__CFG_HIDDEN_SETTINGS_H_

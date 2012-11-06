@@ -13,9 +13,9 @@ class CfgAppSettings : public QtConfig
 {
 
 public:
-    CfgGeneralSettings general;
-    CfgHiddenSettings hidden;
-    CfgScintillaSettings scintilla;
+    GeneralSettings general;
+    HiddenSettings hidden;
+    ScintillaSettings scintilla;
 
 
     virtual ~CfgAppSettings();

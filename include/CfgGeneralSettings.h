@@ -5,29 +5,37 @@
 #include <QObject>
 #include <QString>
 
-class CfgGeneralSettings : public QObject
+class GeneralSettings : public QObject
 {
 	Q_OBJECT
-	Q_PROPERTY(int		valInt		READ getValInt		WRITE setValInt)
-	Q_PROPERTY(bool		valBool		READ getValBool		WRITE setValBool)
-	Q_PROPERTY(QString	valString	READ getValString	WRITE setValString)
+    Q_PROPERTY(QString	logLevel                READ getLogLevel                WRITE setLogLevel)
+    Q_PROPERTY(bool		logConsoleEnabled		READ isLogConsoleEnabled		WRITE setLogConsoleEnabled)
+    Q_PROPERTY(bool		logFileEnabled  		READ isLogFileEnabled   		WRITE setLogFileEnabled)
 
 public:
-	int getValInt() {return m_valInt;}
-	bool getValBool() {return m_valBool;}
-	QString getValString() {return m_valString;}
+    explicit GeneralSettings();
+
+    QString getLogLevel() {return m_logLevel;}
+    bool isLogConsoleEnabled() {return m_logConsoleEnabled;}
+    bool isLogFileEnabled() {return m_logFileEnabled;}
+
+
+signals:
+    void logLevelChanged(QString val);
+    void logConsoleEnabledChanged(bool val);
+    void logFileEnabledChanged(bool val);
 
 
 public slots:
-    void setValInt(int val) {m_valInt = val;}
-    void setValBool(bool val) {m_valBool = val;}
-    void setValString(QString val) {m_valString = val;}
+    void setLogLevel(QString val);
+    void setLogConsoleEnabled(bool val);
+    void setLogFileEnabled(bool val);
 
 
 private:
-	int m_valInt;
-	bool m_valBool;
-	QString m_valString;
+    QString m_logLevel;
+    bool m_logConsoleEnabled;
+    bool m_logFileEnabled;
 };
 
 #endif //__CFG_GENERAL_SETTINGS_H_

@@ -13,7 +13,7 @@ include(../extlib/qtactionmanager/qtactionmanager.pri)
 include(../extlib/qtconfig/qtconfig.pri)
 include(../extlib/qtlogger/qtlogger.pri)
 include(../extlib/qtmanagedtoolbar/qtmanagedtoolbar.pri)
-include(../extlib/qtscintilla/qtscintilla.pri)
+#include(../extlib/qtscintilla/qtscintilla.pri)
 include(../extlib/qtsingleapplication/qtsingleapplication.pri)
 
 
@@ -24,7 +24,10 @@ SOURCES     += \
     ../src/settings/DlgSettings.cpp \
     ../src/settings/PageGeneral.cpp \
     ../src/settings/PageScintilla.cpp \
-    ../src/Application.cpp
+    ../src/Application.cpp \
+    ../src/settings/CfgGeneralSettings.cpp \
+    ../src/settings/CfgHiddenSettings.cpp \
+    ../src/settings/CfgScintillaSettings.cpp
 
 HEADERS     += \
     ../include/CfgAppSettings.h \

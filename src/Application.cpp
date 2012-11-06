@@ -19,20 +19,19 @@ using namespace Wolverine;
 Application* Application::s_application = 0;
 
 
-Application::Application()
+Application::Application() :
+    m_logConsoleAppender(0), m_logFileAppender(0)
 {
     qApp->setApplicationName(APP_NAME);
     m_settings = CfgAppSettings::instance();
 
-    m_logConsoleAppender = new ConsoleAppender();
-    m_logConsoleAppender->setFormat(LOG_FORMAT_STRING);
-    Logger::registerAppender(m_logConsoleAppender);
+    if(m_settings->general.isLogConsoleEnabled()) {
+        enableLogConsole(true);
+    }
 
-    m_logFileAppender = new FileAppender(LOG_FILE_NAME);
-    m_logFileAppender->setFormat(LOG_FORMAT_STRING);
-    Logger::registerAppender(m_logFileAppender);
-
-    setLogDetailsLevel("Error");
+    if(m_settings->general.isLogFileEnabled()) {
+        enableLogFile(true);
+    }
 }
 
 
@@ -56,7 +55,40 @@ Application* Application::instance()
 
 void Application::setLogDetailsLevel(const QString &level)
 {
-    m_logConsoleAppender->setDetailsLevel(level);
-    m_logFileAppender->setDetailsLevel(level);
+    if(m_logConsoleAppender)
+        m_logConsoleAppender->setDetailsLevel(level);
+
+    if(m_logFileAppender)
+        m_logFileAppender->setDetailsLevel(level);
 }
 
+void Application::enableLogConsole(bool enabled)
+{
+    if(m_logConsoleAppender != 0) {
+        delete m_logConsoleAppender;
+        m_logConsoleAppender = 0;
+    }
+
+    if(enabled) {
+        m_logConsoleAppender = new ConsoleAppender();
+        m_logConsoleAppender->setFormat(LOG_FORMAT_STRING);
+        m_logConsoleAppender->setDetailsLevel(m_settings->general.getLogLevel());
+        Logger::registerAppender(m_logConsoleAppender);
+
+    }
+}
+
+void Application::enableLogFile(bool enabled)
+{
+    if(m_logFileAppender != 0) {
+        delete m_logFileAppender;
+        m_logFileAppender = 0;
+    }
+
+    if(enabled) {
+        m_logFileAppender = new FileAppender(LOG_FILE_NAME);
+        m_logFileAppender->setFormat(LOG_FORMAT_STRING);
+        m_logFileAppender->setDetailsLevel(m_settings->general.getLogLevel());
+        Logger::registerAppender(m_logFileAppender);
+    }
+}

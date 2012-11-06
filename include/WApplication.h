@@ -28,6 +28,8 @@ public:
 
 public slots:
     void setLogDetailsLevel(const QString &level);
+    void enableLogConsole(bool enabled);
+    void enableLogFile(bool enabled);
 
 
 private:
