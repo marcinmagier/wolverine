@@ -30,7 +30,7 @@ HEADERS     += \
     ../include/CfgGeneralSettings.h \
     ../include/CfgHiddenSettings.h \
     ../include/CfgScintillaSettings.h \
-    ../src/MainWindow.h \
+    ../include/WMainWindow.h \
     ../src/settings/DlgSettings.h \
     ../src/settings/PageGeneral.h \
     ../src/settings/PageScintilla.h
