@@ -26,9 +26,6 @@ MainWindow::~MainWindow()
     m_settings->hidden.setSize(this->size());
 
     delete m_settingsDialog;
-    delete m_actionManager;
-    delete m_settings;
-
 }
 
 void MainWindow::createMenusAndToolbars()

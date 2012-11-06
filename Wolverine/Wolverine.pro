@@ -23,7 +23,8 @@ SOURCES     += \
     ../src/MainWindow.cpp \
     ../src/settings/DlgSettings.cpp \
     ../src/settings/PageGeneral.cpp \
-    ../src/settings/PageScintilla.cpp
+    ../src/settings/PageScintilla.cpp \
+    ../src/Application.cpp
 
 HEADERS     += \
     ../include/CfgAppSettings.h \
@@ -33,7 +34,8 @@ HEADERS     += \
     ../include/WMainWindow.h \
     ../src/settings/DlgSettings.h \
     ../src/settings/PageGeneral.h \
-    ../src/settings/PageScintilla.h
+    ../src/settings/PageScintilla.h \
+    ../include/WApplication.h
 
 INCLUDEPATH += \
         ../include \
