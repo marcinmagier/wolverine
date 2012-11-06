@@ -13,6 +13,7 @@ include(../extlib/qtactionmanager/qtactionmanager.pri)
 include(../extlib/qtconfig/qtconfig.pri)
 include(../extlib/qtlogger/qtlogger.pri)
 include(../extlib/qtmanagedtoolbar/qtmanagedtoolbar.pri)
+include(../extlib/qtscintilla/qtscintilla.pri)
 include(../extlib/qtsingleapplication/qtsingleapplication.pri)
 
 
