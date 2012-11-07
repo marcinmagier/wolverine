@@ -9,6 +9,8 @@
 
 #include <QApplication>
 
+
+
 static void configureLogger();
 
 

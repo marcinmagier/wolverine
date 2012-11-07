@@ -96,6 +96,16 @@
 			<locationURI>WORKSPACE_LOC/extlib</locationURI>
 		</link>
 		<link>
+			<name>include</name>
+			<type>2</type>
+			<locationURI>WORKSPACE_LOC/include</locationURI>
+		</link>
+		<link>
+			<name>plugins</name>
+			<type>2</type>
+			<locationURI>WORKSPACE_LOC/plugins</locationURI>
+		</link>
+		<link>
 			<name>resources</name>
 			<type>2</type>
 			<locationURI>WORKSPACE_LOC/resources</locationURI>
@@ -106,4 +116,33 @@
 			<locationURI>WORKSPACE_LOC/src</locationURI>
 		</link>
 	</linkedResources>
+	<filteredResources>
+		<filter>
+			<id>1352319786334</id>
+			<name></name>
+			<type>6</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-ui_*.h</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1352319786334</id>
+			<name></name>
+			<type>6</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-*.Debug</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1352319786334</id>
+			<name></name>
+			<type>22</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-*.Release</arguments>
+			</matcher>
+		</filter>
+	</filteredResources>
 </projectDescription>
