@@ -21,7 +21,7 @@ class PageScintilla : public QWidget
     Q_OBJECT
     
 public:
-    explicit PageScintilla(CfgAppSettings *settings, QWidget *parent = 0);
+    explicit PageScintilla(AppSettings *settings, QWidget *parent = 0);
     ~PageScintilla();
     
 private:

@@ -4,7 +4,7 @@
 
 #include "qtdialogsettings.h"
 
-class CfgAppSettings;
+class AppSettings;
 class QtActionManager;
 
 
@@ -16,14 +16,14 @@ class DlgSettings : public QtDialogSettings
     Q_OBJECT
 
 public:
-    explicit DlgSettings(CfgAppSettings *settings, QWidget *parent = 0);
+    explicit DlgSettings(AppSettings *settings, QWidget *parent = 0);
     
 
 public slots:
     void showDialog();
 
 private:
-    CfgAppSettings *m_settings;
+    AppSettings *m_settings;
     QtActionManager *m_actionManager;
 };
 

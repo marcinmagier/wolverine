@@ -12,18 +12,18 @@ using namespace Wolverine;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-    m_settings = CfgAppSettings::instance();
+    m_settings = AppSettings::instance();
     m_actionManager = QtActionManager::instance();
     m_settingsDialog = new DlgSettings(m_settings, this);
 
-    this->resize(m_settings->hidden.getSize());
-    this->move(m_settings->hidden.getPosition());
+    this->resize(m_settings->hidden->getMWSize());
+    this->move(m_settings->hidden->getMWPosition());
 }
 
 MainWindow::~MainWindow()
 {
-    m_settings->hidden.setPosition(this->pos());
-    m_settings->hidden.setSize(this->size());
+    m_settings->hidden->setMWPosition(this->pos());
+    m_settings->hidden->setMWSize(this->size());
 
     delete m_settingsDialog;
 }

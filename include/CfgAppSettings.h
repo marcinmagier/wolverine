@@ -9,17 +9,17 @@
 #include "CfgScintillaSettings.h"
 
 
-class CfgAppSettings : public QtConfig
+class AppSettings : public QtConfig
 {
 
 public:
-    GeneralSettings general;
-    HiddenSettings hidden;
-    ScintillaSettings scintilla;
+    GeneralSettings *general;
+    HiddenSettings *hidden;
+    ScintillaSettings *scintilla;
 
 
-    virtual ~CfgAppSettings();
-    static CfgAppSettings* instance();
+    virtual ~AppSettings();
+    static AppSettings* instance();
     virtual bool loadConfiguration();
     virtual bool saveConfiguration();
 
@@ -29,12 +29,12 @@ public:
 
 
 private:
-    CfgAppSettings();
+    AppSettings();
 
-    void copy(CfgAppSettings *to, const CfgAppSettings *from);
+    void copy(AppSettings *to, const AppSettings *from);
 
-    static CfgAppSettings *s_appconfig;
-    CfgAppSettings *m_backup;
+
+    AppSettings *m_backup;
 };
 
 #endif //__CFG_APP_SETTINGS_H_

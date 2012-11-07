@@ -21,7 +21,7 @@ class PageGeneral : public QWidget
     Q_OBJECT
     
 public:
-    explicit PageGeneral(CfgAppSettings *settings, QWidget *parent = 0);
+    explicit PageGeneral(AppSettings *settings, QWidget *parent = 0);
     ~PageGeneral();
     
 private:

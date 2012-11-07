@@ -8,34 +8,39 @@
 class GeneralSettings : public QObject
 {
 	Q_OBJECT
-    Q_PROPERTY(QString	logLevel                READ getLogLevel                WRITE setLogLevel)
-    Q_PROPERTY(bool		logConsoleEnabled		READ isLogConsoleEnabled		WRITE setLogConsoleEnabled)
-    Q_PROPERTY(bool		logFileEnabled  		READ isLogFileEnabled   		WRITE setLogFileEnabled)
+    Q_PROPERTY(QString	logLevel                READ getLogLevel                WRITE setLogLevel           )
+    Q_PROPERTY(QString	logFilePath             READ getLogFilePath             WRITE setLogFilePath        )
+    Q_PROPERTY(bool		logFileEnabled  		READ isLogFileEnabled   		WRITE setLogFileEnabled     )
+    Q_PROPERTY(bool		logConsoleEnabled		READ isLogConsoleEnabled		WRITE setLogConsoleEnabled  )
+
 
 public:
     explicit GeneralSettings();
 
     QString getLogLevel() {return m_logLevel;}
-    bool isLogConsoleEnabled() {return m_logConsoleEnabled;}
+    QString getLogFilePath() {return m_logFilePath;}
     bool isLogFileEnabled() {return m_logFileEnabled;}
+    bool isLogConsoleEnabled() {return m_logConsoleEnabled;}
+
 
 
 signals:
-    void logLevelChanged(QString val);
-    void logConsoleEnabledChanged(bool val);
-    void logFileEnabledChanged(bool val);
 
 
 public slots:
     void setLogLevel(QString val);
-    void setLogConsoleEnabled(bool val);
+    void setLogFilePath(QString val);
     void setLogFileEnabled(bool val);
+    void setLogConsoleEnabled(bool val);
+
 
 
 private:
     QString m_logLevel;
-    bool m_logConsoleEnabled;
+    QString m_logFilePath;
     bool m_logFileEnabled;
+    bool m_logConsoleEnabled;
+
 };
 
 #endif //__CFG_GENERAL_SETTINGS_H_

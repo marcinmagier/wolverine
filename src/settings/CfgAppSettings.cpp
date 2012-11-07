@@ -8,69 +8,86 @@
 #include <QSettings>
 
 
-CfgAppSettings* CfgAppSettings::s_appconfig = 0;
+static AppSettings* s_appconfig = 0;
 
-CfgAppSettings::CfgAppSettings()
+static void cleanupAppSettings()
+{
+    delete s_appconfig;
+    s_appconfig = 0;
+}
+
+
+AppSettings::AppSettings()
 {
     m_backup = 0;
+
+    general = new GeneralSettings();
+    hidden = new HiddenSettings();
+    scintilla = new ScintillaSettings();
+
+    loadConfiguration();
+    qAddPostRoutine(cleanupAppSettings);
 }
 
-CfgAppSettings::~CfgAppSettings()
+AppSettings::~AppSettings()
 {
     dropConfigurationBackup();
+    saveConfiguration();
+
+    delete general;
+    delete hidden;
+    delete scintilla;
 }
 
-CfgAppSettings* CfgAppSettings::instance()
+AppSettings* AppSettings::instance()
 {
-    if(s_appconfig == 0) {
-        s_appconfig = new CfgAppSettings();
-        s_appconfig->loadConfiguration();
-    }
+    if(s_appconfig == 0)
+        s_appconfig = new AppSettings();
     return s_appconfig;
 }
 
 
-bool CfgAppSettings::loadConfiguration()
+bool AppSettings::loadConfiguration()
 {
     QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "appconfig");
 
-    loadGroup(qset, &general);
-    loadGroup(qset, &hidden);
-    loadGroup(qset, &scintilla);
+    loadGroup(qset, general);
+    loadGroup(qset, hidden);
+    loadGroup(qset, scintilla);
 	return true;
 }
 
 
-bool CfgAppSettings::saveConfiguration()
+bool AppSettings::saveConfiguration()
 {
     QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "appconfig");
 
     if (!qset.isWritable())
         return false;
 
-    saveGroup(qset, &general);
-    saveGroup(qset, &hidden);
-    saveGroup(qset, &scintilla);
+    saveGroup(qset, general);
+    saveGroup(qset, hidden);
+    saveGroup(qset, scintilla);
 	return true;
 }
 
-void CfgAppSettings::copy(CfgAppSettings *to, const CfgAppSettings *from)
+void AppSettings::copy(AppSettings *to, const AppSettings *from)
 {
-    copyGroup(&to->general,   &from->general);
-    copyGroup(&to->hidden,    &from->hidden);
-    copyGroup(&to->scintilla, &from->scintilla);
+    copyGroup(to->general,   from->general);
+    copyGroup(to->hidden,    from->hidden);
+    copyGroup(to->scintilla, from->scintilla);
 }
 
 
-void CfgAppSettings::createConfigurationBackup()
+void AppSettings::createConfigurationBackup()
 {
     if(m_backup)
         delete m_backup;
-    m_backup = new CfgAppSettings();
+    m_backup = new AppSettings();
     copy(m_backup, s_appconfig);
 }
 
-void CfgAppSettings::restoreConfigurationBackup()
+void AppSettings::restoreConfigurationBackup()
 {
     if(m_backup) {
         copy(s_appconfig, m_backup);
@@ -79,7 +96,7 @@ void CfgAppSettings::restoreConfigurationBackup()
     }
 }
 
-void CfgAppSettings::dropConfigurationBackup()
+void AppSettings::dropConfigurationBackup()
 {
     if(m_backup) {
         delete m_backup;

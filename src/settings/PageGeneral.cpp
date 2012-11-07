@@ -4,7 +4,7 @@
 
 using namespace Wolverine::Settings;
 
-PageGeneral::PageGeneral(CfgAppSettings *settings, QWidget *parent) :
+PageGeneral::PageGeneral(AppSettings *settings, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PageGeneral)
 {

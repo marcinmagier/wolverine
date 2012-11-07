@@ -5,7 +5,7 @@
 #include <QMainWindow>
 
 
-class CfgAppSettings;
+class AppSettings;
 class QtActionManager;
 
 
@@ -27,7 +27,7 @@ public:
 private:
     void createMenusAndToolbars();
 
-    CfgAppSettings *m_settings;
+    AppSettings *m_settings;
     DlgSettings *m_settingsDialog;
     QtActionManager *m_actionManager;
 

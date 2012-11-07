@@ -13,7 +13,7 @@ using namespace Wolverine;
 
 
 
-DlgSettings::DlgSettings(CfgAppSettings *settings, QWidget *parent) :
+DlgSettings::DlgSettings(AppSettings *settings, QWidget *parent) :
     QtDialogSettings(settings, parent), m_settings(settings)
 {
     this->setWindowTitle(tr("Wolverine Settings"));
