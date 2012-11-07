@@ -2,11 +2,16 @@
 #ifndef __W_MAIN_WINDOW_H__
  #define __W_MAIN_WINDOW_H__
 
-#include <QMainWindow>
-
-
 class AppSettings;
-class QtActionManager;
+class QtManagedToolBar;
+
+class QString;
+class QMenu;
+
+#include <QMainWindow>
+#include <QHash>
+
+
 
 
 namespace Wolverine
@@ -29,7 +34,8 @@ private:
 
     AppSettings *m_settings;
     DlgSettings *m_settingsDialog;
-    QtActionManager *m_actionManager;
+    QHash<QString, QMenu*> m_menus;
+    QHash<QString, QtManagedToolBar* > m_toolbars;
 
 };
 
