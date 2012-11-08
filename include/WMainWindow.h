@@ -4,6 +4,7 @@
 
 class AppSettings;
 class QtManagedToolBar;
+class QsciScintilla;
 
 class QString;
 class QMenu;
@@ -37,6 +38,8 @@ private:
     QHash<QString, QMenu*> m_menus;
     QHash<QString, QtManagedToolBar* > m_toolbars;
 
+
+    QsciScintilla *editor;
 };
 
 

@@ -6,6 +6,8 @@
 #include "CfgAppSettings.h"
 #include "DlgSettings.h"
 
+#include "Qsci/qsciscintilla.h"
+
 #include <QMenu>
 #include <QMenuBar>
 
@@ -23,6 +25,9 @@ MainWindow::MainWindow(QWidget *parent) :
     this->move(m_settings->hidden->getMWPosition());
 
     createMenusAndToolbars();
+
+    editor = new QsciScintilla();
+    setCentralWidget(editor);
 }
 
 MainWindow::~MainWindow()
