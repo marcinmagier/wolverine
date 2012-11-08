@@ -1,0 +1,106 @@
+
+Menu:
+File	Edit	View	Search		Encoding	Language	Tools	Plugins		Help
+
+File:
+	New
+	Open...
+	Save
+	Save As...
+	Save a Copy As...
+	Save All
+	Close
+	Close All but Active Document
+	--------------------------------------------
+	Load Session...
+	Save Session...
+	--------------------------------------------
+	Print...
+	Print Now
+	--------------------------------------------
+	1: C:\file1
+	10: C:\file10
+	--------------------------------------------
+	Open All Recent Files
+	Empty Recent Files List
+	--------------------------------------------
+	Exit
+
+	
+Edit:
+	Undo
+	Redo
+	--------------------------------------------
+	Cut
+	Copy
+	Paste
+	Delete
+	Select All
+	--------------------------------------------
+
+Search:
+	Find...
+	Find in Files...
+	Find Next
+	Find Previous
+	Replace...
+	Find Characters...
+	--------------------------------------------
+	Go to...
+	Go to File...
+	Go to Maching Brace
+	
+	
+
+View:
+	Docks		<list of docks> show/hide dock
+	Toolbars	<list of toolbars> show/hide toolbar
+	--------------------------------------------
+	Always on Top
+	Full Screen Mode
+	--------------------------------------------
+	Zoom
+		Zoom In
+		Zoom Out
+		Zoom Default
+
+
+Tools:
+	Settings
+	Show Character Panel	(maybe as dock)
+	
+Plugins:
+	Plugin1
+	Plugin2
+	
+Help:
+	Help Contents
+	About Wolverine
+	
+	
+	
+	
+	
+	
+	Rename...
+	Reload from Disk
+	Delete from Disk
+	Read-Only	<checkmark>
+	
+	Copy to Clipboard
+	Indent
+	Convert Case to
+	Line Operations
+	Comment/Uncomment
+	Auto-Completion
+	EOL Conversion
+	Blank Operations
+	Paste Special
+	
+	Column Mode...
+	Column Editor...
+	Character Panel
+	Clipboard History
+	
+	
+	
