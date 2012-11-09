@@ -23,7 +23,8 @@ void QtManagedToolbarListbox::dropEvent(QDropEvent *event)
         QMap<int,  QVariant> roleDataMap;
         stream >> row >> col >> roleDataMap;
 
-         //roleDataMap format - QMap((0, QVariant(QString, "ItemName") ) ( 1 ,  QVariant(QIcon, ) ) )
+         // roleDataMap format is
+		 // QMap((0, QVariant(QString, "ItemName") ) ( 1 ,  QVariant(QIcon, ) ) )
         QString name = roleDataMap.value(0).toString();
         if(name.isEmpty() || name == "Separator")
             continue;
@@ -35,10 +36,11 @@ void QtManagedToolbarListbox::dropEvent(QDropEvent *event)
     }
 }
 
+// BUG:
 // Redefine mouseMoveEvent in order to prevent dragging items
-// Without this function it is possible to start dragging list item dropped before (DropOnly mode)
-// Bug in Qt??
-void QtManagedToolbarListbox::mouseMoveEvent(QMouseEvent *event)
+// Without this function it is possible to start dragging list item dropped before (DropOnly mode is set)
+// Qt v4.8.1  Windows
+void QtManagedToolbarListbox::mouseMoveEvent(QMouseEvent* /*event*/)
 {
     //no action
 }
