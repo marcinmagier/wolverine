@@ -29,7 +29,8 @@ SOURCES     += \
     ../src/settings/PageScintilla.cpp \
     ../src/settings/CfgGeneralSettings.cpp \
     ../src/settings/CfgHiddenSettings.cpp \
-    ../src/settings/CfgScintillaSettings.cpp
+    ../src/settings/CfgScintillaSettings.cpp \
+    ../src/CentralWidget.cpp
 
 HEADERS     += \
     ../include/CfgAppSettings.h \
@@ -40,7 +41,8 @@ HEADERS     += \
     ../src/settings/DlgSettings.h \
     ../src/settings/PageGeneral.h \
     ../src/settings/PageScintilla.h \
-    ../src/wolverine_cfg.h
+    ../src/wolverine_cfg.h \
+    ../include/WCentralWidget.h
 
 INCLUDEPATH += \
         ../include \

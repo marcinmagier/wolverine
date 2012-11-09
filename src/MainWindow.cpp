@@ -1,12 +1,12 @@
 
 #include "WMainWindow.h"
+#include "WCentralWidget.h"
 
 #include "qtactionmanager.h"
 #include "qtmanagedtoolbar.h"
 #include "CfgAppSettings.h"
 #include "DlgSettings.h"
 
-#include "Qsci/qsciscintilla.h"
 
 #include <QMenu>
 #include <QMenuBar>
@@ -26,8 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     createMenusAndToolbars();
 
-    editor = new QsciScintilla();
-    setCentralWidget(editor);
+    setCentralWidget(new CentralWidget(this));
 }
 
 MainWindow::~MainWindow()
@@ -36,6 +35,9 @@ MainWindow::~MainWindow()
     m_settings->hidden->setMWSize(this->size());
 
     delete m_settingsDialog;
+
+    //These variables are deleted by Qt
+    //CentralWidget
 }
 
 void MainWindow::createMenusAndToolbars()
