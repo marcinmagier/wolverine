@@ -1,3 +1,4 @@
+
 #ifndef __W_CENTRAL_WIDGET_H_
  #define __W_CENTRAL_WIDGET_H_
 
@@ -12,6 +13,8 @@ class QsciScintilla;
 
 namespace Wolverine
 {
+
+class Document;
 
 
 
@@ -29,7 +32,7 @@ private:
     QTabWidget *panelLeft;
     QTabWidget *panelRight;
 
-    QsciScintilla *editor;
+    Document *editor;
 };
 
 

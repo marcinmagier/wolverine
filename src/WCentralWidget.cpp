@@ -1,12 +1,10 @@
 
 #include "WCentralWidget.h"
+#include "WDocument.h"
 
 #include <QHBoxLayout>
 #include <QSplitter>
 #include <QTabWidget>
-
-
-#include "Qsci/qsciscintilla.h"
 
 
 
@@ -28,7 +26,7 @@ CentralWidget::CentralWidget(QWidget *parent):
     splitter->addWidget(panelRight);
     layout->addWidget(splitter);
 
-    editor = new QsciScintilla();
+    editor = new Document();
     panelLeft->addTab(editor, "New");
 }
 

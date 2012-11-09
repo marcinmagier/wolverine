@@ -23,14 +23,15 @@ include(../extlib/qtscintilla/qtscintilla.pri)
 SOURCES     += \
         ../src/main.cpp \
     ../src/settings/CfgAppSettings.cpp \
-    ../src/MainWindow.cpp \
     ../src/settings/DlgSettings.cpp \
     ../src/settings/PageGeneral.cpp \
     ../src/settings/PageScintilla.cpp \
     ../src/settings/CfgGeneralSettings.cpp \
     ../src/settings/CfgHiddenSettings.cpp \
     ../src/settings/CfgScintillaSettings.cpp \
-    ../src/CentralWidget.cpp
+    ../src/WCentralWidget.cpp \
+    ../src/WDocument.cpp \
+    ../src/WMainWindow.cpp
 
 HEADERS     += \
     ../include/CfgAppSettings.h \
@@ -42,7 +43,8 @@ HEADERS     += \
     ../src/settings/PageGeneral.h \
     ../src/settings/PageScintilla.h \
     ../src/wolverine_cfg.h \
-    ../include/WCentralWidget.h
+    ../include/WCentralWidget.h \
+    ../include/WDocument.h
 
 INCLUDEPATH += \
         ../include \
