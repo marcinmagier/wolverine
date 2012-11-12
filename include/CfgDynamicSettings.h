@@ -6,7 +6,7 @@
 #include <QString>
 
 
-class TempSettings : public QObject
+class DynamicSettings : public QObject
 {
     Q_OBJECT
 
@@ -16,7 +16,7 @@ class TempSettings : public QObject
 
 
 public:
-    explicit TempSettings();
+    explicit DynamicSettings();
 
     QString getInstalDir() {return mInstalDir;}
     QString getDataDir() {return mDataDir;}

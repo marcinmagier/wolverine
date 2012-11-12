@@ -9,7 +9,7 @@
 
 
 static AppSettings* s_appconfig = 0;
-const QString AppSettings::sConfigFile = "appconfig";
+const QString AppSettings::sConfigFileName = "appconfig";
 
 static void cleanupAppSettings()
 {
@@ -20,12 +20,12 @@ static void cleanupAppSettings()
 
 AppSettings::AppSettings()
 {
-    m_backup = 0;
+    mBackup = 0;
 
+    dynamic = new DynamicSettings();
     general = new GeneralSettings();
     hidden = new HiddenSettings();
     scintilla = new ScintillaSettings();
-    temp = new TempSettings();
 
     loadConfiguration();
     qAddPostRoutine(cleanupAppSettings);
@@ -51,7 +51,7 @@ AppSettings* AppSettings::instance()
 
 bool AppSettings::loadConfiguration()
 {
-    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), sConfigFile);
+    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), sConfigFileName);
 
     loadGroup(qset, general);
     loadGroup(qset, hidden);
@@ -62,7 +62,7 @@ bool AppSettings::loadConfiguration()
 
 bool AppSettings::saveConfiguration()
 {
-    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), sConfigFile);
+    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), sConfigFileName);
 
     if (!qset.isWritable())
         return false;
@@ -83,26 +83,26 @@ void AppSettings::copy(AppSettings *to, const AppSettings *from)
 
 void AppSettings::createConfigurationBackup()
 {
-    if(m_backup)
-        delete m_backup;
-    m_backup = new AppSettings();
-    copy(m_backup, s_appconfig);
+    if(mBackup)
+        delete mBackup;
+    mBackup = new AppSettings();
+    copy(mBackup, s_appconfig);
 }
 
 void AppSettings::restoreConfigurationBackup()
 {
-    if(m_backup) {
-        copy(s_appconfig, m_backup);
-        delete m_backup;
-        m_backup = 0;
+    if(mBackup) {
+        copy(s_appconfig, mBackup);
+        delete mBackup;
+        mBackup = 0;
     }
 }
 
 void AppSettings::dropConfigurationBackup()
 {
-    if(m_backup) {
-        delete m_backup;
-        m_backup = 0;
+    if(mBackup) {
+        delete mBackup;
+        mBackup = 0;
     }
 }
 

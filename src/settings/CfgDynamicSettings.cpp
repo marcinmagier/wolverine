@@ -1,5 +1,5 @@
 
-#include "CfgTempSettings.h"
+#include "CfgDynamicSettings.h"
 #include "CfgAppSettings.h"
 #include "Logger.h"
 
@@ -9,11 +9,11 @@
 #include <QSettings>
 
 
-TempSettings::TempSettings()
+DynamicSettings::DynamicSettings()
 {
     mInstalDir = qApp->applicationDirPath();
 
-    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), AppSettings::sConfigFile);
+    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), AppSettings::sConfigFileName);
     QFileInfo finfo(qset.fileName());
     mDataDir = finfo.absoluteDir().absolutePath();
 }
