@@ -5,7 +5,7 @@
 #include "qtdialogsettings.h"
 
 class AppSettings;
-class QtActionManager;
+
 
 
 namespace Wolverine {
@@ -24,7 +24,7 @@ public slots:
 
 private:
     AppSettings *m_settings;
-    QtActionManager *m_actionManager;
+    bool mInitialized;
 };
 
 

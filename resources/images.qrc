@@ -9,5 +9,7 @@
         <file alias="find.png">images/find.png</file>
         <file alias="open.png">images/open.png</file>
         <file alias="save_all.png">images/save_all.png</file>
+        <file alias="redo.png">images/redo.png</file>
+        <file alias="undo.png">images/undo.png</file>
     </qresource>
 </RCC>

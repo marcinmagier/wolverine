@@ -2,6 +2,8 @@
 INCLUDEPATH += $$PWD/include $$PWD/lexlib $$PWD/src $$PWD/Qt4Qt5
 DEPENDPATH += $$PWD
 
+CONFIG +=exceptions
+
 QTSCINTILLA_LIBNAME = qtscintilla
 QTSCINTILLA_LIBDIR = $$PWD/bin
 

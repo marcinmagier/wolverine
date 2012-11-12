@@ -19,23 +19,24 @@ DlgSettings::DlgSettings(AppSettings *settings, QWidget *parent) :
     this->setWindowTitle(tr("Wolverine Settings"));
     this->setWindowIcon(QIcon(":/settings.png"));
 
-    m_actionManager = QtActionManager::instance();
+    mInitialized = false;
 }
 
 void DlgSettings::showDialog()
 {
-    Settings::PageGeneral *general = new Settings::PageGeneral(m_settings, this);
-    addSettingsPage(tr("General"), general);
+     // All pages are deleted when this dialog is.
+    if(!mInitialized) {
+        mInitialized = true;
 
-    Settings::PageScintilla *scintilla = new Settings::PageScintilla(m_settings, this);
-    addSettingsPage(tr("Scintilla"), scintilla);
+        Settings::PageGeneral *general = new Settings::PageGeneral(m_settings, this);
+        addSettingsPage(tr("General"), general);
 
-    QWidget *actionManagerWidget = m_actionManager->getActionManagerWidget(this);
-    addSettingsPage(tr("Key Binding"), actionManagerWidget);
+        Settings::PageScintilla *scintilla = new Settings::PageScintilla(m_settings, this);
+        addSettingsPage(tr("Scintilla"), scintilla);
+
+        QWidget *actionManagerWidget = QtActionManager::instance()->getActionManagerWidget(this);
+        addSettingsPage(tr("Key Binding"), actionManagerWidget);
+    }
 
     exec();
-
-    delete general;
-    delete scintilla;
-    delete actionManagerWidget;
 }
