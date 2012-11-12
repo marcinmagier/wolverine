@@ -57,3 +57,6 @@ FORMS += \
     ../src/settings/PageGeneral.ui \
     ../src/settings/PageScintilla.ui
 
+TRANSLATIONS += \
+    ../translations/wolverine_pl.ts
+
