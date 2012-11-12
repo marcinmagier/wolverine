@@ -4,10 +4,11 @@
 
 #include "qtconfig.h"
 
-#include "CfgDynamicSettings.h"
-#include "CfgGeneralSettings.h"
-#include "CfgHiddenSettings.h"
-#include "CfgScintillaSettings.h"
+class QString;
+class DynamicSettings;
+class GeneralSettings;
+class HiddenSettings;
+class ScintillaSettings;
 
 
 
@@ -39,7 +40,6 @@ private:
     static const QString sConfigFileName;
     AppSettings *mBackup;
 
-    friend class DynamicSettings;
 };
 
 #endif //__CFG_APP_SETTINGS_H_

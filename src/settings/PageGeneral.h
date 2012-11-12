@@ -2,7 +2,8 @@
 #ifndef __PAGE_GENERAL_H_
  #define __PAGE_GENERAL_H_
 
-#include "CfgAppSettings.h"
+
+class AppSettings;
 
 #include <QWidget>
 

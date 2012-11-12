@@ -1,9 +1,13 @@
 
 #include "CfgGeneralSettings.h"
 
+#include <QLocale>
+
+
+
 GeneralSettings::GeneralSettings()
 {
-    mLanguage = "";
+    mLanguage = QLocale::system().name();
 
     mLogLevel = "Info";
     mLogFilePath = "Wolverine.log";

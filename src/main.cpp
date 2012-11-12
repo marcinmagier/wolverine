@@ -1,6 +1,7 @@
 
 #include "wolverine_cfg.h"
 #include "CfgAppSettings.h"
+#include "CfgGeneralSettings.h"
 #include "WMainWindow.h"
 
 #include "Logger.h"

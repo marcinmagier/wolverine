@@ -1,5 +1,9 @@
 
 #include "CfgAppSettings.h"
+#include "CfgDynamicSettings.h"
+#include "CfgGeneralSettings.h"
+#include "CfgHiddenSettings.h"
+#include "CfgScintillaSettings.h"
 
 #include <QApplication>
 #include <QMetaObject>
@@ -105,4 +109,5 @@ void AppSettings::dropConfigurationBackup()
         mBackup = 0;
     }
 }
+
 
