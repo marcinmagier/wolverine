@@ -7,6 +7,7 @@
 #include "CfgGeneralSettings.h"
 #include "CfgHiddenSettings.h"
 #include "CfgScintillaSettings.h"
+#include "CfgTempSettings.h"
 
 
 class AppSettings : public QtConfig
@@ -16,6 +17,7 @@ public:
     GeneralSettings *general;
     HiddenSettings *hidden;
     ScintillaSettings *scintilla;
+    TempSettings *temp;
 
 
     virtual ~AppSettings();
@@ -33,8 +35,10 @@ private:
 
     void copy(AppSettings *to, const AppSettings *from);
 
-
+    static const QString sConfigFile;
     AppSettings *m_backup;
+
+    friend class TempSettings;
 };
 
 #endif //__CFG_APP_SETTINGS_H_

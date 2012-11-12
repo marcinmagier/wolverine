@@ -9,6 +9,7 @@
 
 
 static AppSettings* s_appconfig = 0;
+const QString AppSettings::sConfigFile = "appconfig";
 
 static void cleanupAppSettings()
 {
@@ -24,6 +25,7 @@ AppSettings::AppSettings()
     general = new GeneralSettings();
     hidden = new HiddenSettings();
     scintilla = new ScintillaSettings();
+    temp = new TempSettings();
 
     loadConfiguration();
     qAddPostRoutine(cleanupAppSettings);
@@ -49,7 +51,7 @@ AppSettings* AppSettings::instance()
 
 bool AppSettings::loadConfiguration()
 {
-    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "appconfig");
+    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), sConfigFile);
 
     loadGroup(qset, general);
     loadGroup(qset, hidden);
@@ -60,7 +62,7 @@ bool AppSettings::loadConfiguration()
 
 bool AppSettings::saveConfiguration()
 {
-    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "appconfig");
+    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), sConfigFile);
 
     if (!qset.isWritable())
         return false;
@@ -103,3 +105,4 @@ void AppSettings::dropConfigurationBackup()
         m_backup = 0;
     }
 }
+

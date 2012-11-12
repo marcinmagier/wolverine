@@ -30,7 +30,8 @@ SOURCES      += \
                 ../src/settings/CfgScintillaSettings.cpp \
                 ../src/WCentralWidget.cpp \
                 ../src/WDocument.cpp \
-                ../src/WMainWindow.cpp
+                ../src/WMainWindow.cpp \
+    ../src/settings/CfgTempSettings.cpp
 
 HEADERS      += \
                 ../include/CfgAppSettings.h \
@@ -43,7 +44,8 @@ HEADERS      += \
                 ../src/settings/PageScintilla.h \
                 ../src/wolverine_cfg.h \
                 ../include/WCentralWidget.h \
-                ../include/WDocument.h
+                ../include/WDocument.h \
+    ../include/CfgTempSettings.h
 
 INCLUDEPATH  += \
                 ../include \
