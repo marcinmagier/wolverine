@@ -247,8 +247,7 @@ void QsciListBoxQt::RegisterRGBAImage(int type, int, int,
 {
     QPixmap pm;
 
-    pm = QPixmap::fromImage(*reinterpret_cast<const QImage *>(pixelsImage));
-
+    pm.convertFromImage(*reinterpret_cast<const QImage *>(pixelsImage));
     xset.insert(type, pm);
 }
 

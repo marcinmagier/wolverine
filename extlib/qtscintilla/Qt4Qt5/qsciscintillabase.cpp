@@ -29,7 +29,6 @@
 #include <qclipboard.h>
 #include <qcolor.h>
 #include <qscrollbar.h>
-#include <qtextcodec.h>
 
 #include <QContextMenuEvent>
 #include <QDragEnterEvent>
@@ -84,8 +83,7 @@ static const QLatin1String mimeRectangularWin("MSDEVColumnSelect");
 static const QLatin1String mimeRectangular("text/x-qscintilla-rectangular");
 static const QLatin1String utiRectangularMac("com.scintilla.utf16-plain-text.rectangular");
 
-// FIXME: QMacPasteboardMime isn't in Qt v5-beta1.
-#if QT_VERSION >= 0x040200 && defined(Q_OS_MAC) && QT_VERSION < 0x050000
+#if QT_VERSION >= 0x040200 && defined(Q_OS_MAC)
 #include <QMacPasteboardMime>
 
 class RectangularPasteboardMime : public QMacPasteboardMime
@@ -180,8 +178,7 @@ QsciScintillaBase::QsciScintillaBase(QWidget *parent)
 
     triple_click.setSingleShot(true);
 
-// FIXME: QMacPasteboardMime isn't in Qt v5-beta1.
-#if QT_VERSION >= 0x040200 && defined(Q_OS_MAC) && QT_VERSION < 0x050000
+#if QT_VERSION >= 0x040200 && defined(Q_OS_MAC)
     RectangularPasteboardMime::initialise();
 #endif
 
@@ -411,6 +408,7 @@ void QsciScintillaBase::handleSelection()
 void QsciScintillaBase::keyPressEvent(QKeyEvent *e)
 {
     unsigned key, modifiers = 0;
+    QByteArray utf8;
 
     if (e->modifiers() & Qt::ShiftModifier)
         modifiers |= SCMOD_SHIFT;
@@ -502,7 +500,27 @@ void QsciScintillaBase::keyPressEvent(QKeyEvent *e)
         break;
 
     default:
-        key = e->key();
+        // See if the input was a single ASCII key.  If so it will be passed to
+        // KeyDownWithModifiers to allow it to be filtered.  Correct the
+        // modifiers and key for ASCII letters as Qt uses the ASCII code of
+        // uppercase letters for Key_A etc.
+        utf8 = e->text().toUtf8();
+
+        if (utf8.length() == 0)
+            key = e->key();
+        else if (utf8.length() != 1)
+            key = 0;
+        else if ((key = utf8[0]) >= 0x80)
+            key = 0;
+        else if (key >= 0x01 && key <= 0x1a)
+            key += 0x40;
+        else if (key >= 'A' && key <= 'Z')
+            modifiers |= true;
+        else if (key >= 'a' && key <= 'z')
+        {
+            key -= 0x20;
+            modifiers &= ~SCMOD_SHIFT;
+        }
     }
 
     if (key)
@@ -518,33 +536,15 @@ void QsciScintillaBase::keyPressEvent(QKeyEvent *e)
         }
     }
 
-    QString text = e->text();
-
-    if (!text.isEmpty() && text[0].isPrint())
+    // Add the text if it has a compatible size depending on what Unicode mode
+    // we are in.
+    if (utf8.length() > 0 && (sci->IsUnicodeMode() || utf8.length() == 1))
     {
-        QByteArray enc_text;
-
-        if (sci->IsUnicodeMode())
-        {
-            enc_text = text.toUtf8();
-        }
-        else
-        {
-            static QTextCodec *codec = 0;
-
-            if (!codec)
-                codec = QTextCodec::codecForName("ISO 8859-1");
-
-            enc_text = codec->fromUnicode(text);
-        }
-
-        sci->AddCharUTF(enc_text.data(), enc_text.length());
+        sci->AddCharUTF(utf8.data(), utf8.length());
         e->accept();
     }
     else
-    {
         QAbstractScrollArea::keyPressEvent(e);
-    }
 }
 
 
