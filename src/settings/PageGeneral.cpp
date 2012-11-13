@@ -2,6 +2,8 @@
 #include "PageGeneral.h"
 #include "ui_PageGeneral.h"
 
+#include "CfgAppSettings.h"
+
 using namespace Wolverine::Settings;
 
 PageGeneral::PageGeneral(AppSettings *settings, QWidget *parent) :

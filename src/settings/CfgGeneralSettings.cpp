@@ -1,34 +1,48 @@
 
 #include "CfgGeneralSettings.h"
 
+#include <QLocale>
+
+
+
 GeneralSettings::GeneralSettings()
 {
-    m_logLevel = "Info";
-    m_logFilePath = "Wolverine.log";
-    m_logFileEnabled = true;
-    m_logConsoleEnabled = true;
+    mLanguage = QLocale::system().name();
+
+    mLogLevel = "Info";
+    mLogFilePath = "Wolverine.log";
+    mLogFileEnabled = true;
+    mLogConsoleEnabled = true;
 }
 
 
-void GeneralSettings::setLogLevel(QString val) {
-    if(m_logLevel != val)
-        m_logLevel = val;
+void GeneralSettings::setLanguage(QString val)
+{
+    if(mLanguage != val) {
+        mLanguage = val;
+        emit languageChanged(mLanguage);
+    }
+}
+
+
+void GeneralSettings::setLogLevel(QString val)
+{
+    mLogLevel = val;
 }
 
 void GeneralSettings::setLogFilePath(QString val)
 {
-    if(m_logFilePath != val)
-        m_logFilePath = val;
+    mLogFilePath = val;
 }
 
-void GeneralSettings::setLogFileEnabled(bool val) {
-    if(m_logFileEnabled != val)
-        m_logFileEnabled = val;
+void GeneralSettings::setLogFileEnabled(bool val)
+{
+    mLogFileEnabled = val;
 }
 
-void GeneralSettings::setLogConsoleEnabled(bool val) {
-    if(m_logConsoleEnabled != val)
-        m_logConsoleEnabled = val;
+void GeneralSettings::setLogConsoleEnabled(bool val)
+{
+    mLogConsoleEnabled = val;
 }
 
 

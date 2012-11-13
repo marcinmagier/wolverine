@@ -2,6 +2,11 @@
 #include "PageScintilla.h"
 #include "ui_PageScintilla.h"
 
+#include "CfgAppSettings.h"
+#include "CfgScintillaSettings.h"
+
+
+
 using namespace Wolverine::Settings;
 
 PageScintilla::PageScintilla(AppSettings *settings, QWidget *parent) :

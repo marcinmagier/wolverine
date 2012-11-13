@@ -23,7 +23,7 @@ public slots:
     void showDialog();
 
 private:
-    AppSettings *m_settings;
+    AppSettings *mSettings;
     bool mInitialized;
 };
 

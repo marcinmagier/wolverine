@@ -5,6 +5,7 @@
 #include "qtactionmanager.h"
 #include "qtmanagedtoolbar.h"
 #include "CfgAppSettings.h"
+#include "CfgHiddenSettings.h"
 #include "DlgSettings.h"
 
 
