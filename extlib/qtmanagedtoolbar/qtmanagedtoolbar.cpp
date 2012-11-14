@@ -35,86 +35,43 @@ QtManagedToolBar::QtManagedToolBar(QWidget *parent, const QString &toolbarName) 
 
 void QtManagedToolBar::init(const QString &name)
 {
-    m_toolbarName = name;
-    m_actionsAvailable.clear();
-    m_isManagerEnabled = true;
+    mToolbarName = name;
+    mActionsAvailable.clear();
+    mIsManagerEnabled = true;
 }
 
 
 
 
-void QtManagedToolBar::addAction(QAction *action)
+void QtManagedToolBar::addAction(const QString &name, QAction *action)
 {
-    addActionAvailable(action);
+    addActionAvailable(name, action);
     QToolBar::addAction(action);
 }
 
-QAction* QtManagedToolBar::addAction(const QString &text)
-{
-    QAction *tmp = QToolBar::addAction(text);
-    addActionAvailable(tmp);
-    return tmp;
-}
-
-QAction* QtManagedToolBar::addAction(const QIcon &icon, const QString &text)
-{
-    QAction *tmp = QToolBar::addAction(icon, text);
-    addActionAvailable(tmp);
-    return tmp;
-}
-
-QAction* QtManagedToolBar::addAction(const QString &text, const QObject *receiver, const char* member)
-{
-    QAction *tmp = QToolBar::addAction(text, receiver, member);
-    addActionAvailable(tmp);
-    return tmp;
-}
-
-QAction* QtManagedToolBar::addAction(const QIcon &icon, const QString &text, const QObject *receiver, const char* member)
-{
-    QAction *tmp = QToolBar::addAction(icon, text, receiver, member);
-    addActionAvailable(tmp);
-    return tmp;
-}
-
-
-QAction* QtManagedToolBar::addWidget(QWidget *widget)
+QAction* QtManagedToolBar::addWidget(const QString &name, QWidget *widget)
 {
     QAction *tmp = QToolBar::addWidget(widget);
-    addActionAvailable(tmp);
+    addActionAvailable(name, tmp);
     return tmp;
-}
-
-QAction* QtManagedToolBar::insertWidget(QAction *before, QWidget *widget)
-{
-    QAction *tmp = QToolBar::insertWidget(before, widget);
-    addActionAvailable(tmp);
-    return tmp;
-}
-
-
-void QtManagedToolBar::addActions(QList<QAction*> actions)
-{
-    addActionsAvailable(actions);
-    QWidget::addActions(actions);
-}
-
-void QtManagedToolBar::insertAction(QAction *before, QAction *action)
-{
-    addActionAvailable(action);
-    QWidget::insertAction(before, action);
-}
-
-void QtManagedToolBar::insertActions(QAction *before, QList<QAction*> actions)
-{
-    addActionsAvailable(actions);
-    QWidget::insertActions(before, actions);
 }
 
 void QtManagedToolBar::removeAction(QAction *action)
 {
-    m_actionsAvailable.removeAll(action);
-    QWidget::removeAction(action);
+    QString key = mActionsAvailable.key(action);
+    if(!key.isEmpty()) {
+        mActionsAvailable.remove(key);
+        QToolBar::removeAction(action);
+    }
+}
+
+void QtManagedToolBar::removeAction(const QString &name)
+{
+    if(mActionsAvailable.contains(name)) {
+        QAction *action = mActionsAvailable[name];
+        mActionsAvailable.remove(name);
+        QToolBar::removeAction(action);
+    }
 }
 
 
@@ -123,7 +80,7 @@ void QtManagedToolBar::removeAction(QAction *action)
 
 void QtManagedToolBar::contextMenuEvent(QContextMenuEvent *event)
 {
-    if(m_isManagerEnabled) {
+    if(mIsManagerEnabled) {
         QMenu *contextMenu = new QMenu(this);
         QAction *action = contextMenu->addAction(tr("Customize"));
         action->setIcon(QIcon(QT_MANAGEDTOOLBAR_ICON_CUSTOMIZE));
@@ -132,12 +89,13 @@ void QtManagedToolBar::contextMenuEvent(QContextMenuEvent *event)
         contextMenu->exec(event->globalPos());
 
         delete contextMenu;
+        //check if action is deleted
     }
 }
 
 void QtManagedToolBar::showContextMenu(QContextMenuEvent *event, QMenu *menu)
 {
-	if(m_isManagerEnabled) {
+	if(mIsManagerEnabled) {
 		QAction *action = menu->addAction(tr("Customize"));
 		action->setIcon(QIcon(QT_MANAGEDTOOLBAR_ICON_CUSTOMIZE));
 		connect(action, SIGNAL(triggered()), this, SLOT(showManagerDialog()));
@@ -151,7 +109,8 @@ void QtManagedToolBar::showContextMenu(QContextMenuEvent *event, QMenu *menu)
 void QtManagedToolBar::showManagerDialog()
 {
     QtManagedToolBarDialog dlg(this);
-    dlg.actionsAvailable = &m_actionsAvailable;
+    QList<QAction*> tmpActionsAvailable = mActionsAvailable.values();
+    dlg.actionsAvailable = &tmpActionsAvailable;
     QStringList tmpActionsVisible = createConfiguration();
     dlg.actionsVisible = &tmpActionsVisible;
 
@@ -176,14 +135,14 @@ void QtManagedToolBar::saveConfig(const QStringList &actionList)
     if (!qset.isWritable())
         return;
 
-    qset.setValue(m_toolbarName, QVariant::fromValue(actionList));
+    qset.setValue(mToolbarName, QVariant::fromValue(actionList));
 }
 
 void QtManagedToolBar::restoreConfig()
 {
 
     QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "toolbars");
-    QVariant var = qset.value(m_toolbarName);
+    QVariant var = qset.value(mToolbarName);
     QStringList list = var.toStringList();
 
     applyConfiguration(list);
@@ -192,31 +151,16 @@ void QtManagedToolBar::restoreConfig()
 
 
 
-void QtManagedToolBar::addActionAvailable(QAction *action)
+void QtManagedToolBar::addActionAvailable(const QString &name, QAction *action)
 {
     if(action->text().isEmpty())
         action->setText( defItemName + QString::number(defItemCount++) );
-    m_actionsAvailable.append(action);
+    mActionsAvailable[name] = action;
 }
-
-void QtManagedToolBar::addActionsAvailable(QList<QAction *> actions)
-{
-    foreach(QAction *action, actions) {
-        addActionAvailable(action);
-    }
-}
-
-
-
 
 QAction* QtManagedToolBar::getActionAvailable(const QString &name)
 {
-    foreach(QAction *action, m_actionsAvailable) {
-        if(action->text() == name)
-            return action;
-    }
-
-    return 0;
+    return mActionsAvailable[name];
 }
 
 void QtManagedToolBar::applyConfiguration(const QStringList &config)
