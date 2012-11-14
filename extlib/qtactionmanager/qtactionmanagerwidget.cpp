@@ -218,7 +218,7 @@ void QtActionManagerWidget::updateUI()
             QAction *action = qtactions[i]->action;
             QKeySequence shortcut = qtactions[i]->shortcut(scheme);
             QStringList row;
-            row << action->text() << shortcut << category;
+            row << action->text() << shortcut.toString() << category;
             QTreeWidgetItem *item = new QTreeWidgetItem(row);
             item->setIcon(0, action->icon());
             ui->treeActions->addTopLevelItem(item);

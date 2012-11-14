@@ -3,6 +3,7 @@
 #include <QDropEvent>
 #include <QDebug>
 #include <QByteArray>
+#include <QMimeData>
 
 
 QtManagedToolbarListbox::QtManagedToolbarListbox(QWidget *parent) :
