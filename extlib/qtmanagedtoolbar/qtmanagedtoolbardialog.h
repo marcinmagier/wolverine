@@ -2,6 +2,9 @@
 #ifndef __QT_MANAGED_TOOLBAR_DIALOG_H_
  #define __QT_MANAGED_TOOLBAR_DIALOG_H_
 
+class QAction;
+class QString;
+class QStringList;
 class QListWidgetItem;
 
 #include <QMap>
@@ -10,6 +13,10 @@ class QListWidgetItem;
 namespace Ui {
 class QtManagedToolBarDialog;
 }
+
+
+typedef QMap<QString, QAction*> QtActionNameMap;
+
 
 class QtManagedToolBarDialog : public QDialog
 {
@@ -20,10 +27,7 @@ public:
     explicit QtManagedToolBarDialog(QWidget *parent = 0);
     ~QtManagedToolBarDialog();
 
-    int exec();
-
-    QMap<QString, QAction*> *actionsAvailable;
-    QStringList *actionsVisible;
+    int exec(const QtActionNameMap *actionsAvailable, QStringList *actionsVisible);
 
 
 private slots:
@@ -36,11 +40,8 @@ private slots:
 
 
 private:
-    bool isActionVisible(QAction *action);
-    void fillActionsAvailable();
-    void fillActionsVisible();
-    QListWidgetItem* findActionAvailable(QString name);
-    void setActionAvailableHidden(QString name, bool visible);
+    void fillActionsAvailable(const QtActionNameMap *actionsAvailable, const QStringList *actionsVisible);
+    void fillActionsVisible(const QStringList *actionsVisible);
 
     QMap<QListWidgetItem*, QString> mActionsAvailableMap;
     QMap<QListWidgetItem*, QString> mActionsVisibleMap;
