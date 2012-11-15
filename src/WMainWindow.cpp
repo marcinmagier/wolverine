@@ -60,7 +60,7 @@ void MainWindow::createMenusAndToolbars()
     toolbar->addAction("New", action);
     actionManager->addAction("File", action);
 
-    action = new QAction(QIcon(":/open.png"), tr("Open..."), this);
+/*    action = new QAction(QIcon(":/open.png"), tr("Open..."), this);
     action->setShortcut(tr("Ctrl+O"));
     //connect
     menu->addAction(action);
@@ -89,7 +89,7 @@ void MainWindow::createMenusAndToolbars()
     menu->addAction(action);
     toolbar->addAction("Save All", action);
     actionManager->addAction("File", action);
-
+*/
     m_menus["File"] = menu;
 
 
@@ -102,7 +102,7 @@ void MainWindow::createMenusAndToolbars()
     menu->addAction(action);
     toolbar->addAction("Undo", action);
     actionManager->addAction("Edit", action);
-
+/*
     action = new QAction(QIcon(":/redo.png"), tr("Redo"), this);
     action->setShortcut(tr("Ctrl+Y"));
     //connect
@@ -132,7 +132,7 @@ void MainWindow::createMenusAndToolbars()
     menu->addAction(action);
     toolbar->addAction("Paste", action);
     actionManager->addAction("Edit", action);
-
+*/
     m_menus["Edit"] = menu;
 
 

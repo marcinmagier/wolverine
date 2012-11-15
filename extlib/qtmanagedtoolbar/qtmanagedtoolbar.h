@@ -60,8 +60,6 @@ private:
     void init(const QString &name);
 
     void addActionAvailable(const QString &name, QAction *action);
-    QAction* getActionAvailable(const QString &name);
-
     void applyConfiguration(const QStringList &config);
     QStringList createConfiguration();
 

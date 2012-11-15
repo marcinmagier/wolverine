@@ -46,7 +46,10 @@ int QtManagedToolBarDialog::exec()
         actionsVisible->clear();
         for(int i=0; i<ui->listVisible->count(); ++i) {
             QListWidgetItem *item = ui->listVisible->item(i);
-            actionsVisible->append(item->text());
+            if(item->text() == "Separator")
+                actionsVisible->append("Separator");
+            else
+                actionsVisible->append(mActionsVisibleMap[item]);
         }
     }
     return retVal;
@@ -55,55 +58,59 @@ int QtManagedToolBarDialog::exec()
 
 bool QtManagedToolBarDialog::isActionVisible(QAction *action)
 {
-    for (int i=0; i<actionsVisible->size(); ++i) {
-        if (actionsVisible->at(i) == action->text())
-           return true;
-    }
+    QString name = actionsAvailable->key(action);
+    if(actionsVisible->contains(name))
+        return true;
     return false;
 }
 
 void QtManagedToolBarDialog::fillActionsAvailable()
 {
+    mActionsAvailableMap.clear();
+
     //We need to have possibility to add separators
     ui->listAvailable->addItem("Separator");
 
-    foreach( QAction *action, *actionsAvailable) {
+    foreach( QString name, actionsAvailable->keys()) {
+        QAction *action = actionsAvailable->value(name);
         QListWidgetItem *item = new QListWidgetItem(ui->listAvailable);
         item->setText(action->text());
         QIcon icon = action->icon();
         if(icon.isNull())
+             // We assume that action without icon is a widget
             item->setIcon(QIcon(QT_MANAGEDTOOLBAR_ICON_WIDGET));
         else
             item->setIcon(icon);
         if (isActionVisible(action))
             item->setHidden(true);
+
+        mActionsAvailableMap[item] = name;
     }
 }
 
 void QtManagedToolBarDialog::fillActionsVisible()
 {
-    foreach(QString action, *actionsVisible) {
-        if(action == "Separator") {
+    mActionsVisibleMap.clear();
+
+    foreach(QString name, *actionsVisible) {
+        if(name == "Separator") {
             ui->listVisible->addItem("Separator");
             continue;
         }
         QListWidgetItem *itemVisible = new QListWidgetItem(ui->listVisible);
-        itemVisible->setText(action);
-        QListWidgetItem *itemAvailable = findActionAvailable(action);
-        if (itemAvailable)
+        QListWidgetItem *itemAvailable = findActionAvailable(name);
+        if (itemAvailable) {
+            itemVisible->setText(itemAvailable->text());
             itemVisible->setIcon(itemAvailable->icon());
+        }
+        mActionsVisibleMap[itemVisible] = name;
     }
 }
 
 
 QListWidgetItem* QtManagedToolBarDialog::findActionAvailable(QString name)
 {
-    for (int i=0; i< ui->listAvailable->count(); i++) {
-        QListWidgetItem *item = ui->listAvailable->item(i);
-        if (item->text() == name)
-            return item;
-    }
-    return 0;
+    return mActionsAvailableMap.key(name);
 }
 
 void QtManagedToolBarDialog::setActionAvailableHidden(QString name, bool hidden)
@@ -122,8 +129,10 @@ void QtManagedToolBarDialog::moveActionToLeft() {
 }
 
 void QtManagedToolBarDialog::moveActionToLeft(QListWidgetItem *item) {
-    if(item->text() != "Separator")
-        setActionAvailableHidden(item->text(), false);
+    if(item->text() != "Separator") {
+        setActionAvailableHidden(mActionsVisibleMap[item], false);
+        mActionsVisibleMap.remove(item);
+    }
     delete item;
 }
 
@@ -134,15 +143,25 @@ void QtManagedToolBarDialog::moveActionToRight() {
 }
 
 void QtManagedToolBarDialog::moveActionToRight(QListWidgetItem *item) {
-    if(item->text() != "Separator")
+    bool isSeparator = true;
+
+    if(item->text() != "Separator") {
         item->setHidden(true);
+        isSeparator = false;
+    }
     int row = ui->listVisible->currentRow() + 1; //put new item after item selected
     if(row == 0)
         row = ui->listVisible->count(); //no item selected on listVisible
     ui->listVisible->insertItem(row, item->text());
+
     QListWidgetItem *newItem = ui->listVisible->item(row);
     newItem->setIcon(item->icon());
     ui->listVisible->setCurrentRow(row);
+
+    if(!isSeparator) {
+        QString name = mActionsAvailableMap[item];
+        mActionsVisibleMap[newItem] = name;
+    }
 }
 
 void QtManagedToolBarDialog::moveActionUp() {

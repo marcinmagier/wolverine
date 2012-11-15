@@ -109,8 +109,7 @@ void QtManagedToolBar::showContextMenu(QContextMenuEvent *event, QMenu *menu)
 void QtManagedToolBar::showManagerDialog()
 {
     QtManagedToolBarDialog dlg(this);
-    QList<QAction*> tmpActionsAvailable = mActionsAvailable.values();
-    dlg.actionsAvailable = &tmpActionsAvailable;
+    dlg.actionsAvailable = &mActionsAvailable;
     QStringList tmpActionsVisible = createConfiguration();
     dlg.actionsVisible = &tmpActionsVisible;
 
@@ -158,26 +157,19 @@ void QtManagedToolBar::addActionAvailable(const QString &name, QAction *action)
     mActionsAvailable[name] = action;
 }
 
-QAction* QtManagedToolBar::getActionAvailable(const QString &name)
-{
-    return mActionsAvailable[name];
-}
-
 void QtManagedToolBar::applyConfiguration(const QStringList &config)
 {
     if(config.size() == 0)
         return;
 
     clear();
-    foreach(QString item, config) {
-        if(item == "Separator") {
+    foreach(QString name, config) {
+        if(name == "Separator") {
             QToolBar::addSeparator();
             continue;
         }
-        QAction *action = getActionAvailable(item);
-        if(action)
-             //Don't add action to m_actionsAvailable
-            QToolBar::addAction(action);
+        if(mActionsAvailable.contains(name))
+            QToolBar::addAction(mActionsAvailable[name]);
     }
 }
 
@@ -191,7 +183,9 @@ QStringList QtManagedToolBar::createConfiguration()
             list.append("Separator");
             continue;
         }
-        list.append(action->text());
+        QString name = mActionsAvailable.key(action);
+        if(!name.isEmpty())
+            list.append(name);
     }
     return list;
 }
