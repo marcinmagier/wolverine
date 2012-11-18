@@ -18,6 +18,7 @@ class QMenu;
 namespace Wolverine
 {
 
+class ActionManager;
 class DlgSettings;
 
 
@@ -32,6 +33,7 @@ public:
 
 private:
     void createMenusAndToolbars();
+
 
     AppSettings *m_settings;
     DlgSettings *m_settingsDialog;

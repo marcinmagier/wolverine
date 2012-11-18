@@ -15,12 +15,8 @@ class QtActionManager;
 
 class QtActionManager
 {
-
-private:
-    explicit QtActionManager();
-
-
 public:
+    explicit QtActionManager();
     ~QtActionManager();
 
     static QtActionManager* instance();

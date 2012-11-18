@@ -31,7 +31,8 @@ SOURCES      += \
                 ../src/WCentralWidget.cpp \
                 ../src/WDocument.cpp \
                 ../src/WMainWindow.cpp \
-    ../src/settings/CfgDynamicSettings.cpp
+    ../src/settings/CfgDynamicSettings.cpp \
+    ../src/WActionManager.cpp
 
 HEADERS      += \
                 ../include/CfgAppSettings.h \
@@ -45,7 +46,8 @@ HEADERS      += \
                 ../src/wolverine_cfg.h \
                 ../include/WCentralWidget.h \
                 ../include/WDocument.h \
-    ../include/CfgDynamicSettings.h
+    ../include/CfgDynamicSettings.h \
+    ../include/WActionManager.h
 
 INCLUDEPATH  += \
                 ../include \
