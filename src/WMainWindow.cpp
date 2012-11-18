@@ -57,14 +57,14 @@ void MainWindow::createMenusAndToolbars()
     action->setStatusTip(tr("Create a new file"));
     //connect
     menu->addAction(action);
-    toolbar->addAction(action);
+    toolbar->addAction("New", action);
     actionManager->addAction("File", action);
 
-    action = new QAction(QIcon(":/open.png"), tr("Open..."), this);
+/*    action = new QAction(QIcon(":/open.png"), tr("Open..."), this);
     action->setShortcut(tr("Ctrl+O"));
     //connect
     menu->addAction(action);
-    toolbar->addAction(action);
+    toolbar->addAction("Open", action);
     actionManager->addAction("File", action);
 
     action = new QAction(QIcon(":/save.png"), tr("Save"), this);
@@ -72,7 +72,7 @@ void MainWindow::createMenusAndToolbars()
     action->setStatusTip(tr("Save"));
     //connect
     menu->addAction(action);
-    toolbar->addAction(action);
+    toolbar->addAction("Save", action);
     actionManager->addAction("File", action);
 
     action = new QAction(tr("Save As..."), this);
@@ -87,9 +87,9 @@ void MainWindow::createMenusAndToolbars()
     action->setStatusTip(tr("Save All"));
     //connect
     menu->addAction(action);
-    toolbar->addAction(action);
+    toolbar->addAction("Save All", action);
     actionManager->addAction("File", action);
-
+*/
     m_menus["File"] = menu;
 
 
@@ -100,14 +100,14 @@ void MainWindow::createMenusAndToolbars()
     action->setShortcut(tr("Ctrl+Z"));
     //connect
     menu->addAction(action);
-    toolbar->addAction(action);
+    toolbar->addAction("Undo", action);
     actionManager->addAction("Edit", action);
-
+/*
     action = new QAction(QIcon(":/redo.png"), tr("Redo"), this);
     action->setShortcut(tr("Ctrl+Y"));
     //connect
     menu->addAction(action);
-    toolbar->addAction(action);
+    toolbar->addAction("Redo", action);
     actionManager->addAction("Edit", action);
 
     menu->addSeparator();
@@ -116,23 +116,23 @@ void MainWindow::createMenusAndToolbars()
     action->setShortcut(tr("Ctrl+X"));
     //connect
     menu->addAction(action);
-    toolbar->addAction(action);
+    toolbar->addAction("Cut", action);
     actionManager->addAction("Edit", action);
 
     action = new QAction(QIcon(":/copy.png"), tr("Copy"), this);
     action->setShortcut(tr("Ctrl+C"));
     //connect
     menu->addAction(action);
-    toolbar->addAction(action);
+    toolbar->addAction("Copy", action);
     actionManager->addAction("Edit", action);
 
     action = new QAction(QIcon(":/paste.png"), tr("Paste"), this);
     action->setShortcut(tr("Ctrl+V"));
     //connect
     menu->addAction(action);
-    toolbar->addAction(action);
+    toolbar->addAction("Paste", action);
     actionManager->addAction("Edit", action);
-
+*/
     m_menus["Edit"] = menu;
 
 
@@ -142,7 +142,7 @@ void MainWindow::createMenusAndToolbars()
     action = new QAction(QIcon(":/settings.png"), tr("Settings"), this);
     connect(action, SIGNAL(triggered()), m_settingsDialog, SLOT(showDialog()));
     menu->addAction(action);
-    toolbar->addAction(action);
+    toolbar->addAction("Settings", action);
     actionManager->addAction("Settings", action);
 
     m_menus["Tools"] = menu;

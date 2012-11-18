@@ -1,13 +1,32 @@
+/**************************************************************************************************
+**
+** Copyright (C) 2012-2013 Magier Marcin.
+**
+**
+**************************************************************************************************/
+
+
 #ifndef __QT_MANAGED_TOOLBAR_DIALOG_H_
  #define __QT_MANAGED_TOOLBAR_DIALOG_H_
 
-#include <QDialog>
 
+class QAction;
+class QString;
+class QStringList;
 class QListWidgetItem;
 
 namespace Ui {
 class QtManagedToolBarDialog;
 }
+
+#include <QMap>
+#include <QDialog>
+
+
+
+typedef QMap<QString, QAction*> QtActionNameMap;
+
+
 
 class QtManagedToolBarDialog : public QDialog
 {
@@ -18,10 +37,8 @@ public:
     explicit QtManagedToolBarDialog(QWidget *parent = 0);
     ~QtManagedToolBarDialog();
 
-    int exec();
+    int exec(const QtActionNameMap *actionsAvailable, QStringList *actionsVisible);
 
-    QList<QAction*> *actionsAvailable;
-    QStringList *actionsVisible;
 
 
 private slots:
@@ -33,13 +50,13 @@ private slots:
     void moveActionToRight(QListWidgetItem *item);
 
 
-private:
-    bool isActionVisible(QAction *action);
-    void fillActionsAvailable();
-    void fillActionsVisible();
-    QListWidgetItem* findActionAvailable(QString name);
-    void setActionAvailableHidden(QString name, bool visible);
 
+private:
+    void fillActionsAvailable(const QtActionNameMap *actionsAvailable, const QStringList *actionsVisible);
+    void fillActionsVisible(const QStringList *actionsVisible);
+
+    QMap<QListWidgetItem*, QString> mActionsAvailableMap;
+    QMap<QListWidgetItem*, QString> mActionsVisibleMap;
 
     Ui::QtManagedToolBarDialog *ui;
 };

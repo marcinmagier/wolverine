@@ -1,18 +1,28 @@
+/**************************************************************************************************
+**
+** Copyright (C) 2012-2013 Magier Marcin.
+**
+**
+**************************************************************************************************/
+
 #include "qtmanagedtoolbardialog.h"
 #include "ui_qtmanagedtoolbardialog.h"
+
 
 
 #define QT_MANAGEDTOOLBAR_ICON_WIDGET	":/qtmanagedtoolbar/widget.png"
 
 
+
+//*************************************************************************************************
+/** \brief  Default constructor.
+*
+**************************************************************************************************/
 QtManagedToolBarDialog::QtManagedToolBarDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::QtManagedToolBarDialog)
 {
     ui->setupUi(this);
-
-    actionsAvailable = 0;
-    actionsVisible = 0;
 
     connect(ui->btnUp, SIGNAL(clicked()), this, SLOT(moveActionUp()));
     connect(ui->btnDown, SIGNAL(clicked()), this, SLOT(moveActionDown()));
@@ -24,20 +34,30 @@ QtManagedToolBarDialog::QtManagedToolBarDialog(QWidget *parent) :
     this->setWindowFlags(this->windowFlags() & ~Qt::WindowContextHelpButtonHint);
 }
 
+
+//*************************************************************************************************
+/** \brief  Default destructor.
+*
+**************************************************************************************************/
 QtManagedToolBarDialog::~QtManagedToolBarDialog()
 {
     delete ui;
 }
 
-int QtManagedToolBarDialog::exec()
+
+//*************************************************************************************************
+/** \brief  Shows dialog.
+*
+**************************************************************************************************/
+int QtManagedToolBarDialog::exec(const QtActionNameMap *actionsAvailable, QStringList *actionsVisible)
 {
     if (actionsAvailable == 0)
         return QDialog::Rejected;
     if (actionsVisible == 0)
         return QDialog::Rejected;
 
-    fillActionsAvailable();
-    fillActionsVisible();
+    fillActionsAvailable(actionsAvailable, actionsVisible);
+    fillActionsVisible(actionsVisible);
 
     int retVal = QDialog::exec();
 
@@ -46,105 +66,137 @@ int QtManagedToolBarDialog::exec()
         actionsVisible->clear();
         for(int i=0; i<ui->listVisible->count(); ++i) {
             QListWidgetItem *item = ui->listVisible->item(i);
-            actionsVisible->append(item->text());
+            actionsVisible->append(mActionsVisibleMap[item]);
         }
     }
     return retVal;
 }
 
 
-bool QtManagedToolBarDialog::isActionVisible(QAction *action)
+//*************************************************************************************************
+/** \brief  Fills "available" list.
+*
+**************************************************************************************************/
+void QtManagedToolBarDialog::fillActionsAvailable(const QtActionNameMap *actionsAvailable, const QStringList *actionsVisible)
 {
-    for (int i=0; i<actionsVisible->size(); ++i) {
-        if (actionsVisible->at(i) == action->text())
-           return true;
-    }
-    return false;
-}
+    mActionsAvailableMap.clear();
 
-void QtManagedToolBarDialog::fillActionsAvailable()
-{
     //We need to have possibility to add separators
-    ui->listAvailable->addItem("Separator");
+    QListWidgetItem *item = new QListWidgetItem(ui->listAvailable);
+    item->setText(tr("Separator"));
+    mActionsAvailableMap[item] = "Separator";
 
-    foreach( QAction *action, *actionsAvailable) {
-        QListWidgetItem *item = new QListWidgetItem(ui->listAvailable);
+    foreach( QString name, actionsAvailable->keys()) {
+        QAction *action = actionsAvailable->value(name);
+        item = new QListWidgetItem(ui->listAvailable);
         item->setText(action->text());
         QIcon icon = action->icon();
         if(icon.isNull())
+             // We assume that action without icon is a widget
             item->setIcon(QIcon(QT_MANAGEDTOOLBAR_ICON_WIDGET));
         else
             item->setIcon(icon);
-        if (isActionVisible(action))
+
+        if (actionsVisible->contains(name))
             item->setHidden(true);
+
+        mActionsAvailableMap[item] = name;
     }
 }
 
-void QtManagedToolBarDialog::fillActionsVisible()
+
+//*************************************************************************************************
+/** \brief  Fills "visable" list.
+*
+**************************************************************************************************/
+void QtManagedToolBarDialog::fillActionsVisible(const QStringList *actionsVisible)
 {
-    foreach(QString action, *actionsVisible) {
-        if(action == "Separator") {
-            ui->listVisible->addItem("Separator");
+    mActionsVisibleMap.clear();
+
+    foreach(QString name, *actionsVisible) {
+        QListWidgetItem *itemVisible;
+        if(name == "Separator") {
+            itemVisible = new QListWidgetItem(ui->listVisible);
+            itemVisible->setText(tr("Separator"));
+            mActionsVisibleMap[itemVisible] = "Separator";
             continue;
         }
-        QListWidgetItem *itemVisible = new QListWidgetItem(ui->listVisible);
-        itemVisible->setText(action);
-        QListWidgetItem *itemAvailable = findActionAvailable(action);
-        if (itemAvailable)
+        itemVisible = new QListWidgetItem(ui->listVisible);
+        QListWidgetItem *itemAvailable = mActionsAvailableMap.key(name);
+        if (itemAvailable) {
+            itemVisible->setText(itemAvailable->text());
             itemVisible->setIcon(itemAvailable->icon());
+        }
+        mActionsVisibleMap[itemVisible] = name;
     }
 }
 
 
-QListWidgetItem* QtManagedToolBarDialog::findActionAvailable(QString name)
-{
-    for (int i=0; i< ui->listAvailable->count(); i++) {
-        QListWidgetItem *item = ui->listAvailable->item(i);
-        if (item->text() == name)
-            return item;
-    }
-    return 0;
-}
 
-void QtManagedToolBarDialog::setActionAvailableHidden(QString name, bool hidden)
-{
-    QListWidgetItem *itemAvailable = findActionAvailable(name);
-    if (itemAvailable)
-        itemAvailable->setHidden(hidden);
-}
-
-
-
+//*************************************************************************************************
+/** \brief  Moves action from the "visable" list.
+*
+**************************************************************************************************/
 void QtManagedToolBarDialog::moveActionToLeft() {
     QListWidgetItem *item = ui->listVisible->currentItem();
     if(item)
         moveActionToLeft(item);
 }
 
+
+//*************************************************************************************************
+/** \brief  Moves action from the "visable" list.
+*
+**************************************************************************************************/
 void QtManagedToolBarDialog::moveActionToLeft(QListWidgetItem *item) {
-    if(item->text() != "Separator")
-        setActionAvailableHidden(item->text(), false);
+    QString name = mActionsVisibleMap[item];
+    if(name != "Separator") {
+        QListWidgetItem *itemAvailable = mActionsAvailableMap.key(name);
+        if (itemAvailable)
+            itemAvailable->setHidden(false);
+    }
+    mActionsVisibleMap.remove(item);
     delete item;
 }
 
+
+//*************************************************************************************************
+/** \brief  Moves action to the "visable" list.
+*
+**************************************************************************************************/
 void QtManagedToolBarDialog::moveActionToRight() {
     QListWidgetItem *item = ui->listAvailable->currentItem();
     if(item)
         moveActionToRight(item);
 }
 
+
+//*************************************************************************************************
+/** \brief  Moves action to the "visable" list.
+*
+**************************************************************************************************/
 void QtManagedToolBarDialog::moveActionToRight(QListWidgetItem *item) {
-    if(item->text() != "Separator")
+    if(mActionsAvailableMap[item] != "Separator") {
         item->setHidden(true);
+    }
     int row = ui->listVisible->currentRow() + 1; //put new item after item selected
     if(row == 0)
         row = ui->listVisible->count(); //no item selected on listVisible
     ui->listVisible->insertItem(row, item->text());
+
     QListWidgetItem *newItem = ui->listVisible->item(row);
     newItem->setIcon(item->icon());
     ui->listVisible->setCurrentRow(row);
+
+    QString name = mActionsAvailableMap[item];
+    mActionsVisibleMap[newItem] = name;
 }
 
+
+//*************************************************************************************************
+/** \brief  Moves action up.
+*
+**************************************************************************************************/
 void QtManagedToolBarDialog::moveActionUp() {
     int row = ui->listVisible->currentRow();
     if(row > 0) {
@@ -155,6 +207,11 @@ void QtManagedToolBarDialog::moveActionUp() {
     }
 }
 
+
+//*************************************************************************************************
+/** \brief  Moves action down.
+*
+**************************************************************************************************/
 void QtManagedToolBarDialog::moveActionDown() {
     int row = ui->listVisible->currentRow();
     if(row >= 0 && row < ui->listVisible->count()-1) {
