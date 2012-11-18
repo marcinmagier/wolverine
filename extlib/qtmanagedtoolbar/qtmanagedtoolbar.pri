@@ -8,15 +8,23 @@ QTMANAGEDTOOLBAR_LIBDIR = $$PWD/bin
 uselib {
     LIBS += -L$$QTMANAGEDTOOLBAR_LIBDIR -l$$QTMANAGEDTOOLBAR_LIBNAME
 } else {
-    SOURCES   += $$PWD/qtmanagedtoolbar.cpp \
-                 $$PWD/qtmanagedtoolbardialog.cpp \
-                 $$PWD/qtmanagedtoolbarlistbox.cpp
+    SOURCES      += \
+                    $$PWD/qtmanagedtoolbar.cpp \
+                    $$PWD/qtmanagedtoolbardialog.cpp \
+                    $$PWD/qtmanagedtoolbarlistbox.cpp
 
-    HEADERS   += $$PWD/qtmanagedtoolbar.h \
-                 $$PWD/qtmanagedtoolbardialog.h \
-                 $$PWD/qtmanagedtoolbarlistbox.h
+    HEADERS      += \
+                    $$PWD/qtmanagedtoolbar.h \
+                    $$PWD/qtmanagedtoolbardialog.h \
+                    $$PWD/qtmanagedtoolbarlistbox.h
 
-    RESOURCES += $$PWD/resources.qrc
+    RESOURCES    += \
+                    $$PWD/resources.qrc
 
-    FORMS     += $$PWD/qtmanagedtoolbardialog.ui
+    FORMS        += \
+                    $$PWD/qtmanagedtoolbardialog.ui
+
+    TRANSLATIONS += \
+                    $$PWD/translations/qtmanagedtoolbar_en.ts \
+                    $$PWD/translations/qtmanagedtoolbar_pl.ts
 }
