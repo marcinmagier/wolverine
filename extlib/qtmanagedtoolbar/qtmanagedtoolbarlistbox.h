@@ -1,8 +1,18 @@
+/**************************************************************************************************
+**
+** Copyright (C) 2012-2013 Magier Marcin.
+**
+**
+**************************************************************************************************/
+
 
 #ifndef __QT_MANAGED_TOOLBAR_LISTBOX_H_
  #define __QT_MANAGED_TOOLBAR_LISTBOX_H_
 
+
 #include <QListWidget>
+
+
 
 class QtManagedToolbarListbox : public QListWidget
 {

@@ -1,21 +1,31 @@
+/**************************************************************************************************
+**
+** Copyright (C) 2012-2013 Magier Marcin.
+**
+**
+**************************************************************************************************/
+
 
 #ifndef __QT_MANAGED_TOOLBAR_DIALOG_H_
  #define __QT_MANAGED_TOOLBAR_DIALOG_H_
+
 
 class QAction;
 class QString;
 class QStringList;
 class QListWidgetItem;
 
-#include <QMap>
-#include <QDialog>
-
 namespace Ui {
 class QtManagedToolBarDialog;
 }
 
+#include <QMap>
+#include <QDialog>
+
+
 
 typedef QMap<QString, QAction*> QtActionNameMap;
+
 
 
 class QtManagedToolBarDialog : public QDialog
@@ -30,6 +40,7 @@ public:
     int exec(const QtActionNameMap *actionsAvailable, QStringList *actionsVisible);
 
 
+
 private slots:
     void moveActionUp();
     void moveActionDown();
@@ -37,6 +48,7 @@ private slots:
     void moveActionToLeft(QListWidgetItem *item);
     void moveActionToRight();
     void moveActionToRight(QListWidgetItem *item);
+
 
 
 private:

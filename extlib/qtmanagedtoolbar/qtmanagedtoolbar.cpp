@@ -1,6 +1,6 @@
 /**************************************************************************************************
 **
-** Copyright (C) 2012 Magier Marcin.
+** Copyright (C) 2012-2013 Magier Marcin.
 **
 **
 **************************************************************************************************/
@@ -29,36 +29,33 @@ static const QString defItemName = "NoNamedItem";
 
 
 //*************************************************************************************************
-/** \brief    Default constructor.
+/** \brief  Default constructor.
 *
-*   \param    parent - parent widget
+*   This constructor should not be used in reliable application. Always give a name for toolbar.
 **************************************************************************************************/
 QtManagedToolBar::QtManagedToolBar(QWidget *parent) :
     QToolBar(parent)
 {
-    // WARNING: This constructor should not be used in reliable application.
     // Calculate unique name to prevent future problems.
     QString toolbarName = defToolbarName + QString::number(defToolbarCount++);
-    init(toolbarName);
+    initialize(toolbarName);
 }
 
 //*************************************************************************************************
-/** \brief    Default constructor.
+/** \brief  Parametrized constructor. Creates named toolbar.
 *
-*   \param    parent - parent widget
 **************************************************************************************************/
 QtManagedToolBar::QtManagedToolBar(QWidget *parent, const QString &toolbarName) :
     QToolBar(parent)
 { 
-    init(toolbarName);
+    initialize(toolbarName);
 }
 
 //*************************************************************************************************
-/** \brief    Default constructor.
+/** \brief    Sets fields to their default values.
 *
-*   \param    parent - parent widget
 **************************************************************************************************/
-void QtManagedToolBar::init(const QString &name)
+void QtManagedToolBar::initialize(const QString &name)
 {
     mToolbarName = name;
     mActionsAvailable.clear();
@@ -68,9 +65,8 @@ void QtManagedToolBar::init(const QString &name)
 
 
 //*************************************************************************************************
-/** \brief    Default constructor.
+/** \brief  Adds action into toolbar.
 *
-*   \param    parent - parent widget
 **************************************************************************************************/
 void QtManagedToolBar::addAction(const QString &name, QAction *action)
 {
@@ -79,9 +75,8 @@ void QtManagedToolBar::addAction(const QString &name, QAction *action)
 }
 
 //*************************************************************************************************
-/** \brief    Default constructor.
+/** \brief  Adds widget into toolbar.
 *
-*   \param    parent - parent widget
 **************************************************************************************************/
 QAction* QtManagedToolBar::addWidget(const QString &name, QWidget *widget)
 {
@@ -91,9 +86,8 @@ QAction* QtManagedToolBar::addWidget(const QString &name, QWidget *widget)
 }
 
 //*************************************************************************************************
-/** \brief    Default constructor.
+/** \brief  Removes action from toolbar.
 *
-*   \param    parent - parent widget
 **************************************************************************************************/
 void QtManagedToolBar::removeAction(QAction *action)
 {
@@ -105,9 +99,8 @@ void QtManagedToolBar::removeAction(QAction *action)
 }
 
 //*************************************************************************************************
-/** \brief    Default constructor.
+/** \brief  Removes action from toolbar.
 *
-*   \param    parent - parent widget
 **************************************************************************************************/
 void QtManagedToolBar::removeAction(const QString &name)
 {

@@ -1,10 +1,9 @@
 /**************************************************************************************************
 **
-** Copyright (C) 2012 Magier Marcin.
+** Copyright (C) 2012-2013 Magier Marcin.
 **
 **
 **************************************************************************************************/
-
 
 
 #ifndef __QT_MANAGED_TOOLBAR_H_
@@ -16,6 +15,8 @@ class QString;
 
 #include <QMap>
 #include <QToolBar>
+
+
 
 
 class QtManagedToolBar : public QToolBar
@@ -38,8 +39,7 @@ public:
 
     bool isManagerEnabled() { return mIsManagerEnabled; }
 
-    //Provide default context menu
-   void contextMenuEvent(QContextMenuEvent *);
+    void contextMenuEvent(QContextMenuEvent *);
 
 public slots:
     void setManagerEnabled(bool val) { mIsManagerEnabled = val; }
@@ -56,7 +56,7 @@ private slots:
     void showManagerDialog();
 
 private:
-    void init(const QString &name);
+    void initialize(const QString &name);
 
     void addActionAvailable(const QString &name, QAction *action);
     void applyConfiguration(const QStringList &actionNames);
