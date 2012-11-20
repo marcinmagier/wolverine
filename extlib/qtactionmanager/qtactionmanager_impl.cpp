@@ -19,55 +19,81 @@ using namespace Impl;
 
 
 
+//*************************************************************************************************
+/** \brief  Adds new shortcuts binding scheme
+*
+**************************************************************************************************/
 QtActionManager::QtActionManager()
 {
     mCurrentScheme = "Default";
     mSchemes.append("Default");
 }
 
+
+//*************************************************************************************************
+/** \brief  Adds new shortcuts binding scheme
+*
+**************************************************************************************************/
 QtActionManager::QtActionManager(const QtActionManager &other)
 {
     foreach(QString category, other.mActionCategories.keys()) {
         QtActionsMap qtactions = other.mActionCategories.value(category);
         QtActionsMap tmp;
 
-        for(int i=0; i<qtactions.length(); ++i) {
-            QtAction *qtAction = qtactions[i];
-            QtAction *newAction = new QtAction(*qtAction);
-            tmp.append(newAction);
+        foreach(QString name, qtactions.keys()) {
+            QtAction *action = qtactions[name];
+            QtAction *newAction = new QtAction(*action);
+            tmp[name] = newAction;
         }
+
         this->mActionCategories[category] = tmp;
     }
     this->mCurrentScheme = other.mCurrentScheme;
     this->mSchemes = other.mSchemes;
+    this->mUserSchemes = other.mUserSchemes;
 }
 
+
+//*************************************************************************************************
+/** \brief  Adds new shortcuts binding scheme
+*
+**************************************************************************************************/
 QtActionManager::~QtActionManager()
 {
     foreach(QString category, mActionCategories.keys()) {
         QtActionsMap qtactions = mActionCategories.value(category);
 
-        for(int i=0; i<qtactions.length(); ++i) {
-            QtAction *qtAction = qtactions[i];
-            delete qtAction;
+        foreach(QString name, qtactions.keys()) {
+            QtAction *action = qtactions[name];
+            delete action;
         }
     }
 
 }
 
 
+//*************************************************************************************************
+/** \brief  Adds new shortcuts binding scheme
+*
+**************************************************************************************************/
 void QtActionManager::addAction(const QString &group, const QString &name, QAction *action)
 {
     QtAction *qtAction = new QtAction(action);
-    mActionCategories[group].append(qtAction);
+    mActionCategories[group].insert(name, qtAction);
 }
 
 QAction* QtActionManager::getAction(const QString &group, const QString &name)
 {
-    //FIXME:
-    return 0;
+    QtActionsMap qtactions = mActionCategories[group];
+    QtAction *qtAction = qtactions[name];
+    return qtAction->action;
 }
 
+
+//*************************************************************************************************
+/** \brief  Adds new shortcuts binding scheme
+*
+**************************************************************************************************/
 void QtActionManager::saveConfig()
 {
     QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "actionbinding");
@@ -78,15 +104,21 @@ void QtActionManager::saveConfig()
     foreach(QString category, mActionCategories.keys()) {
         qset.beginGroup(category);
         QtActionsMap qtactions = mActionCategories.value(category);
-        for(int i=0; i<qtactions.length(); ++i) {
-            QtAction *qtAction = qtactions[i];
-            QStringList tmpList = qtAction->createBindingList();
-            qset.setValue(qtAction->action->text(), QVariant::fromValue(tmpList));
+
+        foreach(QString name, qtactions.keys()) {
+            QtAction *qtAction = qtactions[name];
+            QStringList tmpConfig = qtAction->createBindingList();
+            qset.setValue(name, QVariant::fromValue(tmpConfig));
         }
         qset.endGroup();
     }
 }
 
+
+//*************************************************************************************************
+/** \brief  Adds new shortcuts binding scheme
+*
+**************************************************************************************************/
 void QtActionManager::restoreConfig()
 {
     QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "actionbinding");
@@ -95,12 +127,12 @@ void QtActionManager::restoreConfig()
     foreach(QString category, mActionCategories.keys()) {
         qset.beginGroup(category);
         QtActionsMap qtactions = mActionCategories.value(category);
-        for(int i=0; i<qtactions.length(); ++i) {
-            QtAction *qtAction = qtactions[i];
-            QVariant var = qset.value(qtAction->action->text());
-            QStringList tmpList = var.toStringList();
-            if(!tmpList.isEmpty())
-                qtAction->applyBindingList(tmpList);
+        foreach(QString name, qtactions.keys()) {
+            QtAction *qtAction = qtactions[name];
+            QVariant var = qset.value(name);
+            QStringList tmpConfig = var.toStringList();
+            if(!tmpConfig.isEmpty())
+                qtAction->applyBindingList(tmpConfig);
         }
         qset.endGroup();
     }
@@ -109,22 +141,40 @@ void QtActionManager::restoreConfig()
 }
 
 
+//*************************************************************************************************
+/** \brief  Adds new shortcuts binding scheme
+*
+**************************************************************************************************/
 void QtActionManager::addScheme(const QString &name)
 {
 
 }
 
+
+//*************************************************************************************************
+/** \brief  Adds new shortcuts binding scheme
+*
+**************************************************************************************************/
 void QtActionManager::addUserScheme(const QString &name)
 {
 
 }
 
+
+//*************************************************************************************************
+/** \brief  Adds new shortcuts binding scheme
+*
+**************************************************************************************************/
 void QtActionManager::removeUserScheme(const QString &name)
 {
 
 }
 
 
+//*************************************************************************************************
+/** \brief  Adds new shortcuts binding scheme
+*
+**************************************************************************************************/
 void QtActionManager::setCurrentScheme(const QString &name)
 {
     if(!mSchemes.contains(name))
@@ -135,8 +185,8 @@ void QtActionManager::setCurrentScheme(const QString &name)
     foreach(QString category, mActionCategories.keys()) {
         QtActionsMap qtactions = mActionCategories.value(category);
 
-        for(int i=0; i<qtactions.length(); ++i) {
-            QtAction *qtAction = qtactions[i];
+        foreach(QString name, qtactions.keys()) {
+            QtAction *qtAction = qtactions[name];
             QKeySequence shortcut = qtAction->shortcut(mCurrentScheme);
             qtAction->action->setShortcut(shortcut);
         }
@@ -144,6 +194,11 @@ void QtActionManager::setCurrentScheme(const QString &name)
 
 }
 
+
+//*************************************************************************************************
+/** \brief  Adds new shortcuts binding scheme
+*
+**************************************************************************************************/
 QString QtActionManager::getCurrentScheme()
 {
     return "FIXME";

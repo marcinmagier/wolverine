@@ -19,7 +19,7 @@ class QtAction;
 #include <QString>
 
 
-typedef QList<QtAction*> QtActionsMap;
+typedef QMap<QString, QtAction*> QtActionsMap;
 typedef QMap<QString, QtActionsMap> QtActionCategoryMap;
 
 

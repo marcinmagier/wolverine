@@ -17,6 +17,11 @@
 using namespace Impl;
 
 
+
+//*************************************************************************************************
+/** \brief  Adds new shortcuts binding scheme
+*
+**************************************************************************************************/
 QtActionManagerWidget::QtActionManagerWidget(QtActionManager *actionManager, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::QtActionManagerWidget),
@@ -44,6 +49,11 @@ QtActionManagerWidget::QtActionManagerWidget(QtActionManager *actionManager, QWi
 
 }
 
+
+//*************************************************************************************************
+/** \brief  Adds new shortcuts binding scheme
+*
+**************************************************************************************************/
 QtActionManagerWidget::~QtActionManagerWidget()
 {
     if(m_itemSelected)
@@ -52,6 +62,10 @@ QtActionManagerWidget::~QtActionManagerWidget()
 }
 
 
+//*************************************************************************************************
+/** \brief  Adds new shortcuts binding scheme
+*
+**************************************************************************************************/
 void QtActionManagerWidget::changeCurrentScheme(QString scheme)
 {
     if(m_itemSelected)
@@ -64,6 +78,11 @@ void QtActionManagerWidget::changeCurrentScheme(QString scheme)
     updateUI();
 }
 
+
+//*************************************************************************************************
+/** \brief  Adds new shortcuts binding scheme
+*
+**************************************************************************************************/
 void QtActionManagerWidget::onItemDoubleClicked(QTreeWidgetItem *item, int col)
 {
     if(item==0 || col!=1)
@@ -76,6 +95,11 @@ void QtActionManagerWidget::onItemDoubleClicked(QTreeWidgetItem *item, int col)
 
 }
 
+
+//*************************************************************************************************
+/** \brief  Adds new shortcuts binding scheme
+*
+**************************************************************************************************/
 void QtActionManagerWidget::keyPressEvent(QKeyEvent *event)
 {
     if(m_itemSelected == 0)
@@ -215,26 +239,38 @@ void QtActionManagerWidget::keyPressEvent(QKeyEvent *event)
     m_itemSelected = 0;
 }
 
+
+//*************************************************************************************************
+/** \brief  Adds new shortcuts binding scheme
+*
+**************************************************************************************************/
 void QtActionManagerWidget::updateUI()
 {
     QString scheme = m_actionManager->mCurrentScheme;
 
     foreach(QString category, m_actionManager->mActionCategories.keys()) {
         QtActionsMap qtactions = m_actionManager->mActionCategories.value(category);
-        for(int i=0; i<qtactions.length(); ++i) {
-            QAction *action = qtactions[i]->action;
-            QKeySequence shortcut = qtactions[i]->shortcut(scheme);
+
+        foreach(QString name, qtactions.keys()) {
+            QtAction *qtAction = qtactions[name];
+            QKeySequence shortcut = qtAction->shortcut(scheme);
             QStringList row;
-            row << action->text() << shortcut.toString() << category;
+            row << qtAction->action->text() << shortcut.toString() << category;
             QTreeWidgetItem *item = new QTreeWidgetItem(row);
-            item->setIcon(0, action->icon());
+            item->setIcon(0, qtAction->action->icon());
             ui->treeActions->addTopLevelItem(item);
 
-            m_actionMap.insert(item, qtactions[i]);
+            m_actionMap.insert(item, qtAction);
         }
+
     }
 }
 
+
+//*************************************************************************************************
+/** \brief  Adds new shortcuts binding scheme
+*
+**************************************************************************************************/
 void QtActionManagerWidget::clearSelected()
 {
     if(m_itemSelected != 0) {
@@ -245,6 +281,11 @@ void QtActionManagerWidget::clearSelected()
     }
 }
 
+
+//*************************************************************************************************
+/** \brief  Adds new shortcuts binding scheme
+*
+**************************************************************************************************/
 void QtActionManagerWidget::restoreSelected()
 {
     if(m_itemSelected != 0) {
@@ -255,6 +296,11 @@ void QtActionManagerWidget::restoreSelected()
     }
 }
 
+
+//*************************************************************************************************
+/** \brief  Adds new shortcuts binding scheme
+*
+**************************************************************************************************/
 QTreeWidgetItem* QtActionManagerWidget::findShortcut(QString shortcut)
 {
     int count = ui->treeActions->topLevelItemCount();
