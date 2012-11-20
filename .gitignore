@@ -46,3 +46,5 @@ object_script.*.Release
 #Ignore build directories
 build_debug/
 build_release/
+
+*/Wolverine
