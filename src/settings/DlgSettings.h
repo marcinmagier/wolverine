@@ -9,6 +9,11 @@ class AppSettings;
 
 
 namespace Wolverine {
+class ActionManager;
+}
+
+
+namespace Wolverine {
 
 
 class DlgSettings : public QtDialogSettings
@@ -16,13 +21,14 @@ class DlgSettings : public QtDialogSettings
     Q_OBJECT
 
 public:
-    explicit DlgSettings(AppSettings *settings, QWidget *parent = 0);
+    explicit DlgSettings(ActionManager *actionManager, QWidget *parent = 0);
     
 
 public slots:
     void showDialog();
 
 private:
+    ActionManager *mActionManager;
     AppSettings *mSettings;
     bool mInitialized;
 };

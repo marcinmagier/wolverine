@@ -1,8 +1,8 @@
 
+#include "WActionManager.h"
 #include "WMainWindow.h"
 #include "WCentralWidget.h"
 
-#include "qtactionmanager.h"
 #include "qtmanagedtoolbar.h"
 #include "CfgAppSettings.h"
 #include "CfgHiddenSettings.h"
@@ -20,7 +20,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
     m_settings = AppSettings::instance();
-    m_settingsDialog = new DlgSettings(m_settings, this);
+    mActionManager = new ActionManager();
+    m_settingsDialog = new DlgSettings(mActionManager, this);
 
     this->resize(m_settings->hidden->getMWSize());
     this->move(m_settings->hidden->getMWPosition());
@@ -36,6 +37,7 @@ MainWindow::~MainWindow()
     m_settings->hidden->setMWSize(this->size());
 
     delete m_settingsDialog;
+    delete mActionManager;
 
     //These variables are deleted by Qt
     //CentralWidget

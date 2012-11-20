@@ -36,6 +36,7 @@ private:
 
 
     AppSettings *m_settings;
+    ActionManager *mActionManager;
     DlgSettings *m_settingsDialog;
     QHash<QString, QMenu*> m_menus;
     QHash<QString, QtManagedToolBar* > m_toolbars;

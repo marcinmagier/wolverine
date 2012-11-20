@@ -2,7 +2,7 @@
 
 #include "DlgSettings.h"
 #include "CfgAppSettings.h"
-#include "qtactionmanager.h"
+#include "WActionManager.h"
 
 #include "PageGeneral.h"
 #include "PageScintilla.h"
@@ -13,8 +13,10 @@ using namespace Wolverine;
 
 
 
-DlgSettings::DlgSettings(AppSettings *settings, QWidget *parent) :
-    QtDialogSettings(settings, parent), mSettings(settings)
+DlgSettings::DlgSettings(ActionManager *actionManager, QWidget *parent) :
+    QtDialogSettings(AppSettings::instance(), parent),
+    mActionManager(actionManager),
+    mSettings(AppSettings::instance())
 {
     this->setWindowTitle(tr("Wolverine Settings"));
     this->setWindowIcon(QIcon(":/settings.png"));
@@ -24,7 +26,7 @@ DlgSettings::DlgSettings(AppSettings *settings, QWidget *parent) :
 
 void DlgSettings::showDialog()
 {
-     // All pages are deleted when this dialog is.
+     // All pages are deleted during deleting this dialog.
     if(!mInitialized) {
         mInitialized = true;
 
@@ -34,7 +36,7 @@ void DlgSettings::showDialog()
         Settings::PageScintilla *scintilla = new Settings::PageScintilla(mSettings, this);
         addSettingsPage(tr("Scintilla"), scintilla);
 
-        QWidget *actionManagerWidget = QtActionManager::instance()->getActionManagerWidget(this);
+        QWidget *actionManagerWidget = mActionManager->getActionManagerWidget(this);
         addSettingsPage(tr("Key Binding"), actionManagerWidget);
     }
 
