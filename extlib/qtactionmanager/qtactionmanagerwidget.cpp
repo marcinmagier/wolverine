@@ -26,8 +26,8 @@ QtActionManagerWidget::QtActionManagerWidget(QtActionManager *actionManager, QWi
 {
     ui->setupUi(this);
 
-    ui->cmbSchemes->addItems(m_actionManager->m_schemes);
-    int idxCurrentScheme = m_actionManager->m_schemes.indexOf(m_actionManager->m_currentScheme);
+    ui->cmbSchemes->addItems(m_actionManager->mSchemes);
+    int idxCurrentScheme = m_actionManager->mSchemes.indexOf(m_actionManager->mCurrentScheme);
     ui->cmbSchemes->setCurrentIndex(idxCurrentScheme);
 
     QStringList headers;
@@ -57,7 +57,7 @@ void QtActionManagerWidget::changeCurrentScheme(QString scheme)
     if(m_itemSelected)
         restoreSelected();
 
-    m_actionManager->m_currentScheme = scheme;
+    m_actionManager->mCurrentScheme = scheme;
     ui->treeActions->clear();
     m_actionMap.clear();
 
@@ -190,7 +190,7 @@ void QtActionManagerWidget::keyPressEvent(QKeyEvent *event)
 
     QKeySequence newShortcut(modifiers+key);
     QTreeWidgetItem *duplicateShortcut = findShortcut(newShortcut.toString());
-    QString scheme = m_actionManager->m_currentScheme;
+    QString scheme = m_actionManager->mCurrentScheme;
 
     if(duplicateShortcut) {
         QString text = tr("This shortcut \"%1\" is already assigned to command \"%2\".\n"
@@ -217,10 +217,10 @@ void QtActionManagerWidget::keyPressEvent(QKeyEvent *event)
 
 void QtActionManagerWidget::updateUI()
 {
-    QString scheme = m_actionManager->m_currentScheme;
+    QString scheme = m_actionManager->mCurrentScheme;
 
-    foreach(QString category, m_actionManager->m_actionCategories.keys()) {
-        QtActionsList qtactions = m_actionManager->m_actionCategories.value(category);
+    foreach(QString category, m_actionManager->mActionCategories.keys()) {
+        QtActionsMap qtactions = m_actionManager->mActionCategories.value(category);
         for(int i=0; i<qtactions.length(); ++i) {
             QAction *action = qtactions[i]->action;
             QKeySequence shortcut = qtactions[i]->shortcut(scheme);
@@ -249,7 +249,7 @@ void QtActionManagerWidget::restoreSelected()
 {
     if(m_itemSelected != 0) {
         QtAction *qtaction = m_actionMap[m_itemSelected];
-        QString scheme = m_actionManager->m_currentScheme;
+        QString scheme = m_actionManager->mCurrentScheme;
         m_itemSelected->setText(1, qtaction->shortcut(scheme));
         m_itemSelected = 0;
     }

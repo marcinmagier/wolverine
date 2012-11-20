@@ -10,24 +10,43 @@
 
 
 
+//*************************************************************************************************
+/** \brief  Default constructor
+*
+**************************************************************************************************/
 QtAction::QtAction()
 {
     this->action = 0;
     this->schemeBinding["Default"] = "";
 }
 
+
+//*************************************************************************************************
+/** \brief  Parametrized constructor
+*
+**************************************************************************************************/
 QtAction::QtAction(QAction *action)
 {
     this->action = action;
     this->schemeBinding["Default"] = action->shortcut().toString();
 }
 
+
+//*************************************************************************************************
+/** \brief  Copy constructor
+*
+**************************************************************************************************/
 QtAction::QtAction(const QtAction &other)
 {
     this->action = other.action;
     this->schemeBinding = other.schemeBinding;
 }
 
+
+//*************************************************************************************************
+/** \brief  Asignment operator
+*
+**************************************************************************************************/
 QtAction& QtAction::operator =(const QtAction &other)
 {
     this->action = other.action;
@@ -35,11 +54,21 @@ QtAction& QtAction::operator =(const QtAction &other)
     return *this;
 }
 
+
+//*************************************************************************************************
+/** \brief  Retrieves shortcut for given scheme
+*
+**************************************************************************************************/
 QString QtAction::shortcut(QString scheme)
 {
     return this->schemeBinding[scheme];
 }
 
+
+//*************************************************************************************************
+/** \brief  Creates binding list that can be written with QSettings
+*
+**************************************************************************************************/
 QStringList QtAction::createBindingList()
 {
     QStringList tmpList;
@@ -52,6 +81,11 @@ QStringList QtAction::createBindingList()
     return tmpList;
 }
 
+
+//*************************************************************************************************
+/** \brief  Configures action bindings according to the binding \a list
+*
+**************************************************************************************************/
 void QtAction::applyBindingList(const QStringList &list)
 {
      //In order not to create new schemes build tmpMap

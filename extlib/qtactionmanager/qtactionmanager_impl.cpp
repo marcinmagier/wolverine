@@ -21,31 +21,31 @@ using namespace Impl;
 
 QtActionManager::QtActionManager()
 {
-    m_currentScheme = "Default";
-    m_schemes.append("Default");
+    mCurrentScheme = "Default";
+    mSchemes.append("Default");
 }
 
 QtActionManager::QtActionManager(const QtActionManager &other)
 {
-    foreach(QString category, other.m_actionCategories.keys()) {
-        QtActionsList qtactions = other.m_actionCategories.value(category);
-        QtActionsList tmp;
+    foreach(QString category, other.mActionCategories.keys()) {
+        QtActionsMap qtactions = other.mActionCategories.value(category);
+        QtActionsMap tmp;
 
         for(int i=0; i<qtactions.length(); ++i) {
             QtAction *qtAction = qtactions[i];
             QtAction *newAction = new QtAction(*qtAction);
             tmp.append(newAction);
         }
-        this->m_actionCategories[category] = tmp;
+        this->mActionCategories[category] = tmp;
     }
-    this->m_currentScheme = other.m_currentScheme;
-    this->m_schemes = other.m_schemes;
+    this->mCurrentScheme = other.mCurrentScheme;
+    this->mSchemes = other.mSchemes;
 }
 
 QtActionManager::~QtActionManager()
 {
-    foreach(QString category, m_actionCategories.keys()) {
-        QtActionsList qtactions = m_actionCategories.value(category);
+    foreach(QString category, mActionCategories.keys()) {
+        QtActionsMap qtactions = mActionCategories.value(category);
 
         for(int i=0; i<qtactions.length(); ++i) {
             QtAction *qtAction = qtactions[i];
@@ -59,7 +59,7 @@ QtActionManager::~QtActionManager()
 void QtActionManager::addAction(const QString &group, const QString &name, QAction *action)
 {
     QtAction *qtAction = new QtAction(action);
-    m_actionCategories[group].append(qtAction);
+    mActionCategories[group].append(qtAction);
 }
 
 QAction* QtActionManager::getAction(const QString &group, const QString &name)
@@ -75,9 +75,9 @@ void QtActionManager::saveConfig()
     if(!qset.isWritable())
         return;
 
-    foreach(QString category, m_actionCategories.keys()) {
+    foreach(QString category, mActionCategories.keys()) {
         qset.beginGroup(category);
-        QtActionsList qtactions = m_actionCategories.value(category);
+        QtActionsMap qtactions = mActionCategories.value(category);
         for(int i=0; i<qtactions.length(); ++i) {
             QtAction *qtAction = qtactions[i];
             QStringList tmpList = qtAction->createBindingList();
@@ -92,9 +92,9 @@ void QtActionManager::restoreConfig()
     QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "actionbinding");
 
     //Read only valid values, ommit not existed actions/schemes etc.
-    foreach(QString category, m_actionCategories.keys()) {
+    foreach(QString category, mActionCategories.keys()) {
         qset.beginGroup(category);
-        QtActionsList qtactions = m_actionCategories.value(category);
+        QtActionsMap qtactions = mActionCategories.value(category);
         for(int i=0; i<qtactions.length(); ++i) {
             QtAction *qtAction = qtactions[i];
             QVariant var = qset.value(qtAction->action->text());
@@ -105,7 +105,7 @@ void QtActionManager::restoreConfig()
         qset.endGroup();
     }
     //Reload shortcuts for current scheme
-    setCurrentScheme(m_currentScheme);
+    setCurrentScheme(mCurrentScheme);
 }
 
 
@@ -127,17 +127,17 @@ void QtActionManager::removeUserScheme(const QString &name)
 
 void QtActionManager::setCurrentScheme(const QString &name)
 {
-    if(!m_schemes.contains(name))
-        m_schemes.append(name);
+    if(!mSchemes.contains(name))
+        mSchemes.append(name);
 
-    m_currentScheme = name;
+    mCurrentScheme = name;
 
-    foreach(QString category, m_actionCategories.keys()) {
-        QtActionsList qtactions = m_actionCategories.value(category);
+    foreach(QString category, mActionCategories.keys()) {
+        QtActionsMap qtactions = mActionCategories.value(category);
 
         for(int i=0; i<qtactions.length(); ++i) {
             QtAction *qtAction = qtactions[i];
-            QKeySequence shortcut = qtAction->shortcut(m_currentScheme);
+            QKeySequence shortcut = qtAction->shortcut(mCurrentScheme);
             qtAction->action->setShortcut(shortcut);
         }
     }

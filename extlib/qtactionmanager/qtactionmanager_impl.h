@@ -19,8 +19,8 @@ class QtAction;
 #include <QString>
 
 
-typedef QList<QtAction*> QtActionsList;
-typedef QMap<QString, QtActionsList> QtActionCategoryMap;
+typedef QList<QtAction*> QtActionsMap;
+typedef QMap<QString, QtActionsMap> QtActionCategoryMap;
 
 
 
@@ -47,9 +47,10 @@ public:
     void setCurrentScheme(const QString &name);
     QString getCurrentScheme();
 
-    QString m_currentScheme;
-    QList<QString> m_schemes;
-    QtActionCategoryMap m_actionCategories;
+    QString mCurrentScheme;
+    QList<QString> mSchemes;
+    QList<QString> mUserSchemes;
+    QtActionCategoryMap mActionCategories;
 };
 
 }
