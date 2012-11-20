@@ -48,9 +48,8 @@ void MainWindow::createMenusAndToolbars()
     QMenu *menu;
     QAction *action;
     QtManagedToolBar *toolbar;
-    QtActionManager *actionManager = QtActionManager::instance();
 
-
+/*
     menu = menuBar()->addMenu(tr("File"));
     toolbar = new QtManagedToolBar(this, "File");
 
@@ -60,9 +59,9 @@ void MainWindow::createMenusAndToolbars()
     //connect
     menu->addAction(action);
     toolbar->addAction("New", action);
-    actionManager->addAction("File", action);
+    mActionManager->addAction(W_ACTION_GROUP_FILE, action);
 
-/*    action = new QAction(QIcon(":/open.png"), tr("Open..."), this);
+   action = new QAction(QIcon(":/open.png"), tr("Open..."), this);
     action->setShortcut(tr("Ctrl+O"));
     //connect
     menu->addAction(action);
@@ -91,7 +90,7 @@ void MainWindow::createMenusAndToolbars()
     menu->addAction(action);
     toolbar->addAction("Save All", action);
     actionManager->addAction("File", action);
-*/
+
     m_menus["File"] = menu;
 
 
@@ -103,8 +102,8 @@ void MainWindow::createMenusAndToolbars()
     //connect
     menu->addAction(action);
     toolbar->addAction("Undo", action);
-    actionManager->addAction("Edit", action);
-/*
+    mActionManager->addAction("Edit", action);
+
     action = new QAction(QIcon(":/redo.png"), tr("Redo"), this);
     action->setShortcut(tr("Ctrl+Y"));
     //connect
@@ -134,7 +133,7 @@ void MainWindow::createMenusAndToolbars()
     menu->addAction(action);
     toolbar->addAction("Paste", action);
     actionManager->addAction("Edit", action);
-*/
+
     m_menus["Edit"] = menu;
 
 
@@ -145,7 +144,7 @@ void MainWindow::createMenusAndToolbars()
     connect(action, SIGNAL(triggered()), m_settingsDialog, SLOT(showDialog()));
     menu->addAction(action);
     toolbar->addAction("Settings", action);
-    actionManager->addAction("Settings", action);
+    mActionManager->addAction("Settings", action);
 
     m_menus["Tools"] = menu;
 
@@ -156,5 +155,5 @@ void MainWindow::createMenusAndToolbars()
     addToolBar(toolbar);
     toolbar->setIconSize(QSize(16,16));
     toolbar->restoreConfig();
-
+*/
 }

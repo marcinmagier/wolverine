@@ -1,3 +1,10 @@
+/**************************************************************************************************
+**
+** Copyright (C) 2012-2013 Magier Marcin.
+**
+**
+**************************************************************************************************/
+
 
 #ifndef __QT_ACTION_MANAGER_H_
  #define __QT_ACTION_MANAGER_H_
@@ -19,10 +26,8 @@ public:
     explicit QtActionManager();
     ~QtActionManager();
 
-    static QtActionManager* instance();
-
-    void addAction(QAction *action);
-    void addAction(const QString &group, QAction *action);
+    void addAction(const QString &group, const QString &name, QAction *action);
+    QAction* getAction(const QString &group, const QString &name);
 
     void saveConfig();
     void restoreConfig();
@@ -30,16 +35,16 @@ public:
     void restoreConfigurationBackup();
     void dropConfigurationBackup();
 
-    void setCurrentScheme(const QString &name);
+    void addScheme(const QString &name);
+    void setScheme(const QString &name);
+    QString getScheme();
 
     QWidget* getActionManagerWidget(QWidget *parent = 0);
 
 
 private:
-    static QtActionManager* s_actionManager;
-
-    Impl::QtActionManager* m_actionManager;
-    Impl::QtActionManager* m_actionManagerBackup;
+    Impl::QtActionManager* mActionManagerImpl;
+    Impl::QtActionManager* mActionManagerImplBackup;
 };
 
 #endif // __QT_ACTION_MANAGER_H_

@@ -1,3 +1,9 @@
+/**************************************************************************************************
+**
+** Copyright (C) 2012-2013 Magier Marcin.
+**
+**
+**************************************************************************************************/
 
 
 #include "qtactionmanager.h"
@@ -11,90 +17,150 @@
 #include <QApplication>
 
 
-QtActionManager* QtActionManager::s_actionManager = 0;
 
-
-
+//*************************************************************************************************
+/** \brief  Default constructor.
+*
+**************************************************************************************************/
 QtActionManager::QtActionManager()
 {
-    m_actionManager = new Impl::QtActionManager();
-    m_actionManagerBackup = 0;
+    mActionManagerImpl = new Impl::QtActionManager();
+    mActionManagerImplBackup = 0;
 }
 
 
+//*************************************************************************************************
+/** \brief  Default destructor.
+*
+**************************************************************************************************/
 QtActionManager::~QtActionManager()
 {
-    if(m_actionManagerBackup)
-        delete m_actionManagerBackup;
-    delete m_actionManager;
+    if(mActionManagerImplBackup)
+        delete mActionManagerImplBackup;
+    delete mActionManagerImpl;
 }
 
-QtActionManager* QtActionManager::instance()
+
+//*************************************************************************************************
+/** \brief  Adds \a action to \a group.
+*
+*   Parameters \a group and \a name are not translated
+**************************************************************************************************/
+void QtActionManager::addAction(const QString &group, const QString &name, QAction *action)
 {
-    if(s_actionManager == 0)
-        s_actionManager = new QtActionManager();
-    return s_actionManager;
+    mActionManagerImpl->addAction(group, name, action);
 }
 
 
-void QtActionManager::addAction(QAction *action)
+//*************************************************************************************************
+/** \brief  Retrieves action
+*
+*   Parameters \a group and \a name are not translated
+**************************************************************************************************/
+QAction* QtActionManager::getAction(const QString &group, const QString &name)
 {
-    m_actionManager->addAction("Default", action);
-}
-
-void QtActionManager::addAction(const QString &category, QAction *action)
-{
-    m_actionManager->addAction(category, action);
+    return mActionManagerImpl->getAction(group, name);
 }
 
 
+//*************************************************************************************************
+/** \brief  Saves configuration.
+*
+**************************************************************************************************/
 void QtActionManager::saveConfig()
 {
-    m_actionManager->saveConfig();
+    mActionManagerImpl->saveConfig();
 }
 
+
+//*************************************************************************************************
+/** \brief  Restrores configuration.
+*
+**************************************************************************************************/
 void QtActionManager::restoreConfig()
 {
-    m_actionManager->restoreConfig();
+    mActionManagerImpl->restoreConfig();
 }
 
+
+//*************************************************************************************************
+/** \brief  Creates backup of current configuration.
+*
+**************************************************************************************************/
 void QtActionManager::createConfigurationBackup()
 {
-    if(m_actionManagerBackup)
-        delete m_actionManagerBackup;
-    m_actionManagerBackup = new Impl::QtActionManager(*m_actionManager);
+    if(mActionManagerImplBackup)
+        delete mActionManagerImplBackup;
+    mActionManagerImplBackup = new Impl::QtActionManager(*mActionManagerImpl);
 
 }
 
+
+//*************************************************************************************************
+/** \brief  Restores saved configuration
+*
+**************************************************************************************************/
 void QtActionManager::restoreConfigurationBackup()
 {
-    if(m_actionManagerBackup == 0)
+    if(mActionManagerImplBackup == 0)
         return;
 
-     //TODO: Add quards against threading
-    Impl::QtActionManager *tmp = m_actionManager;
-    m_actionManager = m_actionManagerBackup;
+     //TODO: Add guards against threading
+    Impl::QtActionManager *tmp = mActionManagerImpl;
+    mActionManagerImpl = mActionManagerImplBackup;
     delete tmp;
-    m_actionManagerBackup = 0;
+    mActionManagerImplBackup = 0;
 }
 
+
+//*************************************************************************************************
+/** \brief  Throws saved configuration away
+*
+**************************************************************************************************/
 void QtActionManager::dropConfigurationBackup()
 {
-    if(m_actionManagerBackup) {
-        delete m_actionManagerBackup;
-        m_actionManagerBackup = 0;
+    if(mActionManagerImplBackup) {
+        delete mActionManagerImplBackup;
+        mActionManagerImplBackup = 0;
     }
 }
 
 
-void QtActionManager::setCurrentScheme(const QString &name)
+//*************************************************************************************************
+/** \brief  Adds new shortcuts binding scheme
+*
+**************************************************************************************************/
+void QtActionManager::addScheme(const QString &name)
 {
-   m_actionManager->setCurrentScheme(name);
+    mActionManagerImpl->addScheme(name);
 }
 
 
+//*************************************************************************************************
+/** \brief  Changes current scheme
+*
+**************************************************************************************************/
+void QtActionManager::setScheme(const QString &name)
+{
+    mActionManagerImpl->setCurrentScheme(name);
+}
 
+
+//*************************************************************************************************
+/** \brief  Retrieves current binding scheme
+*
+**************************************************************************************************/
+QString QtActionManager::getScheme()
+{
+    return mActionManagerImpl->getCurrentScheme();
+}
+
+
+//*************************************************************************************************
+/** \brief  Creates and returns widget for binding manipulation
+*
+**************************************************************************************************/
 QWidget* QtActionManager::getActionManagerWidget(QWidget *parent)
 {
-    return new QtActionManagerWidget(m_actionManager, parent);
+    return new QtActionManagerWidget(mActionManagerImpl, parent);
 }

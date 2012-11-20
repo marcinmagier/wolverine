@@ -1,4 +1,9 @@
-
+/**************************************************************************************************
+**
+** Copyright (C) 2012-2013 Magier Marcin.
+**
+**
+**************************************************************************************************/
 
 
 #include "qtactionmanager_impl.h"
@@ -51,12 +56,17 @@ QtActionManager::~QtActionManager()
 }
 
 
-void QtActionManager::addAction(const QString &category, QAction *action)
+void QtActionManager::addAction(const QString &group, const QString &name, QAction *action)
 {
     QtAction *qtAction = new QtAction(action);
-    m_actionCategories[category].append(qtAction);
+    m_actionCategories[group].append(qtAction);
 }
 
+QAction* QtActionManager::getAction(const QString &group, const QString &name)
+{
+    //FIXME:
+    return 0;
+}
 
 void QtActionManager::saveConfig()
 {
@@ -99,6 +109,22 @@ void QtActionManager::restoreConfig()
 }
 
 
+void QtActionManager::addScheme(const QString &name)
+{
+
+}
+
+void QtActionManager::addUserScheme(const QString &name)
+{
+
+}
+
+void QtActionManager::removeUserScheme(const QString &name)
+{
+
+}
+
+
 void QtActionManager::setCurrentScheme(const QString &name)
 {
     if(!m_schemes.contains(name))
@@ -117,3 +143,11 @@ void QtActionManager::setCurrentScheme(const QString &name)
     }
 
 }
+
+QString QtActionManager::getCurrentScheme()
+{
+    return "FIXME";
+}
+
+
+

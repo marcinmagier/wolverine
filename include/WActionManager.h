@@ -23,6 +23,9 @@ public:
 signals:
     
 public slots:
+
+private:
+    void initialize();
     
 };
 
@@ -32,12 +35,24 @@ public slots:
 
 
 #define W_ACTION_GROUP_FILE     "File"
-
+#define W_ACTION_GROUP_EDIT     "Edit"
+#define W_ACTION_GROUP_TOOLS    "Tools"
 
 
 
 #define W_ACTION_NEW            "New"
+#define W_ACTION_OPEN           "Open"
+#define W_ACTION_SAVE           "Save"
+#define W_ACTION_SAVE_AS        "Save_As"
+#define W_ACTION_SAVE_ALL       "Save_All"
 
+#define W_ACTION_UNDO           "Undo"
+#define W_ACTION_REDO           "Redo"
+#define W_ACTION_CUT            "Cut"
+#define W_ACTION_COPY           "Copy"
+#define W_ACTION_PASTE          "Paste"
+
+#define W_ACTION_SETTINGS       "Settings"
 
 
 
