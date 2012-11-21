@@ -42,6 +42,7 @@ object_script.*.Release
 
 #Ignore eclipse secific files
 .metadata
+Wolverine/.settings/
 
 #Ignore build directories
 build_debug/

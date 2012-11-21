@@ -28,7 +28,7 @@
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.build.command</key>
-					<value>mingw32-make</value>
+					<value>make</value>
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.build.location</key>
@@ -44,7 +44,7 @@
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.build.target.inc</key>
-					<value>-f Makefile.Debug</value>
+					<value>debug</value>
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.enableAutoBuild</key>
@@ -64,7 +64,7 @@
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.environment</key>
-					<value>PATH=C:\\mtools\\QtSDK\\Desktop\\Qt\\4.8.1\\mingw\\bin;${env_var:PATH}|</value>
+					<value>PATH=/usr/bin:${env_var:PATH}|</value>
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.stopOnError</key>
@@ -118,7 +118,7 @@
 	</linkedResources>
 	<filteredResources>
 		<filter>
-			<id>1352319786334</id>
+			<id>1353528783270</id>
 			<name></name>
 			<type>6</type>
 			<matcher>
@@ -127,7 +127,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1352319786334</id>
+			<id>1353528783271</id>
 			<name></name>
 			<type>6</type>
 			<matcher>
@@ -136,12 +136,39 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1352319786334</id>
+			<id>1353528783272</id>
 			<name></name>
 			<type>22</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
 				<arguments>1.0-name-matches-false-false-*.Release</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1353528783273</id>
+			<name></name>
+			<type>22</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-*.o</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1353528783274</id>
+			<name></name>
+			<type>22</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-moc_*.cpp</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1353528783275</id>
+			<name></name>
+			<type>22</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-qrc_*.cpp</arguments>
 			</matcher>
 		</filter>
 	</filteredResources>
