@@ -35,11 +35,11 @@ private:
     void createMenusAndToolbars();
 
 
-    AppSettings *m_settings;
+    AppSettings *mSettings;
     ActionManager *mActionManager;
-    DlgSettings *m_settingsDialog;
-    QHash<QString, QMenu*> m_menus;
-    QHash<QString, QtManagedToolBar* > m_toolbars;
+    DlgSettings *mSettingsDialog;
+    QHash<QString, QMenu*> mMenus;
+    QHash<QString, QtManagedToolBar* > mToolbars;
 
 };
 

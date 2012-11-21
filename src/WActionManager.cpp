@@ -3,20 +3,39 @@
 #include "WActionManager.h"
 
 #include <QAction>
+#include <QApplication>
 
 
 
 using namespace Wolverine;
 
 
+ActionManager* ActionManager::mInstance = 0;
+
 
 //*************************************************************************************************
 /** \brief  Default constructor.
 *
 **************************************************************************************************/
-ActionManager::ActionManager(QObject *parent) :
-    QObject(parent)
+ActionManager::ActionManager()
 {
+    initialize();
+
+    qAddPostRoutine(deleteInstance);
+}
+
+
+ActionManager* ActionManager::instance()
+{
+    if(mInstance == 0)
+        mInstance = new ActionManager();
+    return mInstance;
+}
+
+void ActionManager::deleteInstance()
+{
+    delete mInstance;
+    mInstance = 0;
 }
 
 

@@ -21,15 +21,15 @@ class DlgSettings : public QtDialogSettings
     Q_OBJECT
 
 public:
-    explicit DlgSettings(ActionManager *actionManager, QWidget *parent = 0);
+    explicit DlgSettings(QWidget *parent = 0);
     
 
 public slots:
     void showDialog();
 
 private:
-    ActionManager *mActionManager;
     AppSettings *mSettings;
+    ActionManager *mActionManager;
     bool mInitialized;
 };
 

@@ -13,10 +13,10 @@ using namespace Wolverine;
 
 
 
-DlgSettings::DlgSettings(ActionManager *actionManager, QWidget *parent) :
+DlgSettings::DlgSettings(QWidget *parent) :
     QtDialogSettings(AppSettings::instance(), parent),
-    mActionManager(actionManager),
-    mSettings(AppSettings::instance())
+    mSettings(AppSettings::instance()),
+    mActionManager(ActionManager::instance())
 {
     this->setWindowTitle(tr("Wolverine Settings"));
     this->setWindowIcon(QIcon(":/settings.png"));

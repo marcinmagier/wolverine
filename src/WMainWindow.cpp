@@ -19,12 +19,12 @@ using namespace Wolverine;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-    m_settings = AppSettings::instance();
-    mActionManager = new ActionManager();
-    m_settingsDialog = new DlgSettings(mActionManager, this);
+    mSettings = AppSettings::instance();
+    mActionManager = ActionManager::instance();
+    mSettingsDialog = new DlgSettings(this);
 
-    this->resize(m_settings->hidden->getMWSize());
-    this->move(m_settings->hidden->getMWPosition());
+    this->resize(mSettings->hidden->getMWSize());
+    this->move(mSettings->hidden->getMWPosition());
 
     createMenusAndToolbars();
 
@@ -33,10 +33,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    m_settings->hidden->setMWPosition(this->pos());
-    m_settings->hidden->setMWSize(this->size());
+    mSettings->hidden->setMWPosition(this->pos());
+    mSettings->hidden->setMWSize(this->size());
 
-    delete m_settingsDialog;
+    delete mSettingsDialog;
     delete mActionManager;
 
     //These variables are deleted by Qt
@@ -47,8 +47,47 @@ void MainWindow::createMenusAndToolbars()
 {
     QMenu *menu;
     QAction *action;
-    QtManagedToolBar *toolbar;
+    QtManagedToolBar *toolbar = new QtManagedToolBar(this, W_ACTION_GROUP_GENERAL);
 
+
+    menu = menuBar()->addMenu(tr("File"));
+
+    action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_NEW);
+    //connect
+    menu->addAction(action);
+    toolbar->addAction(W_ACTION_NEW, action);
+
+    action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_OPEN);
+    //connect
+    menu->addAction(action);
+    toolbar->addAction(W_ACTION_OPEN, action);
+
+
+    mMenus[W_ACTION_GROUP_FILE] = menu;
+    menu = menuBar()->addMenu(tr("Edit"));
+
+    action = mActionManager->getAction(W_ACTION_GROUP_EDIT, W_ACTION_UNDO);
+    //connect
+    menu->addAction(action);
+    toolbar->addAction(W_ACTION_UNDO, action);
+
+
+    mMenus[W_ACTION_GROUP_EDIT] = menu;
+    menu = menuBar()->addMenu(tr("Tools"));
+
+    action = mActionManager->getAction(W_ACTION_GROUP_TOOLS, W_ACTION_SETTINGS);
+    connect(action, SIGNAL(triggered()), mSettingsDialog, SLOT(showDialog()));
+    menu->addAction(action);
+    toolbar->addAction(W_ACTION_SETTINGS, action);
+
+
+    mMenus[W_ACTION_GROUP_EDIT] = menu;
+
+    mToolbars[W_ACTION_GROUP_GENERAL] = toolbar;
+
+    addToolBar(toolbar);
+    toolbar->setIconSize(QSize(16,16));
+    toolbar->restoreConfig();
 /*
     menu = menuBar()->addMenu(tr("File"));
     toolbar = new QtManagedToolBar(this, "File");

@@ -17,8 +17,12 @@ class ActionManager : public QObject, public QtActionManager
 {
     Q_OBJECT
 
+private:
+    ActionManager();
+
 public:
-    explicit ActionManager(QObject *parent = 0);
+    static ActionManager* instance();
+
     
 signals:
     
@@ -26,6 +30,9 @@ public slots:
 
 private:
     void initialize();
+    static void deleteInstance();
+
+    static ActionManager* mInstance;
     
 };
 
@@ -33,25 +40,27 @@ private:
 }
 
 
-
+#define W_ACTION_GROUP_GENERAL  "General"
 #define W_ACTION_GROUP_FILE     "File"
 #define W_ACTION_GROUP_EDIT     "Edit"
 #define W_ACTION_GROUP_TOOLS    "Tools"
 
 
-
+    //W_ACTION_GROUP_FILE
 #define W_ACTION_NEW            "New"
 #define W_ACTION_OPEN           "Open"
 #define W_ACTION_SAVE           "Save"
 #define W_ACTION_SAVE_AS        "Save_As"
 #define W_ACTION_SAVE_ALL       "Save_All"
 
+    //W_ACTION_GROUP_EDIT
 #define W_ACTION_UNDO           "Undo"
 #define W_ACTION_REDO           "Redo"
 #define W_ACTION_CUT            "Cut"
 #define W_ACTION_COPY           "Copy"
 #define W_ACTION_PASTE          "Paste"
 
+    //W_ACTION_GROUP_TOOLS
 #define W_ACTION_SETTINGS       "Settings"
 
 
