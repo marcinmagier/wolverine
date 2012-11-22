@@ -56,7 +56,6 @@ QtActionManager::QtActionManager(const QtActionManager &other)
     }
     this->mCurrentScheme = other.mCurrentScheme;
     this->mSchemes = other.mSchemes;
-    this->mUserSchemes = other.mUserSchemes;
 }
 
 
@@ -160,31 +159,10 @@ void QtActionManager::restoreConfig()
  *
  * @param name
  */
-void QtActionManager::addBuiltinScheme(const QString &name)
+void QtActionManager::addScheme(const QString &name)
 {
-
-}
-
-
-/**
- *  Creates new user scheme.
- *
- * @param name
- */
-void QtActionManager::addUserScheme(const QString &name)
-{
-
-}
-
-
-/**
- *  Removes user scheme.
- *
- * @param name
- */
-void QtActionManager::removeUserScheme(const QString &name)
-{
-
+    if(!mSchemes.contains(name))
+        mSchemes.append(name);
 }
 
 
@@ -196,15 +174,15 @@ void QtActionManager::removeUserScheme(const QString &name)
 void QtActionManager::setCurrentScheme(const QString &name)
 {
     if(!mSchemes.contains(name))
-        mSchemes.append(name);
+        return;
 
     mCurrentScheme = name;
 
     foreach(QString category, mActionCategories.keys()) {
         QtActionsMap qtactions = mActionCategories.value(category);
 
-        foreach(QString name, qtactions.keys()) {
-            QtAction *qtAction = qtactions[name];
+        foreach(QString actionName, qtactions.keys()) {
+            QtAction *qtAction = qtactions[actionName];
             QKeySequence shortcut = qtAction->shortcut(mCurrentScheme);
             qtAction->action->setShortcut(shortcut);
         }
@@ -220,7 +198,7 @@ void QtActionManager::setCurrentScheme(const QString &name)
  */
 QString QtActionManager::getCurrentScheme()
 {
-    return "FIXME";
+    return mCurrentScheme;
 }
 
 

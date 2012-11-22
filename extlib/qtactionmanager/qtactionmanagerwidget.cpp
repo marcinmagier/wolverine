@@ -33,14 +33,14 @@ using namespace Impl;
 QtActionManagerWidget::QtActionManagerWidget(QtActionManager *actionManager, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::QtActionManagerWidget),
-    m_actionManager(actionManager),
-    m_itemSelected(0)
+    mActionManager(actionManager),
+    mItemSelected(0)
 
 {
     ui->setupUi(this);
 
-    ui->cmbSchemes->addItems(m_actionManager->mSchemes);
-    int idxCurrentScheme = m_actionManager->mSchemes.indexOf(m_actionManager->mCurrentScheme);
+    ui->cmbSchemes->addItems(mActionManager->mSchemes);
+    int idxCurrentScheme = mActionManager->mSchemes.indexOf(mActionManager->mCurrentScheme);
     ui->cmbSchemes->setCurrentIndex(idxCurrentScheme);
 
     QStringList headers;
@@ -63,7 +63,7 @@ QtActionManagerWidget::QtActionManagerWidget(QtActionManager *actionManager, QWi
  */
 QtActionManagerWidget::~QtActionManagerWidget()
 {
-    if(m_itemSelected)
+    if(mItemSelected)
         restoreSelected();
     delete ui;
 }
@@ -76,12 +76,12 @@ QtActionManagerWidget::~QtActionManagerWidget()
  */
 void QtActionManagerWidget::changeCurrentScheme(QString scheme)
 {
-    if(m_itemSelected)
+    if(mItemSelected)
         restoreSelected();
 
-    m_actionManager->mCurrentScheme = scheme;
+    mActionManager->mCurrentScheme = scheme;
     ui->treeActions->clear();
-    m_actionMap.clear();
+    mActionMap.clear();
 
     updateUI();
 }
@@ -98,10 +98,10 @@ void QtActionManagerWidget::onItemDoubleClicked(QTreeWidgetItem *item, int col)
     if(item==0 || col!=1)
         return; //No item or it's not Binding column
 
-    if(m_itemSelected != 0)
+    if(mItemSelected != 0)
         restoreSelected();
-    m_itemSelected = item;
-    m_itemSelected->setText(1, tr("Press a key sequence"));
+    mItemSelected = item;
+    mItemSelected->setText(1, tr("Press a key sequence"));
 
 }
 
@@ -113,7 +113,7 @@ void QtActionManagerWidget::onItemDoubleClicked(QTreeWidgetItem *item, int col)
  */
 void QtActionManagerWidget::keyPressEvent(QKeyEvent *event)
 {
-    if(m_itemSelected == 0)
+    if(mItemSelected == 0)
         return;
 
     if(event->key() == Qt::Key_Escape) {
@@ -225,7 +225,7 @@ void QtActionManagerWidget::keyPressEvent(QKeyEvent *event)
 
     QKeySequence newShortcut(modifiers+key);
     QTreeWidgetItem *duplicateShortcut = findShortcut(newShortcut.toString());
-    QString scheme = m_actionManager->mCurrentScheme;
+    QString scheme = mActionManager->mCurrentScheme;
 
     if(duplicateShortcut) {
         QString text = tr("This shortcut \"%1\" is already assigned to command \"%2\".\n"
@@ -237,17 +237,17 @@ void QtActionManagerWidget::keyPressEvent(QKeyEvent *event)
         }
         else {
             duplicateShortcut->setText(1, "");
-            QtAction *qtAction = m_actionMap[duplicateShortcut];
+            QtAction *qtAction = mActionMap[duplicateShortcut];
             qtAction->action->setShortcut(QKeySequence(""));
             qtAction->schemeBinding[scheme] = "";
         }
     }
 
-    QtAction *qtAction = m_actionMap[m_itemSelected];
+    QtAction *qtAction = mActionMap[mItemSelected];
     qtAction->action->setShortcut(newShortcut);
     qtAction->schemeBinding[scheme] = newShortcut.toString();
-    m_itemSelected->setText(1, newShortcut.toString());
-    m_itemSelected = 0;
+    mItemSelected->setText(1, newShortcut.toString());
+    mItemSelected = 0;
 }
 
 
@@ -256,10 +256,10 @@ void QtActionManagerWidget::keyPressEvent(QKeyEvent *event)
  */
 void QtActionManagerWidget::updateUI()
 {
-    QString scheme = m_actionManager->mCurrentScheme;
+    QString scheme = mActionManager->mCurrentScheme;
 
-    foreach(QString category, m_actionManager->mActionCategories.keys()) {
-        QtActionsMap qtactions = m_actionManager->mActionCategories.value(category);
+    foreach(QString category, mActionManager->mActionCategories.keys()) {
+        QtActionsMap qtactions = mActionManager->mActionCategories.value(category);
 
         foreach(QString name, qtactions.keys()) {
             QtAction *qtAction = qtactions[name];
@@ -270,7 +270,7 @@ void QtActionManagerWidget::updateUI()
             item->setIcon(0, qtAction->action->icon());
             ui->treeActions->addTopLevelItem(item);
 
-            m_actionMap.insert(item, qtAction);
+            mActionMap.insert(item, qtAction);
         }
 
     }
@@ -283,11 +283,11 @@ void QtActionManagerWidget::updateUI()
  */
 void QtActionManagerWidget::clearSelected()
 {
-    if(m_itemSelected != 0) {
-        QtAction *qtaction = m_actionMap[m_itemSelected];
+    if(mItemSelected != 0) {
+        QtAction *qtaction = mActionMap[mItemSelected];
         qtaction->action->setShortcut(QKeySequence(""));
-        m_itemSelected->setText(1, "");
-        m_itemSelected = 0;
+        mItemSelected->setText(1, "");
+        mItemSelected = 0;
     }
 }
 
@@ -297,11 +297,11 @@ void QtActionManagerWidget::clearSelected()
  */
 void QtActionManagerWidget::restoreSelected()
 {
-    if(m_itemSelected != 0) {
-        QtAction *qtaction = m_actionMap[m_itemSelected];
-        QString scheme = m_actionManager->mCurrentScheme;
-        m_itemSelected->setText(1, qtaction->shortcut(scheme));
-        m_itemSelected = 0;
+    if(mItemSelected != 0) {
+        QtAction *qtaction = mActionMap[mItemSelected];
+        QString scheme = mActionManager->mCurrentScheme;
+        mItemSelected->setText(1, qtaction->shortcut(scheme));
+        mItemSelected = 0;
     }
 }
 

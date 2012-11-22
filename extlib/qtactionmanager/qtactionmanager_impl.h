@@ -21,12 +21,12 @@ class QWidget;
 class QtAction;
 
 
-#include <QMap>
+#include <QHash>
 #include <QString>
 
 
-typedef QMap<QString, QtAction*> QtActionsMap;
-typedef QMap<QString, QtActionsMap> QtActionCategoryMap;
+typedef QHash<QString, QtAction*> QtActionsMap;
+typedef QHash<QString, QtActionsMap> QtActionCategoryMap;
 
 
 
@@ -47,15 +47,12 @@ public:
     void saveConfig();
     void restoreConfig();
 
-    void addBuiltinScheme(const QString &name);
-    void addUserScheme(const QString &name);
-    void removeUserScheme(const QString &name);
+    void addScheme(const QString &name);
     void setCurrentScheme(const QString &name);
     QString getCurrentScheme();
 
     QString mCurrentScheme;
     QList<QString> mSchemes;
-    QList<QString> mUserSchemes;
     QtActionCategoryMap mActionCategories;
 };
 

@@ -140,7 +140,7 @@ void QtActionManager::dropConfigurationBackup()
  */
 void QtActionManager::addScheme(const QString &name)
 {
-    mActionManagerImpl->addBuiltinScheme(name);
+    mActionManagerImpl->addScheme(name);
 }
 
 

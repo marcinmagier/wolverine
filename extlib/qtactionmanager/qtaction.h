@@ -16,7 +16,7 @@
  #define __QT_ACTION_H_
 
 
-#include <QMap>
+#include <QHash>
 #include <QString>
 #include <QObject>
 #include <QAction>
@@ -39,7 +39,7 @@ public:
 
 
     QAction *action;
-    QMap<QString, QString> schemeBinding;
+    QHash<QString, QString> schemeBinding;
 };
 
 

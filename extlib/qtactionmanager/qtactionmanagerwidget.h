@@ -56,9 +56,9 @@ private:
     QTreeWidgetItem* findShortcut(QString shortcut);
 
     Ui::QtActionManagerWidget *ui;
-    Impl::QtActionManager *m_actionManager;
-    QMap<QTreeWidgetItem *, QtAction*> m_actionMap;
-    QTreeWidgetItem *m_itemSelected;
+    Impl::QtActionManager *mActionManager;
+    QHash<QTreeWidgetItem *, QtAction*> mActionMap;
+    QTreeWidgetItem *mItemSelected;
 };
 
 #endif // __QT_ACTION_MANAGER_WIDGET_H_
