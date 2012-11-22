@@ -23,16 +23,12 @@ class QtDialogSettings : public QDialog
     
 public:
     explicit QtDialogSettings( QtConfig *config, QWidget *parent = 0 );
-    ~QtDialogSettings();
+    virtual ~QtDialogSettings();
 
     void closeEvent( QCloseEvent *e );
 
     void addSettingsPage( const QString &name, QWidget *page );
     void addSettingsPage( const QString &name, const QString &parent, QWidget *page );
-
-
-signals:
-    void applied();
 
 
 public slots:
@@ -41,6 +37,11 @@ public slots:
     virtual void reject();
     int exec();
 
+
+protected:
+    virtual void informToDropBackup() {}
+    virtual void informToCreateNewBackup() {}
+    virtual void informToRestoreBackup() {}
 
 private slots:
     void changeCurrentPage(  QTreeWidgetItem * current, QTreeWidgetItem * previous );

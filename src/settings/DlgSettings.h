@@ -22,10 +22,17 @@ class DlgSettings : public QtDialogSettings
 
 public:
     explicit DlgSettings(QWidget *parent = 0);
-    
+
 
 public slots:
     void showDialog();
+
+
+protected:
+    virtual void informToDropBackup();
+    virtual void informToCreateNewBackup();
+    virtual void informToRestoreBackup();
+
 
 private:
     AppSettings *mSettings;

@@ -40,5 +40,38 @@ void DlgSettings::showDialog()
         addSettingsPage(tr("Key Binding"), actionManagerWidget);
     }
 
-    exec();
+    // Just call exec(). QtDialogSettings is responsible for calling correct inform functions.
+    QtDialogSettings::exec();
+
+    //mSettings->saveConfiguration();
+    //mActionManager->saveConfig();
+
+    // There is no need to keep these variables in memory.
+    //delete general;
+    //delete scintilla;
+    //delete actionManagerWidget;
 }
+
+
+void DlgSettings::informToDropBackup()
+{
+    //Inform all external settings managers to throw backup.
+    //Every internal pages works on AppSettings that does it automatically.
+    mActionManager->dropConfigurationBackup();
+}
+
+void DlgSettings::informToCreateNewBackup()
+{
+    //Inform all external settings managers to create fresh backup (drop the previous one).
+    //Every internal pages works on AppSettings that does it automatically.
+    mActionManager->createConfigurationBackup();
+}
+
+void DlgSettings::informToRestoreBackup()
+{
+    //Inform all external settings managers to apply configuration backup.
+    //Every internal pages works on AppSettings that does it automatically.
+    mActionManager->restoreConfigurationBackup();
+}
+
+

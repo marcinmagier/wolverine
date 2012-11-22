@@ -31,12 +31,13 @@ void QtDialogSettings::accept()
 {
      //Create fresh backup (drop the previous one)
     m_config->createConfigurationBackup();
-    emit applied();
+    informToCreateNewBackup();
 }
 
 void QtDialogSettings::ok()
 {
     m_config->dropConfigurationBackup();
+    informToDropBackup();
     QDialog::accept();
 }
 
@@ -44,12 +45,14 @@ void QtDialogSettings::reject()
 {
      //Retrieve previous configuration and leave
     m_config->restoreConfigurationBackup();
+    informToRestoreBackup();
     QDialog::reject();
 }
 
 int QtDialogSettings::exec()
 {
     m_config->createConfigurationBackup();
+    informToCreateNewBackup();
     return QDialog::exec();
 }
 
@@ -58,6 +61,7 @@ void QtDialogSettings::closeEvent(QCloseEvent *e)
 {
     //Retrieve previous configuration and leave
    m_config->restoreConfigurationBackup();
+   informToRestoreBackup();
    e->accept();
 }
 
