@@ -5,6 +5,12 @@
 **
 **************************************************************************************************/
 
+/**
+ *  @file       qtactionmanagerwidget.h
+ *  @brief      QtActionManagerWidget class interface.
+ *  @details    It shouldn't be used outside qtactionmanager library.
+ */
+
 
 #ifndef __QT_ACTION_MANAGER_WIDGET_H_
  #define __QT_ACTION_MANAGER_WIDGET_H_
@@ -13,10 +19,6 @@
 class QTreeWidgetItem;
 class QKeyEvent;
 
-#include "qtaction.h"
-
-#include <QWidget>
-
 namespace Impl {
 class QtActionManager;
 }
@@ -24,6 +26,12 @@ class QtActionManager;
 namespace Ui {
 class QtActionManagerWidget;
 }
+
+#include "qtaction.h"
+
+#include <QWidget>
+
+
 
 class QtActionManagerWidget : public QWidget
 {

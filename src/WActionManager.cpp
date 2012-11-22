@@ -4,48 +4,55 @@
 
 #include <QAction>
 #include <QApplication>
+#include <QDebug>
 
 
 
 using namespace Wolverine;
 
 
-ActionManager* ActionManager::mInstance = 0;
+static ActionManager* sInstance = 0;
 
 
-//*************************************************************************************************
-/** \brief  Default constructor.
-*
-**************************************************************************************************/
+/**
+ *  Deletes ActionManager instance.
+ *
+ *  It is called just before application is exited.
+ */
+static void deleteActionManagerInstance()
+{
+    delete sInstance;
+    sInstance = 0;
+}
+
+
+/**
+ *  Default constructor.
+ */
 ActionManager::ActionManager()
 {
     initialize();
 
-    qAddPostRoutine(deleteInstance);
+    qAddPostRoutine(deleteActionManagerInstance);
 }
 
 
+/**
+ *  Creates instance of ActionManager class.
+ *
+ * @return
+ */
 ActionManager* ActionManager::instance()
 {
-    if(mInstance == 0)
-        mInstance = new ActionManager();
-    return mInstance;
-}
-
-void ActionManager::deleteInstance()
-{
-    delete mInstance;
-    mInstance = 0;
+    if(sInstance == 0)
+        sInstance = new ActionManager();
+    return sInstance;
 }
 
 
-
-
-
-//*************************************************************************************************
-/** \brief  Initializes actions
-*
-**************************************************************************************************/
+/**
+ *  Initializes actions.
+ */
 void ActionManager::initialize()
 {
     QAction *action;
@@ -73,4 +80,10 @@ void ActionManager::initialize()
     addAction(W_ACTION_GROUP_TOOLS, W_ACTION_SETTINGS, action);
 
 
+
+    addScheme("VimCommand");
+    addScheme("VimInput");
+    addScheme("VimVisible");
+
+    restoreConfig();
 }

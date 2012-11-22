@@ -30,9 +30,6 @@ public slots:
 
 private:
     void initialize();
-    static void deleteInstance();
-
-    static ActionManager* mInstance;
     
 };
 

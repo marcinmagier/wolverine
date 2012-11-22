@@ -5,6 +5,11 @@
 **
 **************************************************************************************************/
 
+/**
+ *  @file       qtactionmanager_impl.cpp
+ *  @brief      Impl::QtActionManager class implementation.
+ */
+
 
 #include "qtactionmanager_impl.h"
 #include "qtaction.h"
@@ -19,10 +24,10 @@ using namespace Impl;
 
 
 
-//*************************************************************************************************
-/** \brief  Adds new shortcuts binding scheme
-*
-**************************************************************************************************/
+
+/**
+ *  Default constructor.
+ */
 QtActionManager::QtActionManager()
 {
     mCurrentScheme = "Default";
@@ -30,10 +35,11 @@ QtActionManager::QtActionManager()
 }
 
 
-//*************************************************************************************************
-/** \brief  Adds new shortcuts binding scheme
-*
-**************************************************************************************************/
+/**
+ *  Copy constructor.
+ *
+ * @param other
+ */
 QtActionManager::QtActionManager(const QtActionManager &other)
 {
     foreach(QString category, other.mActionCategories.keys()) {
@@ -54,10 +60,9 @@ QtActionManager::QtActionManager(const QtActionManager &other)
 }
 
 
-//*************************************************************************************************
-/** \brief  Adds new shortcuts binding scheme
-*
-**************************************************************************************************/
+/**
+ *  Destructor.
+ */
 QtActionManager::~QtActionManager()
 {
     foreach(QString category, mActionCategories.keys()) {
@@ -72,16 +77,27 @@ QtActionManager::~QtActionManager()
 }
 
 
-//*************************************************************************************************
-/** \brief  Adds new shortcuts binding scheme
-*
-**************************************************************************************************/
+/**
+ *  Adds action to the \a group.
+ *
+ * @param group
+ * @param name
+ * @param action
+ */
 void QtActionManager::addAction(const QString &group, const QString &name, QAction *action)
 {
     QtAction *qtAction = new QtAction(action);
     mActionCategories[group].insert(name, qtAction);
 }
 
+
+/**
+ *  Retrieves action.
+ *
+ * @param group
+ * @param name
+ * @return
+ */
 QAction* QtActionManager::getAction(const QString &group, const QString &name)
 {
     QtActionsMap qtactions = mActionCategories[group];
@@ -90,10 +106,9 @@ QAction* QtActionManager::getAction(const QString &group, const QString &name)
 }
 
 
-//*************************************************************************************************
-/** \brief  Adds new shortcuts binding scheme
-*
-**************************************************************************************************/
+/**
+ *  Saves current configuration of key binding.
+ */
 void QtActionManager::saveConfig()
 {
     QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "actionbinding");
@@ -115,10 +130,9 @@ void QtActionManager::saveConfig()
 }
 
 
-//*************************************************************************************************
-/** \brief  Adds new shortcuts binding scheme
-*
-**************************************************************************************************/
+/**
+ *  Reads saved configuration of key binding and applies it.
+ */
 void QtActionManager::restoreConfig()
 {
     QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "actionbinding");
@@ -141,40 +155,44 @@ void QtActionManager::restoreConfig()
 }
 
 
-//*************************************************************************************************
-/** \brief  Adds new shortcuts binding scheme
-*
-**************************************************************************************************/
-void QtActionManager::addScheme(const QString &name)
+/**
+ *  Creates new builtin scheme. User cannot delete it.
+ *
+ * @param name
+ */
+void QtActionManager::addBuiltinScheme(const QString &name)
 {
 
 }
 
 
-//*************************************************************************************************
-/** \brief  Adds new shortcuts binding scheme
-*
-**************************************************************************************************/
+/**
+ *  Creates new user scheme.
+ *
+ * @param name
+ */
 void QtActionManager::addUserScheme(const QString &name)
 {
 
 }
 
 
-//*************************************************************************************************
-/** \brief  Adds new shortcuts binding scheme
-*
-**************************************************************************************************/
+/**
+ *  Removes user scheme.
+ *
+ * @param name
+ */
 void QtActionManager::removeUserScheme(const QString &name)
 {
 
 }
 
 
-//*************************************************************************************************
-/** \brief  Adds new shortcuts binding scheme
-*
-**************************************************************************************************/
+/**
+ *  Reconfigures actions in accordance with given scheme.
+ *
+ * @param name
+ */
 void QtActionManager::setCurrentScheme(const QString &name)
 {
     if(!mSchemes.contains(name))
@@ -195,10 +213,11 @@ void QtActionManager::setCurrentScheme(const QString &name)
 }
 
 
-//*************************************************************************************************
-/** \brief  Adds new shortcuts binding scheme
-*
-**************************************************************************************************/
+/**
+ *  Retrieves current scheme.
+ *
+ * @return
+ */
 QString QtActionManager::getCurrentScheme()
 {
     return "FIXME";

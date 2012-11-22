@@ -5,6 +5,10 @@
 **
 **************************************************************************************************/
 
+/**
+ *  @file       qtactionmanager.h
+ *  @brief      QtActionManager class interface.
+ */
 
 #ifndef __QT_ACTION_MANAGER_H_
  #define __QT_ACTION_MANAGER_H_
@@ -14,10 +18,10 @@ class QAction;
 class QString;
 class QWidget;
 
-
 namespace Impl {
 class QtActionManager;
 }
+
 
 
 class QtActionManager

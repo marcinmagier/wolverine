@@ -5,6 +5,11 @@
 **
 **************************************************************************************************/
 
+/**
+ *  @file       qtactionmanagerwidget.cpp
+ *  @brief      QtActionManagerWidget class implementation.
+ */
+
 
 #include "qtactionmanagerwidget.h"
 #include "qtactionmanager_impl.h"
@@ -18,10 +23,13 @@ using namespace Impl;
 
 
 
-//*************************************************************************************************
-/** \brief  Adds new shortcuts binding scheme
-*
-**************************************************************************************************/
+
+/**
+ *  Parameterized constructor.
+ *
+ * @param actionManager
+ * @param parent
+ */
 QtActionManagerWidget::QtActionManagerWidget(QtActionManager *actionManager, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::QtActionManagerWidget),
@@ -50,10 +58,9 @@ QtActionManagerWidget::QtActionManagerWidget(QtActionManager *actionManager, QWi
 }
 
 
-//*************************************************************************************************
-/** \brief  Adds new shortcuts binding scheme
-*
-**************************************************************************************************/
+/**
+ *  Destructor.
+ */
 QtActionManagerWidget::~QtActionManagerWidget()
 {
     if(m_itemSelected)
@@ -62,10 +69,11 @@ QtActionManagerWidget::~QtActionManagerWidget()
 }
 
 
-//*************************************************************************************************
-/** \brief  Adds new shortcuts binding scheme
-*
-**************************************************************************************************/
+/**
+ *  Changes current scheme.
+ *
+ * @param scheme
+ */
 void QtActionManagerWidget::changeCurrentScheme(QString scheme)
 {
     if(m_itemSelected)
@@ -79,10 +87,12 @@ void QtActionManagerWidget::changeCurrentScheme(QString scheme)
 }
 
 
-//*************************************************************************************************
-/** \brief  Adds new shortcuts binding scheme
-*
-**************************************************************************************************/
+/**
+ *  Starts changing key binding.
+ *
+ * @param item
+ * @param col
+ */
 void QtActionManagerWidget::onItemDoubleClicked(QTreeWidgetItem *item, int col)
 {
     if(item==0 || col!=1)
@@ -96,10 +106,11 @@ void QtActionManagerWidget::onItemDoubleClicked(QTreeWidgetItem *item, int col)
 }
 
 
-//*************************************************************************************************
-/** \brief  Adds new shortcuts binding scheme
-*
-**************************************************************************************************/
+/**
+ *  Key event handler.
+ *
+ * @param event
+ */
 void QtActionManagerWidget::keyPressEvent(QKeyEvent *event)
 {
     if(m_itemSelected == 0)
@@ -240,10 +251,9 @@ void QtActionManagerWidget::keyPressEvent(QKeyEvent *event)
 }
 
 
-//*************************************************************************************************
-/** \brief  Adds new shortcuts binding scheme
-*
-**************************************************************************************************/
+/**
+ *  Refreshes ui.
+ */
 void QtActionManagerWidget::updateUI()
 {
     QString scheme = m_actionManager->mCurrentScheme;
@@ -267,10 +277,10 @@ void QtActionManagerWidget::updateUI()
 }
 
 
-//*************************************************************************************************
-/** \brief  Adds new shortcuts binding scheme
-*
-**************************************************************************************************/
+/**
+ *  Stops changing key binding - user pressed Delete.
+ *
+ */
 void QtActionManagerWidget::clearSelected()
 {
     if(m_itemSelected != 0) {
@@ -282,10 +292,9 @@ void QtActionManagerWidget::clearSelected()
 }
 
 
-//*************************************************************************************************
-/** \brief  Adds new shortcuts binding scheme
-*
-**************************************************************************************************/
+/**
+ *  Stops changing key binding - user pressed Escape.
+ */
 void QtActionManagerWidget::restoreSelected()
 {
     if(m_itemSelected != 0) {
@@ -297,10 +306,12 @@ void QtActionManagerWidget::restoreSelected()
 }
 
 
-//*************************************************************************************************
-/** \brief  Adds new shortcuts binding scheme
-*
-**************************************************************************************************/
+/**
+ *  Finds shortcut on the list.
+ *
+ * @param shortcut
+ * @return
+ */
 QTreeWidgetItem* QtActionManagerWidget::findShortcut(QString shortcut)
 {
     int count = ui->treeActions->topLevelItemCount();

@@ -37,10 +37,11 @@ MainWindow::~MainWindow()
     mSettings->hidden->setMWSize(this->size());
 
     delete mSettingsDialog;
-    delete mActionManager;
 
     //These variables are deleted by Qt
     //CentralWidget
+    //AppSettings
+    //ActionManager
 }
 
 void MainWindow::createMenusAndToolbars()

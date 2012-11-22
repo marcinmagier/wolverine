@@ -15,7 +15,7 @@
 static AppSettings* s_appconfig = 0;
 const QString AppSettings::sConfigFileName = "appconfig";
 
-static void cleanupAppSettings()
+static void deleteAppSettingsInstance()
 {
     delete s_appconfig;
     s_appconfig = 0;
@@ -32,7 +32,7 @@ AppSettings::AppSettings()
     scintilla = new ScintillaSettings();
 
     loadConfiguration();
-    qAddPostRoutine(cleanupAppSettings);
+    qAddPostRoutine(deleteAppSettingsInstance);
 }
 
 AppSettings::~AppSettings()

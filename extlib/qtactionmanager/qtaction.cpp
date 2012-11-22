@@ -5,15 +5,20 @@
 **
 **************************************************************************************************/
 
+/**
+ *  @file       qtaction.cpp
+ *  @brief      QtAction class implementation.
+ */
+
 
 #include "qtaction.h"
 
 
 
-//*************************************************************************************************
-/** \brief  Default constructor
-*
-**************************************************************************************************/
+
+/**
+ *  Default constructor.
+ */
 QtAction::QtAction()
 {
     this->action = 0;
@@ -21,10 +26,11 @@ QtAction::QtAction()
 }
 
 
-//*************************************************************************************************
-/** \brief  Parametrized constructor
-*
-**************************************************************************************************/
+/**
+ *  Parametrized constructor.
+ *
+ * @param action
+ */
 QtAction::QtAction(QAction *action)
 {
     this->action = action;
@@ -32,10 +38,11 @@ QtAction::QtAction(QAction *action)
 }
 
 
-//*************************************************************************************************
-/** \brief  Copy constructor
-*
-**************************************************************************************************/
+/**
+ *  Copy constructor.
+ *
+ * @param other
+ */
 QtAction::QtAction(const QtAction &other)
 {
     this->action = other.action;
@@ -43,10 +50,12 @@ QtAction::QtAction(const QtAction &other)
 }
 
 
-//*************************************************************************************************
-/** \brief  Asignment operator
-*
-**************************************************************************************************/
+/**
+ *  Assignment operator.
+ *
+ * @param other
+ * @return
+ */
 QtAction& QtAction::operator =(const QtAction &other)
 {
     this->action = other.action;
@@ -55,20 +64,23 @@ QtAction& QtAction::operator =(const QtAction &other)
 }
 
 
-//*************************************************************************************************
-/** \brief  Retrieves shortcut for given scheme
-*
-**************************************************************************************************/
+/**
+ *  Retrieves shortcut for given scheme.
+ *
+ * @param scheme
+ * @return
+ */
 QString QtAction::shortcut(QString scheme)
 {
     return this->schemeBinding[scheme];
 }
 
 
-//*************************************************************************************************
-/** \brief  Creates binding list that can be written with QSettings
-*
-**************************************************************************************************/
+/**
+ *  Creates binding list that can be written with QSettings.
+ *
+ * @return
+ */
 QStringList QtAction::createBindingList()
 {
     QStringList tmpList;
@@ -82,10 +94,11 @@ QStringList QtAction::createBindingList()
 }
 
 
-//*************************************************************************************************
-/** \brief  Configures action bindings according to the binding \a list
-*
-**************************************************************************************************/
+/**
+ *  Configures action bindings according to the binding \a list.
+ *
+ * @param list
+ */
 void QtAction::applyBindingList(const QStringList &list)
 {
      //In order not to create new schemes build tmpMap

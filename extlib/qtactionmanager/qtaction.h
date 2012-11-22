@@ -5,6 +5,12 @@
 **
 **************************************************************************************************/
 
+/**
+ *  @file       qtaction.h
+ *  @brief      QtAction class interface.
+ *  @details    It shouldn't be used outside qtactionmanager library.
+ */
+
 
 #ifndef __QT_ACTION_H_
  #define __QT_ACTION_H_
@@ -14,6 +20,8 @@
 #include <QString>
 #include <QObject>
 #include <QAction>
+
+
 
 class QtAction
 {

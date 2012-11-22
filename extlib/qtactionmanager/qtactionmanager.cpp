@@ -5,6 +5,11 @@
 **
 **************************************************************************************************/
 
+/**
+ *  @file       qtactionmanager.cpp
+ *  @brief      QtActionManager class implementation.
+ */
+
 
 #include "qtactionmanager.h"
 #include "qtactionmanager_impl.h"
@@ -18,10 +23,10 @@
 
 
 
-//*************************************************************************************************
-/** \brief  Default constructor.
-*
-**************************************************************************************************/
+
+/**
+ *  Default constructor.
+ */
 QtActionManager::QtActionManager()
 {
     mActionManagerImpl = new Impl::QtActionManager();
@@ -29,10 +34,9 @@ QtActionManager::QtActionManager()
 }
 
 
-//*************************************************************************************************
-/** \brief  Default destructor.
-*
-**************************************************************************************************/
+/**
+ *  Default destructor.
+ */
 QtActionManager::~QtActionManager()
 {
     if(mActionManagerImplBackup)
@@ -41,52 +45,57 @@ QtActionManager::~QtActionManager()
 }
 
 
-//*************************************************************************************************
-/** \brief  Adds \a action to \a group.
-*
-*   Parameters \a group and \a name are not translated
-**************************************************************************************************/
+/**
+ *  Adds \a action to \a group.
+ *
+ *  Parameters \a group and \a name are not translated
+ *
+ * @param group
+ * @param name
+ * @param action
+ */
 void QtActionManager::addAction(const QString &group, const QString &name, QAction *action)
 {
     mActionManagerImpl->addAction(group, name, action);
 }
 
 
-//*************************************************************************************************
-/** \brief  Retrieves action
-*
-*   Parameters \a group and \a name are not translated
-**************************************************************************************************/
+/**
+ *  Retrieves action.
+ *
+ *  Parameters \a group and \a name are not translated
+ *
+ * @param group
+ * @param name
+ * @return
+ */
 QAction* QtActionManager::getAction(const QString &group, const QString &name)
 {
     return mActionManagerImpl->getAction(group, name);
 }
 
 
-//*************************************************************************************************
-/** \brief  Saves configuration.
-*
-**************************************************************************************************/
+/**
+ *  Saves configuration.
+ */
 void QtActionManager::saveConfig()
 {
     mActionManagerImpl->saveConfig();
 }
 
 
-//*************************************************************************************************
-/** \brief  Restrores configuration.
-*
-**************************************************************************************************/
+/**
+ *  Restores configuration.
+ */
 void QtActionManager::restoreConfig()
 {
     mActionManagerImpl->restoreConfig();
 }
 
 
-//*************************************************************************************************
-/** \brief  Creates backup of current configuration.
-*
-**************************************************************************************************/
+/**
+ *  Creates backup of current configuration.
+ */
 void QtActionManager::createConfigurationBackup()
 {
     if(mActionManagerImplBackup)
@@ -96,10 +105,9 @@ void QtActionManager::createConfigurationBackup()
 }
 
 
-//*************************************************************************************************
-/** \brief  Restores saved configuration
-*
-**************************************************************************************************/
+/**
+ *  Restores saved configuration.
+ */
 void QtActionManager::restoreConfigurationBackup()
 {
     if(mActionManagerImplBackup == 0)
@@ -113,10 +121,9 @@ void QtActionManager::restoreConfigurationBackup()
 }
 
 
-//*************************************************************************************************
-/** \brief  Throws saved configuration away
-*
-**************************************************************************************************/
+/**
+ *  Throws saved configuration away.
+ */
 void QtActionManager::dropConfigurationBackup()
 {
     if(mActionManagerImplBackup) {
@@ -126,40 +133,45 @@ void QtActionManager::dropConfigurationBackup()
 }
 
 
-//*************************************************************************************************
-/** \brief  Adds new shortcuts binding scheme
-*
-**************************************************************************************************/
+/**
+ *  Adds new shortcuts binding scheme.
+ *
+ * @param name
+ */
 void QtActionManager::addScheme(const QString &name)
 {
-    mActionManagerImpl->addScheme(name);
+    mActionManagerImpl->addBuiltinScheme(name);
 }
 
 
-//*************************************************************************************************
-/** \brief  Changes current scheme
-*
-**************************************************************************************************/
+/**
+ *  Changes current scheme.
+ *
+ * @param name
+ */
 void QtActionManager::setScheme(const QString &name)
 {
     mActionManagerImpl->setCurrentScheme(name);
 }
 
 
-//*************************************************************************************************
-/** \brief  Retrieves current binding scheme
-*
-**************************************************************************************************/
+/**
+ *  Retrieves current binding scheme.
+ *
+ * @return  Name of current scheme.
+ */
 QString QtActionManager::getScheme()
 {
     return mActionManagerImpl->getCurrentScheme();
 }
 
 
-//*************************************************************************************************
-/** \brief  Creates and returns widget for binding manipulation
-*
-**************************************************************************************************/
+/**
+ *  Creates and returns widget for binding manipulation.
+ *
+ * @param parent
+ * @return
+ */
 QWidget* QtActionManager::getActionManagerWidget(QWidget *parent)
 {
     return new QtActionManagerWidget(mActionManagerImpl, parent);
