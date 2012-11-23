@@ -85,7 +85,5 @@ void ActionManager::initialize()
     addScheme("VimInput");
     addScheme("VimVisible");
 
-    setScheme("Default");
-
     restoreConfig();
 }

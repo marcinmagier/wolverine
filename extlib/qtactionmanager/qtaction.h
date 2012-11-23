@@ -35,7 +35,7 @@ public:
 
     QString shortcut(QString scheme);
     QStringList createBindingList();
-    void applyBindingList(const QStringList &list);
+    void applyBindingList(const QStringList &schemes, const QStringList &list);
 
 
     QAction *action;

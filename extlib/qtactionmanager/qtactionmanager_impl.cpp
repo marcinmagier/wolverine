@@ -145,7 +145,7 @@ void QtActionManager::restoreConfig()
             QVariant var = qset.value(name);
             QStringList tmpConfig = var.toStringList();
             if(!tmpConfig.isEmpty())
-                qtAction->applyBindingList(tmpConfig);
+                qtAction->applyBindingList(mSchemes, tmpConfig);
         }
         qset.endGroup();
     }
@@ -164,7 +164,6 @@ void QtActionManager::addScheme(const QString &name)
     if(!mSchemes.contains(name))
         mSchemes.append(name);
 
-    setCurrentScheme(name);
 }
 
 

@@ -99,21 +99,16 @@ QStringList QtAction::createBindingList()
  *
  * @param list
  */
-void QtAction::applyBindingList(const QStringList &list)
+void QtAction::applyBindingList(const QStringList &schemes, const QStringList &list)
 {
-     //In order not to create new schemes build tmpMap
-    QMap<QString, QString> tmpMap;
-    foreach(QString schemeBinding, list) {
-        QStringList list = schemeBinding.split(":");
+    foreach(QString bindings, list) {
+        QStringList list = bindings.split(":");
          //Example:
          //list[0] - Default
          //list[1] - Ctrl+H
-         //Make sure value is a QKeySequence
-        tmpMap[list[0]] = QKeySequence(list[1]).toString();
-    }
-
-     //apply only existed schemes
-    foreach(QString scheme, schemeBinding.keys()) {
-        schemeBinding[scheme] = tmpMap[scheme];
+         //apply only existed schemes
+        if(schemes.contains(list[0]))
+            //Make sure value is a QKeySequence
+            schemeBinding[list[0]] = QKeySequence(list[1]).toString();
     }
 }
