@@ -39,9 +39,18 @@ QtActionManagerWidget::QtActionManagerWidget(QtActionManager *actionManager, QWi
 {
     ui->setupUi(this);
 
-    ui->cmbSchemes->addItems(mActionManager->mSchemes);
-    int idxCurrentScheme = mActionManager->mSchemes.indexOf(mActionManager->mCurrentScheme);
-    ui->cmbSchemes->setCurrentIndex(idxCurrentScheme);
+    if(mActionManager->mSchemes.length() > 1) {
+        ui->cmbSchemes->addItems(mActionManager->mSchemes);
+        int idxCurrentScheme = mActionManager->mSchemes.indexOf(mActionManager->mCurrentScheme);
+        ui->cmbSchemes->setCurrentIndex(idxCurrentScheme);
+        connect(ui->cmbSchemes, SIGNAL(currentIndexChanged(QString)), this, SLOT(changeCurrentScheme(QString)));
+    }
+    else {
+        // There is only one scheme, we do not need combo.
+        ui->lblScheme->setHidden(true);
+        ui->cmbSchemes->setHidden(true);
+    }
+
 
     QStringList headers;
     headers << tr("Command") << tr("Binding") << tr("Category");
@@ -50,8 +59,7 @@ QtActionManagerWidget::QtActionManagerWidget(QtActionManager *actionManager, QWi
 
     updateUI();
 
-    connect(ui->cmbSchemes, SIGNAL(currentIndexChanged(QString)),
-            this, SLOT(changeCurrentScheme(QString)));
+
     connect(ui->treeActions, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
             this, SLOT(onItemDoubleClicked(QTreeWidgetItem*,int)));
 
