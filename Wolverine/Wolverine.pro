@@ -32,7 +32,8 @@ SOURCES      += \
                 ../src/WDocument.cpp \
                 ../src/WMainWindow.cpp \
     ../src/settings/CfgDynamicSettings.cpp \
-    ../src/WActionManager.cpp
+    ../src/WActionManager.cpp \
+    ../src/settings/CfgStartupSettings.cpp
 
 HEADERS      += \
                 ../include/CfgAppSettings.h \
@@ -47,7 +48,8 @@ HEADERS      += \
                 ../include/WCentralWidget.h \
                 ../include/WDocument.h \
     ../include/CfgDynamicSettings.h \
-    ../include/WActionManager.h
+    ../include/WActionManager.h \
+    ../include/CfgStartupSettings.h
 
 INCLUDEPATH  += \
                 ../include \

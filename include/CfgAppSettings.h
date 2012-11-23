@@ -9,6 +9,7 @@ class DynamicSettings;
 class GeneralSettings;
 class HiddenSettings;
 class ScintillaSettings;
+class StartupSettings;
 
 
 
@@ -20,6 +21,7 @@ public:
     GeneralSettings *general;
     HiddenSettings *hidden;
     ScintillaSettings *scintilla;
+    StartupSettings *startup;
 
 
     virtual ~AppSettings();

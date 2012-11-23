@@ -4,6 +4,7 @@
 #include "CfgGeneralSettings.h"
 #include "CfgHiddenSettings.h"
 #include "CfgScintillaSettings.h"
+#include "CfgStartupSettings.h"
 
 #include <QApplication>
 #include <QMetaObject>
@@ -30,6 +31,7 @@ AppSettings::AppSettings()
     general = new GeneralSettings();
     hidden = new HiddenSettings();
     scintilla = new ScintillaSettings();
+    startup = new StartupSettings();
 
     loadConfiguration();
     qAddPostRoutine(deleteAppSettingsInstance);
@@ -40,9 +42,11 @@ AppSettings::~AppSettings()
     dropConfigurationBackup();
     saveConfiguration();
 
+    delete dynamic;
     delete general;
     delete hidden;
     delete scintilla;
+    delete startup;
 }
 
 AppSettings* AppSettings::instance()
@@ -60,6 +64,7 @@ bool AppSettings::loadConfiguration()
     loadGroup(qset, general);
     loadGroup(qset, hidden);
     loadGroup(qset, scintilla);
+    loadGroup(qset, startup);
 	return true;
 }
 
@@ -74,14 +79,17 @@ bool AppSettings::saveConfiguration()
     saveGroup(qset, general);
     saveGroup(qset, hidden);
     saveGroup(qset, scintilla);
+    saveGroup(qset, startup);
 	return true;
 }
 
 void AppSettings::copy(AppSettings *to, const AppSettings *from)
 {
+    copyGroup(to->dynamic,   from->dynamic);
     copyGroup(to->general,   from->general);
     copyGroup(to->hidden,    from->hidden);
     copyGroup(to->scintilla, from->scintilla);
+    copyGroup(to->startup,   from->startup);
 }
 
 

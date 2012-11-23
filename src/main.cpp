@@ -1,7 +1,7 @@
 
 #include "wolverine_cfg.h"
 #include "CfgAppSettings.h"
-#include "CfgGeneralSettings.h"
+#include "CfgStartupSettings.h"
 #include "WMainWindow.h"
 
 #include "Logger.h"
@@ -21,22 +21,22 @@ void configureLogger()
 {
     AppSettings *settings = AppSettings::instance();
 
-    if(settings->general->isLogConsoleEnabled()) {
+    if(settings->startup->isLogConsoleEnabled()) {
         ConsoleAppender *console = new ConsoleAppender();   //qtlogger library is responsible for deleting console appender
         console->setFormat(LOG_FORMAT_STRING);
-        console->setDetailsLevel(settings->general->getLogLevel());
+        console->setDetailsLevel(settings->startup->getLogLevel());
         Logger::registerAppender(console);
     }
 
-    if(settings->general->isLogFileEnabled()) {
-        QString logFile = settings->general->getLogFilePath();
+    if(settings->startup->isLogFileEnabled()) {
+        QString logFile = settings->startup->getLogFilePath();
         if(logFile.isEmpty()) {
             LOG_ERROR("No log file selected");
             return;
         }
         FileAppender *file = new FileAppender(logFile); //qtlogger library is responsible for deleting file appender
         file->setFormat(LOG_FORMAT_STRING);
-        file->setDetailsLevel(settings->general->getLogLevel());
+        file->setDetailsLevel(settings->startup->getLogLevel());
         Logger::registerAppender(file);
     }
 }
