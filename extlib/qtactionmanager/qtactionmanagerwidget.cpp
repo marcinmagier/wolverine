@@ -79,7 +79,7 @@ void QtActionManagerWidget::changeCurrentScheme(QString scheme)
     if(mItemSelected)
         restoreSelected();
 
-    mActionManager->mCurrentScheme = scheme;
+    mActionManager->setCurrentScheme(scheme);
     ui->treeActions->clear();
     mActionMap.clear();
 

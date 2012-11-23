@@ -41,10 +41,10 @@ void DlgSettings::showDialog()
     }
 
     // Just call exec(). QtDialogSettings is responsible for calling correct inform functions.
-    QtDialogSettings::exec();
-
-    //mSettings->saveConfiguration();
-    //mActionManager->saveConfig();
+    if(QtDialogSettings::exec()) {
+        mSettings->saveConfiguration();
+        mActionManager->saveConfig();
+    }
 
     // There is no need to keep these variables in memory.
     //delete general;
