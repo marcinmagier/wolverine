@@ -163,6 +163,8 @@ void QtActionManager::addScheme(const QString &name)
 {
     if(!mSchemes.contains(name))
         mSchemes.append(name);
+
+    setCurrentScheme(name);
 }
 
 
