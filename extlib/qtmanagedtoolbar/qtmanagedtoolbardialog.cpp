@@ -5,6 +5,12 @@
 **
 **************************************************************************************************/
 
+/**
+ *  @file       qtmanagedtoolbardialog.cpp
+ *  @brief      QtManagedToolbarDialog class implementation.
+ */
+
+
 #include "qtmanagedtoolbardialog.h"
 #include "ui_qtmanagedtoolbardialog.h"
 
@@ -14,10 +20,12 @@
 
 
 
-//*************************************************************************************************
-/** \brief  Default constructor.
-*
-**************************************************************************************************/
+
+/**
+ *  Default constructor.
+ *
+ * @param parent
+ */
 QtManagedToolBarDialog::QtManagedToolBarDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::QtManagedToolBarDialog)
@@ -35,20 +43,22 @@ QtManagedToolBarDialog::QtManagedToolBarDialog(QWidget *parent) :
 }
 
 
-//*************************************************************************************************
-/** \brief  Default destructor.
-*
-**************************************************************************************************/
+/**
+ *   Default destructor.
+ */
 QtManagedToolBarDialog::~QtManagedToolBarDialog()
 {
     delete ui;
 }
 
 
-//*************************************************************************************************
-/** \brief  Shows dialog.
-*
-**************************************************************************************************/
+/**
+ * Shows dialog.
+ *
+ * @param actionsAvailable
+ * @param actionsVisible
+ * @return
+ */
 int QtManagedToolBarDialog::exec(const QtActionNameMap *actionsAvailable, QStringList *actionsVisible)
 {
     if (actionsAvailable == 0)
@@ -73,10 +83,12 @@ int QtManagedToolBarDialog::exec(const QtActionNameMap *actionsAvailable, QStrin
 }
 
 
-//*************************************************************************************************
-/** \brief  Fills "available" list.
-*
-**************************************************************************************************/
+/**
+ *  Fills "available" list.
+ *
+ * @param actionsAvailable
+ * @param actionsVisible
+ */
 void QtManagedToolBarDialog::fillActionsAvailable(const QtActionNameMap *actionsAvailable, const QStringList *actionsVisible)
 {
     mActionsAvailableMap.clear();
@@ -105,10 +117,11 @@ void QtManagedToolBarDialog::fillActionsAvailable(const QtActionNameMap *actions
 }
 
 
-//*************************************************************************************************
-/** \brief  Fills "visable" list.
-*
-**************************************************************************************************/
+/**
+ *  Fills "visable" list.
+ *
+ * @param actionsVisible
+ */
 void QtManagedToolBarDialog::fillActionsVisible(const QStringList *actionsVisible)
 {
     mActionsVisibleMap.clear();
@@ -133,10 +146,9 @@ void QtManagedToolBarDialog::fillActionsVisible(const QStringList *actionsVisibl
 
 
 
-//*************************************************************************************************
-/** \brief  Moves action from the "visable" list.
-*
-**************************************************************************************************/
+/**
+ *  Moves action from the "visable" list.
+ */
 void QtManagedToolBarDialog::moveActionToLeft() {
     QListWidgetItem *item = ui->listVisible->currentItem();
     if(item)
@@ -144,10 +156,11 @@ void QtManagedToolBarDialog::moveActionToLeft() {
 }
 
 
-//*************************************************************************************************
-/** \brief  Moves action from the "visable" list.
-*
-**************************************************************************************************/
+/**
+ *  Moves action from the "visable" list.
+ *
+ * @param item
+ */
 void QtManagedToolBarDialog::moveActionToLeft(QListWidgetItem *item) {
     QString name = mActionsVisibleMap[item];
     if(name != "Separator") {
@@ -160,10 +173,9 @@ void QtManagedToolBarDialog::moveActionToLeft(QListWidgetItem *item) {
 }
 
 
-//*************************************************************************************************
-/** \brief  Moves action to the "visable" list.
-*
-**************************************************************************************************/
+/**
+ *  Moves action to the "visable" list.
+ */
 void QtManagedToolBarDialog::moveActionToRight() {
     QListWidgetItem *item = ui->listAvailable->currentItem();
     if(item)
@@ -171,10 +183,11 @@ void QtManagedToolBarDialog::moveActionToRight() {
 }
 
 
-//*************************************************************************************************
-/** \brief  Moves action to the "visable" list.
-*
-**************************************************************************************************/
+/**
+ * Moves action to the "visable" list.
+ *
+ * @param item
+ */
 void QtManagedToolBarDialog::moveActionToRight(QListWidgetItem *item) {
     if(mActionsAvailableMap[item] != "Separator") {
         item->setHidden(true);
@@ -193,10 +206,9 @@ void QtManagedToolBarDialog::moveActionToRight(QListWidgetItem *item) {
 }
 
 
-//*************************************************************************************************
-/** \brief  Moves action up.
-*
-**************************************************************************************************/
+/**
+ *  Moves action up.
+ */
 void QtManagedToolBarDialog::moveActionUp() {
     int row = ui->listVisible->currentRow();
     if(row > 0) {
@@ -208,10 +220,9 @@ void QtManagedToolBarDialog::moveActionUp() {
 }
 
 
-//*************************************************************************************************
-/** \brief  Moves action down.
-*
-**************************************************************************************************/
+/**
+ *  Moves action down.
+ */
 void QtManagedToolBarDialog::moveActionDown() {
     int row = ui->listVisible->currentRow();
     if(row >= 0 && row < ui->listVisible->count()-1) {

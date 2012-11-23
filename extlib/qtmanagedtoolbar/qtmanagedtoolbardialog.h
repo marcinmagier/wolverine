@@ -5,6 +5,11 @@
 **
 **************************************************************************************************/
 
+/**
+ *  @file       qtmanagedtoolbardialog.h
+ *  @brief      QtManagedToolbarDialog class interface.
+ *  @details    It shouldn't be used outside qtmanagedtoolbar library.
+ */
 
 #ifndef __QT_MANAGED_TOOLBAR_DIALOG_H_
  #define __QT_MANAGED_TOOLBAR_DIALOG_H_

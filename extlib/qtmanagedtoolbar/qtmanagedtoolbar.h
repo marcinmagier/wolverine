@@ -5,6 +5,11 @@
 **
 **************************************************************************************************/
 
+/**
+ *  @file       qtmanagedtoolbar.h
+ *  @brief      QtManagedToolbar class interface.
+ */
+
 
 #ifndef __QT_MANAGED_TOOLBAR_H_
  #define __QT_MANAGED_TOOLBAR_H_

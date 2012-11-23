@@ -5,6 +5,11 @@
 **
 **************************************************************************************************/
 
+/**
+ *  @file       qtmanagedtoolbarlistbox.h
+ *  @brief      QtManagedToolbarListbox class interface.
+ *  @details    It shouldn't be used outside qtmanagedtoolbar library.
+ */
 
 #ifndef __QT_MANAGED_TOOLBAR_LISTBOX_H_
  #define __QT_MANAGED_TOOLBAR_LISTBOX_H_

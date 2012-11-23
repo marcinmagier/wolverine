@@ -5,6 +5,10 @@
 **
 **************************************************************************************************/
 
+/**
+ *  @file       qtmanagedtoolbar.cpp
+ *  @brief      QtManagedToolbar class implementation.
+ */
 
 #include "qtmanagedtoolbar.h"
 #include "qtmanagedtoolbardialog.h"
@@ -28,11 +32,13 @@ static const QString defItemName = "NoNamedItem";
 
 
 
-//*************************************************************************************************
-/** \brief  Default constructor.
-*
-*   This constructor should not be used in reliable application. Always give a name for toolbar.
-**************************************************************************************************/
+/**
+ *  Default constructor.
+ *
+ *  This constructor should not be used in reliable application. Always give a name for toolbar.
+ *
+ * @param parent
+ */
 QtManagedToolBar::QtManagedToolBar(QWidget *parent) :
     QToolBar(parent)
 {
@@ -41,20 +47,25 @@ QtManagedToolBar::QtManagedToolBar(QWidget *parent) :
     initialize(toolbarName);
 }
 
-//*************************************************************************************************
-/** \brief  Parametrized constructor. Creates named toolbar.
-*
-**************************************************************************************************/
+
+/**
+ *  Parametrized constructor. Creates named toolbar.
+ *
+ * @param parent
+ * @param toolbarName
+ */
 QtManagedToolBar::QtManagedToolBar(QWidget *parent, const QString &toolbarName) :
     QToolBar(parent)
 { 
     initialize(toolbarName);
 }
 
-//*************************************************************************************************
-/** \brief    Sets fields to their default values.
-*
-**************************************************************************************************/
+
+/**
+ *  Sets fields to their default values.
+ *
+ * @param name
+ */
 void QtManagedToolBar::initialize(const QString &name)
 {
     mToolbarName = name;
@@ -63,21 +74,26 @@ void QtManagedToolBar::initialize(const QString &name)
 }
 
 
-
-//*************************************************************************************************
-/** \brief  Adds action into toolbar.
-*
-**************************************************************************************************/
+/**
+ *  Adds action into toolbar.
+ *
+ * @param name
+ * @param action
+ */
 void QtManagedToolBar::addAction(const QString &name, QAction *action)
 {
     addActionAvailable(name, action);
     QToolBar::addAction(action);
 }
 
-//*************************************************************************************************
-/** \brief  Adds widget into toolbar.
-*
-**************************************************************************************************/
+
+/**
+ * Adds widget into toolbar.
+ *
+ * @param name
+ * @param widget
+ * @return
+ */
 QAction* QtManagedToolBar::addWidget(const QString &name, QWidget *widget)
 {
     QAction *tmp = QToolBar::addWidget(widget);
@@ -85,10 +101,12 @@ QAction* QtManagedToolBar::addWidget(const QString &name, QWidget *widget)
     return tmp;
 }
 
-//*************************************************************************************************
-/** \brief  Removes action from toolbar.
-*
-**************************************************************************************************/
+
+/**
+ * Removes action from toolbar.
+ *
+ * @param action
+ */
 void QtManagedToolBar::removeAction(QAction *action)
 {
     QString key = mActionsAvailable.key(action);
@@ -98,10 +116,12 @@ void QtManagedToolBar::removeAction(QAction *action)
     }
 }
 
-//*************************************************************************************************
-/** \brief  Removes action from toolbar.
-*
-**************************************************************************************************/
+
+/**
+ *  Removes action from toolbar.
+ *
+ * @param name
+ */
 void QtManagedToolBar::removeAction(const QString &name)
 {
     if(mActionsAvailable.contains(name)) {
@@ -112,14 +132,14 @@ void QtManagedToolBar::removeAction(const QString &name)
 }
 
 
-
-
-//*************************************************************************************************
-/** \brief  Creates and shows context menu.
-*
-*   This function is used when child class doesn't define context menu. Menu is only shown when
-*   manager is enabled.
-**************************************************************************************************/
+/**
+ *  Creates and shows context menu.
+ *
+ *  This function is used when child class doesn't define context menu. Menu is only shown when
+ *  manager is enabled.
+ *
+ * @param event
+ */
 void QtManagedToolBar::contextMenuEvent(QContextMenuEvent *event)
 {
     if(mIsManagerEnabled) {
@@ -135,12 +155,16 @@ void QtManagedToolBar::contextMenuEvent(QContextMenuEvent *event)
     }
 }
 
-//*************************************************************************************************
-/** \brief  Adds \a Customize to the context menu and shows it.
-*
-*   Function is created to be invoked from child class. \a Customize item is only added when
-*   manager is enabled.
-**************************************************************************************************/
+
+/**
+ *  Adds \a Customize to the context menu and shows it.
+ *
+ *  Function is created to be invoked from child class. \a Customize item is only added when
+ *  manager is enabled.
+ *
+ * @param event
+ * @param menu
+ */
 void QtManagedToolBar::showContextMenu(QContextMenuEvent *event, QMenu *menu)
 {
 	if(mIsManagerEnabled) {
@@ -153,10 +177,9 @@ void QtManagedToolBar::showContextMenu(QContextMenuEvent *event, QMenu *menu)
 }
 
 
-//*************************************************************************************************
-/** \brief  Shows dialog where we can customize toolbar's items.
-*
-**************************************************************************************************/
+/**
+ *  Shows dialog where we can customize toolbar's items.
+ */
 void QtManagedToolBar::showManagerDialog()
 {
     QtManagedToolBarDialog dlg(this);
@@ -169,10 +192,9 @@ void QtManagedToolBar::showManagerDialog()
 }
 
 
-//*************************************************************************************************
-/** \brief  Creates and saves items that are currently available on toolbar.
-*
-**************************************************************************************************/
+/**
+ *  Creates and saves items that are currently available on toolbar.
+ */
 void QtManagedToolBar::saveConfig()
 {
     QStringList actionsVisible = createConfiguration();
@@ -180,10 +202,11 @@ void QtManagedToolBar::saveConfig()
 }
 
 
-//*************************************************************************************************
-/** \brief  Saves given configuration to the file.
-*
-**************************************************************************************************/
+/**
+ * Saves given configuration to the file.
+ *
+ * @param actionNames
+ */
 void QtManagedToolBar::saveConfig(const QStringList &actionNames)
 {
     QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "toolbars");
@@ -195,10 +218,9 @@ void QtManagedToolBar::saveConfig(const QStringList &actionNames)
 }
 
 
-//*************************************************************************************************
-/** \brief  Reads configuration from the file and apply it.
-*
-**************************************************************************************************/
+/**
+ *  Reads configuration from the file and apply it.
+ */
 void QtManagedToolBar::restoreConfig()
 {
 
@@ -210,10 +232,12 @@ void QtManagedToolBar::restoreConfig()
 }
 
 
-//*************************************************************************************************
-/** \brief  Stores \a action in \a mActionsAvailable map. Provides default name if necessary.
-*
-**************************************************************************************************/
+/**
+ * Stores \a action in \a mActionsAvailable map. Provides default name if necessary.
+ *
+ * @param name
+ * @param action
+ */
 void QtManagedToolBar::addActionAvailable(const QString &name, QAction *action)
 {
     if(action->text().isEmpty())
@@ -223,10 +247,11 @@ void QtManagedToolBar::addActionAvailable(const QString &name, QAction *action)
 }
 
 
-//*************************************************************************************************
-/** \brief  Reorganizes toolbar items according to \a actionNames.
-*
-**************************************************************************************************/
+/**
+ * Reorganizes toolbar items according to \a actionNames.
+ *
+ * @param actionNames
+ */
 void QtManagedToolBar::applyConfiguration(const QStringList &actionNames)
 {
     if(actionNames.size() == 0)
@@ -244,10 +269,11 @@ void QtManagedToolBar::applyConfiguration(const QStringList &actionNames)
 }
 
 
-//*************************************************************************************************
-/** \brief  Creates list of items that are currently available on toolbar.
-*
-**************************************************************************************************/
+/**
+ * Creates list of items that are currently available on toolbar.
+ *
+ * @return
+ */
 QStringList QtManagedToolBar::createConfiguration()
 {
     QStringList actionNames;

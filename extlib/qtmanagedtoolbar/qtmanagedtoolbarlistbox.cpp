@@ -5,6 +5,11 @@
 **
 **************************************************************************************************/
 
+/**
+ *  @file       qtmanagedtoolbarlistbox.cpp
+ *  @brief      QtManagedToolbarListbox class implementation.
+ */
+
 
 #include "qtmanagedtoolbarlistbox.h"
 
@@ -16,10 +21,11 @@
 
 
 
-//*************************************************************************************************
-/** \brief  Default constructor.
-*
-**************************************************************************************************/
+/**
+ *  Default constructor.
+ *
+ * @param parent
+ */
 QtManagedToolbarListbox::QtManagedToolbarListbox(QWidget *parent) :
     QListWidget(parent)
 {
@@ -27,10 +33,11 @@ QtManagedToolbarListbox::QtManagedToolbarListbox(QWidget *parent) :
 }
 
 
-//*************************************************************************************************
-/** \brief  Drop event handler.
-*
-**************************************************************************************************/
+/**
+ *  Drop event handler.
+ *
+ * @param event
+ */
 void QtManagedToolbarListbox::dropEvent(QDropEvent *event)
 {
     QByteArray encoded = event->mimeData()->data("application/x-qabstractitemmodeldatalist");
@@ -56,12 +63,12 @@ void QtManagedToolbarListbox::dropEvent(QDropEvent *event)
 }
 
 
-//*************************************************************************************************
-/** \brief  Redefine mouseMoveEvent in order to prevent dragging items.
-*
-*   Without this function it is possible to start dragging list item dropped before (DropOnly mode is set)
-*   BUG: Qt v4.8.1 win
-**************************************************************************************************/
+/**
+ *  Redefine mouseMoveEvent in order to prevent dragging items.
+ *
+ *  Without this function it is possible to start dragging list item dropped before (DropOnly mode is set)
+ *  @bug Qt v4.8.1 win
+ */
 void QtManagedToolbarListbox::mouseMoveEvent(QMouseEvent* /*event*/)
 {
     //no action
