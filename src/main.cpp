@@ -92,6 +92,8 @@ int runNevInstanceApp(int argc, char **argv, const QStringList &files)
     app.setApplicationName(APP_NAME);
     app.setApplicationVersion(APP_VERSION);
 
+    LOG_DEBUG("New app instance is starting with --new.");
+
     AppSettings::instanceWithNewThread();
 
     Wolverine::MainWindow mainWindow;
@@ -125,6 +127,8 @@ int runSingleInstanceApp(int argc, char **argv, const QStringList &files)
         AppSettings::deleteInstance();
         return 0;
     }
+
+    LOG_DEBUG("New app instance is starting with.");
 
     app.setApplicationName(APP_NAME);
     app.setApplicationVersion(APP_VERSION);
@@ -171,6 +175,7 @@ int main(int argc, char **argv)
         }
 
         if(!QFileInfo(str).exists()) {
+            LOG_DEBUG("File not found.");
             continue;
         }
 
