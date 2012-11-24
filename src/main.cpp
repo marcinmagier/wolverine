@@ -19,6 +19,11 @@
 
 static void configureLogger();
 
+static void printHelp();
+static void printVersion();
+static int runNevInstanceApp(int argc, char **argv, const QStringList &files);
+static int runSingleInstanceApp(int argc, char **argv, const QStringList &files);
+
 
 
 /**
@@ -26,7 +31,7 @@ static void configureLogger();
  */
 void configureLogger()
 {
-    AppSettings *settings = AppSettings::instance();
+    AppSettings *settings = AppSettings::instanceStartup();
 
     if(settings->startup->isLogConsoleEnabled()) {
         ConsoleAppender *console = new ConsoleAppender();   //qtlogger library is responsible for deleting console appender
@@ -50,16 +55,6 @@ void configureLogger()
 
 
 /**
- *  Prints app version.
- */
-void printVersion()
-{
-    QTextStream out(stdout);
-    out << APP_NAME << " ver " << APP_VERSION << "\n";
-}
-
-
-/**
  *  Prints help text.
  */
 void printHelp()
@@ -70,6 +65,16 @@ void printHelp()
         << "  Wolverine --new <file>\n"
         << "  Wolverine --help\n"
         << "  Wolverine --version\n";
+}
+
+
+/**
+ *  Prints app version.
+ */
+void printVersion()
+{
+    QTextStream out(stdout);
+    out << APP_NAME << " ver " << APP_VERSION << "\n";
 }
 
 
@@ -86,6 +91,8 @@ int runNevInstanceApp(int argc, char **argv, const QStringList &files)
     QApplication app(argc, argv);
     app.setApplicationName(APP_NAME);
     app.setApplicationVersion(APP_VERSION);
+
+    AppSettings::instanceWithNewThread();
 
     Wolverine::MainWindow mainWindow;
 
@@ -115,8 +122,13 @@ int runSingleInstanceApp(int argc, char **argv, const QStringList &files)
         foreach(QString file, files) {
             app.sendMessage(file);
         }
+        AppSettings::deleteInstance();
         return 0;
     }
+
+    app.setApplicationName(APP_NAME);
+    app.setApplicationVersion(APP_VERSION);
+    AppSettings::instanceWithNewThread();
 
     Wolverine::MainWindow mainWindow;
 
@@ -129,20 +141,15 @@ int runSingleInstanceApp(int argc, char **argv, const QStringList &files)
 }
 
 
-/**
- *  Parses command line and runs application accordingly
- *
- * @param argc
- * @param argv
- * @return
- */
-int runApp(int argc, char **argv)
-{
-    bool isSingle = true;
-    QStringList files;
-    AppSettings *settings = AppSettings::instance();
 
-    settings->startup->setAppPath(argv[0]);
+
+int main(int argc, char **argv)
+{
+    bool isNewInstance = false;
+    QStringList files;
+    AppSettings *settings = AppSettings::instanceStartup();
+
+    configureLogger();
 
     // Process arguments, create files list to be opened
     // Ommit program path (1st arg)
@@ -151,14 +158,16 @@ int runApp(int argc, char **argv)
 
         if(str.compare("-h")==0 || str.compare("--help")==0) {
             printHelp();
+            AppSettings::deleteInstance();
             return 0;
         }
         if(str.compare("-v")==0 || str.compare("--version")==0) {
             printVersion();
+            AppSettings::deleteInstance();
             return 0;
         }
         if(str.compare("-n")==0 || str.compare("--new")==0) {
-            isSingle = false;
+            isNewInstance = false;
         }
 
         if(!QFileInfo(str).exists()) {
@@ -168,20 +177,10 @@ int runApp(int argc, char **argv)
         files << QFileInfo(str).absoluteFilePath();
     }
 
-    if(isSingle)
-        return runSingleInstanceApp(argc, argv, files);
+    if(isNewInstance || settings->startup->isAlwaysNewInstance())
+        return runNevInstanceApp(argc, argv, files);
 
-    return runNevInstanceApp(argc, argv, files);
-}
-
-
-
-
-int main(int argc, char **argv)
-{
-    configureLogger();
-
-    return runApp(argc, argv);
+    return runSingleInstanceApp(argc, argv, files);
 }
 
 

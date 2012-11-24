@@ -13,6 +13,8 @@ StartupSettings::StartupSettings()
     mLogFilePath = "Wolverine.log";
     mLogFileEnabled = true;
     mLogConsoleEnabled = true;
+
+    mAlwaysNewInstance = false;
 }
 
 
@@ -45,6 +47,12 @@ bool StartupSettings::isLogConsoleEnabled()
 {
     return mLogConsoleEnabled;
 }
+
+bool StartupSettings::isAlwaysNewInstance()
+{
+    return mAlwaysNewInstance;
+}
+
 
 
 
@@ -82,4 +90,8 @@ void StartupSettings::setLogConsoleEnabled(bool val)
     mLogConsoleEnabled = val;
 }
 
+void StartupSettings::setAlwaysNewInstance(bool val)
+{
+    mAlwaysNewInstance = val;
+}
 

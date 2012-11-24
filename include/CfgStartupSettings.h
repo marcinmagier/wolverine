@@ -18,6 +18,8 @@ class StartupSettings : public QObject
     Q_PROPERTY(bool		logFileEnabled  		READ isLogFileEnabled   		WRITE setLogFileEnabled     )
     Q_PROPERTY(bool		logConsoleEnabled		READ isLogConsoleEnabled		WRITE setLogConsoleEnabled  )
 
+    Q_PROPERTY(bool		alwaysNewInstance		READ isAlwaysNewInstance		WRITE setAlwaysNewInstance  )
+
 
 public:
     explicit StartupSettings();
@@ -30,6 +32,8 @@ public:
     QString getLogFilePath();
     bool isLogFileEnabled();
     bool isLogConsoleEnabled();
+
+    bool isAlwaysNewInstance();
 
 
 
@@ -47,6 +51,8 @@ public slots:
     void setLogFileEnabled(bool val);
     void setLogConsoleEnabled(bool val);
 
+    void setAlwaysNewInstance(bool val);
+
 
 
 private:
@@ -58,6 +64,8 @@ private:
     QString mLogFilePath;
     bool mLogFileEnabled;
     bool mLogConsoleEnabled;
+
+    bool mAlwaysNewInstance;
 
 };
 

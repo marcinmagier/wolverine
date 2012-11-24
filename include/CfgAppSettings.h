@@ -25,7 +25,12 @@ public:
 
 
     virtual ~AppSettings();
+
     static AppSettings* instance();
+    static AppSettings* instanceStartup();
+    static void instanceWithNewThread();
+    static void deleteInstance();
+
     virtual bool loadConfiguration();
     virtual bool saveConfiguration();
 
@@ -37,11 +42,17 @@ public:
 private:
     AppSettings();
 
+    void initialize();
+    void initializeStartup();
+
     void copy(AppSettings *to, const AppSettings *from);
 
-    static const QString sConfigFileName;
-    AppSettings *mBackup;
 
+
+    static AppSettings* sAppConfig;
+    static AppSettings* sStartupConfig;
+
+    AppSettings *mBackup;
 };
 
 #endif //__CFG_APP_SETTINGS_H_
