@@ -9,6 +9,8 @@
 #include "DlgSettings.h"
 
 
+#include "Logger.h"
+
 #include <QMenu>
 #include <QMenuBar>
 
@@ -196,4 +198,10 @@ void MainWindow::createMenusAndToolbars()
     toolbar->setIconSize(QSize(16,16));
     toolbar->restoreConfig();
 */
+}
+
+
+void MainWindow::openFile(const QString &file)
+{
+    LOG_DEBUG(file);
 }

@@ -31,6 +31,10 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     virtual ~MainWindow();
 
+public slots:
+    void openFile(const QString &file);
+
+
 private:
     void createMenusAndToolbars();
 

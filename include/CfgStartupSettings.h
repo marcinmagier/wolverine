@@ -9,6 +9,8 @@ class StartupSettings : public QObject
 {
 	Q_OBJECT
 
+    Q_PROPERTY(QString	appPath                 READ getAppPath                 WRITE setAppPath            )
+
     Q_PROPERTY(QString	language                READ getLanguage                WRITE setLanguage           )
 
     Q_PROPERTY(QString	logLevel                READ getLogLevel                WRITE setLogLevel           )
@@ -20,12 +22,14 @@ class StartupSettings : public QObject
 public:
     explicit StartupSettings();
 
-    QString getLanguage() { return mLanguage; }
+    QString getAppPath();
 
-    QString getLogLevel() { return mLogLevel; }
-    QString getLogFilePath() { return mLogFilePath; }
-    bool isLogFileEnabled() { return mLogFileEnabled; }
-    bool isLogConsoleEnabled() { return mLogConsoleEnabled; }
+    QString getLanguage();
+
+    QString getLogLevel();
+    QString getLogFilePath();
+    bool isLogFileEnabled();
+    bool isLogConsoleEnabled();
 
 
 
@@ -34,6 +38,8 @@ signals:
 
 
 public slots:
+    void setAppPath(QString val);
+
     void setLanguage(QString val);
 
     void setLogLevel(QString val);
@@ -44,6 +50,8 @@ public slots:
 
 
 private:
+    QString mAppPath;
+
     QString mLanguage;
 
     QString mLogLevel;

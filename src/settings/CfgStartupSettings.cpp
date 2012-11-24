@@ -16,6 +16,44 @@ StartupSettings::StartupSettings()
 }
 
 
+QString StartupSettings::getAppPath()
+{
+    return mAppPath;
+}
+
+QString StartupSettings::getLanguage()
+{
+    return mLanguage;
+}
+
+QString StartupSettings::getLogLevel()
+{
+    return mLogLevel;
+}
+
+QString StartupSettings::getLogFilePath()
+{
+    return mLogFilePath;
+}
+
+bool StartupSettings::isLogFileEnabled()
+{
+    return mLogFileEnabled;
+}
+
+bool StartupSettings::isLogConsoleEnabled()
+{
+    return mLogConsoleEnabled;
+}
+
+
+
+
+void StartupSettings::setAppPath(QString val)
+{
+    mAppPath = val;
+}
+
 void StartupSettings::setLanguage(QString val)
 {
     if(mLanguage != val) {
@@ -23,7 +61,6 @@ void StartupSettings::setLanguage(QString val)
         emit languageChanged(mLanguage);
     }
 }
-
 
 void StartupSettings::setLogLevel(QString val)
 {
