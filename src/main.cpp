@@ -15,6 +15,8 @@
 #include <QStringList>
 #include <QFileInfo>
 
+#include <QDebug>
+
 
 
 static void configureLogger();
@@ -120,15 +122,16 @@ int runSingleInstanceApp(int argc, char **argv, const QStringList &files)
 {
     QtSingleApplication app(argc, argv);
 
-    if(app.isRunning()) {
-        foreach(QString file, files) {
-            app.sendMessage(file);
-        }
+    if(app.sendMessage("Test")) {
+        LOG_DEBUG("Application is already started");
+      //  foreach(QString file, files) {
+      //      app.sendMessage(file);
+      //  }
         AppSettings::deleteInstance();
         return 0;
     }
 
-    LOG_DEBUG("New app instance is starting with.");
+    LOG_DEBUG("New app instance is starting.");
 
     app.setApplicationName(APP_NAME);
     app.setApplicationVersion(APP_VERSION);
@@ -171,15 +174,13 @@ int main(int argc, char **argv)
             return 0;
         }
         if(str.compare("-n")==0 || str.compare("--new")==0) {
-            isNewInstance = false;
-        }
-
-        if(!QFileInfo(str).exists()) {
-            LOG_DEBUG("File not found.");
+            isNewInstance = true;
             continue;
         }
 
-        files << QFileInfo(str).absoluteFilePath();
+        // File is validated just before opennig so here we just
+        // create list of strings (propably files in format file:line)
+        files.append(str);
     }
 
     if(isNewInstance || settings->startup->isAlwaysNewInstance())

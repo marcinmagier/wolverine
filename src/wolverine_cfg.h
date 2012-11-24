@@ -7,7 +7,7 @@
 #define APP_NAME            "Wolverine"
 #define APP_VERSION         "0.1"
 
-#define LOG_FORMAT_STRING   "%t{yyyy-MM-dd mm:ss} [%-7L] %F %i <%C> %m\n"
+#define LOG_FORMAT_STRING   "%t{yyyy-MM-dd mm:ss} [%-7L] %F %i %m\n"
 
 
 

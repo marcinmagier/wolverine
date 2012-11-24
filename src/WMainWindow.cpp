@@ -203,5 +203,12 @@ void MainWindow::createMenusAndToolbars()
 
 void MainWindow::openFile(const QString &file)
 {
-    LOG_DEBUG(file);
+/*    if(!QFileInfo(str).exists()) {
+        LOG_DEBUG("File not found.");
+        continue;
+    }
+
+    files << QFileInfo(str).absoluteFilePath();
+  */
+    LOG_DEBUG("file");
 }
