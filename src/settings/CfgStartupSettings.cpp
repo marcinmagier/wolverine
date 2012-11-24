@@ -9,7 +9,7 @@ StartupSettings::StartupSettings()
 {
     mLanguage = QLocale::system().name();
 
-    mLogLevel = "Info";
+    mLogLevel = "Warning";
     mLogFilePath = "Wolverine.log";
     mLogFileEnabled = true;
     mLogConsoleEnabled = true;

@@ -1,4 +1,6 @@
 
+#include "wolverine_cfg.h"
+
 #include "CfgAppSettings.h"
 #include "CfgDynamicSettings.h"
 #include "CfgGeneralSettings.h"
@@ -45,26 +47,29 @@ AppSettings::~AppSettings()
         delete startup;
 }
 
-void AppSettings::initialize()
+void AppSettings::initialize(bool isBackup)
 {
     dynamic = new DynamicSettings();
     general = new GeneralSettings();
     hidden = new HiddenSettings();
     scintilla = new ScintillaSettings();
 
-    if(sStartupConfig) {
+    if(isBackup || sStartupConfig == 0) {
+        // We want to initialize backup
+        startup = new StartupSettings();
+    }
+    else {
         // sStartup is no more needed
         startup = sStartupConfig->startup;
         sStartupConfig->startup = 0;
         delete sStartupConfig;
         sStartupConfig = 0;
     }
-    else {
-        startup = new StartupSettings();
-    }
 
-    loadConfiguration();
-    qAddPostRoutine(deleteInstance);
+    if(!isBackup) {
+        loadConfiguration();
+        qAddPostRoutine(deleteInstance);
+    }
 }
 
 void AppSettings::initializeStartup()
@@ -72,7 +77,7 @@ void AppSettings::initializeStartup()
     startup = new StartupSettings();
 
     // Load only startup settings in order to speedup application startup
-    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), W_CONFIG_FILE_NAME);
+    QSettings qset(QSettings::IniFormat, QSettings::UserScope, APP_NAME, W_CONFIG_FILE_NAME);
     loadGroup(qset, startup);
 }
 
@@ -124,7 +129,7 @@ void AppSettings::deleteInstance()
 //virtual
 bool AppSettings::loadConfiguration()
 {
-    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), W_CONFIG_FILE_NAME);
+    QSettings qset(QSettings::IniFormat, QSettings::UserScope, APP_NAME, W_CONFIG_FILE_NAME);
 
     loadGroup(qset, general);
     loadGroup(qset, hidden);
@@ -136,7 +141,7 @@ bool AppSettings::loadConfiguration()
 //virtual
 bool AppSettings::saveConfiguration()
 {
-    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), W_CONFIG_FILE_NAME);
+    QSettings qset(QSettings::IniFormat, QSettings::UserScope, APP_NAME, W_CONFIG_FILE_NAME);
 
     if (!qset.isWritable())
         return false;
@@ -164,6 +169,7 @@ void AppSettings::createConfigurationBackup()
     if(mBackup)
         delete mBackup;
     mBackup = new AppSettings();
+    mBackup->initialize(true);
     copy(mBackup, sAppConfig);
 }
 

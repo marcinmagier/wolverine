@@ -21,38 +21,45 @@ include(../extlib/qtscintilla/qtscintilla.pri)
 
 SOURCES      += \
                 ../src/main.cpp \
-                ../src/settings/CfgAppSettings.cpp \
                 ../src/settings/DlgSettings.cpp \
                 ../src/settings/PageGeneral.cpp \
                 ../src/settings/PageScintilla.cpp \
+                ../src/settings/CfgAppSettings.cpp \
+                ../src/settings/CfgDynamicSettings.cpp \
                 ../src/settings/CfgGeneralSettings.cpp \
                 ../src/settings/CfgHiddenSettings.cpp \
                 ../src/settings/CfgScintillaSettings.cpp \
+                ../src/settings/CfgStartupSettings.cpp \
+                ../src/WActionManager.cpp \
                 ../src/WCentralWidget.cpp \
                 ../src/WDocument.cpp \
-                ../src/WMainWindow.cpp \
-    ../src/settings/CfgDynamicSettings.cpp \
-    ../src/WActionManager.cpp \
-    ../src/settings/CfgStartupSettings.cpp
+                ../src/WMainWindow.cpp
+
+
+
 
 HEADERS      += \
-                ../include/CfgAppSettings.h \
-                ../include/CfgGeneralSettings.h \
-                ../include/CfgHiddenSettings.h \
-                ../include/CfgScintillaSettings.h \
-                ../include/WMainWindow.h \
+                ../src/wolverine_cfg.h \
                 ../src/settings/DlgSettings.h \
                 ../src/settings/PageGeneral.h \
                 ../src/settings/PageScintilla.h \
-                ../src/wolverine_cfg.h \
+                ../include/CfgAppSettings.h \
+                ../include/CfgDynamicSettings.h \
+                ../include/CfgGeneralSettings.h \
+                ../include/CfgHiddenSettings.h \
+                ../include/CfgScintillaSettings.h \
+                ../include/CfgStartupSettings.h \
+                ../include/WActionManager.h \
+                ../include/WMainWindow.h \
                 ../include/WCentralWidget.h \
-                ../include/WDocument.h \
-    ../include/CfgDynamicSettings.h \
-    ../include/WActionManager.h \
-    ../include/CfgStartupSettings.h
+                ../include/WDocument.h
+
+
+
 
 INCLUDEPATH  += \
                 ../include \
+                ../src \
                 ../src/settings
 
 RESOURCES    += \
