@@ -39,7 +39,7 @@ Lib::Lib()
 //static
 QString Lib::createFileName(const QString &path, const int line)
 {
-    QString file;
+    QString file(path);
     return file.append(W_FILE_LINE_SEP).append(QString::number(line));
 }
 
@@ -55,7 +55,7 @@ QString Lib::createFileName(const QString &path, const int line)
 QString Lib::createFileName(const QString &path, const QString &line)
 {
     int lineint = line.toInt();
-    QString file;
+    QString file(path);
 
     return file.append(W_FILE_LINE_SEP).append(QString::number(lineint));
 }
@@ -72,21 +72,27 @@ QString Lib::createFileName(const QString &path, const QString &line)
 //static
 QStringList Lib::createFileListFromArgs(int argc, char **argv)
 {
+    // We expect the following format:
+    // <path1>[@<local_line1>] <path2>[@<local_line2>] ... [<global_line>]
+
     QStringList files;
 
-    // Check last argument as it can be a line number.
-    bool isLineNum = false;
-    int lineGlob = QString(argv[argc-1]).toInt(&isLineNum);
-    int noOfArgs = isLineNum ? argc-1 : argc;
+    // Check last argument as it can be a global line number.
+    bool isGlobalLine = false;
+    int lineGlob = QString(argv[argc-1]).toInt(&isGlobalLine);
+    int noOfArgs = isGlobalLine ? argc-1 : argc;
 
     // Omit first argument (application path)
     for(int i=1; i<noOfArgs; ++i) {
         QStringList tmp = QString(argv[i]).split(W_FILE_LINE_SEP);
         QFileInfo file(tmp[0]);
         bool isLocalLine = false;
-        int lineLocal = QString(tmp[1]).toInt(&isLocalLine);
+        int lineLocal = 0;
+        if(tmp.length() > 1)
+            lineLocal = QString(tmp[1]).toInt(&isLocalLine);
 
         if(file.exists()) {
+            // Local line has higher priorytet than global
             int line = isLocalLine ? lineLocal : lineGlob;
             files.append(createFileName(file.absoluteFilePath(), line));
         }

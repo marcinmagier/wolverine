@@ -62,7 +62,7 @@ void printHelp()
 {
     QTextStream out(stdout);
     out << "Usage:\n"
-        << "  Wolverine <file1>[:<line1>] <file2>[:<line2>] ... <line>\n"
+        << "  Wolverine <file1>[@<line1>] <file2>[@<line2>] ... [<line>]\n"
         << "  Wolverine --new <file>\n"
         << "  Wolverine --help\n"
         << "  Wolverine --version\n";
