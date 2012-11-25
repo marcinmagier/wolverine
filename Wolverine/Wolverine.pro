@@ -33,10 +33,8 @@ SOURCES      += \
                 ../src/WActionManager.cpp \
                 ../src/WCentralWidget.cpp \
                 ../src/WDocument.cpp \
+                ../src/WLib.cpp \
                 ../src/WMainWindow.cpp
-
-
-
 
 HEADERS      += \
                 ../src/wolverine_cfg.h \
@@ -50,12 +48,10 @@ HEADERS      += \
                 ../include/CfgScintillaSettings.h \
                 ../include/CfgStartupSettings.h \
                 ../include/WActionManager.h \
-                ../include/WMainWindow.h \
                 ../include/WCentralWidget.h \
-                ../include/WDocument.h
-
-
-
+                ../include/WDocument.h \
+                ../include/WLib.h \
+                ../include/WMainWindow.h
 
 INCLUDEPATH  += \
                 ../include \

@@ -2,6 +2,7 @@
 #include "wolverine_cfg.h"
 #include "CfgAppSettings.h"
 #include "CfgStartupSettings.h"
+#include "WLib.h"
 #include "WMainWindow.h"
 
 #include "Logger.h"
@@ -15,16 +16,14 @@
 #include <QStringList>
 #include <QFileInfo>
 
-#include <QDebug>
-
 
 
 static void configureLogger();
 
 static void printHelp();
 static void printVersion();
-static int runNevInstanceApp(int argc, char **argv, const QStringList &files);
-static int runSingleInstanceApp(int argc, char **argv, const QStringList &files);
+static int runNevInstanceApp(int argc, char **argv);
+static int runSingleInstanceApp(int argc, char **argv);
 
 
 
@@ -63,7 +62,7 @@ void printHelp()
 {
     QTextStream out(stdout);
     out << "Usage:\n"
-        << "  Wolverine <file>[:<line>] ...\n"
+        << "  Wolverine <file1>[:<line1>] <file2>[:<line2>] ... <line>\n"
         << "  Wolverine --new <file>\n"
         << "  Wolverine --help\n"
         << "  Wolverine --version\n";
@@ -88,7 +87,7 @@ void printVersion()
  * @param files
  * @return
  */
-int runNevInstanceApp(int argc, char **argv, const QStringList &files)
+int runNevInstanceApp(int argc, char **argv)
 {
     QApplication app(argc, argv);
     app.setApplicationName(APP_NAME);
@@ -100,6 +99,7 @@ int runNevInstanceApp(int argc, char **argv, const QStringList &files)
 
     Wolverine::MainWindow mainWindow;
 
+    QStringList files = Wolverine::Lib::createFileListFromArgs(argc, argv);
     foreach(QString file, files) {
         mainWindow.openFile(file);
     }
@@ -118,15 +118,16 @@ int runNevInstanceApp(int argc, char **argv, const QStringList &files)
  * @param files
  * @return
  */
-int runSingleInstanceApp(int argc, char **argv, const QStringList &files)
+int runSingleInstanceApp(int argc, char **argv)
 {
     QtSingleApplication app(argc, argv);
+    QStringList files = Wolverine::Lib::createFileListFromArgs(argc, argv);
 
     if(app.sendMessage("Test")) {
-        LOG_DEBUG("Application is already started");
-      //  foreach(QString file, files) {
-      //      app.sendMessage(file);
-      //  }
+        LOG_INFO("Application is already started");
+        foreach(QString file, files) {
+            app.sendMessage(file);
+         }
         AppSettings::deleteInstance();
         return 0;
     }
@@ -138,12 +139,13 @@ int runSingleInstanceApp(int argc, char **argv, const QStringList &files)
     AppSettings::instanceWithNewThread();
 
     Wolverine::MainWindow mainWindow;
-
+    foreach(QString file, files) {
+        mainWindow.openFile(file);
+    }
     QObject::connect(&app, SIGNAL(messageReceived(const QString&)),
                      &mainWindow, SLOT(openFile(const QString&)));
 
     mainWindow.show();
-
     return app.exec();
 }
 
@@ -153,7 +155,6 @@ int runSingleInstanceApp(int argc, char **argv, const QStringList &files)
 int main(int argc, char **argv)
 {
     bool isNewInstance = false;
-    QStringList files;
     AppSettings *settings = AppSettings::instanceStartup();
 
     configureLogger();
@@ -177,16 +178,12 @@ int main(int argc, char **argv)
             isNewInstance = true;
             continue;
         }
-
-        // File is validated just before opennig so here we just
-        // create list of strings (propably files in format file:line)
-        files.append(str);
     }
 
     if(isNewInstance || settings->startup->isAlwaysNewInstance())
-        return runNevInstanceApp(argc, argv, files);
+        return runNevInstanceApp(argc, argv);
 
-    return runSingleInstanceApp(argc, argv, files);
+    return runSingleInstanceApp(argc, argv);
 }
 
 

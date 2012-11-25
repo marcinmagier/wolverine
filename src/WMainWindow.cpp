@@ -8,11 +8,11 @@
 #include "CfgHiddenSettings.h"
 #include "DlgSettings.h"
 
-
 #include "Logger.h"
 
 #include <QMenu>
 #include <QMenuBar>
+#include <QStringList>
 
 
 
@@ -201,6 +201,8 @@ void MainWindow::createMenusAndToolbars()
 }
 
 
+
+
 void MainWindow::openFile(const QString &file)
 {
 /*    if(!QFileInfo(str).exists()) {
@@ -210,5 +212,5 @@ void MainWindow::openFile(const QString &file)
 
     files << QFileInfo(str).absoluteFilePath();
   */
-    LOG_DEBUG("file");
+    LOG_WARNING("file");
 }
