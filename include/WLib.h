@@ -1,3 +1,15 @@
+/**************************************************************************************************
+**
+** Copyright (C) 2012-2013 Magier Marcin.
+**
+**
+**************************************************************************************************/
+
+/**
+ *  @file       WLib.h
+ *  @brief      Wolverine library.
+ *  @details    Contains general functions.
+ */
 
 
 #ifndef __W_LIB_H_
@@ -20,6 +32,8 @@ public:
     static QString createFileName(const QString &path, const int line);
     static QString createFileName(const QString &path, const QString &line);
     static QStringList createFileListFromArgs(int argc, char **argv);
+    static QString getPathFromFile(const QString &file);
+    static int getLineFromFile(const QString &file);
 };
 
 
