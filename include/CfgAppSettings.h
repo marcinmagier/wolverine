@@ -42,17 +42,14 @@ public:
 private:
     AppSettings();
 
-    void initialize();
+    void initialize(bool isBackup = false);
     void initializeStartup();
 
     void copy(AppSettings *to, const AppSettings *from);
 
-
-
-    static AppSettings* sAppConfig;
-    static AppSettings* sStartupConfig;
-
     AppSettings *mBackup;
+
+    friend void initializeAppSettings();
 };
 
 #endif //__CFG_APP_SETTINGS_H_

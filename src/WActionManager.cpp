@@ -31,9 +31,9 @@ static void deleteActionManagerInstance();
 
 
 /**
- *  The Initializer class
+ *  The ActionInitializer class
  */
-class Initializer : public QRunnable
+class ActionInitializer : public QRunnable
 {
 public:
     void run()
@@ -47,7 +47,7 @@ public:
 static QMutex mutex;
 static ActionManager *sInstance = 0;
 static QThreadPool *sThreadPool = 0;
-static Initializer *sInitializer = 0;
+static ActionInitializer *sInitializer = 0;
 
 
 /**
@@ -65,13 +65,14 @@ ActionManager::ActionManager()
  *
  *  Function should be called as soon as possible.
  */
+//static
 void ActionManager::instanceWithNewThread()
 {
     if(sInstance == 0) {
         mutex.lock();
         if(sInstance == 0) {
             sInstance = new ActionManager();
-            sInitializer = new Initializer();
+            sInitializer = new ActionInitializer();
             sInitializer->setAutoDelete(false);
             sThreadPool = QThreadPool::globalInstance();
             sThreadPool->start(sInitializer);
@@ -87,6 +88,7 @@ void ActionManager::instanceWithNewThread()
  *
  * @return
  */
+//static
 ActionManager* ActionManager::instance()
 {
     if(sInstance == 0) {

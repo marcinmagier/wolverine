@@ -14,11 +14,76 @@
 #include <QVariant>
 #include <QSettings>
 
+#include <QMutex>
+#include <QRunnable>
+#include <QThread>
+#include <QThreadPool>
+
+#include <QDebug>
+
 
 #define W_CONFIG_FILE_NAME  "appconfig"
 
-AppSettings* AppSettings::sAppConfig = 0;
-AppSettings* AppSettings::sStartupConfig = 0;
+
+static AppSettings* sAppConfig = 0;
+static AppSettings* sStartupConfig = 0;
+
+void initializeAppSettings();
+static inline void waitForEndOfInitialization();
+
+
+/**
+ *  The Initializer class
+ */
+class CfgInitializer : public QRunnable
+{
+public:
+    ~CfgInitializer();
+
+    void run()
+    {
+        initializeAppSettings();
+    }
+};
+
+CfgInitializer::~CfgInitializer()
+{
+    qDebug() << "Destructor";
+}
+
+static QMutex sMutex;
+static QThreadPool *sThreadPool = 0;
+bool isInitializationDone = false;
+
+
+
+
+void initializeAppSettings()
+{
+    sAppConfig->initialize();
+    qAddPostRoutine(AppSettings::deleteInstance);
+
+    if(sStartupConfig) {
+        delete sStartupConfig;
+        sStartupConfig = 0;
+    }
+
+    isInitializationDone = true;
+}
+
+
+void waitForEndOfInitialization()
+{
+    if(!isInitializationDone) {
+        sMutex.lock();
+        if(!isInitializationDone) {
+            // Initialization pending, we have to wait
+            sThreadPool->waitForDone();
+        }
+        sMutex.unlock();
+    }
+}
+
 
 
 
@@ -47,7 +112,7 @@ AppSettings::~AppSettings()
         delete startup;
 }
 
-void AppSettings::initialize()
+void AppSettings::initialize(bool isBackup)
 {
     dynamic = new DynamicSettings();
     general = new GeneralSettings();
@@ -56,13 +121,8 @@ void AppSettings::initialize()
     // The simplest way is to create new startup group
     startup = new StartupSettings();
 
-    loadConfiguration();
-    qAddPostRoutine(deleteInstance);
-
-    if(sStartupConfig) {
-        delete sStartupConfig;
-        sStartupConfig = 0;
-    }
+    if(!isBackup)
+        loadConfiguration();
 }
 
 void AppSettings::initializeStartup()
@@ -74,16 +134,6 @@ void AppSettings::initializeStartup()
     loadGroup(qset, startup);
 }
 
-//static
-AppSettings* AppSettings::instance()
-{
-    if(sAppConfig == 0) {
-        sAppConfig = new AppSettings();
-        sAppConfig->initialize();
-    }
-
-    return sAppConfig;
-}
 
 //static
 AppSettings* AppSettings::instanceStartup()
@@ -95,15 +145,49 @@ AppSettings* AppSettings::instanceStartup()
     return sStartupConfig;
 }
 
+
+//static
+AppSettings* AppSettings::instance()
+{
+    if(sAppConfig == 0) {
+        sMutex.lock();
+        if(sAppConfig == 0) {
+            // Initialization not started yet, do it now
+            sAppConfig = new AppSettings();
+            initializeAppSettings();
+            sMutex.unlock();
+            return sAppConfig;
+        }
+        sMutex.unlock();
+    }
+
+    waitForEndOfInitialization();
+
+    return sAppConfig;
+}
+
+
 //static
 void AppSettings::instanceWithNewThread()
 {
-    instance();
+    if(sAppConfig == 0) {
+        sMutex.lock();
+        if(sAppConfig == 0) {
+            sAppConfig = new AppSettings();
+            sThreadPool = QThreadPool::globalInstance();
+            // Initializer is deleted automaticaly after finishing its job.
+            sThreadPool->start(new CfgInitializer());
+        }
+        sMutex.unlock();
+    }
 }
 
 //static
 void AppSettings::deleteInstance()
 {
+    // Just to sleep well
+    waitForEndOfInitialization();
+
     if(sAppConfig) {
         sAppConfig->dropConfigurationBackup();
         sAppConfig->saveConfiguration();
@@ -162,7 +246,7 @@ void AppSettings::createConfigurationBackup()
     if(mBackup)
         delete mBackup;
     mBackup = new AppSettings();
-    mBackup->initialize();
+    mBackup->initialize(true);
     copy(mBackup, sAppConfig);
 }
 
