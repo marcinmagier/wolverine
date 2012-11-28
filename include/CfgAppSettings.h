@@ -42,7 +42,7 @@ public:
 private:
     AppSettings();
 
-    void initialize(bool isBackup = false);
+    void initialize();
     void initializeStartup();
 
     void copy(AppSettings *to, const AppSettings *from);

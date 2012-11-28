@@ -47,28 +47,21 @@ AppSettings::~AppSettings()
         delete startup;
 }
 
-void AppSettings::initialize(bool isBackup)
+void AppSettings::initialize()
 {
     dynamic = new DynamicSettings();
     general = new GeneralSettings();
     hidden = new HiddenSettings();
     scintilla = new ScintillaSettings();
+    // The simplest way is to create new startup group
+    startup = new StartupSettings();
 
-    if(isBackup || sStartupConfig == 0) {
-        // We want to initialize backup
-        startup = new StartupSettings();
-    }
-    else {
-        // sStartup is no more needed
-        startup = sStartupConfig->startup;
-        sStartupConfig->startup = 0;
+    loadConfiguration();
+    qAddPostRoutine(deleteInstance);
+
+    if(sStartupConfig) {
         delete sStartupConfig;
         sStartupConfig = 0;
-    }
-
-    if(!isBackup) {
-        loadConfiguration();
-        qAddPostRoutine(deleteInstance);
     }
 }
 
@@ -169,7 +162,7 @@ void AppSettings::createConfigurationBackup()
     if(mBackup)
         delete mBackup;
     mBackup = new AppSettings();
-    mBackup->initialize(true);
+    mBackup->initialize();
     copy(mBackup, sAppConfig);
 }
 
