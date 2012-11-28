@@ -30,7 +30,8 @@ Thumbs.db
 
 
 #Ignore qt specific files
-*.pro.user
+*.qm
+*.pro.user*
 moc_*.cpp
 qrc_*.cpp
 ui_*.h
