@@ -4,6 +4,7 @@
 #include "CfgStartupSettings.h"
 #include "WLib.h"
 #include "WMainWindow.h"
+#include "WActionManager.h"
 
 #include "Logger.h"
 #include "ConsoleAppender.h"
@@ -96,6 +97,7 @@ int runNevInstanceApp(int argc, char **argv)
     LOG_DEBUG("New app instance is starting with --new.");
 
     AppSettings::instanceWithNewThread();
+    Wolverine::ActionManager::instanceWithNewThread();
 
     Wolverine::MainWindow mainWindow;
 
@@ -137,6 +139,7 @@ int runSingleInstanceApp(int argc, char **argv)
     app.setApplicationName(APP_NAME);
     app.setApplicationVersion(APP_VERSION);
     AppSettings::instanceWithNewThread();
+    Wolverine::ActionManager::instanceWithNewThread();
 
     Wolverine::MainWindow mainWindow;
     foreach(QString file, files) {

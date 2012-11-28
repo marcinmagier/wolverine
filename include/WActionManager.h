@@ -21,6 +21,7 @@ private:
     ActionManager();
 
 public:
+    static void instanceWithNewThread();
     static ActionManager* instance();
 
     
@@ -29,7 +30,6 @@ signals:
 public slots:
 
 private:
-    void initialize();
     
 };
 

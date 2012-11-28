@@ -56,11 +56,13 @@ void MainWindow::createMenusAndToolbars()
     menu = menuBar()->addMenu(tr("File"));
 
     action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_NEW);
+    action->setIcon(QIcon(":/new.png"));
     //connect
     menu->addAction(action);
     toolbar->addAction(W_ACTION_NEW, action);
 
     action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_OPEN);
+    action->setIcon(QIcon(":/open.png"));
     //connect
     menu->addAction(action);
     toolbar->addAction(W_ACTION_OPEN, action);
@@ -70,6 +72,7 @@ void MainWindow::createMenusAndToolbars()
     menu = menuBar()->addMenu(tr("Edit"));
 
     action = mActionManager->getAction(W_ACTION_GROUP_EDIT, W_ACTION_UNDO);
+    action->setIcon(QIcon(":/undo.png"));
     //connect
     menu->addAction(action);
     toolbar->addAction(W_ACTION_UNDO, action);
@@ -79,6 +82,7 @@ void MainWindow::createMenusAndToolbars()
     menu = menuBar()->addMenu(tr("Tools"));
 
     action = mActionManager->getAction(W_ACTION_GROUP_TOOLS, W_ACTION_SETTINGS);
+    action->setIcon(QIcon(":/settings.png"));
     connect(action, SIGNAL(triggered()), mSettingsDialog, SLOT(showDialog()));
     menu->addAction(action);
     toolbar->addAction(W_ACTION_SETTINGS, action);
