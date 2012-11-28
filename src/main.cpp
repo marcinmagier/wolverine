@@ -19,6 +19,7 @@
 #include <QTextStream>
 #include <QStringList>
 #include <QFileInfo>
+#include <QDir>
 
 
 
@@ -72,8 +73,11 @@ void loadTranslations(QApplication *app)
     if(lang.isEmpty())
         lang = QLocale::system().name();
 
+    // We don't want to wait for dynamic settings so calculate translation path ad hoc
+    QString tmpDir = app->applicationDirPath();
+    tmpDir = QDir(tmpDir).absoluteFilePath("translations");
     QTranslator *translator = new QTranslator();
-    if(translator->load("wolverine_"+lang, settings->dynamic->getTranslationsDir())) {
+    if(translator->load("wolverine_"+lang, tmpDir)) {
         if(!translator->isEmpty())
             app->installTranslator(translator);
     }
@@ -87,14 +91,13 @@ void loadTranslations(QApplication *app)
  */
 void appInit(QApplication *app)
 {
-    // Initialize full settings class (with new thread) as early as possible.
-    AppSettings::instanceWithNewThread();
-
     app->setApplicationName(APP_NAME);
     app->setApplicationVersion(APP_VERSION);
 
-    loadTranslations(app);
+    // Initialize full settings class (with new thread) just after application name is set.
+    AppSettings::instanceWithNewThread();
 
+    loadTranslations(app);
     // We can initialize actions after translations are loaded
     Wolverine::ActionManager::instanceWithNewThread();
 }

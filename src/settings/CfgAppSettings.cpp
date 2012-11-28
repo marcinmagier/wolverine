@@ -134,7 +134,7 @@ bool AppSettings::loadConfiguration()
     loadGroup(qset, general);
     loadGroup(qset, hidden);
     loadGroup(qset, scintilla);
-    loadGroup(qset, startup);
+    loadGroup(qset, startup);       //In worst case startup settings are loaded twice.
 	return true;
 }
 

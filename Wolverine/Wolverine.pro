@@ -66,5 +66,5 @@ FORMS        += \
                 ../src/settings/PageScintilla.ui
 
 TRANSLATIONS += \
-                ../translations/wolverine_en.ts \
-                ../translations/wolverine_pl.ts
+                ../translations/wolverine_en_EN.ts \
+                ../translations/wolverine_pl_PL.ts

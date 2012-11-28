@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="en_US">
+<TS version="2.0" language="pl_PL">
 <context>
     <name>PageGeneral</name>
     <message>
@@ -30,6 +30,64 @@
         <location filename="../../../src/settings/PageScintilla.ui" line="36"/>
         <location filename="../../../src/settings/PageScintilla.ui" line="51"/>
         <source>CheckBox</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <location filename="../../../src/WActionManager.cpp" line="145"/>
+        <source>New</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/WActionManager.cpp" line="146"/>
+        <source>Ctrl+N</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/WActionManager.cpp" line="147"/>
+        <source>Create a new file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/WActionManager.cpp" line="150"/>
+        <source>Open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/WActionManager.cpp" line="151"/>
+        <source>Ctrl+O</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/WActionManager.cpp" line="152"/>
+        <source>Open existing file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/WActionManager.cpp" line="156"/>
+        <source>Undo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/WActionManager.cpp" line="157"/>
+        <source>Ctrl+Z</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/WActionManager.cpp" line="158"/>
+        <source>Undo action</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/WActionManager.cpp" line="162"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/WActionManager.cpp" line="164"/>
+        <source>Settings dialog</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3314,33 +3372,33 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qtactionmanager/qtactionmanagerwidget.cpp" line="27"/>
+        <location filename="../../qtactionmanager/qtactionmanagerwidget.cpp" line="56"/>
         <source>Command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qtactionmanager/qtactionmanagerwidget.cpp" line="27"/>
+        <location filename="../../qtactionmanager/qtactionmanagerwidget.cpp" line="56"/>
         <source>Binding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qtactionmanager/qtactionmanagerwidget.cpp" line="27"/>
+        <location filename="../../qtactionmanager/qtactionmanagerwidget.cpp" line="56"/>
         <source>Category</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qtactionmanager/qtactionmanagerwidget.cpp" line="68"/>
+        <location filename="../../qtactionmanager/qtactionmanagerwidget.cpp" line="112"/>
         <source>Press a key sequence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qtactionmanager/qtactionmanagerwidget.cpp" line="189"/>
+        <location filename="../../qtactionmanager/qtactionmanagerwidget.cpp" line="239"/>
         <source>This shortcut &quot;%1&quot; is already assigned to command &quot;%2&quot;.
 Do you want to reassign it to the current command?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qtactionmanager/qtactionmanagerwidget.cpp" line="191"/>
+        <location filename="../../qtactionmanager/qtactionmanagerwidget.cpp" line="241"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3371,8 +3429,8 @@ Do you want to reassign it to the current command?</source>
 <context>
     <name>QtManagedToolBar</name>
     <message>
-        <location filename="../qtmanagedtoolbar.cpp" line="127"/>
         <location filename="../qtmanagedtoolbar.cpp" line="147"/>
+        <location filename="../qtmanagedtoolbar.cpp" line="171"/>
         <source>Customize</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3415,8 +3473,8 @@ Do you want to reassign it to the current command?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtmanagedtoolbardialog.cpp" line="86"/>
-        <location filename="../qtmanagedtoolbardialog.cpp" line="120"/>
+        <location filename="../qtmanagedtoolbardialog.cpp" line="98"/>
+        <location filename="../qtmanagedtoolbardialog.cpp" line="133"/>
         <source>Separator</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3424,22 +3482,22 @@ Do you want to reassign it to the current command?</source>
 <context>
     <name>Wolverine::DlgSettings</name>
     <message>
-        <location filename="../../../src/settings/DlgSettings.cpp" line="19"/>
+        <location filename="../../../src/settings/DlgSettings.cpp" line="21"/>
         <source>Wolverine Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/settings/DlgSettings.cpp" line="32"/>
+        <location filename="../../../src/settings/DlgSettings.cpp" line="34"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/settings/DlgSettings.cpp" line="35"/>
+        <location filename="../../../src/settings/DlgSettings.cpp" line="37"/>
         <source>Scintilla</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/settings/DlgSettings.cpp" line="38"/>
+        <location filename="../../../src/settings/DlgSettings.cpp" line="40"/>
         <source>Key Binding</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3447,48 +3505,18 @@ Do you want to reassign it to the current command?</source>
 <context>
     <name>Wolverine::MainWindow</name>
     <message>
-        <location filename="../../../src/WMainWindow.cpp" line="52"/>
+        <location filename="../../../src/WMainWindow.cpp" line="56"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/WMainWindow.cpp" line="55"/>
-        <source>New</source>
+        <location filename="../../../src/WMainWindow.cpp" line="72"/>
+        <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/WMainWindow.cpp" line="56"/>
-        <source>Ctrl+N</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/WMainWindow.cpp" line="57"/>
-        <source>Create a new file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/WMainWindow.cpp" line="97"/>
-        <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/WMainWindow.cpp" line="99"/>
-        <source>Undo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/WMainWindow.cpp" line="100"/>
-        <source>Ctrl+Z</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/WMainWindow.cpp" line="140"/>
+        <location filename="../../../src/WMainWindow.cpp" line="82"/>
         <source>Tools</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/WMainWindow.cpp" line="142"/>
-        <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

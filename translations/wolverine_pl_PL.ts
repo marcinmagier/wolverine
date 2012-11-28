@@ -34,6 +34,64 @@
     </message>
 </context>
 <context>
+    <name>QObject</name>
+    <message>
+        <location filename="../src/WActionManager.cpp" line="145"/>
+        <source>New</source>
+        <translation>Nowy</translation>
+    </message>
+    <message>
+        <location filename="../src/WActionManager.cpp" line="146"/>
+        <source>Ctrl+N</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/WActionManager.cpp" line="147"/>
+        <source>Create a new file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/WActionManager.cpp" line="150"/>
+        <source>Open</source>
+        <translation>Otwórz</translation>
+    </message>
+    <message>
+        <location filename="../src/WActionManager.cpp" line="151"/>
+        <source>Ctrl+O</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/WActionManager.cpp" line="152"/>
+        <source>Open existing file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/WActionManager.cpp" line="156"/>
+        <source>Undo</source>
+        <translation>Wycofaj</translation>
+    </message>
+    <message>
+        <location filename="../src/WActionManager.cpp" line="157"/>
+        <source>Ctrl+Z</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/WActionManager.cpp" line="158"/>
+        <source>Undo action</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/WActionManager.cpp" line="162"/>
+        <source>Settings</source>
+        <translation>Ustawienia</translation>
+    </message>
+    <message>
+        <location filename="../src/WActionManager.cpp" line="164"/>
+        <source>Settings dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>QsciCommand</name>
     <message>
         <location filename="../extlib/qtscintilla/Qt4Qt5/qscicommandset.cpp" line="64"/>
@@ -2195,207 +2253,207 @@
 <context>
     <name>QsciLexerPerl</name>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="333"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="313"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="336"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="316"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="339"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="319"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="342"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="322"/>
         <source>POD</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="345"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="325"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="348"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="328"/>
         <source>Keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="351"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="331"/>
         <source>Double-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="354"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="334"/>
         <source>Single-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="357"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="337"/>
         <source>Operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="360"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="340"/>
         <source>Identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="363"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="343"/>
         <source>Scalar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="366"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="346"/>
         <source>Array</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="369"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="349"/>
         <source>Hash</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="372"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="352"/>
         <source>Symbol table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="375"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="355"/>
         <source>Regular expression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="378"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="358"/>
         <source>Substitution</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="381"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="361"/>
         <source>Backticks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="384"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="364"/>
         <source>Data section</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="387"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="367"/>
         <source>Here document delimiter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="390"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="370"/>
         <source>Single-quoted here document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="393"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="373"/>
         <source>Double-quoted here document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="396"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="376"/>
         <source>Backtick here document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="399"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="379"/>
         <source>Quoted string (q)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="402"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="382"/>
         <source>Quoted string (qq)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="405"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="385"/>
         <source>Quoted string (qx)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="408"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="388"/>
         <source>Quoted string (qr)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="411"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="391"/>
         <source>Quoted string (qw)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="414"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="394"/>
         <source>POD verbatim</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="417"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="397"/>
         <source>Subroutine prototype</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="420"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="400"/>
         <source>Format identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="423"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="403"/>
         <source>Format body</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="426"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="406"/>
         <source>Double-quoted string (interpolated variable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="429"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="409"/>
         <source>Translation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="432"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="412"/>
         <source>Regular expression (interpolated variable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="435"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="415"/>
         <source>Substitution (interpolated variable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="438"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="418"/>
         <source>Backticks (interpolated variable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="441"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="421"/>
         <source>Double-quoted here document (interpolated variable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="444"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="424"/>
         <source>Backtick here document (interpolated variable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="447"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="427"/>
         <source>Quoted string (qq, interpolated variable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="450"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="430"/>
         <source>Quoted string (qx, interpolated variable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="453"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qscilexerperl.cpp" line="433"/>
         <source>Quoted string (qr, interpolated variable)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3266,37 +3324,37 @@
 <context>
     <name>QsciScintilla</name>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qsciscintilla.cpp" line="4166"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qsciscintilla.cpp" line="4087"/>
         <source>&amp;Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qsciscintilla.cpp" line="4170"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qsciscintilla.cpp" line="4091"/>
         <source>&amp;Redo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qsciscintilla.cpp" line="4176"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qsciscintilla.cpp" line="4097"/>
         <source>Cu&amp;t</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qsciscintilla.cpp" line="4181"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qsciscintilla.cpp" line="4102"/>
         <source>&amp;Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qsciscintilla.cpp" line="4187"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qsciscintilla.cpp" line="4108"/>
         <source>&amp;Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qsciscintilla.cpp" line="4191"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qsciscintilla.cpp" line="4112"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtscintilla/Qt4Qt5/qsciscintilla.cpp" line="4198"/>
+        <location filename="../extlib/qtscintilla/Qt4Qt5/qsciscintilla.cpp" line="4119"/>
         <source>Select All</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3314,33 +3372,33 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtactionmanager/qtactionmanagerwidget.cpp" line="27"/>
+        <location filename="../extlib/qtactionmanager/qtactionmanagerwidget.cpp" line="56"/>
         <source>Command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtactionmanager/qtactionmanagerwidget.cpp" line="27"/>
+        <location filename="../extlib/qtactionmanager/qtactionmanagerwidget.cpp" line="56"/>
         <source>Binding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtactionmanager/qtactionmanagerwidget.cpp" line="27"/>
+        <location filename="../extlib/qtactionmanager/qtactionmanagerwidget.cpp" line="56"/>
         <source>Category</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtactionmanager/qtactionmanagerwidget.cpp" line="68"/>
+        <location filename="../extlib/qtactionmanager/qtactionmanagerwidget.cpp" line="112"/>
         <source>Press a key sequence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtactionmanager/qtactionmanagerwidget.cpp" line="189"/>
+        <location filename="../extlib/qtactionmanager/qtactionmanagerwidget.cpp" line="239"/>
         <source>This shortcut &quot;%1&quot; is already assigned to command &quot;%2&quot;.
 Do you want to reassign it to the current command?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../extlib/qtactionmanager/qtactionmanagerwidget.cpp" line="191"/>
+        <location filename="../extlib/qtactionmanager/qtactionmanagerwidget.cpp" line="241"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3371,8 +3429,8 @@ Do you want to reassign it to the current command?</source>
 <context>
     <name>QtManagedToolBar</name>
     <message>
-        <location filename="../extlib/qtmanagedtoolbar/qtmanagedtoolbar.cpp" line="128"/>
-        <location filename="../extlib/qtmanagedtoolbar/qtmanagedtoolbar.cpp" line="141"/>
+        <location filename="../extlib/qtmanagedtoolbar/qtmanagedtoolbar.cpp" line="147"/>
+        <location filename="../extlib/qtmanagedtoolbar/qtmanagedtoolbar.cpp" line="171"/>
         <source>Customize</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3414,26 +3472,32 @@ Do you want to reassign it to the current command?</source>
         <source>Items visible:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../extlib/qtmanagedtoolbar/qtmanagedtoolbardialog.cpp" line="98"/>
+        <location filename="../extlib/qtmanagedtoolbar/qtmanagedtoolbardialog.cpp" line="133"/>
+        <source>Separator</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Wolverine::DlgSettings</name>
     <message>
-        <location filename="../src/settings/DlgSettings.cpp" line="19"/>
+        <location filename="../src/settings/DlgSettings.cpp" line="21"/>
         <source>Wolverine Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings/DlgSettings.cpp" line="28"/>
+        <location filename="../src/settings/DlgSettings.cpp" line="34"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings/DlgSettings.cpp" line="31"/>
+        <location filename="../src/settings/DlgSettings.cpp" line="37"/>
         <source>Scintilla</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings/DlgSettings.cpp" line="34"/>
+        <location filename="../src/settings/DlgSettings.cpp" line="40"/>
         <source>Key Binding</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3441,105 +3505,18 @@ Do you want to reassign it to the current command?</source>
 <context>
     <name>Wolverine::MainWindow</name>
     <message>
-        <location filename="../src/WMainWindow.cpp" line="51"/>
-        <source>&amp;File</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/WMainWindow.cpp" line="54"/>
-        <source>&amp;New</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/WMainWindow.cpp" line="55"/>
-        <source>Ctrl+N</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/WMainWindow.cpp" line="56"/>
-        <source>Create a new file</source>
+        <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/WMainWindow.cpp" line="62"/>
-        <source>&amp;Open...</source>
+        <location filename="../src/WMainWindow.cpp" line="72"/>
+        <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/WMainWindow.cpp" line="63"/>
-        <source>Ctrl+O</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/WMainWindow.cpp" line="69"/>
-        <source>&amp;Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/WMainWindow.cpp" line="70"/>
-        <source>Ctrl+S</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/WMainWindow.cpp" line="71"/>
-        <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/WMainWindow.cpp" line="77"/>
-        <location filename="../src/WMainWindow.cpp" line="79"/>
-        <source>Save As...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/WMainWindow.cpp" line="78"/>
-        <source>Ctrl+Alt+S</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/WMainWindow.cpp" line="84"/>
-        <location filename="../src/WMainWindow.cpp" line="86"/>
-        <source>Save All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/WMainWindow.cpp" line="85"/>
-        <source>Ctrl+Shift+S</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/WMainWindow.cpp" line="100"/>
-        <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/WMainWindow.cpp" line="103"/>
-        <source>Cut</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/WMainWindow.cpp" line="104"/>
-        <source>Ctrl+X</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/WMainWindow.cpp" line="110"/>
-        <source>&amp;Copy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/WMainWindow.cpp" line="111"/>
-        <source>Ctrl+C</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/WMainWindow.cpp" line="117"/>
-        <source>&amp;Paste</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/WMainWindow.cpp" line="118"/>
-        <source>Ctrl+V</source>
+        <location filename="../src/WMainWindow.cpp" line="82"/>
+        <source>Tools</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
