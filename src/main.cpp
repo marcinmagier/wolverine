@@ -1,6 +1,7 @@
 
 #include "wolverine_cfg.h"
 #include "CfgAppSettings.h"
+#include "CfgDynamicSettings.h"
 #include "CfgStartupSettings.h"
 #include "WLib.h"
 #include "WMainWindow.h"
@@ -13,6 +14,8 @@
 #include "qtsingleapplication.h"
 
 #include <QApplication>
+#include <QLocale>
+#include <QTranslator>
 #include <QTextStream>
 #include <QStringList>
 #include <QFileInfo>
@@ -20,6 +23,8 @@
 
 
 static void configureLogger();
+static void loadTranslations(QApplication *app);
+static void appInit(QApplication *app);
 
 static void printHelp();
 static void printVersion();
@@ -57,6 +62,45 @@ void configureLogger()
 
 
 /**
+ *  Loads translator according to current language.
+ */
+void loadTranslations(QApplication *app)
+{
+    AppSettings *settings = AppSettings::instanceStartup();
+
+    QString lang = settings->startup->getLanguage();
+    if(lang.isEmpty())
+        lang = QLocale::system().name();
+
+    QTranslator *translator = new QTranslator();
+    if(translator->load("wolverine_"+lang, settings->dynamic->getTranslationsDir())) {
+        if(!translator->isEmpty())
+            app->installTranslator(translator);
+    }
+}
+
+
+/**
+ *  Initializes new application.
+ *
+ * @param app
+ */
+void appInit(QApplication *app)
+{
+    // Initialize full settings class (with new thread) as early as possible.
+    AppSettings::instanceWithNewThread();
+
+    app->setApplicationName(APP_NAME);
+    app->setApplicationVersion(APP_VERSION);
+
+    loadTranslations(app);
+
+    // We can initialize actions after translations are loaded
+    Wolverine::ActionManager::instanceWithNewThread();
+}
+
+
+/**
  *  Prints help text.
  */
 void printHelp()
@@ -64,7 +108,7 @@ void printHelp()
     QTextStream out(stdout);
     out << "Usage:\n"
         << "  Wolverine <file1>[@<line1>] <file2>[@<line2>] ... [<line>]\n"
-        << "  Wolverine --new <file>\n"
+        << "  Wolverine --new <file1>[@<line1>] <file2>[@<line2>] ... [<line>]\n"
         << "  Wolverine --help\n"
         << "  Wolverine --version\n";
 }
@@ -91,13 +135,9 @@ void printVersion()
 int runNevInstanceApp(int argc, char **argv)
 {
     QApplication app(argc, argv);
-    app.setApplicationName(APP_NAME);
-    app.setApplicationVersion(APP_VERSION);
 
     LOG_DEBUG("New app instance is starting with --new.");
-
-    AppSettings::instanceWithNewThread();
-    Wolverine::ActionManager::instanceWithNewThread();
+    appInit(&app);
 
     Wolverine::MainWindow mainWindow;
 
@@ -135,11 +175,7 @@ int runSingleInstanceApp(int argc, char **argv)
     }
 
     LOG_DEBUG("New app instance is starting.");
-
-    app.setApplicationName(APP_NAME);
-    app.setApplicationVersion(APP_VERSION);
-    AppSettings::instanceWithNewThread();
-    Wolverine::ActionManager::instanceWithNewThread();
+    appInit(&app);
 
     Wolverine::MainWindow mainWindow;
     foreach(QString file, files) {
