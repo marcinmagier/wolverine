@@ -1,3 +1,14 @@
+/**************************************************************************************************
+**
+** Copyright (C) 2012-2013 Magier Marcin.
+**
+**
+**************************************************************************************************/
+
+/**
+ *  @file       WActionManager.cpp
+ *  @brief      Wolverine::ActionManager class implementation.
+ */
 
 
 #include "WActionManager.h"
@@ -8,7 +19,6 @@
 #include <QRunnable>
 #include <QThread>
 #include <QThreadPool>
-#include <QDebug>
 
 
 
@@ -28,7 +38,6 @@ class Initializer : public QRunnable
 public:
     void run()
     {
-        qDebug() << "Init" << QThread::currentThread();
         initializeActions();
     }
 
@@ -66,7 +75,6 @@ void ActionManager::instanceWithNewThread()
             sInitializer->setAutoDelete(false);
             sThreadPool = QThreadPool::globalInstance();
             sThreadPool->start(sInitializer);
-            qDebug() << QThread::currentThread();
         }
         mutex.unlock();
     }
@@ -84,6 +92,7 @@ ActionManager* ActionManager::instance()
     if(sInstance == 0) {
         mutex.lock();
         if(sInstance == 0) {
+            // Initialization not started yet, do it now
             sInstance = new ActionManager();
             initializeActions();
             mutex.unlock();

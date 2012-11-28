@@ -1,4 +1,14 @@
+/**************************************************************************************************
+**
+** Copyright (C) 2012-2013 Magier Marcin.
+**
+**
+**************************************************************************************************/
 
+/**
+ *  @file       WActionManager.h
+ *  @brief      Wolverine::ActionManager class interface.
+ */
 
 #ifndef __W_ACTION_MANAGER_H_
  #define __W_ACTION_MANAGER_H_
