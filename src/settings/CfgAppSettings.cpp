@@ -50,7 +50,11 @@ bool isInitializationDone = false;
 
 
 
-
+/**
+ *  Initializes application settings.
+ *
+ *  It is run in separate thread.
+ */
 void initializeAppSettings()
 {
     sAppConfig->initialize();
@@ -65,6 +69,9 @@ void initializeAppSettings()
 }
 
 
+/**
+ *  Waits for end of initialization.
+ */
 void waitForEndOfInitialization()
 {
     if(!isInitializationDone) {
@@ -80,6 +87,12 @@ void waitForEndOfInitialization()
 
 
 
+/**
+ *  Default constructor.
+ *
+ *  We don't want to crate specific classes here to speedup start of application.
+ *  At the beggining we need only startup group.
+ */
 AppSettings::AppSettings()
 {
     mBackup = 0;
@@ -91,6 +104,10 @@ AppSettings::AppSettings()
     startup = 0;
 }
 
+
+/**
+ *  Default destructor
+ */
 AppSettings::~AppSettings()
 {
     if(dynamic)
@@ -105,6 +122,25 @@ AppSettings::~AppSettings()
         delete startup;
 }
 
+
+/**
+ *  Initializes startup group.
+ */
+void AppSettings::initializeStartup()
+{
+    startup = new StartupSettings();
+
+    // Load only startup settings in order to speedup application startup
+    QSettings qset(QSettings::IniFormat, QSettings::UserScope, APP_NAME, W_CONFIG_FILE_NAME);
+    loadGroup(qset, startup);
+}
+
+
+/**
+ *  Initializes full application settings object.
+ *
+ * @param isBackup
+ */
 void AppSettings::initialize(bool isBackup)
 {
     if(dynamic == 0)
@@ -124,16 +160,16 @@ void AppSettings::initialize(bool isBackup)
         loadConfiguration();
 }
 
-void AppSettings::initializeStartup()
-{
-    startup = new StartupSettings();
 
-    // Load only startup settings in order to speedup application startup
-    QSettings qset(QSettings::IniFormat, QSettings::UserScope, APP_NAME, W_CONFIG_FILE_NAME);
-    loadGroup(qset, startup);
-}
-
-
+/**
+ *  Creates instance of aplication settings object (startup only).
+ *
+ *  It should be used when application is started and we need to have only
+ *  basic/startup settings. We can use only startup group in object created
+ *  with this function.
+ *
+ * @return
+ */
 //static
 AppSettings* AppSettings::instanceStartup()
 {
@@ -145,6 +181,11 @@ AppSettings* AppSettings::instanceStartup()
 }
 
 
+/**
+ *  Creates instance of application settings object.
+ *
+ * @return
+ */
 //static
 AppSettings* AppSettings::instance()
 {
@@ -166,6 +207,12 @@ AppSettings* AppSettings::instance()
 }
 
 
+/**
+ *  Creates instance of application settings object in separate thread.
+ *
+ *  It should be called as soon as possible. Settings are loaded to speedup starting
+ *  of application.
+ */
 //static
 void AppSettings::instanceWithNewThread()
 {
@@ -181,6 +228,14 @@ void AppSettings::instanceWithNewThread()
     }
 }
 
+
+/**
+ *  Removes instance of application settings.
+ *
+ *  Normally it is called automatically when application is closed. It can be called
+ *  manually e.g. when application is called to print help - QApplication object is not
+ *  created.
+ */
 //static
 void AppSettings::deleteInstance()
 {
@@ -202,6 +257,12 @@ void AppSettings::deleteInstance()
 }
 
 
+
+/**
+ *  Loads configuration from a file.
+ *
+ * @return
+ */
 //virtual
 bool AppSettings::loadConfiguration()
 {
@@ -214,6 +275,12 @@ bool AppSettings::loadConfiguration()
 	return true;
 }
 
+
+/**
+ *  Saves configuration to a file.
+ *
+ * @return
+ */
 //virtual
 bool AppSettings::saveConfiguration()
 {
@@ -229,6 +296,12 @@ bool AppSettings::saveConfiguration()
 	return true;
 }
 
+/**
+ * Copies application settings instance.
+ *
+ * @param to
+ * @param from
+ */
 void AppSettings::copy(AppSettings *to, const AppSettings *from)
 {
     copyGroup(to->dynamic,   from->dynamic);
@@ -239,6 +312,9 @@ void AppSettings::copy(AppSettings *to, const AppSettings *from)
 }
 
 
+/**
+ *  Creates backup.
+ */
 //virtual
 void AppSettings::createConfigurationBackup()
 {
@@ -250,6 +326,9 @@ void AppSettings::createConfigurationBackup()
 }
 
 
+/**
+ *  Restores backup.
+ */
 //virtual
 void AppSettings::restoreConfigurationBackup()
 {
@@ -261,6 +340,9 @@ void AppSettings::restoreConfigurationBackup()
 }
 
 
+/**
+ *  Throws backup away.
+ */
 //virtual
 void AppSettings::dropConfigurationBackup()
 {
