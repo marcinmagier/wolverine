@@ -31,6 +31,7 @@ public:
     static void instanceWithNewThread();
     static void deleteInstance();
 
+    void initialize(bool isBackup = false);
     virtual bool loadConfiguration();
     virtual bool saveConfiguration();
 
@@ -42,14 +43,10 @@ public:
 private:
     AppSettings();
 
-    void initialize(bool isBackup = false);
     void initializeStartup();
-
     void copy(AppSettings *to, const AppSettings *from);
 
     AppSettings *mBackup;
-
-    friend void initializeAppSettings();
 };
 
 #endif //__CFG_APP_SETTINGS_H_

@@ -19,8 +19,6 @@
 #include <QThread>
 #include <QThreadPool>
 
-#include <QDebug>
-
 
 #define W_CONFIG_FILE_NAME  "appconfig"
 
@@ -28,7 +26,7 @@
 static AppSettings* sAppConfig = 0;
 static AppSettings* sStartupConfig = 0;
 
-void initializeAppSettings();
+static void initializeAppSettings();
 static inline void waitForEndOfInitialization();
 
 
@@ -38,18 +36,13 @@ static inline void waitForEndOfInitialization();
 class CfgInitializer : public QRunnable
 {
 public:
-    ~CfgInitializer();
-
     void run()
     {
         initializeAppSettings();
     }
 };
 
-CfgInitializer::~CfgInitializer()
-{
-    qDebug() << "Destructor";
-}
+
 
 static QMutex sMutex;
 static QThreadPool *sThreadPool = 0;
@@ -114,12 +107,18 @@ AppSettings::~AppSettings()
 
 void AppSettings::initialize(bool isBackup)
 {
-    dynamic = new DynamicSettings();
-    general = new GeneralSettings();
-    hidden = new HiddenSettings();
-    scintilla = new ScintillaSettings();
+    if(dynamic == 0)
+        dynamic = new DynamicSettings();
+    if(general == 0)
+        general = new GeneralSettings();
+    if(hidden ==0)
+        hidden = new HiddenSettings();
+    if(scintilla ==0)
+        scintilla = new ScintillaSettings();
     // The simplest way is to create new startup group
-    startup = new StartupSettings();
+    // There are no benefits from copying it from sStartupConfig
+    if(startup ==0)
+        startup = new StartupSettings();
 
     if(!isBackup)
         loadConfiguration();
