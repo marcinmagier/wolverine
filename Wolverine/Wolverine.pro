@@ -34,10 +34,12 @@ SOURCES      += \
                 ../src/WCentralWidget.cpp \
                 ../src/WDocument.cpp \
                 ../src/WLib.cpp \
-                ../src/WMainWindow.cpp
+                ../src/WMainWindow.cpp \
+                ../src/WStatusBar.cpp
 
 HEADERS      += \
                 ../src/wolverine_cfg.h \
+                ../src/WStatusBar.h \
                 ../src/settings/DlgSettings.h \
                 ../src/settings/PageGeneral.h \
                 ../src/settings/PageScintilla.h \

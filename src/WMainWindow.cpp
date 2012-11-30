@@ -2,6 +2,7 @@
 #include "WActionManager.h"
 #include "WMainWindow.h"
 #include "WCentralWidget.h"
+#include "WStatusBar.h"
 
 #include "qtmanagedtoolbar.h"
 #include "CfgAppSettings.h"
@@ -31,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
     createMenusAndToolbars();
 
     setCentralWidget(new CentralWidget(this));
+    setStatusBar(new StatusBar(this));
 }
 
 MainWindow::~MainWindow()
@@ -39,12 +41,10 @@ MainWindow::~MainWindow()
     mSettings->hidden->setMWSize(this->size());
 
     delete mSettingsDialog;
-
     //These variables are deleted by Qt
     //CentralWidget
     //AppSettings
     //ActionManager
-}
 
 void MainWindow::createMenusAndToolbars()
 {

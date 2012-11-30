@@ -20,7 +20,7 @@ namespace Wolverine
 
 class ActionManager;
 class DlgSettings;
-
+class StatusBar;
 
 
 class MainWindow : public QMainWindow
