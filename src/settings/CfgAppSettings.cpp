@@ -1,3 +1,15 @@
+/**************************************************************************************************
+**
+** Copyright (C) 2012-2013 Magier Marcin.
+**
+**
+**************************************************************************************************/
+
+/**
+ *  @file       CfgAppSettings.cpp
+ *  @brief      AppSettings class implementation.
+ */
+
 
 #include "wolverine_cfg.h"
 
@@ -23,8 +35,8 @@
 #define W_CONFIG_FILE_NAME  "appconfig"
 
 
-static AppSettings* sAppConfig = 0;
-static AppSettings* sStartupConfig = 0;
+static AppSettings* sAppSettingsInstance = 0;
+static AppSettings* sStartupSettingsInstance = 0;
 
 static void initializeAppSettings();
 static inline void waitForEndOfInitialization();
@@ -55,14 +67,15 @@ bool isInitializationDone = false;
  *
  *  It is run in separate thread.
  */
+//static
 void initializeAppSettings()
 {
-    sAppConfig->initialize();
+    sAppSettingsInstance->initialize();
     qAddPostRoutine(AppSettings::deleteInstance);
 
-    if(sStartupConfig) {
-        delete sStartupConfig;
-        sStartupConfig = 0;
+    if(sStartupSettingsInstance) {
+        delete sStartupSettingsInstance;
+        sStartupSettingsInstance = 0;
     }
 
     isInitializationDone = true;
@@ -72,6 +85,7 @@ void initializeAppSettings()
 /**
  *  Waits for end of initialization.
  */
+//static
 void waitForEndOfInitialization()
 {
     if(!isInitializationDone) {
@@ -152,7 +166,7 @@ void AppSettings::initialize(bool isBackup)
     if(scintilla ==0)
         scintilla = new ScintillaSettings();
     // The simplest way is to create new startup group
-    // There are no benefits from copying it from sStartupConfig
+    // There are no benefits from copying it from sStartupSettingsInstance, code would be difficult
     if(startup ==0)
         startup = new StartupSettings();
 
@@ -173,11 +187,11 @@ void AppSettings::initialize(bool isBackup)
 //static
 AppSettings* AppSettings::instanceStartup()
 {
-    if(sStartupConfig == 0) {
-        sStartupConfig = new AppSettings();
-        sStartupConfig->initializeStartup();
+    if(sStartupSettingsInstance == 0) {
+        sStartupSettingsInstance = new AppSettings();
+        sStartupSettingsInstance->initializeStartup();
     }
-    return sStartupConfig;
+    return sStartupSettingsInstance;
 }
 
 
@@ -189,21 +203,21 @@ AppSettings* AppSettings::instanceStartup()
 //static
 AppSettings* AppSettings::instance()
 {
-    if(sAppConfig == 0) {
+    if(sAppSettingsInstance == 0) {
         sMutex.lock();
-        if(sAppConfig == 0) {
+        if(sAppSettingsInstance == 0) {
             // Initialization not started yet, do it now
-            sAppConfig = new AppSettings();
+            sAppSettingsInstance = new AppSettings();
             initializeAppSettings();
             sMutex.unlock();
-            return sAppConfig;
+            return sAppSettingsInstance;
         }
         sMutex.unlock();
     }
 
     waitForEndOfInitialization();
 
-    return sAppConfig;
+    return sAppSettingsInstance;
 }
 
 
@@ -216,10 +230,10 @@ AppSettings* AppSettings::instance()
 //static
 void AppSettings::instanceWithNewThread()
 {
-    if(sAppConfig == 0) {
+    if(sAppSettingsInstance == 0) {
         sMutex.lock();
-        if(sAppConfig == 0) {
-            sAppConfig = new AppSettings();
+        if(sAppSettingsInstance == 0) {
+            sAppSettingsInstance = new AppSettings();
             sThreadPool = QThreadPool::globalInstance();
             // Initializer is deleted automaticaly after finishing its job.
             sThreadPool->start(new CfgInitializer());
@@ -242,16 +256,16 @@ void AppSettings::deleteInstance()
     // Just to sleep well
     waitForEndOfInitialization();
 
-    if(sAppConfig) {
-        sAppConfig->dropConfigurationBackup();
-        sAppConfig->saveConfiguration();
-        delete sAppConfig;
-        sAppConfig = 0;
+    if(sAppSettingsInstance) {
+        sAppSettingsInstance->dropConfigurationBackup();
+        sAppSettingsInstance->saveConfiguration();
+        delete sAppSettingsInstance;
+        sAppSettingsInstance = 0;
     }
 
-    if(sStartupConfig) {
-        delete sStartupConfig;
-        sStartupConfig = 0;
+    if(sStartupSettingsInstance) {
+        delete sStartupSettingsInstance;
+        sStartupSettingsInstance = 0;
     }
 
 }
@@ -297,7 +311,7 @@ bool AppSettings::saveConfiguration()
 }
 
 /**
- * Copies application settings instance.
+ *  Copies application settings instance.
  *
  * @param to
  * @param from
@@ -322,7 +336,7 @@ void AppSettings::createConfigurationBackup()
         delete mBackup;
     mBackup = new AppSettings();
     mBackup->initialize(true);
-    copy(mBackup, sAppConfig);
+    copy(mBackup, sAppSettingsInstance);
 }
 
 
@@ -333,7 +347,7 @@ void AppSettings::createConfigurationBackup()
 void AppSettings::restoreConfigurationBackup()
 {
     if(mBackup) {
-        copy(sAppConfig, mBackup);
+        copy(sAppSettingsInstance, mBackup);
         delete mBackup;
         mBackup = 0;
     }
@@ -351,5 +365,3 @@ void AppSettings::dropConfigurationBackup()
         mBackup = 0;
     }
 }
-
-
