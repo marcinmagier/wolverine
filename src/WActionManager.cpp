@@ -25,6 +25,8 @@
 using namespace Wolverine;
 
 
+static ActionManager *sInstance = 0;
+
 
 static void initializeActions();
 static void deleteActionManagerInstance();
@@ -45,9 +47,9 @@ public:
 
 
 static QMutex mutex;
-static ActionManager *sInstance = 0;
+
 static QThreadPool *sThreadPool = 0;
-static ActionInitializer *sInitializer = 0;
+static bool isInitializationDone = false;
 
 
 /**
@@ -72,10 +74,9 @@ void ActionManager::instanceWithNewThread()
         mutex.lock();
         if(sInstance == 0) {
             sInstance = new ActionManager();
-            sInitializer = new ActionInitializer();
-            sInitializer->setAutoDelete(false);
             sThreadPool = QThreadPool::globalInstance();
-            sThreadPool->start(sInitializer);
+            // Initializer is deleted automaticaly after finishing its job.
+            sThreadPool->start(new ActionInitializer());
         }
         mutex.unlock();
     }
@@ -103,13 +104,11 @@ ActionManager* ActionManager::instance()
         mutex.unlock();
     }
 
-    if(sInitializer) {
+    if(!isInitializationDone) {
         mutex.lock();
-        if(sInitializer) {
+        if(!isInitializationDone) {
             //Initialization pending, we have to wait
             sThreadPool->waitForDone();
-            delete sInitializer;
-            sInitializer = 0;
         }
         mutex.unlock();
     }
@@ -124,7 +123,8 @@ ActionManager* ActionManager::instance()
  *
  *  It is called just before application is exited.
  */
-static void deleteActionManagerInstance()
+//static
+void deleteActionManagerInstance()
 {
     delete sInstance;
     sInstance = 0;
@@ -140,7 +140,8 @@ static void deleteActionManagerInstance()
  *
  *  Icons are initialized when menu/toolbar is created.
  */
-static void initializeActions()
+//static
+void initializeActions()
 {
     QAction *action;
 
@@ -175,4 +176,6 @@ static void initializeActions()
     sInstance->setScheme("Default");
 
     sInstance->restoreConfig();
+
+    isInitializationDone = true;
 }
