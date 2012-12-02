@@ -45,6 +45,7 @@ MainWindow::~MainWindow()
     //CentralWidget
     //AppSettings
     //ActionManager
+}
 
 void MainWindow::createMenusAndToolbars()
 {
