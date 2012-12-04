@@ -25,6 +25,6 @@ uselib {
                     $$PWD/qtmanagedtoolbardialog.ui
 
     TRANSLATIONS += \
-                    $$PWD/translations/qtmanagedtoolbar_en.ts \
-                    $$PWD/translations/qtmanagedtoolbar_pl.ts
+                    $$PWD/translations/qtmanagedtoolbar_en_US.ts \
+                    $$PWD/translations/qtmanagedtoolbar_pl_PL.ts
 }
