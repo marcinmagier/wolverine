@@ -234,7 +234,6 @@ void AppSettings::instanceWithNewThread()
         sMutex.lock();
         if(sAppSettingsInstance == 0) {
             sAppSettingsInstance = new AppSettings();
-            sAppSettingsInstance->initialize(true); // We must create objects in UI thread
             sThreadPool = QThreadPool::globalInstance();
             // Initializer is deleted automaticaly after finishing its job.
             sThreadPool->start(new CfgInitializer());
