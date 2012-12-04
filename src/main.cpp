@@ -87,6 +87,8 @@ void configureLogger()
 
 /**
  *  Loads translator according to current language.
+ *
+ * @param app
  */
 void loadTranslations(QApplication *app)
 {
