@@ -27,3 +27,15 @@ QString DynamicSettings::getTranslationsDir()
 {
     return QDir(getInstalDir()).absoluteFilePath("translations");
 }
+
+QStringList DynamicSettings::getTranslations()
+{
+    QStringList languages;
+    QStringList translations = QDir(getTranslationsDir()).entryList(QStringList("wolverine_*.qm"));
+
+    foreach(QString lang, translations) {
+        languages.append(lang.mid(10, 5)); //wolverine_en_US.qm
+    }
+
+    return languages;
+}

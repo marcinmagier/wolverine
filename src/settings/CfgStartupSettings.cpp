@@ -56,8 +56,13 @@ bool StartupSettings::isAlwaysNewInstance()
 
 void StartupSettings::setLanguage(QString val)
 {
-    if(mLanguage != val) {
-        mLanguage = val;
+    // Convert to lang_country pattern
+    QString lang = QLocale(val).name();
+    if(lang == "C")
+        lang = "en_US";
+
+    if(mLanguage != lang) {
+        mLanguage = lang;
         emit languageChanged(mLanguage);
     }
 }

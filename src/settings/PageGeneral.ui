@@ -102,12 +102,12 @@
            <string>Logging level</string>
           </property>
           <property name="buddy">
-           <cstring>comboBox</cstring>
+           <cstring>cmbLogLevel</cstring>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="comboBox"/>
+         <widget class="QComboBox" name="cmbLogLevel"/>
         </item>
         <item>
          <spacer name="horizontalSpacer">

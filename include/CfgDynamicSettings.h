@@ -4,16 +4,17 @@
 
 #include <QObject>
 #include <QString>
+#include <QStringList>
 
 
 class DynamicSettings : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString      dataDir             READ getDataDir           )
-    Q_PROPERTY(QString      instalDir           READ getInstalDir         )
-    Q_PROPERTY(QString      pluginsDir          READ getPluginsDir        )
-    Q_PROPERTY(QString      translationsDir     READ getTranslationsDir   )
+    //Q_PROPERTY(QString      dataDir             READ getDataDir           )
+    //Q_PROPERTY(QString      instalDir           READ getInstalDir         )
+    //Q_PROPERTY(QString      pluginsDir          READ getPluginsDir        )
+    //Q_PROPERTY(QString      translationsDir     READ getTranslationsDir   )
 
 
 
@@ -24,6 +25,7 @@ public:
     QString getInstalDir() {return mInstalDir;}
     QString getPluginsDir();
     QString getTranslationsDir();
+    QStringList getTranslations();
 	
 
 

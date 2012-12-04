@@ -25,7 +25,11 @@ public:
     explicit PageGeneral(AppSettings *settings, QWidget *parent = 0);
     ~PageGeneral();
     
+private slots:
+    void currentLanguageChanged(int index);
+
 private:
+    QStringList mTranslations;
     Ui::PageGeneral *ui;
 };
 
