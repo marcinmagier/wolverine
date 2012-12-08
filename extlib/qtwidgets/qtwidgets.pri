@@ -14,9 +14,5 @@ uselib {
     HEADERS      += \
                     $$PWD/qtpopup.h
 
-#    RESOURCES    += \
-
-#    FORMS        += \
-
-#    TRANSLATIONS += \
+	include(qtmanagedtoolbar/qtmanagedtoolbar.pri)
 }
