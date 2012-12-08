@@ -14,6 +14,7 @@ include(../extlib/qtconfig/qtconfig.pri)
 include(../extlib/qtlogger/qtlogger.pri)
 include(../extlib/qtmanagedtoolbar/qtmanagedtoolbar.pri)
 include(../extlib/qtsingleapplication/qtsingleapplication.pri)
+include(../extlib/qtwidgets/qtwidgets.pri)
 
 include(../extlib/qtscintilla/qtscintilla.pri)
 #LIBS         += -lqscintilla2
@@ -35,8 +36,7 @@ SOURCES      += \
                 ../src/WDocument.cpp \
                 ../src/WLib.cpp \
                 ../src/WMainWindow.cpp \
-                ../src/WStatusBar.cpp \
-    ../src/qtpopup.cpp
+                ../src/WStatusBar.cpp
 
 HEADERS      += \
                 ../src/wolverine_cfg.h \
@@ -54,8 +54,7 @@ HEADERS      += \
                 ../include/WCentralWidget.h \
                 ../include/WDocument.h \
                 ../include/WLib.h \
-                ../include/WMainWindow.h \
-    ../src/qtpopup.h
+                ../include/WMainWindow.h
 
 INCLUDEPATH  += \
                 ../include \
