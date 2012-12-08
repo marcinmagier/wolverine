@@ -9,7 +9,7 @@ uselib {
     LIBS += -L$$QTWIDGETS_LIBDIR -l$$QTWIDGETS_LIBNAME
 } else {
     SOURCES      += \
-                    $$PWD/src/qtpopup.cpp
+                    $$PWD/qtpopup/qtpopup.cpp
 
     HEADERS      += \
                     $$PWD/qtpopup.h
