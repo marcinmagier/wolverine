@@ -1,4 +1,6 @@
 
+INCLUDEPATH += $$PWD
+
 SOURCES      += \
                 $$PWD/qtmanagedtoolbar.cpp \
                 $$PWD/qtmanagedtoolbardialog.cpp \
