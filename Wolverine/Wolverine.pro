@@ -35,7 +35,8 @@ SOURCES      += \
                 ../src/WDocument.cpp \
                 ../src/WLib.cpp \
                 ../src/WMainWindow.cpp \
-                ../src/WStatusBar.cpp
+                ../src/WStatusBar.cpp \
+    ../src/qtpopup.cpp
 
 HEADERS      += \
                 ../src/wolverine_cfg.h \
@@ -53,7 +54,8 @@ HEADERS      += \
                 ../include/WCentralWidget.h \
                 ../include/WDocument.h \
                 ../include/WLib.h \
-                ../include/WMainWindow.h
+                ../include/WMainWindow.h \
+    ../src/qtpopup.h
 
 INCLUDEPATH  += \
                 ../include \
