@@ -1,24 +1,18 @@
-
-#ifndef __QT_POPUP_H_
- #define __QT_POPUP_H_
+#ifndef QTPOPUP_H
+#define QTPOPUP_H
 
 #include <QFrame>
 
+class QLabel;
 class QTimer;
 class QTimeLine;
 
-namespace Ui {
-class QtPopupp;
-}
 
-class QtPopup : public QFrame
+class QtPopupOld : public QFrame
 {
     Q_OBJECT
-    
 public:
-    explicit QtPopup(const QString&, const QString&, Qt::Alignment, QWidget *parent = 0);
-    ~QtPopup();
-
+    explicit QtPopupOld(const QString&, const QString&, Qt::Alignment, QWidget *parent);
     void popup(int seconds = 10);
     void dismiss();
     Qt::Alignment align() const { return align_; }
@@ -26,7 +20,7 @@ public:
     
 signals:
     void closed();
-
+    
 public slots:
     void onTimer();
     void makeStep(int);
@@ -40,7 +34,9 @@ private:
     int bestWidth();
     void setAlpha(int alpha);
 
-
+    QLabel* headerL_;
+    QLabel* messageL_;
+    QLabel* timerL_;
     int timerTicks_;
     QTimer* timer_;
     QTimeLine* timeLine_;
@@ -51,8 +47,6 @@ private:
     int initialPos_;
     int direction_;
     int curFrame_;
-
-    Ui::QtPopupp *ui;
 };
 
-#endif // __QT_POPUP_H_
+#endif // QTPOPUP_H

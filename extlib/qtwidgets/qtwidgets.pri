@@ -14,22 +14,22 @@ uselib {
                     $$PWD/qtmanagedtoolbar/qtmanagedtoolbar.cpp \
                     $$PWD/qtmanagedtoolbar/qtmanagedtoolbardialog.cpp \
                     $$PWD/qtmanagedtoolbar/qtmanagedtoolbarlistbox.cpp \
-                    $$PWD/qtpopup/qtpopup.cpp \
-                    $$PWD/qtpopup/qtpopupp.cpp
+                    $$PWD/qtpopup/qtpopupo.cpp \
+                    $$PWD/qtpopup/qtpopup.cpp
 
     HEADERS      += \
                     $$PWD/qtmanagedtoolbar.h \
                     $$PWD/qtmanagedtoolbar/qtmanagedtoolbardialog.h \
                     $$PWD/qtmanagedtoolbar/qtmanagedtoolbarlistbox.h \
-                    $$PWD/qtpopup.h \
-                    $$PWD/qtpopupp.h
+                    $$PWD/qtpopupo.h \
+                    $$PWD/qtpopup.h
 
     RESOURCES    += \
                     $$PWD/qtmanagedtoolbar/resources.qrc
 
     FORMS        += \
                     $$PWD/qtmanagedtoolbar/qtmanagedtoolbardialog.ui \
-                    $$PWD/qtpopup/qtpopupp.ui
+                    $$PWD/qtpopup/qtpopup.ui
 
     TRANSLATIONS += \
                     $$PWD/qtmanagedtoolbar/translations/qtmanagedtoolbar_en_US.ts \
