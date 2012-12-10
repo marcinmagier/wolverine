@@ -66,11 +66,19 @@ QtPopup::QtPopup(const QString& header, const QString& message, Qt::Alignment al
 
     QColor bgColor = palette().color(QPalette::ToolTipBase);
     QColor fgColor = palette().color(QPalette::ToolTipText);
-    styleSheet_ = QString("QFrame {border: 1px solid gray; border-radius: 4px; background-color: rgb(%1, %2, %3, ALPHA);} QLabel { color: rgb(%4, %5, %6); }")
+    styleSheet_ = QString("QFrame {"
+                          "border: 1px solid; "
+                          "border-color: rgb(0, 0, 0, ALPHA);"
+                          "border-radius: 4px; "
+                          "background-color: rgb(%1, %2, %3, ALPHA);"
+                          "}"
+                          "QLabel {"
+                          "color: rgb(%4, %5, %6, ALPHA);"
+                          "}")
         .arg(bgColor.red()).arg(bgColor.green()).arg(bgColor.blue())
         .arg(fgColor.red()).arg(fgColor.green()).arg(fgColor.blue());
 
-    setAlpha(AlphaTransparent);
+    setAlpha(100);
 }
 
 QtPopup::~QtPopup()
@@ -132,9 +140,11 @@ void QtPopup::makeStep(int frame) {
     const int step = direction_ * Height / StepCount;
     if ( hidden_ ) {
         setGeometry(x(), initialPos_ + step * frame, width(), Height - 2);
+        //setAlpha(255/StepCount * step);
     }
     else {
-        setGeometry(x(), initialPos_ + step * (StepCount - frame), width(), Height - 2);
+        //setGeometry(x(), initialPos_ + step * (StepCount - frame), width(), Height - 2);
+        setAlpha(255/StepCount * (StepCount-frame));
         if ( frame >= StepCount ) {
             emit closed();
             deleteLater();

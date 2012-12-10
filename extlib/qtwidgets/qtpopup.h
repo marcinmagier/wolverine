@@ -43,7 +43,7 @@ public:
     explicit QtPopup(const QString&, const QString&, Qt::Alignment, QWidget *parent = 0);
     ~QtPopup();
 
-    void popup(int seconds = 10);
+    void popup(int seconds = 3);
     void dismiss();
     Qt::Alignment align() const { return align_; }
     void updatePosition();
@@ -56,9 +56,9 @@ public slots:
     void makeStep(int);
 
 protected:
-    virtual void enterEvent(QEvent *);
-    virtual void leaveEvent(QEvent *);
-    virtual void mousePressEvent(QMouseEvent *);
+    virtual void enterEvent(QEvent *event);
+    virtual void leaveEvent(QEvent *event);
+    virtual void mousePressEvent(QMouseEvent *event);
 
 private:
     int bestWidth();
