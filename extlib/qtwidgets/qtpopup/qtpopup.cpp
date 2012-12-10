@@ -1,3 +1,26 @@
+/**************************************************************************************************
+**
+**  Copyright (C) 2012-2013 Magier Marcin
+**
+**  This program is free software: you can redistribute it and/or modify it under the terms
+**  of the GNU General Public License as published by the Free Software Foundation,
+**  either version 3 of the License, or (at your option) any later version.
+**
+**  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+**  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+**  See the GNU General Public License for more details.
+**
+**  You should have received a copy of the GNU General Public License
+**  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+**
+**************************************************************************************************/
+
+/**
+ *  @file       qtpopup.cpp
+ *  @brief      QtPopup class implementation.
+ */
+
+
 #include "qtpopup.h"
 #include "ui_qtpopup.h"
 
@@ -16,7 +39,7 @@ static const int StepCount        = 40;
 
 QtPopup::QtPopup(const QString& header, const QString& message, Qt::Alignment align, QWidget *parent) :
     QFrame(parent),
-    ui(new Ui::QtPopupp)
+    ui(new Ui::QtPopup)
 {
     ui->setupUi(this);
 
@@ -40,6 +63,12 @@ QtPopup::QtPopup(const QString& header, const QString& message, Qt::Alignment al
     timeLine_ = new QTimeLine(300);
     timeLine_->setFrameRange(0, StepCount);
     connect(timeLine_, SIGNAL(frameChanged(int)), SLOT(makeStep(int)));
+
+    QColor bgColor = palette().color(QPalette::ToolTipBase);
+    QColor fgColor = palette().color(QPalette::ToolTipText);
+    styleSheet_ = QString("QFrame {border: 1px solid gray; border-radius: 4px; background-color: rgb(%1, %2, %3, ALPHA);} QLabel { color: rgb(%4, %5, %6); }")
+        .arg(bgColor.red()).arg(bgColor.green()).arg(bgColor.blue())
+        .arg(fgColor.red()).arg(fgColor.green()).arg(fgColor.blue());
 
     setAlpha(AlphaTransparent);
 }

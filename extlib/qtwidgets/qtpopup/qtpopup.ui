@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>QtPopupp</class>
- <widget class="QFrame" name="QtPopupp">
+ <class>QtPopup</class>
+ <widget class="QFrame" name="QtPopup">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>78</height>
+    <width>236</width>
+    <height>108</height>
    </rect>
   </property>
   <property name="maximumSize">
