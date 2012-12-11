@@ -98,6 +98,7 @@ public:
     static bool popup( IQtPopup *instance, QWidget *parent=0);
     static bool setTheme(const QColor &foreground, const QColor &background);
     static bool setTimeout(int seconds);
+    static void deleteInstance();
 
 private slots:
     void onPopupClose();
@@ -111,6 +112,7 @@ private:
     QColor mColorFg;
     QColor mColorBg;
 
+    static QtPopup *sInstance;
     QLinkedList<IQtPopup*> mPopups;
 
 };

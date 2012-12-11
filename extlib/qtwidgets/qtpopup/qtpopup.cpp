@@ -24,12 +24,11 @@
 #include "qtpopup.h"
 
 #include "QApplication"
+#include "QMutex"
 
 
-static QtPopup *sInstance = 0;
-
-
-static void deleteQtPopupInstance();
+QtPopup* QtPopup::sInstance = 0;
+static QMutex sMutex;
 
 
 /**
@@ -39,7 +38,7 @@ QtPopup::QtPopup()
 {
     mPosition = 0;
 
-    qAddPostRoutine(deleteQtPopupInstance);
+    qAddPostRoutine(QtPopup::deleteInstance);
 }
 
 
@@ -56,7 +55,7 @@ QtPopup::~QtPopup()
  *  Deletes instance of QtPopup.
  */
 //static
-void deleteQtPopupInstance()
+void QtPopup::deleteInstance()
 {
     delete sInstance;
     sInstance = 0;
@@ -73,6 +72,13 @@ void deleteQtPopupInstance()
 //static
 bool QtPopup::popup(IQtPopup *instance, QWidget *parent)
 {
+    if(sInstance == 0) {
+        sMutex.lock();
+        if(sInstance == 0) {
+            sInstance = new QtPopup();
+        }
+        sMutex.unlock();
+    }
 
     return true;
 }
@@ -86,7 +92,7 @@ bool QtPopup::popup(IQtPopup *instance, QWidget *parent)
  * @return
  */
 //static
-bool setTheme(const QColor &foreground, const QColor &background)
+bool QtPopup::setTheme(const QColor &foreground, const QColor &background)
 {
     return true;
 }
@@ -99,11 +105,18 @@ bool setTheme(const QColor &foreground, const QColor &background)
  * @return
  */
 //static
-bool setTimeout(int seconds)
+bool QtPopup::setTimeout(int seconds)
 {
     return true;
 }
 
 
+/**
+ *  Slot is called when popup is about to close.
+ */
+//slot
+void QtPopup::onPopupClose()
+{
 
+}
 
