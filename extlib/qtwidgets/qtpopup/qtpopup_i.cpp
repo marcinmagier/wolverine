@@ -16,94 +16,74 @@
 **************************************************************************************************/
 
 /**
- *  @file       qtpopup.cpp
- *  @brief      QtPopup class implementation.
+ *  @file       qtpopup_i.cpp
+ *  @brief      IQtPopup class implementation.
  */
 
 
 #include "qtpopup.h"
-
-#include "QApplication"
-
-
-static QtPopup *sInstance = 0;
+#include "ui_qtpopup.h"
 
 
-static void deleteQtPopupInstance();
+#include <QTimer>
+#include <QTimeLine>
+
 
 
 /**
- *  Default constructor.
+ *  Constructor.
+ *
+ * @param title
+ * @param message
  */
-QtPopup::QtPopup()
+IQtPopup::IQtPopup(const QString &title, const QString &message) :
+    ui(new Ui::IQtPopup)
 {
-    mPosition = 0;
+    ui->setupUi(this);
 
-    qAddPostRoutine(deleteQtPopupInstance);
 }
 
 
 /**
  *  Destructor.
  */
-QtPopup::~QtPopup()
+IQtPopup::~IQtPopup()
 {
-
+    delete ui;
 }
 
 
 /**
- *  Deletes instance of QtPopup.
- */
-//static
-void deleteQtPopupInstance()
-{
-    delete sInstance;
-    sInstance = 0;
-}
-
-
-/**
- *  Shows popup.
+ *  Enter event handler.
  *
- * @param instance
- * @param parent
- * @return
+ * @param event
  */
-//static
-bool QtPopup::popup(IQtPopup *instance, QWidget *parent)
+//virtual
+void IQtPopup::enterEvent(QEvent *event)
 {
 
-    return true;
 }
 
 
 /**
- *  Sets theme for popups.
+ *  Leave event handler.
  *
- * @param foreground color
- * @param background color
- * @return
+ * @param event
  */
-//static
-bool setTheme(const QColor &foreground, const QColor &background)
+//virtual
+void IQtPopup::leaveEvent(QEvent *event)
 {
-    return true;
+
 }
 
 
 /**
- *  Sets timeout for popups.
+ *  Mouse press event handler.
  *
- * @param seconds
- * @return
+ * @param event
  */
-//static
-bool setTimeout(int seconds)
+//virtual
+void IQtPopup::mousePressEvent(QMouseEvent *event)
 {
-    return true;
+
 }
-
-
-
-

@@ -26,57 +26,93 @@
 
 
 #include <QFrame>
+#include <QLinkedList>
 
 class QTimer;
 class QTimeLine;
 
 namespace Ui {
-class QtPopup;
+class IQtPopup;
 }
 
 
-class QtPopup : public QFrame
+
+
+class IQtPopup : public QFrame
 {
     Q_OBJECT
-    
+
 public:
-    explicit QtPopup(const QString&, const QString&, Qt::Alignment, QWidget *parent = 0);
-    ~QtPopup();
+    IQtPopup(const QString &title, const QString &message);
+    virtual ~IQtPopup();
 
-    void popup(int seconds = 3);
-    void dismiss();
-    Qt::Alignment align() const { return align_; }
-    void updatePosition();
-    
 signals:
+    void action();
     void closed();
-
-public slots:
-    void onTimer();
-    void makeStep(int);
 
 protected:
     virtual void enterEvent(QEvent *event);
     virtual void leaveEvent(QEvent *event);
     virtual void mousePressEvent(QMouseEvent *event);
 
+    Ui::IQtPopup *ui;
+};
+
+
+
+class QtPopupMove : public IQtPopup
+{
+    Q_OBJECT
+
+public:
+    explicit QtPopupMove(const QString &title, const QString &message);
+    virtual ~QtPopupMove();
+
+
+};
+
+
+class QtPopupFlash : public IQtPopup
+{
+    Q_OBJECT
+
+public:
+    explicit QtPopupFlash(const QString &title, const QString &message);
+    virtual ~QtPopupFlash();
+};
+
+
+
+
+class QtPopup : public QObject
+{
+    Q_OBJECT
+    
 private:
-    int bestWidth();
-    void setAlpha(int alpha);
+    QtPopup();
 
 
-    int timerTicks_;
-    QTimer* timer_;
-    QTimeLine* timeLine_;
-    bool hidden_;
-    QString styleSheet_;
-    Qt::Alignment align_;
+public:
+    ~QtPopup();
 
-    int initialPos_;
-    int direction_;
-    int curFrame_;
+    static bool popup( IQtPopup *instance, QWidget *parent=0);
+    static bool setTheme(const QColor &foreground, const QColor &background);
+    static bool setTimeout(int seconds);
 
-    Ui::QtPopup *ui;
+private slots:
+    void onPopupClose();
+
+
+private:
+
+    int mPosition;
+    int mTimeout;
+
+    QColor mColorFg;
+    QColor mColorBg;
+
+    QLinkedList<IQtPopup*> mPopups;
+
 };
 
 #endif // __QT_POPUP_H_

@@ -36,9 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setCentralWidget(new CentralWidget(this));
     setStatusBar(new StatusBar(this));
 
-    QtPopup *popap = new QtPopup("Test", "test", Qt::AlignTop | Qt::AlignRight, this);
-    popap->updatePosition();
-    popap->popup();
+    QtPopup::popup(new QtPopupFlash("Test", "Test popup"), this);
 
 }
 
