@@ -26,6 +26,8 @@
 #include "QApplication"
 #include "QMutex"
 
+#include "QDebug"
+
 
 QtPopup* QtPopup::sInstance = 0;
 static QMutex sMutex;
@@ -36,7 +38,8 @@ static QMutex sMutex;
  */
 QtPopup::QtPopup()
 {
-    mPosition = 0;
+    mPosition = 10;
+    mPopups.clear();
 
     qAddPostRoutine(QtPopup::deleteInstance);
 }
@@ -80,6 +83,17 @@ bool QtPopup::popup(IQtPopup *instance, QWidget *parent)
         sMutex.unlock();
     }
 
+    qDebug() << parent->geometry();
+    qDebug() << parent->pos();
+
+    instance->setParent(parent);
+
+    instance->setFgColor(sInstance->mColorFg);
+    instance->setBgColor(sInstance->mColorBg);
+    instance->setInitialPos(sInstance->mPosition);
+    instance->popup(sInstance->mTimeout);
+
+    sInstance->mPosition += instance->size().height();
     return true;
 }
 

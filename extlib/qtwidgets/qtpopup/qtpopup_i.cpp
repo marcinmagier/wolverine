@@ -41,6 +41,21 @@ IQtPopup::IQtPopup(const QString &title, const QString &message) :
 {
     ui->setupUi(this);
 
+    QString style = QString("QFrame {"
+                            "border: 1px solid; "
+                            "border-color: rgb(0, 0, 0, 100);"
+                            "border-radius: 4px; "
+                            "background-color: rgb(111, 43, 43, 100);"
+                            "}");
+
+    QString lstyle = QString("QLabel {"
+                             "border: 0px;"
+                             "background-color: rgb(255, 255, 255, 0);"
+                             "}");
+    setStyleSheet(style);
+    ui->lblMessage->setStyleSheet(lstyle);
+    ui->lblTimer->setStyleSheet(lstyle);
+    ui->lblTitle->setStyleSheet(lstyle);
 }
 
 
@@ -85,5 +100,33 @@ void IQtPopup::leaveEvent(QEvent *event)
 //virtual
 void IQtPopup::mousePressEvent(QMouseEvent *event)
 {
+
+}
+
+
+void IQtPopup::popup(int timeout)
+{
+    QWidget *tmp = dynamic_cast<QWidget*>(this->parent());
+    int w = tmp->size().width();
+    w = w-10;
+    w = w-this->size().width();
+
+    this->move(w, mPosition);
+
+}
+
+void IQtPopup::setFgColor(const QColor &color)
+{
+
+}
+
+void IQtPopup::setBgColor(const QColor &color)
+{
+
+}
+
+void IQtPopup::setInitialPos(int pos)
+{
+    mPosition = pos;
 
 }

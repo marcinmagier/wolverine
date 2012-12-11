@@ -35,7 +35,7 @@ namespace Ui {
 class IQtPopup;
 }
 
-
+class QtPopup;
 
 
 class IQtPopup : public QFrame
@@ -55,7 +55,17 @@ protected:
     virtual void leaveEvent(QEvent *event);
     virtual void mousePressEvent(QMouseEvent *event);
 
+    void popup(int timeout);
+
+    void setFgColor(const QColor &color);
+    void setBgColor(const QColor &color);
+    void setInitialPos(int pos);
+
+    int mPosition;
+
     Ui::IQtPopup *ui;
+
+    friend class QtPopup;
 };
 
 
