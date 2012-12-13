@@ -30,6 +30,7 @@
 
 
 QtPopup* QtPopup::sInstance = 0;
+int QtPopup::sTimeout;
 static QMutex sMutex;
 
 
@@ -88,10 +89,8 @@ bool QtPopup::popup(IQtPopup *instance, QWidget *parent)
 
     instance->setParent(parent);
 
-    instance->setFgColor(sInstance->mColorFg);
-    instance->setBgColor(sInstance->mColorBg);
     instance->setInitialPos(sInstance->mPosition);
-    instance->popup(sInstance->mTimeout);
+    instance->popup(sTimeout);
 
     sInstance->mPosition += instance->size().height();
     return true;
@@ -106,9 +105,9 @@ bool QtPopup::popup(IQtPopup *instance, QWidget *parent)
  * @return
  */
 //static
-bool QtPopup::setTheme(const QColor &foreground, const QColor &background)
+void QtPopup::setTheme(const QColor &foreground, const QColor &background)
 {
-    return true;
+    IQtPopup::updateTheme(foreground, background);
 }
 
 
@@ -119,9 +118,9 @@ bool QtPopup::setTheme(const QColor &foreground, const QColor &background)
  * @return
  */
 //static
-bool QtPopup::setTimeout(int seconds)
+void QtPopup::setTimeout(int seconds)
 {
-    return true;
+    sTimeout = seconds;
 }
 
 

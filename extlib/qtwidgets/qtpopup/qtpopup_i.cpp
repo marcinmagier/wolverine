@@ -30,6 +30,32 @@
 
 
 
+
+#include <QDebug>
+
+
+
+#define FRAME_STYLE_PATTERN     "QFrame {"                                  \
+                                "border: 1px solid; "                       \
+                                "border-color: rgb(%1, %2, %3, ALPHA);"     \
+                                "border-radius: 10px; "                     \
+                                "background-color: rgb(%4, %5, %6, ALPHA);" \
+                                "}"
+
+#define LABEL_STYLE_PATTERN     "QLabel {"                                  \
+                                "border: 0px;"                              \
+                                "color: rgb(%1, %2, %3);"                   \
+                                "background-color: rgb(255, 255, 255, 0);"  \
+                                "}"
+
+
+
+QString IQtPopup::sStyleSheetFrame;
+QString IQtPopup::sStyleSheetLabel;
+
+
+
+
 /**
  *  Constructor.
  *
@@ -41,21 +67,6 @@ IQtPopup::IQtPopup(const QString &title, const QString &message) :
 {
     ui->setupUi(this);
 
-    QString style = QString("QFrame {"
-                            "border: 1px solid; "
-                            "border-color: rgb(0, 0, 0, 100);"
-                            "border-radius: 4px; "
-                            "background-color: rgb(111, 43, 43, 100);"
-                            "}");
-
-    QString lstyle = QString("QLabel {"
-                             "border: 0px;"
-                             "background-color: rgb(255, 255, 255, 0);"
-                             "}");
-    setStyleSheet(style);
-    ui->lblMessage->setStyleSheet(lstyle);
-    ui->lblTimer->setStyleSheet(lstyle);
-    ui->lblTitle->setStyleSheet(lstyle);
 }
 
 
@@ -113,20 +124,52 @@ void IQtPopup::popup(int timeout)
 
     this->move(w, mPosition);
 
-}
 
-void IQtPopup::setFgColor(const QColor &color)
-{
 
 }
 
-void IQtPopup::setBgColor(const QColor &color)
-{
 
-}
-
+/**
+ * @brief IQtPopup::setInitialPos
+ * @param pos
+ */
 void IQtPopup::setInitialPos(int pos)
 {
     mPosition = pos;
 
 }
+
+
+/**
+ * @brief IQtPopup::setAlpha
+ * @param alpha
+ */
+void IQtPopup::setAlpha(int alpha)
+{
+    QString style = QString(sStyleSheetFrame).replace("ALPHA", QString::number(alpha));
+    setStyleSheet(style);
+
+    style = QString(sStyleSheetLabel).replace("ALPHA", QString::number(alpha));
+    ui->lblMessage->setStyleSheet(style);
+    ui->lblTimer->setStyleSheet(style);
+    ui->lblTitle->setStyleSheet(style);
+
+}
+
+
+/**
+ * @brief IQtPopup::updateTheme
+ * @param fg
+ * @param bg
+ */
+//static
+void IQtPopup::updateTheme(const QColor &fg, const QColor &bg)
+{
+    sStyleSheetFrame = QString(FRAME_STYLE_PATTERN).arg(fg.red()).arg(fg.green()).arg(fg.blue())
+                                                   .arg(bg.red()).arg(bg.green()).arg(bg.blue());
+
+    sStyleSheetLabel = QString(LABEL_STYLE_PATTERN).arg(fg.red()).arg(fg.green()).arg(fg.blue());
+}
+
+
+

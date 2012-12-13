@@ -30,10 +30,9 @@
  * @param title
  * @param message
  */
-QtPopupFlash::QtPopupFlash(const QString &title, const QString &message):
+QtPopupRise::QtPopupRise(const QString &title, const QString &message):
     IQtPopup(title, message)
 {
-    setAlpha(100);
 
 }
 
@@ -42,7 +41,7 @@ QtPopupFlash::QtPopupFlash(const QString &title, const QString &message):
  *  Destructor.
  */
 //virtual
-QtPopupFlash::~QtPopupFlash()
+QtPopupRise::~QtPopupRise()
 {
 
 }

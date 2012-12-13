@@ -28,6 +28,7 @@
 #include <QFrame>
 #include <QLinkedList>
 
+
 class QTimer;
 class QTimeLine;
 
@@ -36,6 +37,7 @@ class IQtPopup;
 }
 
 class QtPopup;
+
 
 
 class IQtPopup : public QFrame
@@ -57,11 +59,18 @@ protected:
 
     void popup(int timeout);
 
-    void setFgColor(const QColor &color);
-    void setBgColor(const QColor &color);
     void setInitialPos(int pos);
+    void setAlpha(int alpha);
+    static void updateTheme(const QColor &fg, const QColor &bg);
+    static void setTimeout(int timeout);
+
+
+
 
     int mPosition;
+    int mTimeout;
+    static QString sStyleSheetFrame;
+    static QString sStyleSheetLabel;
 
     Ui::IQtPopup *ui;
 
@@ -81,6 +90,14 @@ public:
 
 };
 
+class QtPopupRise : public IQtPopup
+{
+    Q_OBJECT
+
+public:
+    explicit QtPopupRise(const QString &title, const QString &message);
+    virtual ~QtPopupRise();
+};
 
 class QtPopupFlash : public IQtPopup
 {
@@ -106,8 +123,8 @@ public:
     ~QtPopup();
 
     static bool popup( IQtPopup *instance, QWidget *parent=0);
-    static bool setTheme(const QColor &foreground, const QColor &background);
-    static bool setTimeout(int seconds);
+    static void setTheme(const QColor &foreground, const QColor &background);
+    static void setTimeout(int seconds);
     static void deleteInstance();
 
 private slots:
@@ -117,11 +134,7 @@ private slots:
 private:
 
     int mPosition;
-    int mTimeout;
-
-    QColor mColorFg;
-    QColor mColorBg;
-
+    static int sTimeout;
     static QtPopup *sInstance;
     QLinkedList<IQtPopup*> mPopups;
 
