@@ -36,8 +36,8 @@ MainWindow::MainWindow(QWidget *parent) :
     setCentralWidget(new CentralWidget(this));
     setStatusBar(new StatusBar(this));
 
-    QtPopup::setTheme(QColor(54, 2, 43), QColor(87, 43, 65));
-    QtPopup::popup(new QtPopupFlash("Test", "Test popup"), this);
+    QtPopup::setTheme(QColor(54, 2, 43), QColor(187, 143, 165));
+    QtPopup::popup(new QtPopupFlash("Test", "Test very very very very very very long popup"), this);
 
 }
 

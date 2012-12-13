@@ -33,7 +33,7 @@
 QtPopupFlash::QtPopupFlash(const QString &title, const QString &message):
     IQtPopup(title, message)
 {
-    setAlpha(100);
+    setAlpha(IQtPopup::AlphaTransparent);
 
 }
 

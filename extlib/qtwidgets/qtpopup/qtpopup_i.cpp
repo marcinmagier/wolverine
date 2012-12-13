@@ -52,6 +52,7 @@
 
 QString IQtPopup::sStyleSheetFrame;
 QString IQtPopup::sStyleSheetLabel;
+const int IQtPopup::ANIMATION_FRAME_COUNT = 40;
 
 
 
@@ -65,8 +66,21 @@ QString IQtPopup::sStyleSheetLabel;
 IQtPopup::IQtPopup(const QString &title, const QString &message) :
     ui(new Ui::IQtPopup)
 {
+    hide();
     ui->setupUi(this);
+    ui->lblTitle->setText(QString("<b>%1</b>").arg(title));
+    ui->lblMessage->setText(message);
 
+    mState = IQtPopup::InitState;
+
+    mTimerSec = new QTimer();
+    connect( mTimerSec, SIGNAL(timeout()),
+                  this, SLOT(onTimerSec()) );
+
+    mTimeLineAnimation = new QTimeLine(300);
+    mTimeLineAnimation->setFrameRange(0, ANIMATION_FRAME_COUNT);
+    connect( mTimeLineAnimation, SIGNAL(frameChanged(int)),
+                           this, SLOT(makeSetp(int)) );
 }
 
 
@@ -87,7 +101,11 @@ IQtPopup::~IQtPopup()
 //virtual
 void IQtPopup::enterEvent(QEvent *event)
 {
+    if(mState != IQtPopup::TimerState)
+        return;
 
+    setAlpha(IQtPopup::AlphaSolid);
+    QFrame::enterEvent(event);
 }
 
 
@@ -99,7 +117,11 @@ void IQtPopup::enterEvent(QEvent *event)
 //virtual
 void IQtPopup::leaveEvent(QEvent *event)
 {
+    if(mState != IQtPopup::TimerState)
+        return;
 
+    setAlpha(IQtPopup::AlphaTransparent);
+    QFrame::leaveEvent(event);
 }
 
 
@@ -119,12 +141,18 @@ void IQtPopup::popup(int timeout)
 {
     QWidget *tmp = dynamic_cast<QWidget*>(this->parent());
     int w = tmp->size().width();
+    this->resize(this->calculateWidth(), this->size().height());
     w = w-10;
     w = w-this->size().width();
 
     this->move(w, mPosition);
 
+    mState = IQtPopup::TimerState;
+    mTimerSecTicks = timeout;
+    ui->lblTimer->setText(QString::number(mTimerSecTicks));
+    mTimerSec->start(1000);
 
+    show();
 
 }
 
@@ -157,6 +185,12 @@ void IQtPopup::setAlpha(int alpha)
 }
 
 
+int IQtPopup::calculateWidth()
+{
+    QLabel *lbl = ui->lblMessage;
+    return QFontMetrics(lbl->font()).boundingRect(lbl->text()).width() + 30;
+}
+
 /**
  * @brief IQtPopup::updateTheme
  * @param fg
@@ -169,6 +203,33 @@ void IQtPopup::updateTheme(const QColor &fg, const QColor &bg)
                                                    .arg(bg.red()).arg(bg.green()).arg(bg.blue());
 
     sStyleSheetLabel = QString(LABEL_STYLE_PATTERN).arg(fg.red()).arg(fg.green()).arg(fg.blue());
+}
+
+
+/**
+ * @brief IQtPopup::onTimerSec
+ */
+//slot
+void IQtPopup::onTimerSec()
+{
+    if(mTimerSecTicks > 0) {
+        mTimerSecTicks--;
+        ui->lblTimer->setText(QString::number(mTimerSecTicks));
+        return;
+    }
+
+    mTimerSec->stop();
+}
+
+
+/**
+ * @brief IQtPopup::makeSetp
+ * @param frame
+ */
+//slot
+void IQtPopup::makeSetp(int frame)
+{
+
 }
 
 

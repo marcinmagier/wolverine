@@ -44,6 +44,21 @@ class IQtPopup : public QFrame
 {
     Q_OBJECT
 
+protected:
+    enum PopupState {
+        InitState,
+        OpeningState,
+        TimerState,
+        ClosingState
+    };
+
+    enum PopupAlpha {
+        AlphaSolid = 245,
+        AlphaTransparent = 100
+    };
+
+    static const int ANIMATION_FRAME_COUNT;
+
 public:
     IQtPopup(const QString &title, const QString &message);
     virtual ~IQtPopup();
@@ -51,6 +66,11 @@ public:
 signals:
     void action();
     void closed();
+
+protected slots:
+    void onTimerSec();
+    void makeSetp(int frame);
+
 
 protected:
     virtual void enterEvent(QEvent *event);
@@ -61,14 +81,16 @@ protected:
 
     void setInitialPos(int pos);
     void setAlpha(int alpha);
+    int calculateWidth();
     static void updateTheme(const QColor &fg, const QColor &bg);
-    static void setTimeout(int timeout);
-
-
 
 
     int mPosition;
-    int mTimeout;
+    int mTimerSecTicks;
+    PopupState mState;
+    QTimer *mTimerSec;
+    QTimeLine *mTimeLineAnimation;
+
     static QString sStyleSheetFrame;
     static QString sStyleSheetLabel;
 

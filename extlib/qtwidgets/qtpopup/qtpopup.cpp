@@ -30,7 +30,7 @@
 
 
 QtPopup* QtPopup::sInstance = 0;
-int QtPopup::sTimeout;
+int QtPopup::sTimeout = 10;
 static QMutex sMutex;
 
 
