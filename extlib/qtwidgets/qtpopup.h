@@ -69,7 +69,7 @@ signals:
 
 protected slots:
     void onTimerSec();
-    void makeSetp(int frame);
+    void makeStep(int frame);
 
 
 protected:
@@ -77,11 +77,16 @@ protected:
     virtual void leaveEvent(QEvent *event);
     virtual void mousePressEvent(QMouseEvent *event);
 
+    virtual void makeInitStep() = 0;
+    virtual void makeOpeningStep(int frame) = 0;
+    virtual void makeClosingStep(int frame) = 0;
+
     void popup(int timeout);
 
     void setInitialPos(int pos);
     void setAlpha(int alpha);
     int calculateWidth();
+    void dismiss();
     static void updateTheme(const QColor &fg, const QColor &bg);
 
 
@@ -109,7 +114,9 @@ public:
     explicit QtPopupMove(const QString &title, const QString &message);
     virtual ~QtPopupMove();
 
-
+protected:
+    virtual void makeOpeningStep(int frame);
+    virtual void makeClosingStep(int frame);
 };
 
 class QtPopupRise : public IQtPopup
@@ -119,6 +126,10 @@ class QtPopupRise : public IQtPopup
 public:
     explicit QtPopupRise(const QString &title, const QString &message);
     virtual ~QtPopupRise();
+
+protected:
+    virtual void makeOpeningStep(int frame);
+    virtual void makeClosingStep(int frame);
 };
 
 class QtPopupFlash : public IQtPopup
@@ -128,6 +139,11 @@ class QtPopupFlash : public IQtPopup
 public:
     explicit QtPopupFlash(const QString &title, const QString &message);
     virtual ~QtPopupFlash();
+
+protected:
+    virtual void makeInitStep();
+    virtual void makeOpeningStep(int frame);
+    virtual void makeClosingStep(int frame);
 };
 
 

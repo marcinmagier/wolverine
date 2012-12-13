@@ -46,3 +46,12 @@ QtPopupMove::~QtPopupMove()
 
 }
 
+void QtPopupMove::makeOpeningStep(int frame)
+{
+
+}
+
+void QtPopupMove::makeClosingStep(int frame)
+{
+
+}

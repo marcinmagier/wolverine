@@ -24,6 +24,8 @@
 #include "qtpopup.h"
 
 
+
+
 /**
  *  Constructor.
  *
@@ -47,3 +49,26 @@ QtPopupFlash::~QtPopupFlash()
 
 }
 
+
+void QtPopupFlash::makeInitStep()
+{
+    QWidget *tmp = dynamic_cast<QWidget*>(this->parent());
+    int w = tmp->size().width();
+    this->resize(this->calculateWidth(), this->size().height());
+    w = w-10;
+    w = w-this->size().width();
+
+    this->move(w, mPosition);
+
+    setAlpha(0);
+}
+
+void QtPopupFlash::makeOpeningStep(int frame)
+{
+    setAlpha(AlphaTransparent/ANIMATION_FRAME_COUNT*frame);
+}
+
+void QtPopupFlash::makeClosingStep(int frame)
+{
+    setAlpha(AlphaTransparent/ANIMATION_FRAME_COUNT*frame);
+}

@@ -44,7 +44,7 @@
 
 #define LABEL_STYLE_PATTERN     "QLabel {"                                  \
                                 "border: 0px;"                              \
-                                "color: rgb(%1, %2, %3);"                   \
+                                "color: rgb(%1, %2, %3, ALPHA);"            \
                                 "background-color: rgb(255, 255, 255, 0);"  \
                                 "}"
 
@@ -77,10 +77,10 @@ IQtPopup::IQtPopup(const QString &title, const QString &message) :
     connect( mTimerSec, SIGNAL(timeout()),
                   this, SLOT(onTimerSec()) );
 
-    mTimeLineAnimation = new QTimeLine(300);
+    mTimeLineAnimation = new QTimeLine(600);
     mTimeLineAnimation->setFrameRange(0, ANIMATION_FRAME_COUNT);
     connect( mTimeLineAnimation, SIGNAL(frameChanged(int)),
-                           this, SLOT(makeSetp(int)) );
+                           this, SLOT(makeStep(int)) );
 }
 
 
@@ -133,27 +133,21 @@ void IQtPopup::leaveEvent(QEvent *event)
 //virtual
 void IQtPopup::mousePressEvent(QMouseEvent *event)
 {
-
+    dismiss();
 }
 
 
 void IQtPopup::popup(int timeout)
 {
-    QWidget *tmp = dynamic_cast<QWidget*>(this->parent());
-    int w = tmp->size().width();
-    this->resize(this->calculateWidth(), this->size().height());
-    w = w-10;
-    w = w-this->size().width();
-
-    this->move(w, mPosition);
-
-    mState = IQtPopup::TimerState;
     mTimerSecTicks = timeout;
     ui->lblTimer->setText(QString::number(mTimerSecTicks));
-    mTimerSec->start(1000);
+    makeInitStep();
 
+    mTimeLineAnimation->setDirection(QTimeLine::Forward);
+    mTimeLineAnimation->start();
+
+    mState = IQtPopup::OpeningState;
     show();
-
 }
 
 
@@ -212,13 +206,14 @@ void IQtPopup::updateTheme(const QColor &fg, const QColor &bg)
 //slot
 void IQtPopup::onTimerSec()
 {
-    if(mTimerSecTicks > 0) {
-        mTimerSecTicks--;
-        ui->lblTimer->setText(QString::number(mTimerSecTicks));
+    if(mState != IQtPopup::TimerState)
         return;
-    }
 
-    mTimerSec->stop();
+    mTimerSecTicks--;
+    ui->lblTimer->setText(QString::number(mTimerSecTicks));
+
+    if(mTimerSecTicks == 0)
+        dismiss();
 }
 
 
@@ -227,10 +222,36 @@ void IQtPopup::onTimerSec()
  * @param frame
  */
 //slot
-void IQtPopup::makeSetp(int frame)
+void IQtPopup::makeStep(int frame)
 {
-
+    if(mState == IQtPopup::OpeningState) {
+        makeOpeningStep(frame);
+        if(frame >= ANIMATION_FRAME_COUNT) {
+            mTimeLineAnimation->stop();
+            mTimerSec->start(1000);
+            mState = IQtPopup::TimerState;
+        }
+    }
+    else if(mState == IQtPopup::ClosingState) {
+        makeClosingStep(frame);
+        if(frame >= ANIMATION_FRAME_COUNT) {
+            mTimeLineAnimation->stop();
+            emit closed();
+            deleteLater();
+        }
+    }
 }
 
+
+/**
+ * @brief IQtPopup::dismiss
+ */
+void IQtPopup::dismiss()
+{
+    mTimerSec->stop();
+    mState = IQtPopup::ClosingState;
+    mTimeLineAnimation->setDirection(QTimeLine::Backward);
+    mTimeLineAnimation->start();
+}
 
 
