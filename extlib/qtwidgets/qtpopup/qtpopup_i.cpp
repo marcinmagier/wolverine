@@ -142,7 +142,7 @@ void IQtPopup::mousePressEvent(QMouseEvent *event)
 
 
 /**
- * Shows popup frame
+ *  Shows popup frame
  *
  * @param timeout
  */
@@ -161,7 +161,7 @@ void IQtPopup::popup(int timeout)
 
 
 /**
- * Sets position (height) where popup is placed.
+ *  Sets position (height) where popup is placed.
  *
  * @param pos
  */
@@ -173,7 +173,21 @@ void IQtPopup::setInitialPos(int pos)
 
 
 /**
- * Sets alpha
+ *  Changes position (height) where popup is palced.
+ *
+ * This function is used when popup should be moved up after another popup was closed.
+ *
+ * @param move
+ */
+void IQtPopup::changeInitialPos(int move)
+{
+    mPosition = mPosition - move;
+    this->move(this->geometry().x(), this->geometry().y()-move);
+}
+
+
+/**
+ *  Sets alpha
  *
  * @param alpha
  */

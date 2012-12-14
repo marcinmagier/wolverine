@@ -84,6 +84,7 @@ protected:
     void popup(int timeout);
 
     void setInitialPos(int pos);
+    void changeInitialPos(int move);
     void setAlpha(int alpha);
     int calculateWidth();
     void dismiss();
@@ -160,7 +161,7 @@ private:
 public:
     ~QtPopup();
 
-    static bool popup( IQtPopup *instance, QWidget *parent=0);
+    static bool popup( IQtPopup *popup_instance, QWidget *parent=0);
     static void setTheme(const QColor &foreground, const QColor &background);
     static void setTimeout(int seconds);
     static void deleteInstance();
@@ -174,7 +175,7 @@ private:
     int mPosition;
     static int sTimeout;
     static QtPopup *sInstance;
-    QLinkedList<IQtPopup*> mPopups;
+    QList<IQtPopup*> mPopups;
 
 };
 

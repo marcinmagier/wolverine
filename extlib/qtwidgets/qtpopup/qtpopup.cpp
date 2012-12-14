@@ -28,6 +28,7 @@
 
 #include "QDebug"
 
+#define POPUP_MARGIN    10
 
 QtPopup* QtPopup::sInstance = 0;
 int QtPopup::sTimeout = 6;
@@ -39,7 +40,7 @@ static QMutex sMutex;
  */
 QtPopup::QtPopup()
 {
-    mPosition = 10;
+    mPosition = POPUP_MARGIN;
     mPopups.clear();
 
     qAddPostRoutine(QtPopup::deleteInstance);
@@ -74,7 +75,7 @@ void QtPopup::deleteInstance()
  * @return
  */
 //static
-bool QtPopup::popup(IQtPopup *instance, QWidget *parent)
+bool QtPopup::popup(IQtPopup *popup_instance, QWidget *parent)
 {
     if(sInstance == 0) {
         sMutex.lock();
@@ -84,15 +85,28 @@ bool QtPopup::popup(IQtPopup *instance, QWidget *parent)
         sMutex.unlock();
     }
 
-    qDebug() << parent->geometry();
-    qDebug() << parent->pos();
+    int popup_height = popup_instance->size().height();
+    int parent_height = parent->size().height();
 
-    instance->setParent(parent);
 
-    instance->setInitialPos(sInstance->mPosition);
-    instance->popup(sTimeout);
+    // We expect that popups will be called from threads so that we should use mutex
+    sMutex.lock();
+    if(sInstance->mPosition + popup_height > parent_height) {
+        // There is no space for new popup
+        sMutex.unlock();
+        return false;
+    }
+    popup_instance->setInitialPos(sInstance->mPosition);
+    sInstance->mPosition += popup_height + POPUP_MARGIN;
+    sInstance->mPopups.append(popup_instance);
+    sMutex.unlock();
 
-    sInstance->mPosition += instance->size().height();
+    connect( popup_instance, SIGNAL(closed()),
+                  sInstance, SLOT(onPopupClose()) );
+
+    popup_instance->setParent(parent);
+    popup_instance->popup(sTimeout);
+
     return true;
 }
 
@@ -130,6 +144,17 @@ void QtPopup::setTimeout(int seconds)
 //slot
 void QtPopup::onPopupClose()
 {
-
+    IQtPopup *popup = qobject_cast<IQtPopup*>(sender());
+    if(popup) {
+        int popup_height = popup->size().height()+POPUP_MARGIN;
+        sMutex.lock();
+        int idx = sInstance->mPopups.indexOf(popup);
+        sInstance->mPopups.removeAll(popup);
+        for(int i=idx; i<sInstance->mPopups.length(); i++) {
+            sInstance->mPopups[i]->changeInitialPos(popup_height);
+        }
+        sInstance->mPosition = sInstance->mPosition-popup_height;
+        sMutex.unlock();
+    }
 }
 
