@@ -15,7 +15,7 @@ uselib {
                     $$PWD/qtmanagedtoolbar/qtmanagedtoolbardialog.cpp \
                     $$PWD/qtmanagedtoolbar/qtmanagedtoolbarlistbox.cpp \
                     $$PWD/qtpopup/qtpopup.cpp \
-                    $$PWD/qtpopup/qtpopup_i.cpp \
+                    $$PWD/qtpopup/qtpopup_base.cpp \
                     $$PWD/qtpopup/qtpopup_flash.cpp \
                     $$PWD/qtpopup/qtpopup_move.cpp \
                     $$PWD/qtpopup/qtpopup_rise.cpp

@@ -23,9 +23,7 @@
 
 #include "qtpopup.h"
 
-#include "QDebug"
 
-int licz=0;
 
 /**
  *  Constructor.
@@ -34,9 +32,9 @@ int licz=0;
  * @param message
  */
 QtPopupFlash::QtPopupFlash(const QString &title, const QString &message):
-    IQtPopup(title, message)
+    QtPopupBase(title, message)
 {
-    setAlpha(IQtPopup::AlphaTransparent);
+    setAlpha(QtPopupBase::AlphaTransparent);
 
 }
 
@@ -47,7 +45,7 @@ QtPopupFlash::QtPopupFlash(const QString &title, const QString &message):
 //virtual
 QtPopupFlash::~QtPopupFlash()
 {
-    qDebug() << licz;
+
 }
 
 
@@ -66,7 +64,6 @@ void QtPopupFlash::makeInitStep()
 
 void QtPopupFlash::makeOpeningStep(int frame)
 {
-    licz++;
     setAlpha(AlphaTransparent/ANIMATION_FRAME_COUNT*frame);
 }
 

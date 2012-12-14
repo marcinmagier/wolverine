@@ -31,7 +31,7 @@
  * @param message
  */
 QtPopupRise::QtPopupRise(const QString &title, const QString &message):
-    IQtPopup(title, message)
+    QtPopupBase(title, message)
 {
 
 }
@@ -42,6 +42,13 @@ QtPopupRise::QtPopupRise(const QString &title, const QString &message):
  */
 //virtual
 QtPopupRise::~QtPopupRise()
+{
+
+}
+
+
+
+void QtPopupRise::makeInitStep()
 {
 
 }

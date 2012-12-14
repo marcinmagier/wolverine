@@ -16,8 +16,8 @@
 **************************************************************************************************/
 
 /**
- *  @file       qtpopup_i.cpp
- *  @brief      IQtPopup class implementation.
+ *  @file       qtpopup_base.cpp
+ *  @brief      QtPopupBase class implementation.
  */
 
 
@@ -47,9 +47,9 @@
 
 
 
-QString IQtPopup::sStyleSheetFrame;
-QString IQtPopup::sStyleSheetLabel;
-const int IQtPopup::ANIMATION_FRAME_COUNT = 40;
+QString QtPopupBase::sStyleSheetFrame;
+QString QtPopupBase::sStyleSheetLabel;
+const int QtPopupBase::ANIMATION_FRAME_COUNT = 40;
 
 
 
@@ -60,7 +60,7 @@ const int IQtPopup::ANIMATION_FRAME_COUNT = 40;
  * @param title
  * @param message
  */
-IQtPopup::IQtPopup(const QString &title, const QString &message) :
+QtPopupBase::QtPopupBase(const QString &title, const QString &message) :
     ui(new Ui::IQtPopup)
 {
     hide();
@@ -68,7 +68,7 @@ IQtPopup::IQtPopup(const QString &title, const QString &message) :
     ui->lblTitle->setText(QString("<b>%1</b>").arg(title));
     ui->lblMessage->setText(message);
 
-    mState = IQtPopup::InitState;
+    mState = QtPopupBase::InitState;
 
     mTimerSec = new QTimer();
     connect( mTimerSec, SIGNAL(timeout()),
@@ -84,7 +84,7 @@ IQtPopup::IQtPopup(const QString &title, const QString &message) :
 /**
  *  Destructor.
  */
-IQtPopup::~IQtPopup()
+QtPopupBase::~QtPopupBase()
 {
     delete ui;
 }
@@ -96,12 +96,12 @@ IQtPopup::~IQtPopup()
  * @param event
  */
 //virtual
-void IQtPopup::enterEvent(QEvent *event)
+void QtPopupBase::enterEvent(QEvent *event)
 {
-    if(mState != IQtPopup::TimerState)
+    if(mState != QtPopupBase::TimerState)
         return;
 
-    setAlpha(IQtPopup::AlphaSolid);
+    setAlpha(QtPopupBase::AlphaSolid);
     QFrame::enterEvent(event);
 }
 
@@ -112,12 +112,12 @@ void IQtPopup::enterEvent(QEvent *event)
  * @param event
  */
 //virtual
-void IQtPopup::leaveEvent(QEvent *event)
+void QtPopupBase::leaveEvent(QEvent *event)
 {
-    if(mState != IQtPopup::TimerState)
+    if(mState != QtPopupBase::TimerState)
         return;
 
-    setAlpha(IQtPopup::AlphaTransparent);
+    setAlpha(QtPopupBase::AlphaTransparent);
     QFrame::leaveEvent(event);
 }
 
@@ -128,9 +128,9 @@ void IQtPopup::leaveEvent(QEvent *event)
  * @param event
  */
 //virtual
-void IQtPopup::mousePressEvent(QMouseEvent *event)
+void QtPopupBase::mousePressEvent(QMouseEvent *event)
 {
-    if(mState != IQtPopup::TimerState)
+    if(mState != QtPopupBase::TimerState)
         return;
 
     if(event->button() & Qt::LeftButton) {
@@ -146,7 +146,7 @@ void IQtPopup::mousePressEvent(QMouseEvent *event)
  *
  * @param timeout
  */
-void IQtPopup::popup(int timeout)
+void QtPopupBase::popup(int timeout)
 {
     mTimerSecTicks = timeout;
     ui->lblTimer->setText(QString::number(mTimerSecTicks));
@@ -155,7 +155,7 @@ void IQtPopup::popup(int timeout)
     mTimeLineAnimation->setDirection(QTimeLine::Forward);
     mTimeLineAnimation->start();
 
-    mState = IQtPopup::OpeningState;
+    mState = QtPopupBase::OpeningState;
     show();
 }
 
@@ -165,7 +165,7 @@ void IQtPopup::popup(int timeout)
  *
  * @param pos
  */
-void IQtPopup::setInitialPos(int pos)
+void QtPopupBase::setInitialPos(int pos)
 {
     mPosition = pos;
 
@@ -179,7 +179,7 @@ void IQtPopup::setInitialPos(int pos)
  *
  * @param move
  */
-void IQtPopup::changeInitialPos(int move)
+void QtPopupBase::changeInitialPos(int move)
 {
     mPosition = mPosition - move;
     this->move(this->geometry().x(), this->geometry().y()-move);
@@ -191,7 +191,7 @@ void IQtPopup::changeInitialPos(int move)
  *
  * @param alpha
  */
-void IQtPopup::setAlpha(int alpha)
+void QtPopupBase::setAlpha(int alpha)
 {
     QString style = QString(sStyleSheetFrame).replace("ALPHA", QString::number(alpha));
     setStyleSheet(style);
@@ -209,7 +209,7 @@ void IQtPopup::setAlpha(int alpha)
  *
  * @return
  */
-int IQtPopup::calculateWidth()
+int QtPopupBase::calculateWidth()
 {
     QLabel *lbl = ui->lblMessage;
     return QFontMetrics(lbl->font()).boundingRect(lbl->text()).width() + 30;
@@ -222,7 +222,7 @@ int IQtPopup::calculateWidth()
  * @param bg
  */
 //static
-void IQtPopup::updateTheme(const QColor &fg, const QColor &bg)
+void QtPopupBase::updateTheme(const QColor &fg, const QColor &bg)
 {
     sStyleSheetFrame = QString(FRAME_STYLE_PATTERN).arg(fg.red()).arg(fg.green()).arg(fg.blue())
                                                    .arg(bg.red()).arg(bg.green()).arg(bg.blue());
@@ -235,9 +235,9 @@ void IQtPopup::updateTheme(const QColor &fg, const QColor &bg)
  *  On timer (seconds) slot.
  */
 //slot
-void IQtPopup::onTimerSec()
+void QtPopupBase::onTimerSec()
 {
-    if(mState != IQtPopup::TimerState)
+    if(mState != QtPopupBase::TimerState)
         return;
 
     mTimerSecTicks--;
@@ -254,17 +254,17 @@ void IQtPopup::onTimerSec()
  * @param frame
  */
 //slot
-void IQtPopup::onAnimationStep(int frame)
+void QtPopupBase::onAnimationStep(int frame)
 {
-    if(mState == IQtPopup::OpeningState) {
+    if(mState == QtPopupBase::OpeningState) {
         makeOpeningStep(frame);
         if(frame >= ANIMATION_FRAME_COUNT) {
             mTimeLineAnimation->stop();
             mTimerSec->start(1000);
-            mState = IQtPopup::TimerState;
+            mState = QtPopupBase::TimerState;
         }
     }
-    else if(mState == IQtPopup::ClosingState) {
+    else if(mState == QtPopupBase::ClosingState) {
         makeClosingStep(frame);
         if(frame <= 0) {
             mTimeLineAnimation->stop();
@@ -278,10 +278,10 @@ void IQtPopup::onAnimationStep(int frame)
 /**
  *  Closes popup.
  */
-void IQtPopup::dismiss()
+void QtPopupBase::dismiss()
 {
     mTimerSec->stop();
-    mState = IQtPopup::ClosingState;
+    mState = QtPopupBase::ClosingState;
     mTimeLineAnimation->setDirection(QTimeLine::Backward);
     mTimeLineAnimation->start();
 }

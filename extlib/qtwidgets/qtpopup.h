@@ -40,7 +40,7 @@ class QtPopup;
 
 
 
-class IQtPopup : public QFrame
+class QtPopupBase : public QFrame
 {
     Q_OBJECT
 
@@ -60,8 +60,8 @@ protected:
     static const int ANIMATION_FRAME_COUNT;
 
 public:
-    IQtPopup(const QString &title, const QString &message);
-    virtual ~IQtPopup();
+    QtPopupBase(const QString &title, const QString &message);
+    virtual ~QtPopupBase();
 
 signals:
     void action();
@@ -107,7 +107,7 @@ protected:
 
 
 
-class QtPopupMove : public IQtPopup
+class QtPopupMove : public QtPopupBase
 {
     Q_OBJECT
 
@@ -116,11 +116,12 @@ public:
     virtual ~QtPopupMove();
 
 protected:
+    virtual void makeInitStep();
     virtual void makeOpeningStep(int frame);
     virtual void makeClosingStep(int frame);
 };
 
-class QtPopupRise : public IQtPopup
+class QtPopupRise : public QtPopupBase
 {
     Q_OBJECT
 
@@ -129,11 +130,12 @@ public:
     virtual ~QtPopupRise();
 
 protected:
+    virtual void makeInitStep();
     virtual void makeOpeningStep(int frame);
     virtual void makeClosingStep(int frame);
 };
 
-class QtPopupFlash : public IQtPopup
+class QtPopupFlash : public QtPopupBase
 {
     Q_OBJECT
 
@@ -161,7 +163,7 @@ private:
 public:
     ~QtPopup();
 
-    static bool popup( IQtPopup *popup_instance, QWidget *parent=0);
+    static bool popup( QtPopupBase *popup_instance, QWidget *parent=0);
     static void setTheme(const QColor &foreground, const QColor &background);
     static void setTimeout(int seconds);
     static void deleteInstance();
@@ -175,7 +177,7 @@ private:
     int mPosition;
     static int sTimeout;
     static QtPopup *sInstance;
-    QList<IQtPopup*> mPopups;
+    QList<QtPopupBase*> mPopups;
 
 };
 

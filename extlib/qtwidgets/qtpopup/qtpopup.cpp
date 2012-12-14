@@ -26,7 +26,6 @@
 #include "QApplication"
 #include "QMutex"
 
-#include "QDebug"
 
 #define POPUP_MARGIN    10
 
@@ -75,7 +74,7 @@ void QtPopup::deleteInstance()
  * @return
  */
 //static
-bool QtPopup::popup(IQtPopup *popup_instance, QWidget *parent)
+bool QtPopup::popup(QtPopupBase *popup_instance, QWidget *parent)
 {
     if(sInstance == 0) {
         sMutex.lock();
@@ -121,7 +120,7 @@ bool QtPopup::popup(IQtPopup *popup_instance, QWidget *parent)
 //static
 void QtPopup::setTheme(const QColor &foreground, const QColor &background)
 {
-    IQtPopup::updateTheme(foreground, background);
+    QtPopupBase::updateTheme(foreground, background);
 }
 
 
@@ -144,9 +143,10 @@ void QtPopup::setTimeout(int seconds)
 //slot
 void QtPopup::onPopupClose()
 {
-    IQtPopup *popup = qobject_cast<IQtPopup*>(sender());
+    QtPopupBase *popup = qobject_cast<QtPopupBase*>(sender());
     if(popup) {
         int popup_height = popup->size().height()+POPUP_MARGIN;
+        // We expect that popups will be called from threads so that we should use mutex
         sMutex.lock();
         int idx = sInstance->mPopups.indexOf(popup);
         sInstance->mPopups.removeAll(popup);
