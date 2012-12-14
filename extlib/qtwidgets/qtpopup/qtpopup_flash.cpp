@@ -49,24 +49,42 @@ QtPopupFlash::~QtPopupFlash()
 }
 
 
+/**
+ *  Initializes popup
+ */
+//virtual
 void QtPopupFlash::makeInitStep()
 {
-    QWidget *tmp = dynamic_cast<QWidget*>(this->parent());
-    int w = tmp->size().width();
-    this->resize(this->calculateWidth(), this->size().height());
-    w = w-10;
-    w = w-this->size().width();
+    QWidget *parent = dynamic_cast<QWidget*>(this->parent());
+    this->resize(this->calculateSize());
+    // We want to show popup on the right side of the parent
+    int parent_width = parent->size().width() - POPUP_MARGIN;
+    int popup_x_position = parent_width-this->size().width();
+    this->move(popup_x_position, mPosition);
 
-    this->move(w, mPosition);
 
     setAlpha(0);
 }
 
+
+/**
+ *  Makes one step for opening
+ *
+ * @param frame
+ */
+//virtual
 void QtPopupFlash::makeOpeningStep(int frame)
 {
     setAlpha(AlphaTransparent/ANIMATION_FRAME_COUNT*frame);
 }
 
+
+/**
+ *  Makes one step for closing
+ *
+ * @param frame
+ */
+//virtual
 void QtPopupFlash::makeClosingStep(int frame)
 {
     setAlpha(AlphaTransparent/ANIMATION_FRAME_COUNT*frame);

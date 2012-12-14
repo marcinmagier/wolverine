@@ -209,10 +209,12 @@ void QtPopupBase::setAlpha(int alpha)
  *
  * @return
  */
-int QtPopupBase::calculateWidth()
+QSize QtPopupBase::calculateSize()
 {
+    #define LBL_PADDING 30
     QLabel *lbl = ui->lblMessage;
-    return QFontMetrics(lbl->font()).boundingRect(lbl->text()).width() + 30;
+    int width = QFontMetrics(lbl->font()).boundingRect(lbl->text()).width() + LBL_PADDING;
+    return QSize(width, this->size().height());
 }
 
 /**

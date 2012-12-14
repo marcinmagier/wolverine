@@ -29,6 +29,9 @@
 #include <QLinkedList>
 
 
+#define POPUP_MARGIN    10
+
+
 class QTimer;
 class QTimeLine;
 
@@ -86,7 +89,7 @@ protected:
     void setInitialPos(int pos);
     void changeInitialPos(int move);
     void setAlpha(int alpha);
-    int calculateWidth();
+    QSize calculateSize();
     void dismiss();
     static void updateTheme(const QColor &fg, const QColor &bg);
 

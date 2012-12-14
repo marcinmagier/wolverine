@@ -27,7 +27,6 @@
 #include "QMutex"
 
 
-#define POPUP_MARGIN    10
 
 QtPopup* QtPopup::sInstance = 0;
 int QtPopup::sTimeout = 6;
