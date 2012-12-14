@@ -69,7 +69,7 @@ signals:
 
 protected slots:
     void onTimerSec();
-    void makeStep(int frame);
+    void onAnimationStep(int frame);
 
 
 protected:

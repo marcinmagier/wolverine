@@ -27,11 +27,8 @@
 
 #include <QTimer>
 #include <QTimeLine>
+#include <QMouseEvent>
 
-
-
-
-#include <QDebug>
 
 
 
@@ -77,10 +74,10 @@ IQtPopup::IQtPopup(const QString &title, const QString &message) :
     connect( mTimerSec, SIGNAL(timeout()),
                   this, SLOT(onTimerSec()) );
 
-    mTimeLineAnimation = new QTimeLine(600);
+    mTimeLineAnimation = new QTimeLine();
     mTimeLineAnimation->setFrameRange(0, ANIMATION_FRAME_COUNT);
     connect( mTimeLineAnimation, SIGNAL(frameChanged(int)),
-                           this, SLOT(makeStep(int)) );
+                           this, SLOT(onAnimationStep(int)) );
 }
 
 
@@ -133,10 +130,22 @@ void IQtPopup::leaveEvent(QEvent *event)
 //virtual
 void IQtPopup::mousePressEvent(QMouseEvent *event)
 {
-    dismiss();
+    if(mState != IQtPopup::TimerState)
+        return;
+
+    if(event->button() & Qt::LeftButton) {
+        dismiss();
+    }
+
+    emit action();
 }
 
 
+/**
+ * Shows popup frame
+ *
+ * @param timeout
+ */
 void IQtPopup::popup(int timeout)
 {
     mTimerSecTicks = timeout;
@@ -152,7 +161,8 @@ void IQtPopup::popup(int timeout)
 
 
 /**
- * @brief IQtPopup::setInitialPos
+ * Sets position (height) where popup is placed.
+ *
  * @param pos
  */
 void IQtPopup::setInitialPos(int pos)
@@ -163,7 +173,8 @@ void IQtPopup::setInitialPos(int pos)
 
 
 /**
- * @brief IQtPopup::setAlpha
+ * Sets alpha
+ *
  * @param alpha
  */
 void IQtPopup::setAlpha(int alpha)
@@ -179,6 +190,11 @@ void IQtPopup::setAlpha(int alpha)
 }
 
 
+/**
+ *  Calculates preferred width of popup.
+ *
+ * @return
+ */
 int IQtPopup::calculateWidth()
 {
     QLabel *lbl = ui->lblMessage;
@@ -186,7 +202,8 @@ int IQtPopup::calculateWidth()
 }
 
 /**
- * @brief IQtPopup::updateTheme
+ *  Updates popup's colors.
+ *
  * @param fg
  * @param bg
  */
@@ -201,7 +218,7 @@ void IQtPopup::updateTheme(const QColor &fg, const QColor &bg)
 
 
 /**
- * @brief IQtPopup::onTimerSec
+ *  On timer (seconds) slot.
  */
 //slot
 void IQtPopup::onTimerSec()
@@ -218,11 +235,12 @@ void IQtPopup::onTimerSec()
 
 
 /**
- * @brief IQtPopup::makeSetp
+ *  On animation step slot.
+ *
  * @param frame
  */
 //slot
-void IQtPopup::makeStep(int frame)
+void IQtPopup::onAnimationStep(int frame)
 {
     if(mState == IQtPopup::OpeningState) {
         makeOpeningStep(frame);
@@ -234,7 +252,7 @@ void IQtPopup::makeStep(int frame)
     }
     else if(mState == IQtPopup::ClosingState) {
         makeClosingStep(frame);
-        if(frame >= ANIMATION_FRAME_COUNT) {
+        if(frame <= 0) {
             mTimeLineAnimation->stop();
             emit closed();
             deleteLater();
@@ -244,7 +262,7 @@ void IQtPopup::makeStep(int frame)
 
 
 /**
- * @brief IQtPopup::dismiss
+ *  Closes popup.
  */
 void IQtPopup::dismiss()
 {
