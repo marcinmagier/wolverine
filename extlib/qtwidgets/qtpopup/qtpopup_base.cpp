@@ -144,6 +144,17 @@ void QtPopupBase::mousePressEvent(QMouseEvent *event)
     emit action();
 }
 
+/**
+ *  Returns size of the frame
+ *
+ * @return
+ */
+//virtual
+QSize QtPopupBase::getSize() const
+{
+    return size();
+}
+
 
 /**
  *  Shows popup frame

@@ -54,7 +54,7 @@ void QtPopupMove::makeInitStep()
     this->resize(this->calculateSize());
     // We want to show popup on the right side of the parent
     int parentWidth = parent->size().width() - POPUP_MARGIN;
-    int finalXPosition = parentWidth-this->size().width();
+    int finalXPosition = parentWidth - this->size().width();
     mFinalPos = QPoint(finalXPosition, mPosition);
     mInitPos = QPoint(parent->size().width(), mPosition);
     this->move(mInitPos);
@@ -81,7 +81,6 @@ void QtPopupMove::makeOpeningStep(int frame)
 void QtPopupMove::makeClosingStep(int frame)
 {
     // Frame is moving from left to right
-    float distance = mInitPos.x() - mFinalPos.x();
-    distance = distance/ANIMATION_FRAME_COUNT*frame;
-    this->move(mInitPos.x()-distance, mPosition);
+    // Current implementation is the same for closing step as for opening step
+    this->makeOpeningStep(frame);
 }

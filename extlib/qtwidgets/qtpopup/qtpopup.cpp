@@ -83,7 +83,7 @@ bool QtPopup::popup(QtPopupBase *popupInstance, QWidget *parent)
         sMutex.unlock();
     }
 
-    int popupHeight = popupInstance->size().height();
+    int popupHeight = popupInstance->getSize().height();
     int parentHeight = parent->size().height();
 
 
@@ -144,7 +144,7 @@ void QtPopup::onPopupClose()
 {
     QtPopupBase *popup = qobject_cast<QtPopupBase*>(sender());
     if(popup) {
-        int popupHeight = popup->size().height()+POPUP_MARGIN;
+        int popupHeight = popup->getSize().height()+POPUP_MARGIN;
         // We expect that popups will be called from threads so that we should use mutex
         sMutex.lock();
         int idx = sInstance->mPopups.indexOf(popup);

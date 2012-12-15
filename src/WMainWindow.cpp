@@ -231,7 +231,7 @@ void MainWindow::openFile(const QString &file)
 
 void MainWindow::onPopup1()
 {
-    QtPopup::popup(new QtPopupMove("Test1", "Test very very very very very very long popup"), this);
+    QtPopup::popup(new QtPopupFlash("Test1", "Test very very very very very very long popup"), this);
 }
 
 void MainWindow::onPopup2()
@@ -241,6 +241,6 @@ void MainWindow::onPopup2()
 
 void MainWindow::onPopup3()
 {
-    QtPopup::popup(new QtPopupMove("Test3", "Test very hello hello very long popup"), this);
+    QtPopup::popup(new QtPopupRise("Test3", "Test very hello hello very long popup"), this);
 }
 

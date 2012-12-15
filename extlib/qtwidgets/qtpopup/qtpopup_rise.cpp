@@ -23,6 +23,7 @@
 
 #include "qtpopup.h"
 
+#include "ui_qtpopup.h"
 
 /**
  *  Constructor.
@@ -33,7 +34,7 @@
 QtPopupRise::QtPopupRise(const QString &title, const QString &message):
     QtPopupBase(title, message)
 {
-
+    mFinalSize = this->calculateSize();
 }
 
 
@@ -46,19 +47,58 @@ QtPopupRise::~QtPopupRise()
 
 }
 
+/**
+ *  Returns final size of the frame
+ *
+ * @return
+ */
+//virtual
+QSize QtPopupRise::getSize() const
+{
+    return mFinalSize;
+}
+
 
 
 void QtPopupRise::makeInitStep()
 {
+    this->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 
+    QWidget *parent = dynamic_cast<QWidget*>(this->parent());
+    // We want to show popup on the right side of the parent
+    int parentWidth = parent->size().width() - POPUP_MARGIN;
+    int finalXPosition = parentWidth - mFinalSize.width();
+    mFinalPos = QPoint(finalXPosition, mPosition);
+    mInitPos = QPoint(parent->size().width(), mPosition);
+    this->move(mInitPos);
+    this->resize(0, 0);
+
+    QPoint cur_pos = QCursor::pos();
+    cur_pos = QPoint(cur_pos.x()-parent->geometry().x(),
+                     cur_pos.y()-parent->geometry().y());
+    mCurrentAlpha = QtPopupBase::AlphaTransparent;
+    QRect finalPosition = QRect(mFinalPos.x(), mFinalPos.y(), mFinalSize.width(), mFinalSize.height());
+    if(finalPosition.contains(cur_pos))
+        // Cursor is on the poup frame
+        mCurrentAlpha = QtPopupBase::AlphaSolid;
+    setAlpha(mCurrentAlpha);
 }
 
 void QtPopupRise::makeOpeningStep(int frame)
 {
+    // Frame is rising from right to left and from top to bottom.
+    float distance = mInitPos.x() - mFinalPos.x();
+    distance = distance/ANIMATION_FRAME_COUNT*frame;
+    this->move(mInitPos.x()-distance, mPosition);
 
+    float width = mFinalSize.width()/ANIMATION_FRAME_COUNT*frame;
+    float height = mFinalSize.height()/ANIMATION_FRAME_COUNT*frame;
+    this->resize(width, height);
 }
 
 void QtPopupRise::makeClosingStep(int frame)
 {
-
+    // Frame is rising from right to left and from top to bottom.
+    // Current implementation is the same for closing step as for opening step
+    this->makeOpeningStep(frame);
 }

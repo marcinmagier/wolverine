@@ -81,6 +81,7 @@ protected:
     virtual void leaveEvent(QEvent *event);
     virtual void mousePressEvent(QMouseEvent *event);
 
+    virtual QSize getSize() const;
     virtual void makeInitStep() = 0;
     virtual void makeOpeningStep(int frame) = 0;
     virtual void makeClosingStep(int frame) = 0;
@@ -112,6 +113,22 @@ protected:
 
 
 
+class QtPopupFlash : public QtPopupBase
+{
+    Q_OBJECT
+
+public:
+    explicit QtPopupFlash(const QString &title, const QString &message);
+    virtual ~QtPopupFlash();
+
+protected:
+    virtual void makeInitStep();
+    virtual void makeOpeningStep(int frame);
+    virtual void makeClosingStep(int frame);
+};
+
+
+
 class QtPopupMove : public QtPopupBase
 {
     Q_OBJECT
@@ -130,6 +147,8 @@ private:
     QPoint mInitPos;
 };
 
+
+
 class QtPopupRise : public QtPopupBase
 {
     Q_OBJECT
@@ -139,24 +158,18 @@ public:
     virtual ~QtPopupRise();
 
 protected:
+    virtual QSize getSize() const;
     virtual void makeInitStep();
     virtual void makeOpeningStep(int frame);
     virtual void makeClosingStep(int frame);
+
+private:
+    QSize mFinalSize;
+    QPoint mFinalPos;
+    QPoint mInitPos;
 };
 
-class QtPopupFlash : public QtPopupBase
-{
-    Q_OBJECT
 
-public:
-    explicit QtPopupFlash(const QString &title, const QString &message);
-    virtual ~QtPopupFlash();
-
-protected:
-    virtual void makeInitStep();
-    virtual void makeOpeningStep(int frame);
-    virtual void makeClosingStep(int frame);
-};
 
 
 

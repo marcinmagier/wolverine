@@ -96,5 +96,6 @@ void QtPopupFlash::makeOpeningStep(int frame)
 //virtual
 void QtPopupFlash::makeClosingStep(int frame)
 {
-    setAlpha(mCurrentAlpha/ANIMATION_FRAME_COUNT*frame);
+    // Current implementation is the same for closing step as for opening step
+    this->makeOpeningStep(frame);
 }
