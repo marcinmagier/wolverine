@@ -96,6 +96,7 @@ protected:
 
     int mPosition;
     int mTimerSecTicks;
+    int mCurrentAlpha;
     PopupState mState;
     QTimer *mTimerSec;
     QTimeLine *mTimeLineAnimation;

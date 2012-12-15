@@ -24,6 +24,8 @@
 #include "qtpopup.h"
 
 
+#include "QCursor"
+
 
 /**
  *  Constructor.
@@ -63,6 +65,13 @@ void QtPopupFlash::makeInitStep()
     this->move(popup_x_position, mPosition);
 
 
+    QPoint cur_pos = QCursor::pos();
+    cur_pos = QPoint(cur_pos.x()-parent->geometry().x(),
+                     cur_pos.y()-parent->geometry().y());
+    if(this->geometry().contains(cur_pos))
+        // Cursor is on the poup frame
+        mCurrentAlpha = QtPopupBase::AlphaSolid;
+
     setAlpha(0);
 }
 
@@ -75,7 +84,7 @@ void QtPopupFlash::makeInitStep()
 //virtual
 void QtPopupFlash::makeOpeningStep(int frame)
 {
-    setAlpha(AlphaTransparent/ANIMATION_FRAME_COUNT*frame);
+    setAlpha(mCurrentAlpha/ANIMATION_FRAME_COUNT*frame);
 }
 
 
@@ -87,5 +96,5 @@ void QtPopupFlash::makeOpeningStep(int frame)
 //virtual
 void QtPopupFlash::makeClosingStep(int frame)
 {
-    setAlpha(AlphaTransparent/ANIMATION_FRAME_COUNT*frame);
+    setAlpha(mCurrentAlpha/ANIMATION_FRAME_COUNT*frame);
 }

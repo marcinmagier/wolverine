@@ -78,6 +78,8 @@ QtPopupBase::QtPopupBase(const QString &title, const QString &message) :
     mTimeLineAnimation->setFrameRange(0, ANIMATION_FRAME_COUNT);
     connect( mTimeLineAnimation, SIGNAL(frameChanged(int)),
                            this, SLOT(onAnimationStep(int)) );
+
+    mCurrentAlpha = QtPopupBase::AlphaTransparent;
 }
 
 
@@ -98,10 +100,11 @@ QtPopupBase::~QtPopupBase()
 //virtual
 void QtPopupBase::enterEvent(QEvent *event)
 {
+    mCurrentAlpha = QtPopupBase::AlphaSolid;
     if(mState != QtPopupBase::TimerState)
         return;
 
-    setAlpha(QtPopupBase::AlphaSolid);
+    setAlpha(mCurrentAlpha);
     QFrame::enterEvent(event);
 }
 
@@ -114,10 +117,11 @@ void QtPopupBase::enterEvent(QEvent *event)
 //virtual
 void QtPopupBase::leaveEvent(QEvent *event)
 {
+    mCurrentAlpha = QtPopupBase::AlphaTransparent;
     if(mState != QtPopupBase::TimerState)
         return;
 
-    setAlpha(QtPopupBase::AlphaTransparent);
+    setAlpha(mCurrentAlpha);
     QFrame::leaveEvent(event);
 }
 
@@ -200,7 +204,6 @@ void QtPopupBase::setAlpha(int alpha)
     ui->lblMessage->setStyleSheet(style);
     ui->lblTimer->setStyleSheet(style);
     ui->lblTitle->setStyleSheet(style);
-
 }
 
 
