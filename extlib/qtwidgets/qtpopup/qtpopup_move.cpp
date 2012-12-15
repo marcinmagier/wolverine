@@ -22,6 +22,7 @@
 
 
 #include "qtpopup.h"
+#include <QDebug>
 
 
 /**
@@ -49,15 +50,38 @@ QtPopupMove::~QtPopupMove()
 
 void QtPopupMove::makeInitStep()
 {
+    QWidget *parent = dynamic_cast<QWidget*>(this->parent());
+    this->resize(this->calculateSize());
+    // We want to show popup on the right side of the parent
+    int parentWidth = parent->size().width() - POPUP_MARGIN;
+    int finalXPosition = parentWidth-this->size().width();
+    mFinalPos = QPoint(finalXPosition, mPosition);
+    mInitPos = QPoint(parent->size().width(), mPosition);
+    this->move(mInitPos);
 
+    QPoint cur_pos = QCursor::pos();
+    cur_pos = QPoint(cur_pos.x()-parent->geometry().x(),
+                     cur_pos.y()-parent->geometry().y());
+    mCurrentAlpha = QtPopupBase::AlphaTransparent;
+    QRect finalPosition = QRect(mFinalPos.x(), mFinalPos.y(), size().width(), size().height());
+    if(finalPosition.contains(cur_pos))
+        // Cursor is on the poup frame
+        mCurrentAlpha = QtPopupBase::AlphaSolid;
+    setAlpha(mCurrentAlpha);
 }
 
 void QtPopupMove::makeOpeningStep(int frame)
 {
-
+    // Frame is moving from right to left
+    float distance = mInitPos.x() - mFinalPos.x();
+    distance = distance/ANIMATION_FRAME_COUNT*frame;
+    this->move(mInitPos.x()-distance, mPosition);
 }
 
 void QtPopupMove::makeClosingStep(int frame)
 {
-
+    // Frame is moving from left to right
+    float distance = mInitPos.x() - mFinalPos.x();
+    distance = distance/ANIMATION_FRAME_COUNT*frame;
+    this->move(mInitPos.x()-distance, mPosition);
 }

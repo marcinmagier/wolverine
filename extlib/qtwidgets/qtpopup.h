@@ -26,7 +26,8 @@
 
 
 #include <QFrame>
-#include <QLinkedList>
+#include <QList>
+#include <QPoint>
 
 
 #define POPUP_MARGIN    10
@@ -123,6 +124,10 @@ protected:
     virtual void makeInitStep();
     virtual void makeOpeningStep(int frame);
     virtual void makeClosingStep(int frame);
+
+private:
+    QPoint mFinalPos;
+    QPoint mInitPos;
 };
 
 class QtPopupRise : public QtPopupBase
@@ -167,7 +172,7 @@ private:
 public:
     ~QtPopup();
 
-    static bool popup( QtPopupBase *popup_instance, QWidget *parent=0);
+    static bool popup( QtPopupBase *popupInstance, QWidget *parent=0);
     static void setTheme(const QColor &foreground, const QColor &background);
     static void setTimeout(int seconds);
     static void deleteInstance();

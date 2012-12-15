@@ -60,15 +60,15 @@ void QtPopupFlash::makeInitStep()
     QWidget *parent = dynamic_cast<QWidget*>(this->parent());
     this->resize(this->calculateSize());
     // We want to show popup on the right side of the parent
-    int parent_width = parent->size().width() - POPUP_MARGIN;
-    int popup_x_position = parent_width-this->size().width();
-    this->move(popup_x_position, mPosition);
+    int parentWidth = parent->size().width() - POPUP_MARGIN;
+    int popupXPos = parentWidth-this->size().width();
+    this->move(popupXPos, mPosition);
 
 
-    QPoint cur_pos = QCursor::pos();
-    cur_pos = QPoint(cur_pos.x()-parent->geometry().x(),
-                     cur_pos.y()-parent->geometry().y());
-    if(this->geometry().contains(cur_pos))
+    QPoint curPos = QCursor::pos();
+    curPos = QPoint(curPos.x()-parent->geometry().x(),
+                     curPos.y()-parent->geometry().y());
+    if(this->geometry().contains(curPos))
         // Cursor is on the poup frame
         mCurrentAlpha = QtPopupBase::AlphaSolid;
 
