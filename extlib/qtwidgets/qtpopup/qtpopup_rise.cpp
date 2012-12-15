@@ -22,8 +22,9 @@
 
 
 #include "qtpopup.h"
-
 #include "ui_qtpopup.h"
+
+#include <QDebug>
 
 /**
  *  Constructor.
@@ -59,7 +60,10 @@ QSize QtPopupRise::getSize() const
 }
 
 
-
+/**
+ *  Initializes popup
+ */
+//virtual
 void QtPopupRise::makeInitStep()
 {
     this->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
@@ -84,6 +88,13 @@ void QtPopupRise::makeInitStep()
     setAlpha(mCurrentAlpha);
 }
 
+
+/**
+ *  Makes one step for opening
+ *
+ * @param frame
+ */
+//virtual
 void QtPopupRise::makeOpeningStep(int frame)
 {
     // Frame is rising from right to left and from top to bottom.
@@ -91,11 +102,20 @@ void QtPopupRise::makeOpeningStep(int frame)
     distance = distance/ANIMATION_FRAME_COUNT*frame;
     this->move(mInitPos.x()-distance, mPosition);
 
-    float width = mFinalSize.width()/ANIMATION_FRAME_COUNT*frame;
-    float height = mFinalSize.height()/ANIMATION_FRAME_COUNT*frame;
+    float width = mFinalSize.width();
+    width = width / ANIMATION_FRAME_COUNT * frame;
+    float height = mFinalSize.height();
+    height = height / ANIMATION_FRAME_COUNT * frame;
     this->resize(width, height);
 }
 
+
+/**
+ *  Makes one step for closing
+ *
+ * @param frame
+ */
+//virtual
 void QtPopupRise::makeClosingStep(int frame)
 {
     // Frame is rising from right to left and from top to bottom.

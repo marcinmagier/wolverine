@@ -48,6 +48,10 @@ QtPopupMove::~QtPopupMove()
 }
 
 
+/**
+ *  Initializes popup
+ */
+//virtual
 void QtPopupMove::makeInitStep()
 {
     QWidget *parent = dynamic_cast<QWidget*>(this->parent());
@@ -70,14 +74,28 @@ void QtPopupMove::makeInitStep()
     setAlpha(mCurrentAlpha);
 }
 
+
+/**
+ *  Makes one step for opening
+ *
+ * @param frame
+ */
+//virtual
 void QtPopupMove::makeOpeningStep(int frame)
 {
     // Frame is moving from right to left
     float distance = mInitPos.x() - mFinalPos.x();
-    distance = distance/ANIMATION_FRAME_COUNT*frame;
+    distance = distance / ANIMATION_FRAME_COUNT * frame;
     this->move(mInitPos.x()-distance, mPosition);
 }
 
+
+/**
+ *  Makes one step for closing
+ *
+ * @param frame
+ */
+//virtual
 void QtPopupMove::makeClosingStep(int frame)
 {
     // Frame is moving from left to right
