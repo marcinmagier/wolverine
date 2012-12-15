@@ -34,6 +34,9 @@ public:
 
 public slots:
     void openFile(const QString &file);
+    void onPopup1();
+    void onPopup2();
+    void onPopup3();
 
 
 private:

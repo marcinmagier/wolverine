@@ -15,6 +15,8 @@
 #include <QMenuBar>
 #include <QStringList>
 
+#include "qtpopup.h"
+
 
 
 using namespace Wolverine;
@@ -33,6 +35,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setCentralWidget(new CentralWidget(this));
     setStatusBar(new StatusBar(this));
+
+    QtPopup::setTheme(QColor(54, 2, 43), QColor(187, 143, 165));
+    QtPopup::setTimeout(5);
+
 }
 
 MainWindow::~MainWindow()
@@ -58,13 +64,15 @@ void MainWindow::createMenusAndToolbars()
 
     action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_NEW);
     action->setIcon(QIcon(":/new.png"));
-    //connect
+    connect(action, SIGNAL(triggered()),
+              this, SLOT(onPopup1()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_NEW, action);
 
     action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_OPEN);
     action->setIcon(QIcon(":/open.png"));
-    //connect
+    connect(action, SIGNAL(triggered()),
+              this, SLOT(onPopup2()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_OPEN, action);
 
@@ -74,7 +82,8 @@ void MainWindow::createMenusAndToolbars()
 
     action = mActionManager->getAction(W_ACTION_GROUP_EDIT, W_ACTION_UNDO);
     action->setIcon(QIcon(":/undo.png"));
-    //connect
+    connect(action, SIGNAL(triggered()),
+              this, SLOT(onPopup3()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_UNDO, action);
 
@@ -219,3 +228,19 @@ void MainWindow::openFile(const QString &file)
   */
     LOG_WARNING("file");
 }
+
+void MainWindow::onPopup1()
+{
+    QtPopup::popup(new QtPopupFlash("Test1", "Test very very very very very very long popup"), this);
+}
+
+void MainWindow::onPopup2()
+{
+    QtPopup::popup(new QtPopupMove("Test2", "Test cos tam cos tam long popup"), this);
+}
+
+void MainWindow::onPopup3()
+{
+    QtPopup::popup(new QtPopupRise("Test3", "Test very hello hello very long popup"), this);
+}
+
