@@ -4,6 +4,7 @@
 
 #include "CfgAppSettings.h"
 
+#include <QColor>
 
 
 using namespace Wolverine::Settings;
@@ -14,9 +15,12 @@ PageView::PageView(AppSettings *settings, QWidget *parent) :
 {
     ui->setupUi(this);
 
+
+
 }
 
 PageView::~PageView()
 {
     delete ui;
 }
+

@@ -25,6 +25,9 @@ public:
     explicit PageView(AppSettings *settings, QWidget *parent = 0);
     ~PageView();
     
+private slots:
+
+
 private:
     Ui::PageView *ui;
 };

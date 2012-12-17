@@ -11,6 +11,7 @@ uselib {
     LIBS += -L$$QTWIDGETS_LIBDIR -l$$QTWIDGETS_LIBNAME
 } else {
     SOURCES      += \
+                    $$PWD/qtcolorbutton/qtcolorbutton.cpp \
                     $$PWD/qtmanagedtoolbar/qtmanagedtoolbar.cpp \
                     $$PWD/qtmanagedtoolbar/qtmanagedtoolbardialog.cpp \
                     $$PWD/qtmanagedtoolbar/qtmanagedtoolbarlistbox.cpp \
@@ -21,6 +22,7 @@ uselib {
                     $$PWD/qtpopup/qtpopup_rise.cpp
 
     HEADERS      += \
+                    $$PWD/qtcolorbutton.h \
                     $$PWD/qtmanagedtoolbar.h \
                     $$PWD/qtmanagedtoolbar/qtmanagedtoolbardialog.h \
                     $$PWD/qtmanagedtoolbar/qtmanagedtoolbarlistbox.h \
@@ -37,4 +39,5 @@ uselib {
                     $$PWD/qtmanagedtoolbar/translations/qtmanagedtoolbar_en_US.ts \
                     $$PWD/qtmanagedtoolbar/translations/qtmanagedtoolbar_pl_PL.ts
 }
+
 
