@@ -7,14 +7,14 @@
 
 class GeneralSettings : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
-    Q_PROPERTY(QString	language                READ getLanguage                WRITE setLanguage           )
+    Q_PROPERTY(QString  language                READ getLanguage                WRITE setLanguage           )
 
-    Q_PROPERTY(QString	logLevel                READ getLogLevel                WRITE setLogLevel           )
-    Q_PROPERTY(QString	logFilePath             READ getLogFilePath             WRITE setLogFilePath        )
-    Q_PROPERTY(bool		logFileEnabled  		READ isLogFileEnabled   		WRITE setLogFileEnabled     )
-    Q_PROPERTY(bool		logConsoleEnabled		READ isLogConsoleEnabled		WRITE setLogConsoleEnabled  )
+    Q_PROPERTY(QString  logLevel                READ getLogLevel                WRITE setLogLevel           )
+    Q_PROPERTY(QString  logFilePath             READ getLogFilePath             WRITE setLogFilePath        )
+    Q_PROPERTY(bool     logFileEnabled          READ isLogFileEnabled           WRITE setLogFileEnabled     )
+    Q_PROPERTY(bool     logConsoleEnabled       READ isLogConsoleEnabled        WRITE setLogConsoleEnabled  )
 
 
 public:

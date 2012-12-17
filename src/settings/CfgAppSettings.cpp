@@ -19,6 +19,7 @@
 #include "CfgHiddenSettings.h"
 #include "CfgScintillaSettings.h"
 #include "CfgStartupSettings.h"
+#include "CfgViewSettings.h"
 
 #include <QApplication>
 #include <QMetaObject>
@@ -116,6 +117,7 @@ AppSettings::AppSettings()
     hidden = 0;
     scintilla = 0;
     startup = 0;
+    view = 0;
 }
 
 
@@ -134,6 +136,8 @@ AppSettings::~AppSettings()
         delete scintilla;
     if(startup)
         delete startup;
+    if(view)
+        delete view;
 }
 
 
@@ -161,14 +165,16 @@ void AppSettings::initialize(bool isBackup)
         dynamic = new DynamicSettings();
     if(general == 0)
         general = new GeneralSettings();
-    if(hidden ==0)
+    if(hidden == 0)
         hidden = new HiddenSettings();
-    if(scintilla ==0)
+    if(scintilla == 0)
         scintilla = new ScintillaSettings();
     // The simplest way is to create new startup group
-    // There are no benefits from copying it from sStartupSettingsInstance, code would be difficult
+    // There are no benefits from copying it from sStartupSettingsInstance, code would be quite difficult
     if(startup ==0)
         startup = new StartupSettings();
+    if(view == 0)
+        view = new ViewSettings();
 
     if(!isBackup)
         loadConfiguration();
@@ -286,6 +292,7 @@ bool AppSettings::loadConfiguration()
     loadGroup(qset, hidden);
     loadGroup(qset, scintilla);
     loadGroup(qset, startup);       //In worst case startup settings are loaded twice.
+    loadGroup(qset, view);
 	return true;
 }
 
@@ -307,6 +314,7 @@ bool AppSettings::saveConfiguration()
     saveGroup(qset, hidden);
     saveGroup(qset, scintilla);
     saveGroup(qset, startup);
+    saveGroup(qset, view);
 	return true;
 }
 
@@ -323,6 +331,7 @@ void AppSettings::copy(AppSettings *to, const AppSettings *from)
     copyGroup(to->hidden,    from->hidden);
     copyGroup(to->scintilla, from->scintilla);
     copyGroup(to->startup,   from->startup);
+    copyGroup(to->view,      from->view);
 }
 
 

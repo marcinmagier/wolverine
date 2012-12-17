@@ -10,6 +10,6 @@
 #define LOG_FORMAT_STRING   "%t{yyyy-MM-dd mm:ss} [%-7L] %F %i %m\n"
 #define LOG_LEVELS          "Trace Debug Info Warning Error Fatal"
 
-
+#define POPUP_ANIMATION_TYPES   "Flashing Moving Rising"
 
 #endif //__WOLVERINE_CFG_H_

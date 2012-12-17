@@ -31,6 +31,7 @@ SOURCES      += \
                 ../src/settings/CfgHiddenSettings.cpp \
                 ../src/settings/CfgScintillaSettings.cpp \
                 ../src/settings/CfgStartupSettings.cpp \
+                ../src/settings/CfgViewSettings.cpp \
                 ../src/WActionManager.cpp \
                 ../src/WCentralWidget.cpp \
                 ../src/WDocument.cpp \
@@ -44,13 +45,14 @@ HEADERS      += \
                 ../src/settings/DlgSettings.h \
                 ../src/settings/PageGeneral.h \
                 ../src/settings/PageScintilla.h \
-				../src/settings/PageView.h \
+                ../src/settings/PageView.h \
                 ../include/CfgAppSettings.h \
                 ../include/CfgDynamicSettings.h \
                 ../include/CfgGeneralSettings.h \
                 ../include/CfgHiddenSettings.h \
                 ../include/CfgScintillaSettings.h \
                 ../include/CfgStartupSettings.h \
+                ../include/CfgViewSettings.h \
                 ../include/WActionManager.h \
                 ../include/WCentralWidget.h \
                 ../include/WDocument.h \
@@ -68,7 +70,7 @@ RESOURCES    += \
 FORMS        += \
                 ../src/settings/PageGeneral.ui \
                 ../src/settings/PageScintilla.ui \
-				../src/settings/PageView.ui
+                ../src/settings/PageView.ui
 
 TRANSLATIONS += \
                 ../translations/wolverine_en_US.ts \
