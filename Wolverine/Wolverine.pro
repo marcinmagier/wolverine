@@ -24,6 +24,7 @@ SOURCES      += \
                 ../src/settings/DlgSettings.cpp \
                 ../src/settings/PageGeneral.cpp \
                 ../src/settings/PageScintilla.cpp \
+                ../src/settings/PageView.cpp \
                 ../src/settings/CfgAppSettings.cpp \
                 ../src/settings/CfgDynamicSettings.cpp \
                 ../src/settings/CfgGeneralSettings.cpp \
@@ -43,6 +44,7 @@ HEADERS      += \
                 ../src/settings/DlgSettings.h \
                 ../src/settings/PageGeneral.h \
                 ../src/settings/PageScintilla.h \
+				../src/settings/PageView.h \
                 ../include/CfgAppSettings.h \
                 ../include/CfgDynamicSettings.h \
                 ../include/CfgGeneralSettings.h \
@@ -65,7 +67,8 @@ RESOURCES    += \
 
 FORMS        += \
                 ../src/settings/PageGeneral.ui \
-                ../src/settings/PageScintilla.ui
+                ../src/settings/PageScintilla.ui \
+				../src/settings/PageView.ui
 
 TRANSLATIONS += \
                 ../translations/wolverine_en_US.ts \

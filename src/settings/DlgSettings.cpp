@@ -6,6 +6,7 @@
 
 #include "PageGeneral.h"
 #include "PageScintilla.h"
+#include "PageView.h"
 
 #include <QIcon>
 
@@ -27,6 +28,9 @@ void DlgSettings::showDialog()
     Settings::PageGeneral *general = new Settings::PageGeneral(mSettings, this);
     addSettingsPage(tr("General"), general);
 
+    Settings::PageView *view = new Settings::PageView(mSettings, this);
+    addSettingsPage(tr("View"), view);
+
     Settings::PageScintilla *scintilla = new Settings::PageScintilla(mSettings, this);
     addSettingsPage(tr("Scintilla"), scintilla);
 
@@ -43,6 +47,7 @@ void DlgSettings::showDialog()
     clearPages();
     delete general;
     delete scintilla;
+    delete view;
     delete actionManagerWidget;
 }
 
