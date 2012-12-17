@@ -20,25 +20,18 @@ DlgSettings::DlgSettings(QWidget *parent) :
 {
     this->setWindowTitle(tr("Wolverine Settings"));
     this->setWindowIcon(QIcon(":/settings.png"));
-
-    mInitialized = false;
 }
 
 void DlgSettings::showDialog()
 {
-     // All pages are deleted during deleting this dialog.
-    if(!mInitialized) {
-        mInitialized = true;
+    Settings::PageGeneral *general = new Settings::PageGeneral(mSettings, this);
+    addSettingsPage(tr("General"), general);
 
-        Settings::PageGeneral *general = new Settings::PageGeneral(mSettings, this);
-        addSettingsPage(tr("General"), general);
+    Settings::PageScintilla *scintilla = new Settings::PageScintilla(mSettings, this);
+    addSettingsPage(tr("Scintilla"), scintilla);
 
-        Settings::PageScintilla *scintilla = new Settings::PageScintilla(mSettings, this);
-        addSettingsPage(tr("Scintilla"), scintilla);
-
-        QWidget *actionManagerWidget = mActionManager->getActionManagerWidget(this);
-        addSettingsPage(tr("Key Binding"), actionManagerWidget);
-    }
+    QWidget *actionManagerWidget = mActionManager->getActionManagerWidget(this);
+    addSettingsPage(tr("Key Binding"), actionManagerWidget);
 
     // Just call exec(). QtDialogSettings is responsible for calling correct inform functions.
     if(QtDialogSettings::exec()) {
@@ -47,9 +40,10 @@ void DlgSettings::showDialog()
     }
 
     // There is no need to keep these variables in memory.
-    //delete general;
-    //delete scintilla;
-    //delete actionManagerWidget;
+    clearPages();
+    delete general;
+    delete scintilla;
+    delete actionManagerWidget;
 }
 
 

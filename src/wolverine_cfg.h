@@ -8,6 +8,7 @@
 #define APP_VERSION         "0.1"
 
 #define LOG_FORMAT_STRING   "%t{yyyy-MM-dd mm:ss} [%-7L] %F %i %m\n"
+#define LOG_LEVELS          "Trace Debug Info Warning Error Fatal"
 
 
 

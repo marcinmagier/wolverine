@@ -34,7 +34,7 @@ PageGeneral::PageGeneral(AppSettings *settings, QWidget *parent) :
                         this, SLOT(currentLanguageChanged(int)) );
 
 
-    ui->cmbLogLevel->addItems( QString("Trace Debug Info Warning Error Fatal").split(" ") );
+    ui->cmbLogLevel->addItems( QString(LOG_LEVELS).split(" ") );
     idx = ui->cmbLogLevel->findText(settings->startup->getLogLevel());
     ui->cmbLogLevel->setCurrentIndex(idx);
     connect(   ui->cmbLogLevel, SIGNAL(currentIndexChanged(QString)),

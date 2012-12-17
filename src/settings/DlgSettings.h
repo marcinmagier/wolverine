@@ -37,7 +37,6 @@ protected:
 private:
     AppSettings *mSettings;
     ActionManager *mActionManager;
-    bool mInitialized;
 };
 
 

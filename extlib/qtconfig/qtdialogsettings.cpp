@@ -88,6 +88,18 @@ void QtDialogSettings::addSettingsPage(const QString &name, const QString &paren
     parentItem->setExpanded(true);
 }
 
+
+void QtDialogSettings::clearPages()
+{
+    for(int i=0; i<ui->stackedPages->count(); i++) {
+        ui->stackedPages->removeWidget(ui->stackedPages->widget(i));
+    }
+    m_pageMap.clear();
+    ui->treePages->clear();
+
+}
+
+
 void QtDialogSettings::changeCurrentPage( QTreeWidgetItem * current, QTreeWidgetItem *)
 {
     int idx = m_pageMap[current];

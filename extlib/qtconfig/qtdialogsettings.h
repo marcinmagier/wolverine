@@ -29,6 +29,7 @@ public:
 
     void addSettingsPage( const QString &name, QWidget *page );
     void addSettingsPage( const QString &name, const QString &parent, QWidget *page );
+    void clearPages();
 
 
 public slots:
