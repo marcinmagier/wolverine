@@ -38,11 +38,10 @@
  * @param color
  * @param parent
  */
-QtColorButton::QtColorButton(const QColor &color, QWidget *parent) :
-    QPushButton(parent),
-    mColor(color)
+QtColorButton::QtColorButton(QWidget *parent) :
+    QPushButton(parent)
 {
-    this->setButtonColor(mColor);
+    this->setColor(QColor());
     this->setAutoFillBackground(true);
     this->setText("");
 
@@ -59,9 +58,8 @@ void QtColorButton::onButtonClicked()
     QColor newColor = QColorDialog::getColor();
 
     if(newColor != mColor) {
-        mColor = newColor;
-        this->setButtonColor(mColor);
-        emit colorChanged(mColor);
+        this->setColor(newColor);
+        emit colorChanged(newColor);
     }
 }
 
@@ -71,8 +69,9 @@ void QtColorButton::onButtonClicked()
  *
  * @param color
  */
-void QtColorButton::setButtonColor(const QColor &color)
+void QtColorButton::setColor(const QColor &color)
 {
+    mColor = color;
     QString style = QString(COLOR_BUTTON_STYLE_PATTERN).arg(mColor.red()).arg(mColor.green()).arg(mColor.blue());
     this->setStyleSheet(style);
 }

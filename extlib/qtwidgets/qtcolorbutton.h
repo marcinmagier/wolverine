@@ -35,16 +35,17 @@ class QtColorButton : public QPushButton
     Q_OBJECT
 
 public:
-    explicit QtColorButton(const QColor &color, QWidget *parent = 0);
+    explicit QtColorButton(QWidget *parent = 0);
+    void setColor(const QColor &color);
     
+
 signals:
     void colorChanged(QColor color);
     
+
 protected slots:
     void onButtonClicked();
 
-protected:
-    void setButtonColor(const QColor &color);
 
 private:
     QColor mColor;
