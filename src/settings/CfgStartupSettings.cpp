@@ -2,6 +2,8 @@
 #include "CfgStartupSettings.h"
 
 #include <QLocale>
+#include <QDir>
+#include <QFileInfo>
 
 
 
@@ -10,7 +12,7 @@ StartupSettings::StartupSettings()
     mLanguage = QLocale::system().name();
 
     mLogLevel = "Warning";
-    mLogFilePath = "Wolverine.log";
+    mLogFilePath = QFileInfo(QDir::temp(), "Wolverine.log").filePath();
     mLogFileEnabled = true;
     mLogConsoleEnabled = true;
 

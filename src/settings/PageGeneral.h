@@ -26,7 +26,9 @@ public:
     ~PageGeneral();
     
 private slots:
-    void currentLanguageChanged(int index);
+    void on_cmbLanguage_currentIndexChanged(int index);
+    void on_btnLogFilePathDlg_clicked();
+
 
 private:
     QStringList mTranslations;

@@ -23,6 +23,11 @@ QString DynamicSettings::getPluginsDir()
     return QDir(getInstalDir()).absoluteFilePath("plugins");
 }
 
+QString DynamicSettings::getTempDir()
+{
+    return QDir::tempPath();
+}
+
 QString DynamicSettings::getTranslationsDir()
 {
     return QDir(getInstalDir()).absoluteFilePath("translations");

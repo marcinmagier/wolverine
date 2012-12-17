@@ -24,6 +24,7 @@ public:
     QString getDataDir() {return mDataDir;}
     QString getInstalDir() {return mInstalDir;}
     QString getPluginsDir();
+    QString getTempDir();
     QString getTranslationsDir();
     QStringList getTranslations();
 	

@@ -8,6 +8,9 @@
 #include "CfgStartupSettings.h"
 #include "CfgDynamicSettings.h"
 
+#include <QFileInfo>
+#include <QFileDialog>
+
 
 using namespace Wolverine::Settings;
 
@@ -30,8 +33,7 @@ PageGeneral::PageGeneral(AppSettings *settings, QWidget *parent) :
     QString lang = QLocale(settings->startup->getLanguage()).nativeLanguageName();
     int idx = ui->cmbLanguage->findText(lang);
     ui->cmbLanguage->setCurrentIndex(idx);
-    connect( ui->cmbLanguage, SIGNAL(currentIndexChanged(int)),
-                        this, SLOT(currentLanguageChanged(int)) );
+    //ui->cmbLanguage is connected automatically
 
 
     ui->cmbLogLevel->addItems( QString(LOG_LEVELS).split(" ") );
@@ -47,6 +49,10 @@ PageGeneral::PageGeneral(AppSettings *settings, QWidget *parent) :
     ui->chboxFileLog->setChecked(settings->startup->isLogFileEnabled());
     connect(  ui->chboxFileLog, SIGNAL(toggled(bool)),
              settings->startup, SLOT(setLogFileEnabled(bool)), Qt::DirectConnection );
+
+    ui->editLogFilePath->setText(settings->startup->getLogFilePath());
+    //ui->editLogFilePath is connected automatically
+
 }
 
 PageGeneral::~PageGeneral()
@@ -54,7 +60,17 @@ PageGeneral::~PageGeneral()
     delete ui;
 }
 
-void PageGeneral::currentLanguageChanged(int index)
+void PageGeneral::on_cmbLanguage_currentIndexChanged(int index)
 {
     AppSettings::instance()->startup->setLanguage(mTranslations[index]);
+}
+
+void Wolverine::Settings::PageGeneral::on_btnLogFilePathDlg_clicked()
+{
+    QString logFile = ui->editLogFilePath->text();
+    logFile = QFileDialog::getOpenFileName(this,
+                                           tr("Open log file"),
+                                           QFileInfo(logFile).absoluteDir().path() );
+    if(!logFile.isEmpty())
+        ui->editLogFilePath->setText(logFile);
 }
