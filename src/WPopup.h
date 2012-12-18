@@ -25,14 +25,13 @@
 #ifndef __W_POPUP_H_
 #define __W_POPUP_H_
 
-#include "qtpopup.h"
-
+#include <QObject>
 #include <QColor>
 
 namespace Wolverine {
 
 
-class Popup : public QtPopup
+class Popup : public QObject
 {
     Q_OBJECT
 

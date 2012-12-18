@@ -74,7 +74,7 @@ QtPopupBase::QtPopupBase(const QString &title, const QString &message) :
     connect( mTimerSec, SIGNAL(timeout()),
                   this, SLOT(onTimerSec()) );
 
-    mTimeLineAnimation = new QTimeLine();
+    mTimeLineAnimation = new QTimeLine(800);
     mTimeLineAnimation->setFrameRange(0, ANIMATION_FRAME_COUNT);
     connect( mTimeLineAnimation, SIGNAL(frameChanged(int)),
                            this, SLOT(onAnimationStep(int)) );

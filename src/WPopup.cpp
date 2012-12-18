@@ -20,6 +20,7 @@
  *  @brief      Wolverine::Popup class implementation.
  */
 
+#include "qtpopup.h"
 
 #include "WPopup.h"
 
