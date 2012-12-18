@@ -15,7 +15,7 @@
 #include <QMenuBar>
 #include <QStringList>
 
-#include "qtpopup.h"
+#include "WPopup.h"
 
 
 
@@ -36,8 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setCentralWidget(new CentralWidget(this));
     setStatusBar(new StatusBar(this));
 
-    QtPopup::setTheme(QColor(54, 2, 43), QColor(187, 143, 165));
-    QtPopup::setTimeout(5);
+    Popup::initialize();
 
 }
 
@@ -231,16 +230,16 @@ void MainWindow::openFile(const QString &file)
 
 void MainWindow::onPopup1()
 {
-    QtPopup::popup(new QtPopupFlash("Test1", "Test very very very very very very long popup"), this);
+    Popup::popup("Test1", "Test very very very very very very long popup", this);
 }
 
 void MainWindow::onPopup2()
 {
-    QtPopup::popup(new QtPopupMove("Test2", "Test cos tam cos tam long popup"), this);
+    Popup::popup("Test2", "Test cos tam cos tam long popup", this);
 }
 
 void MainWindow::onPopup3()
 {
-    QtPopup::popup(new QtPopupRise("Test3", "Test very hello hello very long popup"), this);
+    Popup::popup("Test3", "Test very hello hello very long popup", this);
 }
 

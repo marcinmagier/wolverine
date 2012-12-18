@@ -37,10 +37,13 @@ SOURCES      += \
                 ../src/WDocument.cpp \
                 ../src/WLib.cpp \
                 ../src/WMainWindow.cpp \
+                ../src/WPopup.cpp \
                 ../src/WStatusBar.cpp
+
 
 HEADERS      += \
                 ../src/wolverine_cfg.h \
+                ../src/WPopup.h \
                 ../src/WStatusBar.h \
                 ../src/settings/DlgSettings.h \
                 ../src/settings/PageGeneral.h \
@@ -58,6 +61,7 @@ HEADERS      += \
                 ../include/WDocument.h \
                 ../include/WLib.h \
                 ../include/WMainWindow.h
+
 
 INCLUDEPATH  += \
                 ../include \

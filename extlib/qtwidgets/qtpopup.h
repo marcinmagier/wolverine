@@ -178,7 +178,7 @@ class QtPopup : public QObject
 {
     Q_OBJECT
     
-private:
+protected:
     QtPopup();
 
 
