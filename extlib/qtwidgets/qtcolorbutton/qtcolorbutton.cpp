@@ -57,7 +57,7 @@ void QtColorButton::onButtonClicked()
 {
     QColor newColor = QColorDialog::getColor();
 
-    if(newColor != mColor) {
+    if(newColor.isValid() && newColor!=mColor) {
         this->setColor(newColor);
         emit colorChanged(newColor);
     }
