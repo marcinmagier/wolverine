@@ -16,61 +16,50 @@
 **************************************************************************************************/
 
 /**
- *  @file       WCentralWidget.h
- *  @brief      Wolverine::CentralWidget class interface.
+ *  @file       WPanel.h
+ *  @brief      Wolverine::Panel class interface.
  */
 
 
-#ifndef __W_CENTRAL_WIDGET_H_
- #define __W_CENTRAL_WIDGET_H_
+
+#ifndef __W_PANEL_H_
+ #define __W_PANEL_H_
 
 
-class QHBoxLayout;
-class QSplitter;
+#include <QTabWidget>
 
-
-#include <QWidget>
 
 namespace Wolverine
 {
 
-class Document;
-class Panel;
+class PanelTabBar;
 
 
 
-class CentralWidget: public QWidget
+class Panel : public QTabWidget
 {
     Q_OBJECT
 
 public:
-    explicit CentralWidget(QWidget *parent = 0);
-    virtual ~CentralWidget();
 
+    enum Position {
+        RightPanel,
+        LeftPanel
+    };
+
+    explicit Panel(QWidget *parent = 0);
+    virtual ~Panel();
+    
+signals:
+    
 public slots:
-    void onCreateNewDoc();
-    void onOpenDoc();
 
 private:
-    QHBoxLayout *layout;
-    QSplitter *splitter;
-
-    Panel *panelLeft;
-    Panel *panelRight;
-
-    Document *editor;
+    PanelTabBar *mTabBar;
+    
 };
-
 
 
 }
 
-
-
-
-
-
-
-
-
-#endif // __W_CENTRAL_WIDGET_H_
+#endif // __W_PANEL_H_

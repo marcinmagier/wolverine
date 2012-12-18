@@ -16,61 +16,26 @@
 **************************************************************************************************/
 
 /**
- *  @file       WCentralWidget.h
- *  @brief      Wolverine::CentralWidget class interface.
+ *  @file       WPanelTabBar.cpp
+ *  @brief      Wolverine::PanelTabBar class implementation.
  */
 
+#include "WPanelTabBar.h"
 
-#ifndef __W_CENTRAL_WIDGET_H_
- #define __W_CENTRAL_WIDGET_H_
-
-
-class QHBoxLayout;
-class QSplitter;
+#include "CfgAppSettings.h"
+#include "CfgGeneralSettings.h"
 
 
-#include <QWidget>
+using namespace Wolverine;
 
-namespace Wolverine
+PanelTabBar::PanelTabBar(QWidget *parent) :
+    QTabBar(parent)
 {
+    //AppSettings *settings = AppSettings::instance();
+    //this->setMovable(!settings->general->isTabBarLocked());
 
-class Document;
-class Panel;
-
-
-
-class CentralWidget: public QWidget
-{
-    Q_OBJECT
-
-public:
-    explicit CentralWidget(QWidget *parent = 0);
-    virtual ~CentralWidget();
-
-public slots:
-    void onCreateNewDoc();
-    void onOpenDoc();
-
-private:
-    QHBoxLayout *layout;
-    QSplitter *splitter;
-
-    Panel *panelLeft;
-    Panel *panelRight;
-
-    Document *editor;
-};
+    //this->setTabsClosable(settings->general->isTabBarCloseVisible());
 
 
 
 }
-
-
-
-
-
-
-
-
-
-#endif // __W_CENTRAL_WIDGET_H_

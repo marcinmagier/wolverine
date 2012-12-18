@@ -37,12 +37,16 @@ SOURCES      += \
                 ../src/WDocument.cpp \
                 ../src/WLib.cpp \
                 ../src/WMainWindow.cpp \
+                ../src/WPanel.cpp \
+                ../src/WPanelTabBar.cpp \
                 ../src/WPopup.cpp \
                 ../src/WStatusBar.cpp
 
 
 HEADERS      += \
                 ../src/wolverine_cfg.h \
+                ../src/WPanel.h \
+                ../src/WPanelTabBar.h \
                 ../src/WPopup.h \
                 ../src/WStatusBar.h \
                 ../src/settings/DlgSettings.h \

@@ -16,61 +16,34 @@
 **************************************************************************************************/
 
 /**
- *  @file       WCentralWidget.h
- *  @brief      Wolverine::CentralWidget class interface.
+ *  @file       WPanel.cpp
+ *  @brief      Wolverine::Panel class implementation.
  */
 
-
-#ifndef __W_CENTRAL_WIDGET_H_
- #define __W_CENTRAL_WIDGET_H_
-
-
-class QHBoxLayout;
-class QSplitter;
+#include "WPanel.h"
+#include "WPanelTabBar.h"
 
 
-#include <QWidget>
+using namespace Wolverine;
 
-namespace Wolverine
+
+/**
+ *  Constructor
+ *
+ * @param parent
+ */
+Panel::Panel(QWidget *parent) :
+    QTabWidget(parent)
 {
-
-class Document;
-class Panel;
-
-
-
-class CentralWidget: public QWidget
-{
-    Q_OBJECT
-
-public:
-    explicit CentralWidget(QWidget *parent = 0);
-    virtual ~CentralWidget();
-
-public slots:
-    void onCreateNewDoc();
-    void onOpenDoc();
-
-private:
-    QHBoxLayout *layout;
-    QSplitter *splitter;
-
-    Panel *panelLeft;
-    Panel *panelRight;
-
-    Document *editor;
-};
-
-
-
+    mTabBar = new PanelTabBar(this);
 }
 
 
+/**
+ *  Destructor
+ */
+Panel::~Panel()
+{
+    delete mTabBar;
 
-
-
-
-
-
-
-#endif // __W_CENTRAL_WIDGET_H_
+}

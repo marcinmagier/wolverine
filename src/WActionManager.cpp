@@ -150,7 +150,7 @@ void initializeActions()
     action->setStatusTip(QObject::tr("Create a new file"));
     sInstance->addAction(W_ACTION_GROUP_FILE, W_ACTION_NEW, action);
 
-    action = new QAction(QObject::tr("Open"), 0);
+    action = new QAction(QObject::tr("Open..."), 0);
     action->setShortcut(QObject::tr("Ctrl+O"));
     action->setStatusTip(QObject::tr("Open existing file"));
     sInstance->addAction(W_ACTION_GROUP_FILE, W_ACTION_OPEN, action);
