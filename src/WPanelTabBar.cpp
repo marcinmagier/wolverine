@@ -25,17 +25,28 @@
 #include "CfgAppSettings.h"
 #include "CfgGeneralSettings.h"
 
+#include "QDebug"
+
 
 using namespace Wolverine;
 
 PanelTabBar::PanelTabBar(QWidget *parent) :
     QTabBar(parent)
 {
-    //AppSettings *settings = AppSettings::instance();
-    //this->setMovable(!settings->general->isTabBarLocked());
+    AppSettings *settings = AppSettings::instance();
+    this->setMovable(!settings->general->isTabBarLocked());
 
-    //this->setTabsClosable(settings->general->isTabBarCloseVisible());
+    this->setTabsClosable(settings->general->isTabBarCloseVisible());
 
+    this->setMovable(true);
+    this->setTabsClosable(true);
+    this->setDocumentMode(true);
+    this->setExpanding(false);
 
+    this->setIconSize(QSize(8, 8));
+
+    qDebug() << this->size();
+    qDebug() << "hint";
+    qDebug() << this->sizeHint();
 
 }

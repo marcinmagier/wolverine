@@ -23,6 +23,8 @@
 #include "WPanel.h"
 #include "WPanelTabBar.h"
 
+#include "QToolButton"
+
 
 using namespace Wolverine;
 
@@ -36,6 +38,11 @@ Panel::Panel(QWidget *parent) :
     QTabWidget(parent)
 {
     mTabBar = new PanelTabBar(this);
+    this->setTabBar(mTabBar);
+
+    QToolButton *button = new QToolButton(this);
+    this->setCornerWidget(button, Qt::TopRightCorner);
+    button->setCursor(Qt::ArrowCursor);
 }
 
 

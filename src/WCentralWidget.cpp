@@ -51,7 +51,10 @@ CentralWidget::CentralWidget(QWidget *parent):
     editor = new Document();
     panelLeft->addTab(editor, "New");
     Document *editor2 = new Document();
-    panelRight->addTab(editor2, "New2");
+    panelLeft->addTab(editor2, "Nehej hejw2");
+
+    Document *editor3 = new Document();
+    panelRight->addTab(editor3, "Ne very long w2");
 }
 
 CentralWidget::~CentralWidget()
