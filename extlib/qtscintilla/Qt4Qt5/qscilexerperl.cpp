@@ -71,6 +71,26 @@ QStringList QsciLexerPerl::autoCompletionWordSeparators() const
 }
 
 
+// Return the list of characters that can start a block.
+const char *QsciLexerPerl::blockStart(int *style) const
+{
+    if (style)
+        *style = Operator;
+
+    return "{";
+}
+
+
+// Return the list of characters that can end a block.
+const char *QsciLexerPerl::blockEnd(int *style) const
+{
+    if (style)
+        *style = Operator;
+
+    return "}";
+}
+
+
 // Return the style used for braces.
 int QsciLexerPerl::braceStyle() const
 {

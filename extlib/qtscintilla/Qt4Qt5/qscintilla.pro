@@ -24,7 +24,7 @@
 
 
 # This must be kept in sync with configure.py.
-!win32:VERSION = 8.0.2
+!win32:VERSION = 9.0.0
 
 TEMPLATE = lib
 TARGET = qscintilla2
@@ -224,6 +224,7 @@ SOURCES = \
 	../lexers/LexASY.cpp \
 	../lexers/LexAU3.cpp \
 	../lexers/LexAVE.cpp \
+	../lexers/LexAVS.cpp \
 	../lexers/LexBaan.cpp \
 	../lexers/LexBash.cpp \
 	../lexers/LexBasic.cpp \
@@ -232,12 +233,14 @@ SOURCES = \
 	../lexers/LexCLW.cpp \
 	../lexers/LexCmake.cpp \
 	../lexers/LexCOBOL.cpp \
+	../lexers/LexCoffeeScript.cpp \
 	../lexers/LexConf.cpp \
 	../lexers/LexCPP.cpp \
 	../lexers/LexCrontab.cpp \
 	../lexers/LexCsound.cpp \
 	../lexers/LexCSS.cpp \
 	../lexers/LexD.cpp \
+	../lexers/LexECL.cpp \
 	../lexers/LexEiffel.cpp \
 	../lexers/LexErlang.cpp \
 	../lexers/LexEScript.cpp \
@@ -265,11 +268,13 @@ SOURCES = \
 	../lexers/LexNimrod.cpp \
 	../lexers/LexNsis.cpp \
 	../lexers/LexOpal.cpp \
+	../lexers/LexOScript.cpp \
 	../lexers/LexOthers.cpp \
 	../lexers/LexPascal.cpp \
 	../lexers/LexPB.cpp \
 	../lexers/LexPerl.cpp \
 	../lexers/LexPLM.cpp \
+	../lexers/LexPO.cpp \
 	../lexers/LexPOV.cpp \
 	../lexers/LexPowerPro.cpp \
 	../lexers/LexPowerShell.cpp \
@@ -290,11 +295,13 @@ SOURCES = \
 	../lexers/LexTADS3.cpp \
 	../lexers/LexTAL.cpp \
 	../lexers/LexTCL.cpp \
+	../lexers/LexTCMD.cpp \
 	../lexers/LexTeX.cpp \
 	../lexers/LexTxt2tags.cpp \
 	../lexers/LexVB.cpp \
 	../lexers/LexVerilog.cpp \
 	../lexers/LexVHDL.cpp \
+	../lexers/LexVisualProlog.cpp \
 	../lexers/LexYAML.cpp \
 	../lexlib/Accessor.cpp \
 	../lexlib/CharacterSet.cpp \

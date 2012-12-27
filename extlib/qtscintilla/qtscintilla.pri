@@ -71,6 +71,7 @@ uselib {
                  $$PWD/lexers/LexASY.cpp \
                  $$PWD/lexers/LexAU3.cpp \
                  $$PWD/lexers/LexAVE.cpp \
+                 $$PWD/lexers/LexAVS.cpp \
                  $$PWD/lexers/LexBaan.cpp \
                  $$PWD/lexers/LexBash.cpp \
                  $$PWD/lexers/LexBasic.cpp \
@@ -79,12 +80,14 @@ uselib {
                  $$PWD/lexers/LexCLW.cpp \
                  $$PWD/lexers/LexCmake.cpp \
                  $$PWD/lexers/LexCOBOL.cpp \
+                 $$PWD/lexers/LexCoffeeScript.cpp \
                  $$PWD/lexers/LexConf.cpp \
                  $$PWD/lexers/LexCPP.cpp \
                  $$PWD/lexers/LexCrontab.cpp \
                  $$PWD/lexers/LexCsound.cpp \
                  $$PWD/lexers/LexCSS.cpp \
                  $$PWD/lexers/LexD.cpp \
+                 $$PWD/lexers/LexECL.cpp \
                  $$PWD/lexers/LexEiffel.cpp \
                  $$PWD/lexers/LexErlang.cpp \
                  $$PWD/lexers/LexEScript.cpp \
@@ -112,11 +115,13 @@ uselib {
                  $$PWD/lexers/LexNimrod.cpp \
                  $$PWD/lexers/LexNsis.cpp \
                  $$PWD/lexers/LexOpal.cpp \
+                 $$PWD/lexers/LexOScript.cpp \
                  $$PWD/lexers/LexOthers.cpp \
                  $$PWD/lexers/LexPascal.cpp \
                  $$PWD/lexers/LexPB.cpp \
                  $$PWD/lexers/LexPerl.cpp \
                  $$PWD/lexers/LexPLM.cpp \
+                 $$PWD/lexers/LexPO.cpp \
                  $$PWD/lexers/LexPOV.cpp \
                  $$PWD/lexers/LexPowerPro.cpp \
                  $$PWD/lexers/LexPowerShell.cpp \
@@ -137,11 +142,13 @@ uselib {
                  $$PWD/lexers/LexTADS3.cpp \
                  $$PWD/lexers/LexTAL.cpp \
                  $$PWD/lexers/LexTCL.cpp \
+                 $$PWD/lexers/LexTCMD.cpp \
                  $$PWD/lexers/LexTeX.cpp \
                  $$PWD/lexers/LexTxt2tags.cpp \
                  $$PWD/lexers/LexVB.cpp \
                  $$PWD/lexers/LexVerilog.cpp \
                  $$PWD/lexers/LexVHDL.cpp \
+                 $$PWD/lexers/LexVisualProlog.cpp \
                  $$PWD/lexers/LexYAML.cpp \
                  $$PWD/lexlib/Accessor.cpp \
                  $$PWD/lexlib/CharacterSet.cpp \
