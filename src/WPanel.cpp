@@ -44,8 +44,11 @@ Panel::Panel(QWidget *parent) :
     this->setTabBar(mTabBar);
 
     QToolButton *button = new QToolButton(this);
-    this->setCornerWidget(button, Qt::TopRightCorner);
+    this->setCornerWidget(button, Qt::TopLeftCorner);
     button->setCursor(Qt::ArrowCursor);
+
+    connect( mTabBar, SIGNAL(buttonsVisibleChanged(bool)),
+                this, SLOT(onButtonsVisibleChanged(bool)) );
 
 }
 
@@ -68,4 +71,15 @@ void Panel::testIt()
     qDebug() << mTabBar->tabRect(0);
     qDebug() << "--";
     qDebug() << mTabBar->tabAt(QPoint(1,1));
+}
+
+void Panel::onButtonsVisibleChanged(bool visible)
+{
+    qDebug() << "changed";
+    qDebug() << visible;
+    if(visible) {
+        setCornerWidget(new QToolButton(this), Qt::TopLeftCorner);
+    } else {
+        setCornerWidget(0, Qt::TopLeftCorner);
+    }
 }

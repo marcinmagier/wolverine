@@ -55,6 +55,7 @@ public:
 signals:
     
 public slots:
+    void onButtonsVisibleChanged(bool visible);
 
 private:
     PanelTabBar *mTabBar;

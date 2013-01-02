@@ -31,7 +31,8 @@
 using namespace Wolverine;
 
 PanelTabBar::PanelTabBar(QWidget *parent) :
-    QTabBar(parent)
+    QTabBar(parent),
+    mAreButtonsVisible(false)
 {
     AppSettings *settings = AppSettings::instance();
     this->setMovable(!settings->general->isTabBarLocked());
@@ -47,4 +48,56 @@ PanelTabBar::PanelTabBar(QWidget *parent) :
     this->setIconSize(QSize(8, 8));
 
 
+}
+
+/**
+ * @brief PanelTabBar::checkButtons
+ */
+void PanelTabBar::checkButtons()
+{
+    //qDebug() << "check buttons";
+
+    QRect tabBar = this->geometry();
+    QRect firstTab = this->tabRect(0);
+    QRect lastTab = this->tabRect(this->count()-1);
+
+    if(mAreButtonsVisible) {
+        if(firstTab.x() < 0)
+            return;
+        if(lastTab.x() + lastTab.width() > tabBar.width())
+            return;
+
+        // Buttons are not visible now
+        mAreButtonsVisible = false;
+        emit buttonsVisibleChanged(mAreButtonsVisible);
+    } else {
+        if(firstTab.x()==0)
+            if(lastTab.x() + lastTab.width() < tabBar.width())
+                return;
+
+        //Buttons are visible now
+        mAreButtonsVisible = true;
+        emit buttonsVisibleChanged(mAreButtonsVisible);
+    }
+}
+
+/**
+ * @brief PanelTabBar::tabLayoutChange
+ */
+//virtual
+void PanelTabBar::resizeEvent(QResizeEvent *event)
+{
+   // qDebug() << "resize";
+    checkButtons();
+    QTabBar::resizeEvent(event);
+}
+
+/**
+ * @brief PanelTabBar::tabLayoutChange
+ */
+//virtual
+void PanelTabBar::tabLayoutChange()
+{
+   // qDebug() << "layout";
+    checkButtons();
 }

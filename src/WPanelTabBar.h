@@ -40,10 +40,21 @@ public:
     explicit PanelTabBar(QWidget *parent = 0);
     
 signals:
-    
+    void buttonsVisibleChanged(bool visible);
+
 public slots:
-    
+
+protected:
+    virtual void resizeEvent(QResizeEvent *event);
+    virtual void tabLayoutChange();
+
+
+private:
+    void checkButtons();
+
+    bool mAreButtonsVisible;
 };
+
 
 
 }
