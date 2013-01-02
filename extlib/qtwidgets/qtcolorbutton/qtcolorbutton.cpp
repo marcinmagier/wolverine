@@ -35,7 +35,6 @@
 /**
  *  Constructor
  *
- * @param color
  * @param parent
  */
 QtColorButton::QtColorButton(QWidget *parent) :

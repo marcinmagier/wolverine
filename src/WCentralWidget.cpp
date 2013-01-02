@@ -78,8 +78,7 @@ CentralWidget::~CentralWidget()
 
 void CentralWidget::onCreateNewDoc()
 {
-    panelLeft->testIt();
-    panelRight->testIt();
+
 }
 
 void CentralWidget::onOpenDoc()

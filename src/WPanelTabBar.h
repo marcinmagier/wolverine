@@ -26,33 +26,26 @@
  #define __W_PANEL_TAB_BAR_H_
 
 
-#include <QTabBar>
+#include "qttabbar.h"
 
 
 namespace Wolverine
 {
 
-class PanelTabBar : public QTabBar
+class PanelTabBar : public QtTabBar
 {
     Q_OBJECT
 
 public:
     explicit PanelTabBar(QWidget *parent = 0);
     
-signals:
-    void buttonsVisibleChanged(bool visible);
 
 public slots:
 
+
 protected:
-    virtual void resizeEvent(QResizeEvent *event);
-    virtual void tabLayoutChange();
 
 
-private:
-    void checkButtons();
-
-    bool mAreButtonsVisible;
 };
 
 

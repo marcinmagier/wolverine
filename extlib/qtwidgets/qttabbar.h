@@ -16,34 +16,41 @@
 **************************************************************************************************/
 
 /**
- *  @file       WPanelTabBar.cpp
- *  @brief      Wolverine::PanelTabBar class implementation.
+ *  @file       qttabbar.h
+ *  @brief      QtTabBar class interface.
  */
 
-#include "WPanelTabBar.h"
-
-#include "CfgAppSettings.h"
-#include "CfgGeneralSettings.h"
 
 
+#ifndef __QT_TAB_BAR_H_
+ #define __QT_TAB_BAR_H_
 
-using namespace Wolverine;
 
-PanelTabBar::PanelTabBar(QWidget *parent) :
-    QtTabBar(parent)
+#include <QTabBar>
+
+
+class QtTabBar : public QTabBar
 {
-    AppSettings *settings = AppSettings::instance();
-    this->setMovable(!settings->general->isTabBarLocked());
+    Q_OBJECT
 
-    this->setTabsClosable(settings->general->isTabBarCloseVisible());
+public:
+    explicit QtTabBar(QWidget *parent = 0);
+    bool areScrollButtonsHidden();
+    
 
-    this->setMovable(true);
-    this->setTabsClosable(true);
-    this->setDocumentMode(true);
-    this->setExpanding(false);
-    this->setFocusPolicy(Qt::NoFocus);
-
-    this->setIconSize(QSize(8, 8));
+signals:
+    void scrollButtonsHiddenChanged(bool hidden);
 
 
-}
+protected:
+    virtual void resizeEvent(QResizeEvent *event);
+    virtual void tabLayoutChange();
+
+
+private:
+    void checkScrollButtons();
+
+    bool mScrollButtonsHidden;
+};
+
+#endif // __QT_TAB_BAR_H_

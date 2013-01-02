@@ -19,14 +19,16 @@ uselib {
                     $$PWD/qtpopup/qtpopup_base.cpp \
                     $$PWD/qtpopup/qtpopup_flash.cpp \
                     $$PWD/qtpopup/qtpopup_move.cpp \
-                    $$PWD/qtpopup/qtpopup_rise.cpp
+                    $$PWD/qtpopup/qtpopup_rise.cpp \
+                    $$PWD/qttabbar/qttabbar.cpp
 
     HEADERS      += \
                     $$PWD/qtcolorbutton.h \
                     $$PWD/qtmanagedtoolbar.h \
                     $$PWD/qtmanagedtoolbar/qtmanagedtoolbardialog.h \
                     $$PWD/qtmanagedtoolbar/qtmanagedtoolbarlistbox.h \
-                    $$PWD/qtpopup.h
+                    $$PWD/qtpopup.h \
+                    $$PWD/qttabbar.h
 
     RESOURCES    += \
                     $$PWD/qtmanagedtoolbar/resources.qrc

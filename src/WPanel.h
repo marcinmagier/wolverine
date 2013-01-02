@@ -26,7 +26,11 @@
  #define __W_PANEL_H_
 
 
+class QToolButton;
+
 #include <QTabWidget>
+
+
 
 
 namespace Wolverine
@@ -49,16 +53,15 @@ public:
 
     explicit Panel(QWidget *parent = 0);
     virtual ~Panel();
-
-    void testIt();
     
 signals:
     
 public slots:
-    void onButtonsVisibleChanged(bool visible);
+    void onButtonsVisibleChanged(bool hidden);
 
 private:
     PanelTabBar *mTabBar;
+    QToolButton *button;
     
 };
 
