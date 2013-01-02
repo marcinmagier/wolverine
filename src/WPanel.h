@@ -49,6 +49,8 @@ public:
 
     explicit Panel(QWidget *parent = 0);
     virtual ~Panel();
+
+    void testIt();
     
 signals:
     

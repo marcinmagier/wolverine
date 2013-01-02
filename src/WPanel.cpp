@@ -25,6 +25,9 @@
 
 #include "QToolButton"
 
+#include <QDebug>
+
+
 
 using namespace Wolverine;
 
@@ -43,6 +46,7 @@ Panel::Panel(QWidget *parent) :
     QToolButton *button = new QToolButton(this);
     this->setCornerWidget(button, Qt::TopRightCorner);
     button->setCursor(Qt::ArrowCursor);
+
 }
 
 
@@ -53,4 +57,15 @@ Panel::~Panel()
 {
     delete mTabBar;
 
+}
+
+
+void Panel::testIt()
+{
+    qDebug() << "====";
+    qDebug() << mTabBar->geometry();
+    qDebug() << "-";
+    qDebug() << mTabBar->tabRect(0);
+    qDebug() << "--";
+    qDebug() << mTabBar->tabAt(QPoint(1,1));
 }

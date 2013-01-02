@@ -21,6 +21,7 @@ namespace Wolverine
 class ActionManager;
 class DlgSettings;
 class StatusBar;
+class CentralWidget;
 
 
 class MainWindow : public QMainWindow
@@ -48,6 +49,8 @@ private:
     DlgSettings *mSettingsDialog;
     QHash<QString, QMenu*> mMenus;
     QHash<QString, QtManagedToolBar* > mToolbars;
+
+    CentralWidget *mCentralWidget;
 
 };
 

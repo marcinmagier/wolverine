@@ -28,12 +28,15 @@ MainWindow::MainWindow(QWidget *parent) :
     mActionManager = ActionManager::instance();
     mSettingsDialog = new DlgSettings(this);
 
+    mCentralWidget = new CentralWidget(this);
+
     this->resize(mSettings->hidden->getMWSize());
     this->move(mSettings->hidden->getMWPosition());
 
     createMenusAndToolbars();
 
-    setCentralWidget(new CentralWidget(this));
+
+    setCentralWidget(mCentralWidget);
     setStatusBar(new StatusBar(this));
 
     Popup::initialize();
@@ -64,7 +67,7 @@ void MainWindow::createMenusAndToolbars()
     action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_NEW);
     action->setIcon(QIcon(":/new.png"));
     connect(action, SIGNAL(triggered()),
-              this, SLOT(onPopup1()) );
+            mCentralWidget, SLOT(onCreateNewDoc()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_NEW, action);
 

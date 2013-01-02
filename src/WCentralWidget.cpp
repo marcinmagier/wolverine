@@ -54,7 +54,19 @@ CentralWidget::CentralWidget(QWidget *parent):
     panelLeft->addTab(editor2, "Nehej hejw2");
 
     Document *editor3 = new Document();
-    panelRight->addTab(editor3, "Ne very long w2");
+    panelLeft->addTab(editor3, "Ne very long w2");
+
+    Document *editor21 = new Document();
+    panelRight->addTab(editor21, "Right Nehej hejw2");
+
+    Document *editor31 = new Document();
+    panelRight->addTab(editor31, "Right Ne very long w2");
+
+    Document *editor32 = new Document();
+    panelRight->addTab(editor32, "Right ng w2");
+
+    Document *editor33 = new Document();
+    panelRight->addTab(editor33, "Right ng w333333");
 }
 
 CentralWidget::~CentralWidget()
@@ -66,7 +78,8 @@ CentralWidget::~CentralWidget()
 
 void CentralWidget::onCreateNewDoc()
 {
-
+    panelLeft->testIt();
+    panelRight->testIt();
 }
 
 void CentralWidget::onOpenDoc()

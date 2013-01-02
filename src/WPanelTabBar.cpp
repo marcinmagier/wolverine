@@ -42,11 +42,9 @@ PanelTabBar::PanelTabBar(QWidget *parent) :
     this->setTabsClosable(true);
     this->setDocumentMode(true);
     this->setExpanding(false);
+    this->setFocusPolicy(Qt::NoFocus);
 
     this->setIconSize(QSize(8, 8));
 
-    qDebug() << this->size();
-    qDebug() << "hint";
-    qDebug() << this->sizeHint();
 
 }
