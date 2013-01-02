@@ -260,6 +260,9 @@ bool QsciAPIs::event(QEvent *e)
         emit apiPreparationFinished();
 
         return true;
+
+    default:
+        break;
     }
 
     return QObject::event(e);
