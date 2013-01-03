@@ -26,8 +26,6 @@
  #define __W_PANEL_H_
 
 
-class QToolButton;
-
 #include <QTabWidget>
 
 
@@ -61,7 +59,6 @@ public slots:
 
 private:
     PanelTabBar *mTabBar;
-    QToolButton *button;
     
 };
 

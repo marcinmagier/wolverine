@@ -43,10 +43,10 @@ Panel::Panel(QWidget *parent) :
     mTabBar = new PanelTabBar(this);
     this->setTabBar(mTabBar);
 
-    button = new QToolButton(this);
-    this->setCornerWidget(button, Qt::TopRightCorner);
-    button->setCursor(Qt::ArrowCursor);
-    button->setHidden(false);
+    QToolButton *button = new QToolButton(this);
+   this->setCornerWidget(button, Qt::TopRightCorner);
+   button->setCursor(Qt::ArrowCursor);
+   // button->setHidden(false);
 
     connect( mTabBar, SIGNAL(scrollButtonsHiddenChanged(bool)),
                 this, SLOT(onButtonsVisibleChanged(bool)) );
@@ -60,7 +60,6 @@ Panel::Panel(QWidget *parent) :
 Panel::~Panel()
 {
     delete mTabBar;
-    delete button;
 }
 
 
@@ -68,8 +67,11 @@ Panel::~Panel()
 void Panel::onButtonsVisibleChanged(bool hidden)
 {
     if(hidden) {
-        setCornerWidget(0, Qt::TopRightCorner);
+       // QWidget *button = this->cornerWidget(Qt::TopRightCorner);
+      //  setCornerWidget(0, Qt::TopRightCorner);
+     //   if(button)
+     //       delete button;
     } else {
-        setCornerWidget(button, Qt::TopRightCorner);
+     //   setCornerWidget(new QToolButton(this), Qt::TopRightCorner);
     }
 }
