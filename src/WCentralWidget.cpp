@@ -27,6 +27,7 @@
 
 #include <QHBoxLayout>
 #include <QSplitter>
+#include <QIcon>
 
 
 
@@ -42,31 +43,34 @@ CentralWidget::CentralWidget(QWidget *parent):
     splitter = new QSplitter(this);
     splitter->setOrientation(Qt::Horizontal);
     panelLeft = new Panel(splitter);
+    panelLeft->setIconSize(QSize(12, 12));
     panelRight = new Panel(splitter);
+    panelRight->setIconSize(QSize(12, 12));
     //panelRight->hide();
     splitter->addWidget(panelLeft);
     splitter->addWidget(panelRight);
     layout->addWidget(splitter);
 
     editor = new Document();
-    panelLeft->addTab(editor, "New");
+
+    panelLeft->addTab(editor, QIcon(":/save_blue.png"), "New");
     Document *editor2 = new Document();
-    panelLeft->addTab(editor2, "Nehej hejw2");
+    panelLeft->addTab(editor2, QIcon(":/save_grey.png"), "Nehej hejw2");
 
     Document *editor3 = new Document();
-    panelLeft->addTab(editor3, "Ne very long w2");
+    panelLeft->addTab(editor3, QIcon(":/save_blue.png"), "Ne very long w2");
 
     Document *editor21 = new Document();
-    panelRight->addTab(editor21, "Right Nehej hejw2");
+    panelRight->addTab(editor21, QIcon(":/save_red.png"), "Right Nehej hejw2");
 
     Document *editor31 = new Document();
-    panelRight->addTab(editor31, "Right Ne very long w2");
+    panelRight->addTab(editor31, QIcon(":/save_grey.png"), "Right Ne very long w2");
 
     Document *editor32 = new Document();
-    panelRight->addTab(editor32, "Right ng w2");
+    panelRight->addTab(editor32, QIcon(":/save_red.png"), "Right ng w2");
 
     Document *editor33 = new Document();
-    panelRight->addTab(editor33, "Right ng w333333");
+    panelRight->addTab(editor33, QIcon(":/save_blue.png"), "Right ng w333333");
 }
 
 CentralWidget::~CentralWidget()
