@@ -637,7 +637,7 @@ void QsciAPIs::addAPIEntries(const WordIndexList &wl, bool complete,
             api_word = QString("%1 (%2)").arg(api_words[idx]).arg(org);
 
             // See if the origin has been used before.
-            if (unambig)
+            if (unambig) {
                 if (unambiguous_context.isEmpty())
                     unambiguous_context = org;
                 else if (unambiguous_context != org)
@@ -645,6 +645,7 @@ void QsciAPIs::addAPIEntries(const WordIndexList &wl, bool complete,
                     unambiguous_context.truncate(0);
                     unambig = false;
                 }
+            }
         }
 
         if (!with_context.contains(api_word))

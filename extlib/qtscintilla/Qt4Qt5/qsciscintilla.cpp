@@ -269,18 +269,21 @@ void QsciScintilla::handleCharAdded(int ch)
         callTip();
 
     // Handle auto-indentation.
-    if (autoInd)
+    if (autoInd) {
         if (lex.isNull() || (lex->autoIndentStyle() & AiMaintain))
             maintainIndentation(ch, pos);
         else
             autoIndentation(ch, pos);
+    }
 
     // See if we might want to start auto-completion.
-    if (!isCallTipActive() && acSource != AcsNone)
+    if (!isCallTipActive() && acSource != AcsNone) {
         if (isStartChar(ch))
             startAutoCompletion(acSource, false, use_single == AcusAlways);
         else if (acThresh >= 1 && isWordCharacter(ch))
             startAutoCompletion(acSource, true, use_single == AcusAlways);
+
+    }
 }
 
 
@@ -850,11 +853,12 @@ void QsciScintilla::autoIndentLine(long pos, int line, int indent)
 
     if (pos_after > pos_before)
         new_pos = pos + (pos_after - pos_before);
-    else if (pos_after < pos_before && pos >= pos_after)
+    else if (pos_after < pos_before && pos >= pos_after) {
         if (pos >= pos_before)
             new_pos = pos + (pos_after - pos_before);
         else
             new_pos = pos_after;
+    }
 
     if (new_pos >= 0)
         SendScintilla(SCI_SETSEL, new_pos, new_pos);
@@ -1256,6 +1260,9 @@ void QsciScintilla::setWrapVisualFlags(WrapVisualFlag endFlag,
     case WrapFlagInMargin:
         flags |= SC_WRAPVISUALFLAG_MARGIN;
         break;
+
+    default:
+        break;
     }
 
     switch (startFlag)
@@ -1271,6 +1278,9 @@ void QsciScintilla::setWrapVisualFlags(WrapVisualFlag endFlag,
 
     case WrapFlagInMargin:
         flags |= SC_WRAPVISUALFLAG_MARGIN;
+        break;
+
+    default:
         break;
     }
 
@@ -1352,6 +1362,9 @@ void QsciScintilla::setFolding(FoldStyle folding, int margin)
         setFoldMarker(SC_MARKNUM_FOLDEREND, SC_MARK_BOXPLUSCONNECTED);
         setFoldMarker(SC_MARKNUM_FOLDEROPENMID, SC_MARK_BOXMINUSCONNECTED);
         setFoldMarker(SC_MARKNUM_FOLDERMIDTAIL, SC_MARK_TCORNER);
+        break;
+
+    default:
         break;
     }
 

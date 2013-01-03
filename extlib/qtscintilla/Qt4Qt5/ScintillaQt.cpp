@@ -203,11 +203,12 @@ void QsciScintillaQt::SetTicking(bool on)
 // Grab or release the mouse (and keyboard).
 void QsciScintillaQt::SetMouseCapture(bool on)
 {
-    if (mouseDownCaptures)
+    if (mouseDownCaptures) {
         if (on)
             qsb->viewport()->grabMouse();
         else
             qsb->viewport()->releaseMouse();
+    }
 
     capturedMouse = on;
 }
