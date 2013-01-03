@@ -23,7 +23,6 @@
 #include "WPanel.h"
 #include "WPanelTabBar.h"
 
-#include "QToolButton"
 
 #include <QDebug>
 
@@ -38,18 +37,13 @@ using namespace Wolverine;
  * @param parent
  */
 Panel::Panel(QWidget *parent) :
-    QTabWidget(parent)
+    QtTabWidget(parent)
 {
     mTabBar = new PanelTabBar(this);
     this->setTabBar(mTabBar);
 
-    mListButton = new QToolButton(this);
-    mListButton->setArrowType(Qt::DownArrow);
-    //this->setCornerWidget(button, Qt::TopLeftCorner);
-    //button->setCursor(Qt::ArrowCursor);
-
     connect( mTabBar, SIGNAL(scrollButtonsHiddenChanged(bool)),
-                this, SLOT(onButtonsVisibleChanged(bool)) );
+                this, SLOT(setListButtonHidden(bool)) );
 
 }
 
@@ -60,17 +54,4 @@ Panel::Panel(QWidget *parent) :
 Panel::~Panel()
 {
     delete mTabBar;
-    delete mListButton;
-}
-
-
-
-void Panel::onButtonsVisibleChanged(bool hidden)
-{
-    if(hidden) {
-        setCornerWidget(0, Qt::TopLeftCorner);
-    } else {
-        setCornerWidget(mListButton, Qt::TopLeftCorner);
-        mListButton->setHidden(false);
-    }
 }

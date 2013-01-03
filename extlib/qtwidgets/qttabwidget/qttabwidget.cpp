@@ -23,16 +23,73 @@
 
 #include "qttabwidget.h"
 
-
+#include <QToolButton>
 
 
 /**
  *  Constructor
- *
- * @param parent
  */
 QtTabWidget::QtTabWidget(QWidget *parent) :
-    QTabWidget(parent)
+    QTabWidget(parent),
+    mListButtonCorner(Qt::TopLeftCorner)
 {
+    mListButton = new QToolButton(this);
+    mListButton->setArrowType(Qt::DownArrow);
 }
 
+
+/**
+ *  Destructor
+ */
+QtTabWidget::~QtTabWidget()
+{
+    delete mListButton;
+}
+
+
+/**
+ * @brief QtTabWidget::getListButtonCorner
+ * @return
+ */
+Qt::Corner QtTabWidget::getListButtonCorner()
+{
+    return mListButtonCorner;
+}
+
+
+/**
+ * @brief QtTabWidget::setListButtonCorner
+ * @param corner
+ */
+void QtTabWidget::setListButtonCorner(Qt::Corner corner)
+{
+    mListButtonCorner = corner;
+}
+
+
+/**
+ * @brief QtTabWidget::isListButtonHidden
+ * @return
+ */
+bool QtTabWidget::isListButtonHidden()
+{
+    if( cornerWidget(mListButtonCorner) )
+        return false;
+    else
+        return true;
+}
+
+
+/**
+ * @brief QtTabWidget::setListButtonHidden
+ * @param hidden
+ */
+void QtTabWidget::setListButtonHidden(bool hidden)
+{
+    if(hidden) {
+        setCornerWidget(0, mListButtonCorner);
+    } else {
+        setCornerWidget(mListButton, mListButtonCorner);
+        mListButton->setHidden(false);
+    }
+}

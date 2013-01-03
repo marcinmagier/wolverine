@@ -25,9 +25,8 @@
 #ifndef __W_PANEL_H_
  #define __W_PANEL_H_
 
-class QToolButton;
 
-#include <QTabWidget>
+#include "qttabwidget.h"
 
 
 
@@ -39,7 +38,7 @@ class PanelTabBar;
 
 
 
-class Panel : public QTabWidget
+class Panel : public QtTabWidget
 {
     Q_OBJECT
 
@@ -56,11 +55,10 @@ public:
 signals:
     
 public slots:
-    void onButtonsVisibleChanged(bool hidden);
 
 private:
     PanelTabBar *mTabBar;
-    QToolButton *mListButton;
+
 };
 
 

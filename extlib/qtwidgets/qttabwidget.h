@@ -26,6 +26,8 @@
  #define __QT_TAB_WIDGET_H_
 
 
+class QToolButton;
+
 #include <QTabWidget>
 
 
@@ -35,14 +37,27 @@ class QtTabWidget : public QTabWidget
 
 public:
     explicit QtTabWidget(QWidget *parent = 0);
+    virtual ~QtTabWidget();
     
+    void setListButtonCorner(Qt::Corner corner);
+    Qt::Corner getListButtonCorner();
+
+    bool isListButtonHidden();
+
+
+
+public slots:
+    void setListButtonHidden(bool hidden);
+
+
 
 signals:
 
 
 
 protected:
-
+    QToolButton *mListButton;
+    Qt::Corner mListButtonCorner;
 
 
 private:
