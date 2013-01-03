@@ -20,7 +20,8 @@ uselib {
                     $$PWD/qtpopup/qtpopup_flash.cpp \
                     $$PWD/qtpopup/qtpopup_move.cpp \
                     $$PWD/qtpopup/qtpopup_rise.cpp \
-                    $$PWD/qttabbar/qttabbar.cpp
+                    $$PWD/qttabbar/qttabbar.cpp \
+                    $$PWD/qttabwidget/qttabwidget.cpp
 
     HEADERS      += \
                     $$PWD/qtcolorbutton.h \
@@ -28,7 +29,8 @@ uselib {
                     $$PWD/qtmanagedtoolbar/qtmanagedtoolbardialog.h \
                     $$PWD/qtmanagedtoolbar/qtmanagedtoolbarlistbox.h \
                     $$PWD/qtpopup.h \
-                    $$PWD/qttabbar.h
+                    $$PWD/qttabbar.h \
+                    $$PWD/qttabwidget.h
 
     RESOURCES    += \
                     $$PWD/qtmanagedtoolbar/resources.qrc
