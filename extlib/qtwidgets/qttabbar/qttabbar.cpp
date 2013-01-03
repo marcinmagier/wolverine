@@ -25,6 +25,19 @@
 
 
 
+#define TABBAR_MODERN_STYLE     "QTabBar::tab {"                           \
+   "     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #E1E1E1, stop: 0.4 #DDDDDD, stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);" \
+                                    "padding: 4px; "                       \
+                                    "padding-left: 8px; "                  \
+                                "}"                                        \
+                                "QTabBar::scroller  {"                     \
+                                    "width: 20px; "                        \
+                                "}"                                        \
+    "QTabBar QToolButton {"                     \
+"     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #E1E1E1, stop: 0.4 #DDDDDD, stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);" \
+    "}"
+
+
 
 /**
  *  Constructor
@@ -35,6 +48,7 @@ QtTabBar::QtTabBar(QWidget *parent) :
     QTabBar(parent),
     mScrollButtonsHidden(true)
 {
+   // this->setStyleSheet(TABBAR_MODERN_STYLE);
 }
 
 
