@@ -280,7 +280,7 @@ void ScintillaBase::AutoCompleteStart(int lenEntered, const char *list) {
 
 void ScintillaBase::AutoCompleteCancel() {
 	if (ac.Active()) {
-		SCNotification scn = {0};
+        SCNotification scn = {{0},};
 		scn.nmhdr.code = SCN_AUTOCCANCELLED;
 		scn.wParam = 0;
 		scn.listType = 0;
@@ -316,7 +316,7 @@ void ScintillaBase::AutoCompleteCharacterDeleted() {
 	} else {
 		AutoCompleteMoveToCurrentWord();
 	}
-	SCNotification scn = {0};
+    SCNotification scn = {{0},};
 	scn.nmhdr.code = SCN_AUTOCCHARDELETED;
 	scn.wParam = 0;
 	scn.listType = 0;
@@ -333,7 +333,7 @@ void ScintillaBase::AutoCompleteCompleted() {
 
 	ac.Show(false);
 
-	SCNotification scn = {0};
+    SCNotification scn = {{0},};
 	scn.nmhdr.code = listType > 0 ? SCN_USERLISTSELECTION : SCN_AUTOCSELECTION;
 	scn.message = 0;
 	scn.wParam = listType;
@@ -428,7 +428,7 @@ void ScintillaBase::CallTipShow(Point pt, const char *defn) {
 }
 
 void ScintillaBase::CallTipClick() {
-	SCNotification scn = {0};
+    SCNotification scn = {{0},};
 	scn.nmhdr.code = SCN_CALLTIPCLICK;
 	scn.position = ct.clickPlace;
 	NotifyParent(scn);

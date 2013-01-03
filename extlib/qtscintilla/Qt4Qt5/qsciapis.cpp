@@ -136,7 +136,7 @@ private:
 
 // The worker thread ctor.
 QsciAPIsWorker::QsciAPIsWorker(QsciAPIs *apis)
-    : proxy(apis), prepared(0), abort(false)
+    : prepared(0), proxy(apis), abort(false)
 {
 }
 
