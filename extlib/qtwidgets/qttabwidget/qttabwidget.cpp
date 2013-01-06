@@ -23,7 +23,10 @@
 
 #include "qttabwidget.h"
 
+#include <QCursor>
+#include <QMenu>
 #include <QToolButton>
+
 
 
 /**
@@ -35,6 +38,9 @@ QtTabWidget::QtTabWidget(QWidget *parent) :
 {
     mListButton = new QToolButton(this);
     mListButton->setArrowType(Qt::DownArrow);
+
+    connect( mListButton, SIGNAL(clicked()),
+                    this, SLOT(showTabListMenu()) );
 }
 
 
@@ -48,7 +54,8 @@ QtTabWidget::~QtTabWidget()
 
 
 /**
- * @brief QtTabWidget::getListButtonCorner
+ *  Returns corner of list button
+ *
  * @return
  */
 Qt::Corner QtTabWidget::getListButtonCorner()
@@ -58,7 +65,8 @@ Qt::Corner QtTabWidget::getListButtonCorner()
 
 
 /**
- * @brief QtTabWidget::setListButtonCorner
+ *  Sets corner of list button - Qt::TopLeftCorner or Qt::TopRightCorner
+ *
  * @param corner
  */
 void QtTabWidget::setListButtonCorner(Qt::Corner corner)
@@ -68,7 +76,8 @@ void QtTabWidget::setListButtonCorner(Qt::Corner corner)
 
 
 /**
- * @brief QtTabWidget::isListButtonHidden
+ *  Returns state of list button
+ *
  * @return
  */
 bool QtTabWidget::isListButtonHidden()
@@ -81,7 +90,8 @@ bool QtTabWidget::isListButtonHidden()
 
 
 /**
- * @brief QtTabWidget::setListButtonHidden
+ *  Shows/hides list button
+ *
  * @param hidden
  */
 void QtTabWidget::setListButtonHidden(bool hidden)
@@ -92,4 +102,23 @@ void QtTabWidget::setListButtonHidden(bool hidden)
         setCornerWidget(mListButton, mListButtonCorner);
         mListButton->setHidden(false);
     }
+}
+
+
+/**
+ *  Shows list of tabs and activate selected.
+ */
+void QtTabWidget::showTabListMenu()
+{
+    QMenu menu;
+    QAction *action;
+
+    for(int i=0; i<count(); i++) {
+        action = menu.addAction(tabIcon(i), tabText(i));
+        action->setData(i);
+    }
+
+    action = menu.exec(QCursor::pos());
+    if(action)
+        this->setCurrentIndex(action->data().toInt());
 }

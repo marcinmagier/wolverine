@@ -60,7 +60,8 @@ protected:
     Qt::Corner mListButtonCorner;
 
 
-private:
+private slots:
+    void showTabListMenu();
 
 };
 
