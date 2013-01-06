@@ -15,11 +15,12 @@ GeneralSettings::GeneralSettings()
     mLogConsoleEnabled = true;
 
     mTabBarHidden = false;
-    mTabBarVertical = false;
     mTabBarLocked = false;
     mTabBarCloseVisible = true;
     mTabBarDoubleClkClose = true;
     mTabBarMiddleBtnClose = true;
+    mTabBarIconVisible = true;
+    mTabBarModernStyleEnabled = true;
 }
 
 
@@ -90,18 +91,6 @@ bool GeneralSettings::isTabBarHidden()
     return mTabBarHidden;
 }
 
-void GeneralSettings::setTabBarVertical(bool val)
-{
-    if(mTabBarVertical != val) {
-        mTabBarVertical = val;
-        emit tabBarVerticalChanged(mTabBarVertical);
-    }
-}
-bool GeneralSettings::isTabBarVertical()
-{
-    return mTabBarVertical;
-}
-
 void GeneralSettings::setTabBarLocked(bool val)
 {
     if(mTabBarLocked != val) {
@@ -150,4 +139,27 @@ bool GeneralSettings::isTabBarMiddleBtnClose()
     return mTabBarMiddleBtnClose;
 }
 
+void GeneralSettings::setTabBarIconVisible(bool val)
+{
+    if(mTabBarIconVisible != val) {
+        mTabBarIconVisible = val;
+        emit tabBarIconVisibleChanged(mTabBarIconVisible);
+    }
+}
+bool GeneralSettings::isTabBarIconVisible()
+{
+    return mTabBarIconVisible;
+}
+
+void GeneralSettings::setTabBarModernStyleEnabled(bool val)
+{
+    if(mTabBarModernStyleEnabled != val) {
+        mTabBarModernStyleEnabled = val;
+        emit tabBarModernStyleEnabledChanged(mTabBarModernStyleEnabled);
+    }
+}
+bool GeneralSettings::isTabBarModernStyleEnabled()
+{
+    return mTabBarModernStyleEnabled;
+}
 
