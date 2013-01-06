@@ -25,17 +25,39 @@
 
 
 
-#define TABBAR_MODERN_STYLE     "QTabBar::tab {"                           \
-   "     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #E1E1E1, stop: 0.4 #DDDDDD, stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);" \
-                                    "padding: 4px; "                       \
-                                    "padding-left: 8px; "                  \
-                                "}"                                        \
-                                "QTabBar::scroller  {"                     \
-                                    "width: 20px; "                        \
-                                "}"                                        \
-    "QTabBar QToolButton {"                     \
-"     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #E1E1E1, stop: 0.4 #DDDDDD, stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);" \
-    "}"
+#define TABBAR_MODERN_STYLE     "QTabBar::tab {"                                                            \
+                                "    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,"               \
+                                "                                stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,"       \
+                                "                                stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"    \
+                                "    border: 2px solid #C4C4C3;"                                            \
+                                "    border-top-left-radius: 4px;"                                          \
+                                "    border-top-right-radius: 4px;"                                         \
+                                "    border-bottom-width: 0px;"                                             \
+                                "    min-width: 8ex;"                                                       \
+                                "    padding: 2px;"                                                         \
+                                "}"                                                                         \
+                                "QTabBar::tab:selected, QTabBar::tab:hover {"                               \
+                                "    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,"               \
+                                "                                stop: 0 #FAFAFA, stop: 0.4 #F4F4F4,"       \
+                                "                                stop: 0.5 #E7E7E7, stop: 1.0 #FAFAFA);"    \
+                                "}"                                                                         \
+                                "QTabBar::tab:selected {"                                                   \
+                                "    border-color: #9B9B9B;"                                                \
+                                "}"                                                                         \
+                                "QTabBar::tab:!selected {"                                                  \
+                                "    border-width: 1px;"                                                    \
+                                "    margin-top: 2px;"                                                      \
+                                "}"                                                                         \
+                                "QTabBar::scroller  {"                                                      \
+                                "    width: 22px;"                                                          \
+                                "}"                                                                         \
+                                "QTabBar QToolButton {"                                                     \
+                                "    background-color: #FAFAFA ;"                                           \
+                                "    border: 1px solid #000000;"                                            \
+                                "    border-radius: 2px;"                                                   \
+                                "    margin: 1px;"                                                          \
+                                "}"
+
 
 
 
@@ -48,7 +70,7 @@ QtTabBar::QtTabBar(QWidget *parent) :
     QTabBar(parent),
     mScrollButtonsHidden(true)
 {
-   // this->setStyleSheet(TABBAR_MODERN_STYLE);
+    this->setStyleSheet(TABBAR_MODERN_STYLE);
 }
 
 
