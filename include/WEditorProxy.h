@@ -9,6 +9,8 @@
 namespace Wolverine
 {
 
+class Editor;
+
 
 class EditorProxy: public QObject
 {
@@ -17,6 +19,16 @@ class EditorProxy: public QObject
 public:
     explicit EditorProxy();
     virtual ~EditorProxy();
+
+public slots:
+    void setCurrentEditor(Editor *editor);
+
+signals:
+    void currentEditorChanged(Editor *editor);
+
+
+private:
+    Editor *mCurrentEditor;
 
 };
 
