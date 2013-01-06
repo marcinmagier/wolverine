@@ -3,19 +3,19 @@
  #define __W_DOCUMENT_H_
 
 
-#include "Qsci/qsciscintilla.h"
+#include <QObject>
 
 
 namespace Wolverine
 {
 
 
-class Document: public QsciScintilla
+class Document: public QObject
 {
     Q_OBJECT
 
 public:
-    explicit Document(QWidget *parent = 0);
+    explicit Document();
     virtual ~Document();
 
 };

@@ -34,7 +34,7 @@ class QSplitter;
 namespace Wolverine
 {
 
-class Document;
+class Editor;
 class Panel;
 
 
@@ -58,7 +58,7 @@ private:
     Panel *panelLeft;
     Panel *panelRight;
 
-    Document *editor;
+    Editor *editor;
 };
 
 

@@ -35,6 +35,8 @@ SOURCES      += \
                 ../src/WActionManager.cpp \
                 ../src/WCentralWidget.cpp \
                 ../src/WDocument.cpp \
+                ../src/WEditor.cpp \
+                ../src/WEditorProxy.cpp \
                 ../src/WLib.cpp \
                 ../src/WMainWindow.cpp \
                 ../src/WPanel.cpp \
@@ -63,6 +65,8 @@ HEADERS      += \
                 ../include/WActionManager.h \
                 ../include/WCentralWidget.h \
                 ../include/WDocument.h \
+                ../include/WEditor.h \
+                ../include/WEditorProxy.h \
                 ../include/WLib.h \
                 ../include/WMainWindow.h
 

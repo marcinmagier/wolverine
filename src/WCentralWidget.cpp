@@ -51,25 +51,25 @@ CentralWidget::CentralWidget(QWidget *parent):
     splitter->addWidget(panelRight);
     layout->addWidget(splitter);
 
-    editor = new Document();
+    editor = new Editor();
 
     panelLeft->addTab(editor, QIcon(":/save_blue.png"), "New");
-    Document *editor2 = new Document();
+    Editor *editor2 = new Editor();
     panelLeft->addTab(editor2, QIcon(":/save_grey.png"), "Nehej hejw2");
 
-    Document *editor3 = new Document();
+    Editor *editor3 = new Editor();
     panelLeft->addTab(editor3, QIcon(":/save_blue.png"), "Ne very long w2");
 
-    Document *editor21 = new Document();
+    Editor *editor21 = new Editor();
     panelRight->addTab(editor21, QIcon(":/save_red.png"), "Right Nehej hejw2");
 
-    Document *editor31 = new Document();
+    Editor *editor31 = new Editor();
     panelRight->addTab(editor31, QIcon(":/save_grey.png"), "Right Ne very long w2");
 
-    Document *editor32 = new Document();
+    Editor *editor32 = new Editor();
     panelRight->addTab(editor32, QIcon(":/save_red.png"), "Right ng w2");
 
-    Document *editor33 = new Document();
+    Editor *editor33 = new Editor();
     panelRight->addTab(editor33, QIcon(":/save_blue.png"), "Right ng w333333");
 }
 
