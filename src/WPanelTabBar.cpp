@@ -45,5 +45,6 @@ PanelTabBar::PanelTabBar(QWidget *parent) :
 
     this->setIconSize(QSize(8, 8));
 
+    this->enableModernStyle(true);
 
 }

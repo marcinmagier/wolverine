@@ -36,6 +36,10 @@ class QtTabBar : public QTabBar
 public:
     explicit QtTabBar(QWidget *parent = 0);
     bool areScrollButtonsHidden();
+
+
+public slots:
+    void enableModernStyle(bool enable);
     
 
 signals:

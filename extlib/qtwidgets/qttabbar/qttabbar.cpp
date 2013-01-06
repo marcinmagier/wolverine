@@ -23,13 +23,12 @@
 
 #include "qttabbar.h"
 
-
-
+#define TABBAR_CLASSIC_STYLE    ""
 #define TABBAR_MODERN_STYLE     "QTabBar::tab {"                                                            \
                                 "    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,"               \
                                 "                                stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,"       \
                                 "                                stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);"    \
-                                "    border: 2px solid #C4C4C3;"                                            \
+                                "    border: 2px solid #9B9B9B;"                                            \
                                 "    border-top-left-radius: 4px;"                                          \
                                 "    border-top-right-radius: 4px;"                                         \
                                 "    border-bottom-width: 0px;"                                             \
@@ -40,9 +39,6 @@
                                 "    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,"               \
                                 "                                stop: 0 #FAFAFA, stop: 0.4 #F4F4F4,"       \
                                 "                                stop: 0.5 #E7E7E7, stop: 1.0 #FAFAFA);"    \
-                                "}"                                                                         \
-                                "QTabBar::tab:selected {"                                                   \
-                                "    border-color: #9B9B9B;"                                                \
                                 "}"                                                                         \
                                 "QTabBar::tab:!selected {"                                                  \
                                 "    border-width: 1px;"                                                    \
@@ -60,7 +56,6 @@
 
 
 
-
 /**
  *  Constructor
  *
@@ -70,7 +65,7 @@ QtTabBar::QtTabBar(QWidget *parent) :
     QTabBar(parent),
     mScrollButtonsHidden(true)
 {
-    this->setStyleSheet(TABBAR_MODERN_STYLE);
+
 }
 
 
@@ -84,6 +79,14 @@ bool QtTabBar::areScrollButtonsHidden()
     return mScrollButtonsHidden;
 }
 
+
+void QtTabBar::enableModernStyle(bool enable)
+{
+    if(enable)
+        this->setStyleSheet(TABBAR_MODERN_STYLE);
+    else
+        this->setStyleSheet(TABBAR_CLASSIC_STYLE);
+}
 
 /**
  *  resizeEvent() handler
