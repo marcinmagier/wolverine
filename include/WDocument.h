@@ -33,9 +33,10 @@ public:
 
     bool hasEditors() const;
     Editor* getEditor();
+    EditorList& getEditors();
     Editor* getNewEditor();
 
-    QIcon getIcon();
+    QIcon getIcon() const;
 
 
 

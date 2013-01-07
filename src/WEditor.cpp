@@ -1,4 +1,5 @@
 
+#include "Logger.h"
 #include "WEditor.h"
 #include "WDocument.h"
 
@@ -38,5 +39,8 @@ void Editor::setDocument(Document *doc)
 
 Document* Editor::getDocument()
 {
+    if(mDocument == 0)
+        LOG_ERROR("There is no document asociated with the editor");
+
     return mDocument;
 }

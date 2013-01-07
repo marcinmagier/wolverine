@@ -49,23 +49,12 @@ CentralWidget::CentralWidget(QWidget *parent):
     panelLeft->setIconSize(QSize(12, 12));
     panelRight = new Panel(splitter);
     panelRight->setIconSize(QSize(12, 12));
-    //panelRight->hide();
+    panelRight->hide();
     splitter->addWidget(panelLeft);
     splitter->addWidget(panelRight);
     layout->addWidget(splitter);
 
-    Document *doc1 = new Document();
-    panelLeft->addTab(doc1->getEditor());
-    doc1 = new Document();
-    panelLeft->addTab(doc1->getEditor());
-    doc1 = new Document();
-    panelLeft->addTab(doc1->getEditor());
-    doc1 = new Document();
-    panelLeft->addTab(doc1->getEditor());
-    doc1 = new Document();
-    panelRight->addTab(doc1->getEditor());
-    doc1 = new Document();
-    panelRight->addTab(doc1->getEditor());
+    onCreateNewDoc();
 }
 
 CentralWidget::~CentralWidget()
@@ -77,7 +66,9 @@ CentralWidget::~CentralWidget()
 
 void CentralWidget::onCreateNewDoc()
 {
-
+    Document *doc = new Document();
+    int idx = panelLeft->addTab(doc->getEditor());
+    panelLeft->setCurrentIndex(idx);
 }
 
 void CentralWidget::onOpenDoc(const QString &path)

@@ -49,6 +49,11 @@ Editor* Document::getEditor()
     return mEditors[0];
 }
 
+EditorList& Document::getEditors()
+{
+   return mEditors;
+}
+
 
 Editor* Document::getNewEditor()
 {
@@ -58,7 +63,7 @@ Editor* Document::getNewEditor()
 }
 
 
-QIcon Document::getIcon()
+QIcon Document::getIcon() const
 {
     if(!exists())
         return QIcon(":/save_red.png");
