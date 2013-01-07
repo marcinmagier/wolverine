@@ -38,6 +38,7 @@ QtTabWidget::QtTabWidget(QWidget *parent) :
 {
     mListButton = new QToolButton(this);
     mListButton->setArrowType(Qt::DownArrow);
+    mListButton->hide();
 
     connect( mListButton, SIGNAL(clicked()),
                     this, SLOT(showTabListMenu()) );
