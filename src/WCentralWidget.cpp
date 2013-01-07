@@ -22,6 +22,8 @@
 
 
 #include "WCentralWidget.h"
+#include "WEditor.h"
+#include "WEditorProxy.h"
 #include "WDocument.h"
 #include "WPanel.h"
 
@@ -37,6 +39,7 @@ using namespace Wolverine;
 CentralWidget::CentralWidget(QWidget *parent):
     QWidget(parent)
 {
+    currentEditor = new EditorProxy();
 
     layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -51,31 +54,23 @@ CentralWidget::CentralWidget(QWidget *parent):
     splitter->addWidget(panelRight);
     layout->addWidget(splitter);
 
-    editor = new Editor();
-
-    panelLeft->addTab(editor, QIcon(":/save_blue.png"), "New");
-    Editor *editor2 = new Editor();
-    panelLeft->addTab(editor2, QIcon(":/save_grey.png"), "Nehej hejw2");
-
-    Editor *editor3 = new Editor();
-    panelLeft->addTab(editor3, QIcon(":/save_blue.png"), "Ne very long w2");
-
-    Editor *editor21 = new Editor();
-    panelRight->addTab(editor21, QIcon(":/save_red.png"), "Right Nehej hejw2");
-
-    Editor *editor31 = new Editor();
-    panelRight->addTab(editor31, QIcon(":/save_grey.png"), "Right Ne very long w2");
-
-    Editor *editor32 = new Editor();
-    panelRight->addTab(editor32, QIcon(":/save_red.png"), "Right ng w2");
-
-    Editor *editor33 = new Editor();
-    panelRight->addTab(editor33, QIcon(":/save_blue.png"), "Right ng w333333");
+    Document *doc1 = new Document();
+    panelLeft->addTab(doc1->getEditor());
+    doc1 = new Document();
+    panelLeft->addTab(doc1->getEditor());
+    doc1 = new Document();
+    panelLeft->addTab(doc1->getEditor());
+    doc1 = new Document();
+    panelLeft->addTab(doc1->getEditor());
+    doc1 = new Document();
+    panelRight->addTab(doc1->getEditor());
+    doc1 = new Document();
+    panelRight->addTab(doc1->getEditor());
 }
 
 CentralWidget::~CentralWidget()
 {
-
+    delete currentEditor;
 }
 
 
@@ -85,7 +80,7 @@ void CentralWidget::onCreateNewDoc()
 
 }
 
-void CentralWidget::onOpenDoc()
+void CentralWidget::onOpenDoc(const QString &path)
 {
 
 }

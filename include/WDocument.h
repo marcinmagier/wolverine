@@ -6,6 +6,7 @@
 #include <QObject>
 #include <QList>
 #include <QFileInfo>
+#include <QIcon>
 
 
 
@@ -20,7 +21,7 @@ typedef QList<Editor*> EditorList;
 
 
 
-class Document: public QObject
+class Document: public QObject, public QFileInfo
 {
     Q_OBJECT
 
@@ -29,17 +30,16 @@ public:
     explicit Document(const QString &path);
     virtual ~Document();
 
-    QString getFileName() const;
-    QString getAbsoluteFilePath() const;
-    bool exists() const;
-    bool isWritable() const;
 
     bool hasEditors() const;
     Editor* getEditor();
     Editor* getNewEditor();
 
+    QIcon getIcon();
+
+
+
 private:
-    QFileInfo mFile;
     EditorList mEditors;
 
     static int sNewFileNo;

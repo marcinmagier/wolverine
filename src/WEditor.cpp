@@ -15,9 +15,9 @@ Editor::Editor(QWidget *parent) :
 }
 
 
-Editor::Editor(Document *document, QWidget *parent) :
+Editor::Editor(Document *doc, QWidget *parent) :
     QsciScintilla(parent),
-    mDocument(document)
+    mDocument(doc)
 {
 
 }
@@ -27,4 +27,16 @@ Editor::Editor(Document *document, QWidget *parent) :
 Editor::~Editor()
 {
 
+}
+
+
+void Editor::setDocument(Document *doc)
+{
+    mDocument = doc;
+}
+
+
+Document* Editor::getDocument()
+{
+    return mDocument;
 }

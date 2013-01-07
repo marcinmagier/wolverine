@@ -34,7 +34,7 @@ class QSplitter;
 namespace Wolverine
 {
 
-class Editor;
+class EditorProxy;
 class Panel;
 
 
@@ -47,9 +47,11 @@ public:
     explicit CentralWidget(QWidget *parent = 0);
     virtual ~CentralWidget();
 
+    EditorProxy *currentEditor;
+
 public slots:
     void onCreateNewDoc();
-    void onOpenDoc();
+    void onOpenDoc(const QString &path);
 
 private:
     QHBoxLayout *layout;
@@ -58,7 +60,6 @@ private:
     Panel *panelLeft;
     Panel *panelRight;
 
-    Editor *editor;
 };
 
 

@@ -17,8 +17,11 @@ class Editor: public QsciScintilla
 
 public:
     explicit Editor(QWidget *parent = 0);
-    explicit Editor(Document *document, QWidget *parent = 0);
+    explicit Editor(Document *doc, QWidget *parent = 0);
     virtual ~Editor();
+
+    void setDocument(Document* doc);
+    Document* getDocument();
 
 
 private:

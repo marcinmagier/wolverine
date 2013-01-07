@@ -34,6 +34,7 @@
 namespace Wolverine
 {
 
+class Editor;
 class PanelTabBar;
 
 
@@ -51,6 +52,8 @@ public:
 
     explicit Panel(QWidget *parent = 0);
     virtual ~Panel();
+
+    int addTab(Editor* editor);
     
 signals:
     

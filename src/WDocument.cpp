@@ -10,17 +10,18 @@ using namespace Wolverine;
 int Document::sNewFileNo = 1;
 
 
-Document::Document()
+Document::Document() :
+    QObject(),
+    QFileInfo( QString(tr("New %1").arg(sNewFileNo++)) )
 {
-    mFile = QFileInfo( QString(tr("New %1").arg(sNewFileNo)) );
-    sNewFileNo++;
     mEditors.clear();
 }
 
 
-Document::Document(const QString &path)
+Document::Document(const QString &path) :
+    QObject(),
+    QFileInfo(path)
 {
-    mFile = QFileInfo(path);
     mEditors.clear();
 }
 
@@ -33,29 +34,6 @@ Document::~Document()
 }
 
 
-QString Document::getFileName() const
-{
-    return mFile.fileName();
-}
-
-
-QString Document::getAbsoluteFilePath() const
-{
-    return mFile.absoluteFilePath();
-}
-
-
-bool Document::exists() const
-{
-    return mFile.exists();
-}
-
-
-bool Document::isWritable() const
-{
-    return mFile.isWritable();
-}
-
 
 bool Document::hasEditors() const
 {
@@ -66,7 +44,7 @@ bool Document::hasEditors() const
 Editor* Document::getEditor()
 {
     if(mEditors.empty())
-        return 0;
+        return getNewEditor();
 
     return mEditors[0];
 }
@@ -74,7 +52,19 @@ Editor* Document::getEditor()
 
 Editor* Document::getNewEditor()
 {
-    Editor *newEditor = new Editor();
+    Editor *newEditor = new Editor(this);
     mEditors.append(newEditor);
     return newEditor;
+}
+
+
+QIcon Document::getIcon()
+{
+    if(!exists())
+        return QIcon(":/save_red.png");
+
+    if(!isWritable())
+        return QIcon(":/save_grey.png");
+
+    return QIcon(":/save_blue.png");
 }

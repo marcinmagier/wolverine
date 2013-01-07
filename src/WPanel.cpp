@@ -20,6 +20,8 @@
  *  @brief      Wolverine::Panel class implementation.
  */
 
+#include "WDocument.h"
+#include "WEditor.h"
 #include "WPanel.h"
 #include "WPanelTabBar.h"
 
@@ -54,4 +56,12 @@ Panel::Panel(QWidget *parent) :
 Panel::~Panel()
 {
     delete mTabBar;
+}
+
+
+int Panel::addTab(Editor *editor)
+{
+    Document *doc = editor->getDocument();
+
+    return QtTabWidget::addTab(editor, doc->getIcon(), doc->fileName());
 }
