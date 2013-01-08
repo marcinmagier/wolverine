@@ -35,6 +35,7 @@ public:
     Editor* getEditor();
     EditorList& getEditors();
     Editor* getNewEditor();
+    void removeEditor(Editor *editor);
 
     QIcon getIcon() const;
 

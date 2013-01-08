@@ -40,6 +40,7 @@ CentralWidget::CentralWidget(QWidget *parent):
     QWidget(parent)
 {
     currentEditor = new EditorProxy();
+    mEditorList.clear();
 
     layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -54,12 +55,24 @@ CentralWidget::CentralWidget(QWidget *parent):
     splitter->addWidget(panelRight);
     layout->addWidget(splitter);
 
+
+    connect( panelLeft, SIGNAL(currentChanged(int)),
+                  this, SLOT(onCurrentTabChanged(int)) );
+    connect( panelLeft, SIGNAL(tabCloseRequested(int)),
+                  this, SLOT(onTabCloseRequest(int)) );
+    connect( panelRight, SIGNAL(currentChanged(int)),
+                   this, SLOT(onCurrentTabChanged(int)) );
+    connect( panelRight, SIGNAL(tabCloseRequested(int)),
+                   this, SLOT(onTabCloseRequest(int)) );
+
+
     onCreateNewDoc();
 }
 
 CentralWidget::~CentralWidget()
 {
     delete currentEditor;
+    //layout, spliter and panels are deleted automatically
 }
 
 
@@ -67,11 +80,51 @@ CentralWidget::~CentralWidget()
 void CentralWidget::onCreateNewDoc()
 {
     Document *doc = new Document();
-    int idx = panelLeft->addTab(doc->getEditor());
+    Editor *edit = doc->getEditor();
+    int idx = panelLeft->addTab(edit);
     panelLeft->setCurrentIndex(idx);
+    mEditorList.append(edit);
+    //currentEditor is update via slot
 }
 
 void CentralWidget::onOpenDoc(const QString &path)
 {
 
 }
+
+void CentralWidget::onOpenDocForm()
+{
+
+}
+
+
+void CentralWidget::onCurrentTabChanged(int index)
+{
+    Panel *panel = panelRight->hasFocus() ? panelRight : panelLeft;
+    Editor *edit = dynamic_cast<Editor*>(panel->widget(index));
+    currentEditor->setCurrentEditor(edit);
+}
+
+void CentralWidget::onTabCloseRequest(int index)
+{
+    Panel *panel = panelRight->hasFocus() ? panelRight : panelLeft;
+    Editor *edit = dynamic_cast<Editor*>(panel->widget(index));
+    panel->removeTab(index);
+    removeEditor(edit);
+
+    //TODO: nowa zakladka jeżeli to jest ostatnia (lub zamknięcie) - nastrojka
+    //jeżeli to jest ostatnia w lewym a w prawym cos jest to przerzuc z prawego do lewego
+    //jezeli to jest ostatnia w prawym to ukryj prawy
+}
+
+
+void CentralWidget::removeEditor(Editor *editor)
+{
+    mEditorList.removeAll(editor);
+
+    Document *doc = editor->getDocument();
+    doc->removeEditor(editor);    // Document deletes editor
+    if(!doc->hasEditors())
+        delete doc;
+}
+

@@ -63,6 +63,13 @@ Editor* Document::getNewEditor()
 }
 
 
+void Document::removeEditor(Editor *editor)
+{
+    mEditors.removeAll(editor);
+    delete editor;
+}
+
+
 QIcon Document::getIcon() const
 {
     if(!exists())

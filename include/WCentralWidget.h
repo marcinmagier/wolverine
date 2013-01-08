@@ -33,10 +33,11 @@ class QSplitter;
 
 namespace Wolverine
 {
-
+class Editor;
 class EditorProxy;
 class Panel;
 
+typedef QList<Editor*> EditorList;
 
 
 class CentralWidget: public QWidget
@@ -52,13 +53,23 @@ public:
 public slots:
     void onCreateNewDoc();
     void onOpenDoc(const QString &path);
+    void onOpenDocForm();
+
+
+private slots:
+    void onCurrentTabChanged(int index);
+    void onTabCloseRequest(int index);
 
 private:
+    void removeEditor(Editor *editor);
+
     QHBoxLayout *layout;
     QSplitter *splitter;
 
     Panel *panelLeft;
     Panel *panelRight;
+
+    EditorList mEditorList;
 
 };
 
