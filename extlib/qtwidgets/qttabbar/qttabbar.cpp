@@ -47,9 +47,24 @@
                                 "QTabBar::scroller  {"                                                      \
                                 "    width: 22px;"                                                          \
                                 "}"                                                                         \
+                                "QTabBar::close-button  {"                                                  \
+                                "    image: url(:/qttabbar/button_close.png);"                              \
+                                "    width: 12px;"                                                          \
+                                "    height: 12px;"                                                         \
+                                "}"                                                                         \
+                                "QTabBar::close-button:hover  {"                                            \
+                                "    image: url(:/qttabbar/button_close_hover.png);"                        \
+                                "    width: 12px;"                                                          \
+                                "    height: 12px;"                                                         \
+                                "}"                                                                         \
+                                "QTabBar::close-button:pressed  {"                                          \
+                                "    image: url(:/qttabbar/button_close_pressed.png);"                      \
+                                "    width: 12px;"                                                          \
+                                "    height: 12px;"                                                         \
+                                "}"                                                                         \
                                 "QTabBar QToolButton {"                                                     \
                                 "    background-color: #FAFAFA ;"                                           \
-                                "    border: 1px solid #000000;"                                            \
+                                "    border: 1px solid #333333;"                                            \
                                 "    border-radius: 2px;"                                                   \
                                 "    margin: 1px;"                                                          \
                                 "}"

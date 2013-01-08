@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/qttabbar">
+        <file alias="button_close.png">images/button_close.png</file>
+        <file alias="button_close_hover.png">images/button_close_hover.png</file>
+        <file alias="button_close_pressed.png">images/button_close_pressed.png</file>
+    </qresource>
+</RCC>

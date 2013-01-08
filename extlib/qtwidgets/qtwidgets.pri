@@ -33,7 +33,9 @@ uselib {
                     $$PWD/qttabwidget.h
 
     RESOURCES    += \
-                    $$PWD/qtmanagedtoolbar/resources.qrc
+                    $$PWD/qtmanagedtoolbar/qtmanagedtoolbar.qrc \
+                    $$PWD/qttabbar/qttabbar.qrc
+
 
     FORMS        += \
                     $$PWD/qtmanagedtoolbar/qtmanagedtoolbardialog.ui \
@@ -43,5 +45,4 @@ uselib {
                     $$PWD/qtmanagedtoolbar/translations/qtmanagedtoolbar_en_US.ts \
                     $$PWD/qtmanagedtoolbar/translations/qtmanagedtoolbar_pl_PL.ts
 }
-
 
