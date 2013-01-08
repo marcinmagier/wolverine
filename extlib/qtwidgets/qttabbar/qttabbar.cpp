@@ -32,8 +32,8 @@
                                 "    border-top-left-radius: 4px;"                                          \
                                 "    border-top-right-radius: 4px;"                                         \
                                 "    border-bottom-width: 0px;"                                             \
-                                "    min-width: 8ex;"                                                       \
                                 "    padding: 2px;"                                                         \
+                                "    padding-left: 6px;"                                                    \
                                 "}"                                                                         \
                                 "QTabBar::tab:selected, QTabBar::tab:hover {"                               \
                                 "    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,"               \
