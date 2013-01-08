@@ -13,5 +13,7 @@
         <file alias="save_blue.png">images/save_blue.png</file>
         <file alias="save_red.png">images/save_red.png</file>
         <file alias="save_grey.png">images/save_grey.png</file>
+        <file alias="move_left.png">images/move_left.png</file>
+        <file alias="move_right.png">images/move_right.png</file>
     </qresource>
 </RCC>

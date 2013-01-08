@@ -53,8 +53,11 @@ public:
     explicit Panel(QWidget *parent = 0);
     virtual ~Panel();
 
+
     int addTab(Editor* editor);
     
+    void contextMenuEvent(QContextMenuEvent *event);
+
 signals:
     
 public slots:

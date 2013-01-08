@@ -25,7 +25,8 @@
 #include "WPanel.h"
 #include "WPanelTabBar.h"
 
-
+#include <QMenu>
+#include <QContextMenuEvent>
 #include <QDebug>
 
 
@@ -64,4 +65,20 @@ int Panel::addTab(Editor *editor)
     Document *doc = editor->getDocument();
 
     return QtTabWidget::addTab(editor, doc->getIcon(), doc->fileName());
+}
+
+
+
+
+void Panel::contextMenuEvent(QContextMenuEvent *event)
+{
+        QMenu *contextMenu = new QMenu(this);
+        QAction *action = contextMenu->addAction(tr("Customize"));
+        //action->setIcon(QIcon(QT_MANAGEDTOOLBAR_ICON_CUSTOMIZE));
+        //connect(action, SIGNAL(triggered()), this, SLOT(showManagerDialog()));
+
+        contextMenu->exec(event->globalPos());
+
+        delete contextMenu;
+        //check if action is deleted
 }

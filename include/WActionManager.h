@@ -60,6 +60,10 @@ private:
 #define W_ACTION_SAVE_AS        "Save_As"
 #define W_ACTION_SAVE_ALL       "Save_All"
 
+#define W_ACTION_CLOSE          "Close"
+#define W_ACTION_CLOSE_ALL      "Close_All"
+#define W_ACTION_CLOSE_OTHERS   "Close_Others"
+
     //W_ACTION_GROUP_EDIT
 #define W_ACTION_UNDO           "Undo"
 #define W_ACTION_REDO           "Redo"
@@ -69,6 +73,12 @@ private:
 
     //W_ACTION_GROUP_TOOLS
 #define W_ACTION_SETTINGS       "Settings"
+
+
+
+
+#define W_ACTION_MOVE_LEFT      "Move_Left"
+#define W_ACTION_MOVE_RIGHT     "Move_Right"
 
 
 
