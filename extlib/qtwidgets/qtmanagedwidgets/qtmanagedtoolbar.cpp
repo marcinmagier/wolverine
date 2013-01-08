@@ -21,7 +21,7 @@
  */
 
 #include "qtmanagedtoolbar.h"
-#include "qtmanagedtoolbardialog.h"
+#include "qtmanagedwidgetsdialog.h"
 
 #include <QApplication>
 #include <QSettings>
@@ -29,7 +29,7 @@
 #include <QContextMenuEvent>
 
 
-#define QT_MANAGEDTOOLBAR_ICON_CUSTOMIZE	":/qtmanagedtoolbar/customize.png"
+#define QT_MANAGEDTOOLBAR_ICON_CUSTOMIZE	":/qtmanagedwidgets/customize.png"
 
 
 static int defToolbarCount = 0;

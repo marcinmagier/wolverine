@@ -21,10 +21,9 @@
  */
 
 
-#include "qtmanagedtoolbarlistbox.h"
+#include "qtmanagedwidgetslistbox.h"
 
 #include <QDropEvent>
-#include <QDebug>
 #include <QByteArray>
 #include <QMimeData>
 

@@ -33,7 +33,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
-    <normaloff>:/qtmanagedtoolbar/customize.png</normaloff>:/qtmanagedtoolbar/customize.png</iconset>
+    <normaloff>:/qtmanagedwidgets/customize.png</normaloff>:/qtmanagedwidgets/customize.png</iconset>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <property name="spacing">

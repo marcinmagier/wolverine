@@ -21,12 +21,12 @@
  */
 
 
-#include "qtmanagedtoolbardialog.h"
-#include "ui_qtmanagedtoolbardialog.h"
+#include "qtmanagedwidgetsdialog.h"
+#include "ui_qtmanagedwidgetsdialog.h"
 
 
 
-#define QT_MANAGEDTOOLBAR_ICON_WIDGET	":/qtmanagedtoolbar/widget.png"
+#define QT_MANAGEDTOOLBAR_ICON_WIDGET	":/qtmanagedwidgets/widget.png"
 
 
 
