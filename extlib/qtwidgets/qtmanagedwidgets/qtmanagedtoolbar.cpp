@@ -303,3 +303,24 @@ QStringList QtManagedToolBar::createConfiguration()
 }
 
 
+/**
+ *  Enables/disables manager
+ *
+ * @param val
+ */
+void QtManagedToolBar::setManagerEnabled(bool val)
+{
+   mIsManagerEnabled = val;
+}
+
+
+/**
+ *  Returns state of manager - enabled/disabled
+ *
+ * @return
+ */
+bool QtManagedToolBar::isManagerEnabled()
+{
+    return mIsManagerEnabled;
+}
+

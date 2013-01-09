@@ -71,7 +71,7 @@ private slots:
 
 private:
     void initialize(const QString &name);
-
+    void copyMenuActions(QMenu &menu);
     void addActionAvailable(const QString &name, QAction *action);
     void applyConfiguration(const QStringList &actionNames);
     QStringList createConfiguration();

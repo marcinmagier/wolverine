@@ -52,12 +52,12 @@ public:
     void saveConfig();
     void restoreConfig();
 
-    bool isManagerEnabled() { return mIsManagerEnabled; }
+    bool isManagerEnabled();
 
     void contextMenuEvent(QContextMenuEvent *);
 
 public slots:
-    void setManagerEnabled(bool val) { mIsManagerEnabled = val; }
+    void setManagerEnabled(bool val);
 
 
 

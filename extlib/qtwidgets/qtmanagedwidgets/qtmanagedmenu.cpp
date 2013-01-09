@@ -104,18 +104,10 @@ void QtManagedMenu::addAction(const QString &name, QAction *action)
  */
 QAction* QtManagedMenu::exec()
 {
-    QMenu menu;
-    foreach(QAction *action, this->actions()) {
-        menu.addAction(action);
-    }
+    QMenu tmpMenu;
+    copyMenuActions(tmpMenu);
 
-    if(mIsManagerEnabled) {
-        QAction *action = menu.addAction(tr("Customize"));
-        action->setIcon(QIcon(QT_MANAGEDMENU_ICON_CUSTOMIZE));
-        connect(action, SIGNAL(triggered()), this, SLOT(showManagerDialog()));
-    }
-
-    return menu.exec();
+    return tmpMenu.exec();
 }
 
 
@@ -126,18 +118,10 @@ QAction* QtManagedMenu::exec()
  */
 QAction* QtManagedMenu::exec(const QPoint &pos, QAction *at)
 {
-    QMenu menu;
-    foreach(QAction *action, this->actions()) {
-        menu.addAction(action);
-    }
+    QMenu tmpMenu;
+    copyMenuActions(tmpMenu);
 
-    if(mIsManagerEnabled) {
-        QAction *action = menu.addAction(tr("Customize"));
-        action->setIcon(QIcon(QT_MANAGEDMENU_ICON_CUSTOMIZE));
-        connect(action, SIGNAL(triggered()), this, SLOT(showManagerDialog()));
-    }
-
-    return menu.exec(pos, at);
+    return tmpMenu.exec(pos, at);
 }
 
 
@@ -253,6 +237,27 @@ QStringList QtManagedMenu::createConfiguration()
             actionNames.append(name);
     }
     return actionNames;
+}
+
+
+/**
+ *  Copies menu
+ *
+ * @param menu
+ */
+void QtManagedMenu::copyMenuActions(QMenu &menu)
+{
+    QList<QAction*> actionList = this->actions();
+    foreach(QAction *action, actionList) {
+        menu.addAction(action);
+    }
+
+    if(mIsManagerEnabled && actionList.count() > 2) {
+        //There are at least 2 elements - we can customize them.
+        QAction *action = menu.addAction(tr("Customize"));
+        action->setIcon(QIcon(QT_MANAGEDMENU_ICON_CUSTOMIZE));
+        connect(action, SIGNAL(triggered()), this, SLOT(showManagerDialog()));
+    }
 }
 
 
