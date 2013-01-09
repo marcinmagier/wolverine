@@ -40,9 +40,9 @@ class QtManagedMenu : public QMenu
 
 public:
     explicit QtManagedMenu(QWidget *parent = 0);
-    explicit QtManagedMenu(QWidget *parent, const QString &toolbarName);
+    explicit QtManagedMenu(QWidget *parent, const QString &menuName);
 
-    void addActiona(const QString &name, QAction *action);
+    void addAction(const QString &name, QAction *action);
 
     QAction* exec();
     QAction* exec(const QPoint &pos, QAction *at=0);

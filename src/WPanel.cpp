@@ -48,9 +48,9 @@ Panel::Panel(QWidget *parent) :
                 this, SLOT(setListButtonHidden(bool)) );
 
 
-    mMenu.addActiona(QString("Test"), new QAction("Test test", 0));
-    mMenu.addActiona(QString("Costam"), new QAction("Test Costam", 0));
-    mMenu.addActiona(QString("HejHej"), new QAction("Test HejHej", 0));
+    mMenu.addAction(QString("Test"), new QAction("Test test", 0));
+    mMenu.addAction(QString("Costam"), new QAction("Test Costam", 0));
+    mMenu.addAction(QString("HejHej"), new QAction("Test HejHej", 0));
 
 }
 

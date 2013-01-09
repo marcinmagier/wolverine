@@ -32,8 +32,8 @@
 #define QT_MANAGEDMENU_ICON_CUSTOMIZE	":/qtmanagedwidgets/customize.png"
 
 
-static int defToolbarCount = 0;
-static const QString defToolbarName = "NoNamedToolbar";
+static int defMenuCount = 0;
+static const QString defMenuName = "NoNamedMenu";
 
 static int defItemCount = 0;
 static const QString defItemName = "NoNamedItem";
@@ -45,7 +45,7 @@ static const QString defItemName = "NoNamedItem";
 /**
  *  Default constructor.
  *
- *  This constructor should not be used in reliable application. Always give a name for toolbar.
+ *  This constructor should not be used in reliable application. Always give a name for menu.
  *
  * @param parent
  */
@@ -53,21 +53,21 @@ QtManagedMenu::QtManagedMenu(QWidget *parent) :
     QMenu(parent)
 {
     // Calculate unique name to prevent future problems.
-    QString toolbarName = defToolbarName + QString::number(defToolbarCount++);
+    QString toolbarName = defMenuName + QString::number(defMenuCount++);
     initialize(toolbarName);
 }
 
 
 /**
- *  Parametrized constructor. Creates named toolbar.
+ *  Parametrized constructor. Creates named menu.
  *
  * @param parent
- * @param toolbarName
+ * @param menuName
  */
-QtManagedMenu::QtManagedMenu(QWidget *parent, const QString &toolbarName) :
+QtManagedMenu::QtManagedMenu(QWidget *parent, const QString &menuName) :
     QMenu(parent)
 { 
-    initialize(toolbarName);
+    initialize(menuName);
 }
 
 
@@ -85,12 +85,12 @@ void QtManagedMenu::initialize(const QString &name)
 
 
 /**
- *  Adds action into toolbar.
+ *  Adds action into menu.
  *
  * @param name
  * @param action
  */
-void QtManagedMenu::addActiona(const QString &name, QAction *action)
+void QtManagedMenu::addAction(const QString &name, QAction *action)
 {
     addActionAvailable(name, action);
     QMenu::addAction(action);
@@ -122,7 +122,7 @@ QAction* QtManagedMenu::exec(const QPoint &pos, QAction *at)
 
 
 /**
- *  Shows dialog where we can customize toolbar's items.
+ *  Shows dialog where we can customize menu's items.
  */
 void QtManagedMenu::showManagerDialog()
 {
@@ -137,7 +137,7 @@ void QtManagedMenu::showManagerDialog()
 
 
 /**
- *  Creates and saves items that are currently available on toolbar.
+ *  Creates and saves items that are currently available on menu.
  */
 void QtManagedMenu::saveConfig()
 {
@@ -192,7 +192,7 @@ void QtManagedMenu::addActionAvailable(const QString &name, QAction *action)
 
 
 /**
- * Reorganizes toolbar items according to \a actionNames.
+ * Reorganizes menu items according to \a actionNames.
  *
  * @param actionNames
  */
@@ -214,7 +214,7 @@ void QtManagedMenu::applyConfiguration(const QStringList &actionNames)
 
 
 /**
- * Creates list of items that are currently available on toolbar.
+ * Creates list of items that are currently available in menu.
  *
  * @return
  */
