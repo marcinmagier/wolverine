@@ -75,64 +75,8 @@ CentralWidget::~CentralWidget()
 
 
 
-void CentralWidget::onCreateNewDoc()
+void CentralWidget::removeTab(Panel *panel, int index)
 {
-    Document *doc = new Document();
-    Editor *edit = doc->getEditor();
-    int idx = panelLeft->addTab(edit);
-    panelLeft->setCurrentIndex(idx);
-    mEditorList.append(edit);
-    //currentEditor is update via slot
-}
-
-void CentralWidget::onOpenDoc(const QString &path)
-{
-
-}
-
-void CentralWidget::onOpenDocForm()
-{
-
-}
-
-void CentralWidget::onClose()
-{
-
-}
-
-void CentralWidget::onCloseOthers()
-{
-
-}
-
-void CentralWidget::onCloseAll()
-{
-
-}
-
-void CentralWidget::onMoveToLeft()
-{
-
-}
-
-void CentralWidget::onMoveToRight()
-{
-
-}
-
-
-
-
-void CentralWidget::onCurrentTabChanged(int index)
-{
-    Panel *panel = panelRight->hasFocus() ? panelRight : panelLeft;
-    Editor *edit = dynamic_cast<Editor*>(panel->widget(index));
-    currentEditor->setCurrentEditor(edit);
-}
-
-void CentralWidget::onTabCloseRequest(int index)
-{
-    Panel *panel = panelRight->hasFocus() ? panelRight : panelLeft;
     Editor *edit = dynamic_cast<Editor*>(panel->widget(index));
     panel->removeTab(index);
     removeEditor(edit);
@@ -141,7 +85,6 @@ void CentralWidget::onTabCloseRequest(int index)
     //jeżeli to jest ostatnia w lewym a w prawym cos jest to przerzuc z prawego do lewego
     //jezeli to jest ostatnia w prawym to ukryj prawy
 }
-
 
 void CentralWidget::removeEditor(Editor *editor)
 {

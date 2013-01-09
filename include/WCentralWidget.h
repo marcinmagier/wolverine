@@ -68,6 +68,7 @@ private slots:
     void onTabCloseRequest(int index);
 
 private:
+    void removeTab(Panel *panel, int index);
     void removeEditor(Editor *editor);
 
     QHBoxLayout *layout;
