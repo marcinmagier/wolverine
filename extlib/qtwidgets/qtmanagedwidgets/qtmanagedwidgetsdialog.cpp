@@ -36,9 +36,9 @@
  *
  * @param parent
  */
-QtManagedToolBarDialog::QtManagedToolBarDialog(QWidget *parent) :
+QtManagedWidgetsDialog::QtManagedWidgetsDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::QtManagedToolBarDialog)
+    ui(new Ui::QtManagedWidgetsDialog)
 {
     ui->setupUi(this);
 
@@ -56,7 +56,7 @@ QtManagedToolBarDialog::QtManagedToolBarDialog(QWidget *parent) :
 /**
  *   Default destructor.
  */
-QtManagedToolBarDialog::~QtManagedToolBarDialog()
+QtManagedWidgetsDialog::~QtManagedWidgetsDialog()
 {
     delete ui;
 }
@@ -69,7 +69,7 @@ QtManagedToolBarDialog::~QtManagedToolBarDialog()
  * @param actionsVisible
  * @return
  */
-int QtManagedToolBarDialog::exec(const QtActionNameMap *actionsAvailable, QStringList *actionsVisible)
+int QtManagedWidgetsDialog::exec(const QtActionNameMap *actionsAvailable, QStringList *actionsVisible)
 {
     if (actionsAvailable == 0)
         return QDialog::Rejected;
@@ -99,7 +99,7 @@ int QtManagedToolBarDialog::exec(const QtActionNameMap *actionsAvailable, QStrin
  * @param actionsAvailable
  * @param actionsVisible
  */
-void QtManagedToolBarDialog::fillActionsAvailable(const QtActionNameMap *actionsAvailable, const QStringList *actionsVisible)
+void QtManagedWidgetsDialog::fillActionsAvailable(const QtActionNameMap *actionsAvailable, const QStringList *actionsVisible)
 {
     mActionsAvailableMap.clear();
 
@@ -132,7 +132,7 @@ void QtManagedToolBarDialog::fillActionsAvailable(const QtActionNameMap *actions
  *
  * @param actionsVisible
  */
-void QtManagedToolBarDialog::fillActionsVisible(const QStringList *actionsVisible)
+void QtManagedWidgetsDialog::fillActionsVisible(const QStringList *actionsVisible)
 {
     mActionsVisibleMap.clear();
 
@@ -159,7 +159,7 @@ void QtManagedToolBarDialog::fillActionsVisible(const QStringList *actionsVisibl
 /**
  *  Moves action from the "visable" list.
  */
-void QtManagedToolBarDialog::moveActionToLeft() {
+void QtManagedWidgetsDialog::moveActionToLeft() {
     QListWidgetItem *item = ui->listVisible->currentItem();
     if(item)
         moveActionToLeft(item);
@@ -171,7 +171,7 @@ void QtManagedToolBarDialog::moveActionToLeft() {
  *
  * @param item
  */
-void QtManagedToolBarDialog::moveActionToLeft(QListWidgetItem *item) {
+void QtManagedWidgetsDialog::moveActionToLeft(QListWidgetItem *item) {
     QString name = mActionsVisibleMap[item];
     if(name != "Separator") {
         QListWidgetItem *itemAvailable = mActionsAvailableMap.key(name);
@@ -186,7 +186,7 @@ void QtManagedToolBarDialog::moveActionToLeft(QListWidgetItem *item) {
 /**
  *  Moves action to the "visable" list.
  */
-void QtManagedToolBarDialog::moveActionToRight() {
+void QtManagedWidgetsDialog::moveActionToRight() {
     QListWidgetItem *item = ui->listAvailable->currentItem();
     if(item)
         moveActionToRight(item);
@@ -198,7 +198,7 @@ void QtManagedToolBarDialog::moveActionToRight() {
  *
  * @param item
  */
-void QtManagedToolBarDialog::moveActionToRight(QListWidgetItem *item) {
+void QtManagedWidgetsDialog::moveActionToRight(QListWidgetItem *item) {
     if(mActionsAvailableMap[item] != "Separator") {
         item->setHidden(true);
     }
@@ -219,7 +219,7 @@ void QtManagedToolBarDialog::moveActionToRight(QListWidgetItem *item) {
 /**
  *  Moves action up.
  */
-void QtManagedToolBarDialog::moveActionUp() {
+void QtManagedWidgetsDialog::moveActionUp() {
     int row = ui->listVisible->currentRow();
     if(row > 0) {
         QListWidgetItem *item = ui->listVisible->takeItem(row);
@@ -233,7 +233,7 @@ void QtManagedToolBarDialog::moveActionUp() {
 /**
  *  Moves action down.
  */
-void QtManagedToolBarDialog::moveActionDown() {
+void QtManagedWidgetsDialog::moveActionDown() {
     int row = ui->listVisible->currentRow();
     if(row >= 0 && row < ui->listVisible->count()-1) {
         QListWidgetItem *item = ui->listVisible->takeItem(row);

@@ -35,7 +35,7 @@
  *
  * @param parent
  */
-QtManagedToolbarListbox::QtManagedToolbarListbox(QWidget *parent) :
+QtManagedWidgetsListbox::QtManagedWidgetsListbox(QWidget *parent) :
     QListWidget(parent)
 {
 
@@ -47,7 +47,7 @@ QtManagedToolbarListbox::QtManagedToolbarListbox(QWidget *parent) :
  *
  * @param event
  */
-void QtManagedToolbarListbox::dropEvent(QDropEvent *event)
+void QtManagedWidgetsListbox::dropEvent(QDropEvent *event)
 {
     QByteArray encoded = event->mimeData()->data("application/x-qabstractitemmodeldatalist");
     QDataStream stream(&encoded, QIODevice::ReadOnly);
@@ -78,7 +78,7 @@ void QtManagedToolbarListbox::dropEvent(QDropEvent *event)
  *  Without this function it is possible to start dragging list item dropped before (DropOnly mode is set)
  *  @bug Qt v4.8.1 win
  */
-void QtManagedToolbarListbox::mouseMoveEvent(QMouseEvent* /*event*/)
+void QtManagedWidgetsListbox::mouseMoveEvent(QMouseEvent* /*event*/)
 {
     //no action
 }

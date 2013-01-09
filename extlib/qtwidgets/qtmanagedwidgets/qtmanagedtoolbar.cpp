@@ -192,7 +192,7 @@ void QtManagedToolBar::showContextMenu(QContextMenuEvent *event, QMenu *menu)
  */
 void QtManagedToolBar::showManagerDialog()
 {
-    QtManagedToolBarDialog dlg(this);
+    QtManagedWidgetsDialog dlg(this);
     QStringList tmpActionsVisible = createConfiguration();
 
     if(dlg.exec(&mActionsAvailable, &tmpActionsVisible)) {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>QtManagedToolBarDialog</class>
- <widget class="QDialog" name="QtManagedToolBarDialog">
+ <class>QtManagedWidgetsDialog</class>
+ <widget class="QDialog" name="QtManagedWidgetsDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -32,7 +32,7 @@
    <string>Customize toolbar</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resources.qrc">
+   <iconset resource="qtmanagedwidgets.qrc">
     <normaloff>:/qtmanagedwidgets/customize.png</normaloff>:/qtmanagedwidgets/customize.png</iconset>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
@@ -52,7 +52,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QtManagedToolbarListbox" name="listAvailable">
+      <widget class="QtManagedWidgetsListbox" name="listAvailable">
        <property name="dragDropMode">
         <enum>QAbstractItemView::DropOnly</enum>
        </property>
@@ -165,9 +165,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QtManagedToolbarListbox</class>
+   <class>QtManagedWidgetsListbox</class>
    <extends>QListWidget</extends>
-   <header>qtmanagedtoolbarlistbox.h</header>
+   <header>qtmanagedwidgetslistbox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -180,13 +180,13 @@
   <tabstop>btnDown</tabstop>
  </tabstops>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="qtmanagedwidgets.qrc"/>
  </resources>
  <connections>
   <connection>
    <sender>btnBox</sender>
    <signal>accepted()</signal>
-   <receiver>QtManagedToolBarDialog</receiver>
+   <receiver>QtManagedWidgetsDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -202,7 +202,7 @@
   <connection>
    <sender>btnBox</sender>
    <signal>rejected()</signal>
-   <receiver>QtManagedToolBarDialog</receiver>
+   <receiver>QtManagedWidgetsDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

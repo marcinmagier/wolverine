@@ -31,7 +31,7 @@ class QStringList;
 class QListWidgetItem;
 
 namespace Ui {
-class QtManagedToolBarDialog;
+class QtManagedWidgetsDialog;
 }
 
 #include <QMap>
@@ -43,14 +43,14 @@ typedef QMap<QString, QAction*> QtActionNameMap;
 
 
 
-class QtManagedToolBarDialog : public QDialog
+class QtManagedWidgetsDialog : public QDialog
 {
     Q_OBJECT
 
 
 public:
-    explicit QtManagedToolBarDialog(QWidget *parent = 0);
-    ~QtManagedToolBarDialog();
+    explicit QtManagedWidgetsDialog(QWidget *parent = 0);
+    ~QtManagedWidgetsDialog();
 
     int exec(const QtActionNameMap *actionsAvailable, QStringList *actionsVisible);
 
@@ -73,7 +73,7 @@ private:
     QMap<QListWidgetItem*, QString> mActionsAvailableMap;
     QMap<QListWidgetItem*, QString> mActionsVisibleMap;
 
-    Ui::QtManagedToolBarDialog *ui;
+    Ui::QtManagedWidgetsDialog *ui;
 };
 
 #endif // __QT_MANAGED_TOOLBAR_DIALOG_H_

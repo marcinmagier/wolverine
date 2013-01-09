@@ -29,12 +29,12 @@
 
 
 
-class QtManagedToolbarListbox : public QListWidget
+class QtManagedWidgetsListbox : public QListWidget
 {
     Q_OBJECT
     
 public:
-    explicit QtManagedToolbarListbox(QWidget *parent = 0);
+    explicit QtManagedWidgetsListbox(QWidget *parent = 0);
 
     void dropEvent(QDropEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
