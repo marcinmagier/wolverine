@@ -20,6 +20,7 @@
  *  @brief      Wolverine::Panel class implementation.
  */
 
+#include "WActionManager.h"
 #include "WDocument.h"
 #include "WEditor.h"
 #include "WPanel.h"
@@ -28,6 +29,8 @@
 #include <QContextMenuEvent>
 #include <QDebug>
 
+
+#define W_ACTION_MOVE_TAB "MoveTab"
 
 
 using namespace Wolverine;
@@ -38,20 +41,38 @@ using namespace Wolverine;
  *
  * @param parent
  */
-Panel::Panel(QWidget *parent) :
+Panel::Panel(Position position, QWidget *parent) :
     QtTabWidget(parent)
 {
     mTabBar = new PanelTabBar(this);
     this->setTabBar(mTabBar);
+    this->setIconSize(QSize(13, 13));
 
     connect( mTabBar, SIGNAL(scrollButtonsHiddenChanged(bool)),
                 this, SLOT(setListButtonHidden(bool)) );
 
+
+    QAction *action;
+    ActionManager *actionManager = ActionManager::instance();
     mMenu = new QtManagedMenu(this, "TabWidgetMenu");
-    mMenu->addAction(QString("Test"), new QAction(QIcon(":/undo.png"), "Test test", 0));
-    mMenu->addAction(QString("Costam"), new QAction(QIcon(":/redo.png"), "Test Costam", 0));
-    mMenu->addAction(QString("HejHej"), new QAction("Test HejHej", 0));
+    action = actionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_CLOSE);
+    mMenu->addAction(W_ACTION_CLOSE, action);
+    action = actionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_CLOSE_OTHERS);
+    mMenu->addAction(W_ACTION_CLOSE_OTHERS, action);
+    action = actionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_CLOSE_ALL);
+    mMenu->addAction(W_ACTION_CLOSE_ALL, action);
+    mMenu->addSeparator();
+    if(position == Panel::LeftPanel) {
+        action = actionManager->getAction(W_ACTION_GROUP_MISC, W_ACTION_MOVE_RIGHT);
+        mMenu->addAction(W_ACTION_MOVE_TAB, action);
+    } else {
+        action = actionManager->getAction(W_ACTION_GROUP_MISC, W_ACTION_MOVE_LEFT);
+        mMenu->addAction(W_ACTION_MOVE_TAB, action);
+    }
+
     mMenu->restoreConfig();
+
+
 }
 
 
@@ -61,6 +82,7 @@ Panel::Panel(QWidget *parent) :
 Panel::~Panel()
 {
     delete mTabBar;
+    delete mMenu;
 }
 
 

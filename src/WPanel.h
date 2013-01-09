@@ -50,7 +50,7 @@ public:
         LeftPanel
     };
 
-    explicit Panel(QWidget *parent = 0);
+    explicit Panel(Position position, QWidget *parent = 0);
     virtual ~Panel();
 
 

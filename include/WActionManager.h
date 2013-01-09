@@ -51,6 +51,7 @@ private:
 #define W_ACTION_GROUP_FILE     "File"
 #define W_ACTION_GROUP_EDIT     "Edit"
 #define W_ACTION_GROUP_TOOLS    "Tools"
+#define W_ACTION_GROUP_MISC     "Misc"
 
 
     //W_ACTION_GROUP_FILE
@@ -76,7 +77,7 @@ private:
 
 
 
-
+    //W_ACTION_GROUP_MISC
 #define W_ACTION_MOVE_LEFT      "Move_Left"
 #define W_ACTION_MOVE_RIGHT     "Move_Right"
 

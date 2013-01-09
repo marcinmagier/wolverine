@@ -172,6 +172,8 @@ void initializeActions()
     sInstance->addAction(W_ACTION_GROUP_FILE, W_ACTION_CLOSE_ALL, action);
 
 
+
+
     action = new QAction(QObject::tr("Undo"), 0);
     action->setShortcut(QObject::tr("Ctrl+Z"));
     action->setStatusTip(QObject::tr("Undo action"));
@@ -182,6 +184,20 @@ void initializeActions()
     //action->setShortcut(QObject::tr("Ctrl+Alt+S"));
     action->setStatusTip(QObject::tr("Settings dialog"));
     sInstance->addAction(W_ACTION_GROUP_TOOLS, W_ACTION_SETTINGS, action);
+
+
+
+
+    action = new QAction(QObject::tr("Move to Left"), 0);
+    //action->setShortcut(QObject::tr("Ctrl+Alt+S"));
+    action->setStatusTip(QObject::tr("Move tab to left panel"));
+    sInstance->addAction(W_ACTION_GROUP_MISC, W_ACTION_MOVE_LEFT, action);
+
+    action = new QAction(QObject::tr("Move to Right"), 0);
+    //action->setShortcut(QObject::tr("Ctrl+Alt+S"));
+    action->setStatusTip(QObject::tr("Move tab to right panel"));
+    sInstance->addAction(W_ACTION_GROUP_MISC, W_ACTION_MOVE_RIGHT, action);
+
 
 
 

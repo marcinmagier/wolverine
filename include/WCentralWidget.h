@@ -59,6 +59,9 @@ public slots:
     void onCloseOthers();
     void onCloseAll();
 
+    void onMoveToLeft();
+    void onMoveToRight();
+
 
 private slots:
     void onCurrentTabChanged(int index);

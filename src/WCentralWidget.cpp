@@ -46,10 +46,8 @@ CentralWidget::CentralWidget(QWidget *parent):
     layout->setContentsMargins(0, 0, 0, 0);
     splitter = new QSplitter(this);
     splitter->setOrientation(Qt::Horizontal);
-    panelLeft = new Panel(splitter);
-    panelLeft->setIconSize(QSize(12, 12));
-    panelRight = new Panel(splitter);
-    panelRight->setIconSize(QSize(12, 12));
+    panelLeft = new Panel(Panel::LeftPanel, splitter);
+    panelRight = new Panel(Panel::RightPanel, splitter);
     panelRight->hide();
     splitter->addWidget(panelLeft);
     splitter->addWidget(panelRight);
@@ -111,6 +109,18 @@ void CentralWidget::onCloseAll()
 {
 
 }
+
+void CentralWidget::onMoveToLeft()
+{
+
+}
+
+void CentralWidget::onMoveToRight()
+{
+
+}
+
+
 
 
 void CentralWidget::onCurrentTabChanged(int index)

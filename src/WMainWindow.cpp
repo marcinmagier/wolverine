@@ -84,21 +84,21 @@ void MainWindow::createMenusAndToolbars()
     connect(          action, SIGNAL(triggered()),
               mCentralWidget, SLOT(onClose()) );
     menu->addAction(action);
-    toolbar->addAction(W_ACTION_OPEN, action);
+    toolbar->addAction(W_ACTION_CLOSE, action);
 
     action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_CLOSE_OTHERS);
     //action->setIcon(QIcon(":/close.png"));
     connect(          action, SIGNAL(triggered()),
               mCentralWidget, SLOT(onCloseOthers()) );
     menu->addAction(action);
-    toolbar->addAction(W_ACTION_OPEN, action);
+    //toolbar->addAction(W_ACTION_CLOSE_OTHERS, action);
 
     action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_CLOSE_ALL);
     action->setIcon(QIcon(":/close_all.png"));
     connect(          action, SIGNAL(triggered()),
               mCentralWidget, SLOT(onCloseAll()) );
     menu->addAction(action);
-    toolbar->addAction(W_ACTION_OPEN, action);
+    toolbar->addAction(W_ACTION_CLOSE_ALL, action);
 
 
 
@@ -132,113 +132,22 @@ void MainWindow::createMenusAndToolbars()
     addToolBar(toolbar);
     toolbar->setIconSize(QSize(16,16));
     toolbar->restoreConfig();
-/*
-    menu = menuBar()->addMenu(tr("File"));
-    toolbar = new QtManagedToolBar(this, "File");
-
-    action = new QAction(QIcon(":/new.png"), tr("New"), this);
-    action->setShortcut(tr("Ctrl+N"));
-    action->setStatusTip(tr("Create a new file"));
-    //connect
-    menu->addAction(action);
-    toolbar->addAction("New", action);
-    mActionManager->addAction(W_ACTION_GROUP_FILE, action);
-
-   action = new QAction(QIcon(":/open.png"), tr("Open..."), this);
-    action->setShortcut(tr("Ctrl+O"));
-    //connect
-    menu->addAction(action);
-    toolbar->addAction("Open", action);
-    actionManager->addAction("File", action);
-
-    action = new QAction(QIcon(":/save.png"), tr("Save"), this);
-    action->setShortcut(tr("Ctrl+S"));
-    action->setStatusTip(tr("Save"));
-    //connect
-    menu->addAction(action);
-    toolbar->addAction("Save", action);
-    actionManager->addAction("File", action);
-
-    action = new QAction(tr("Save As..."), this);
-    action->setShortcut(tr("Ctrl+Alt+S"));
-    action->setStatusTip(tr("Save As..."));
-    //connect
-    menu->addAction(action);
-    actionManager->addAction("File", action);
-
-    action = new QAction(QIcon(":/save_all.png"), tr("Save All"), this);
-    action->setShortcut(tr("Ctrl+Shift+S"));
-    action->setStatusTip(tr("Save All"));
-    //connect
-    menu->addAction(action);
-    toolbar->addAction("Save All", action);
-    actionManager->addAction("File", action);
-
-    m_menus["File"] = menu;
 
 
 
-    menu = menuBar()->addMenu(tr("&Edit"));
-
-    action = new QAction(QIcon(":/undo.png"), tr("Undo"), this);
-    action->setShortcut(tr("Ctrl+Z"));
-    //connect
-    menu->addAction(action);
-    toolbar->addAction("Undo", action);
-    mActionManager->addAction("Edit", action);
-
-    action = new QAction(QIcon(":/redo.png"), tr("Redo"), this);
-    action->setShortcut(tr("Ctrl+Y"));
-    //connect
-    menu->addAction(action);
-    toolbar->addAction("Redo", action);
-    actionManager->addAction("Edit", action);
-
-    menu->addSeparator();
-
-    action = new QAction(QIcon(":/cut.png"), tr("Cut"), this);
-    action->setShortcut(tr("Ctrl+X"));
-    //connect
-    menu->addAction(action);
-    toolbar->addAction("Cut", action);
-    actionManager->addAction("Edit", action);
-
-    action = new QAction(QIcon(":/copy.png"), tr("Copy"), this);
-    action->setShortcut(tr("Ctrl+C"));
-    //connect
-    menu->addAction(action);
-    toolbar->addAction("Copy", action);
-    actionManager->addAction("Edit", action);
-
-    action = new QAction(QIcon(":/paste.png"), tr("Paste"), this);
-    action->setShortcut(tr("Ctrl+V"));
-    //connect
-    menu->addAction(action);
-    toolbar->addAction("Paste", action);
-    actionManager->addAction("Edit", action);
-
-    m_menus["Edit"] = menu;
 
 
 
-    menu = menuBar()->addMenu(tr("Tools"));
+    action = mActionManager->getAction(W_ACTION_GROUP_MISC, W_ACTION_MOVE_RIGHT);
+    action->setIcon(QIcon(":/move_right.png"));
+    connect(         action, SIGNAL(triggered()),
+             mCentralWidget, SLOT(onMoveToRight()) );
 
-    action = new QAction(QIcon(":/settings.png"), tr("Settings"), this);
-    connect(action, SIGNAL(triggered()), m_settingsDialog, SLOT(showDialog()));
-    menu->addAction(action);
-    toolbar->addAction("Settings", action);
-    mActionManager->addAction("Settings", action);
+    action = mActionManager->getAction(W_ACTION_GROUP_MISC, W_ACTION_MOVE_LEFT);
+    action->setIcon(QIcon(":/move_left.png"));
+    connect(         action, SIGNAL(triggered()),
+             mCentralWidget, SLOT(onMoveToLeft()) );
 
-    m_menus["Tools"] = menu;
-
-
-
-    m_toolbars["General"] = toolbar;
-
-    addToolBar(toolbar);
-    toolbar->setIconSize(QSize(16,16));
-    toolbar->restoreConfig();
-*/
 }
 
 
