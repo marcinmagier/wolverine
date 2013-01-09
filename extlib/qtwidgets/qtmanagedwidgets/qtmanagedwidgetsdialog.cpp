@@ -40,6 +40,8 @@ QtManagedWidgetsDialog::QtManagedWidgetsDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::QtManagedWidgetsDialog)
 {
+    mAreWidgetsSupported = false;
+
     ui->setupUi(this);
 
     connect(ui->btnUp, SIGNAL(clicked()), this, SLOT(moveActionUp()));
@@ -59,6 +61,12 @@ QtManagedWidgetsDialog::QtManagedWidgetsDialog(QWidget *parent) :
 QtManagedWidgetsDialog::~QtManagedWidgetsDialog()
 {
     delete ui;
+}
+
+
+void QtManagedWidgetsDialog::setSupportForWidgets(bool val)
+{
+    mAreWidgetsSupported = val;
 }
 
 
@@ -113,7 +121,7 @@ void QtManagedWidgetsDialog::fillActionsAvailable(const QtActionNameMap *actions
         item = new QListWidgetItem(ui->listAvailable);
         item->setText(action->text());
         QIcon icon = action->icon();
-        if(icon.isNull())
+        if(icon.isNull() && mAreWidgetsSupported)
              // We assume that action without icon is a widget
             item->setIcon(QIcon(QT_MANAGEDTOOLBAR_ICON_WIDGET));
         else

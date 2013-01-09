@@ -195,6 +195,7 @@ void QtManagedToolBar::showManagerDialog()
     QtManagedWidgetsDialog dlg(this);
     QStringList tmpActionsVisible = createConfiguration();
 
+    dlg.setSupportForWidgets(true);
     if(dlg.exec(&mActionsAvailable, &tmpActionsVisible)) {
         applyConfiguration(tmpActionsVisible);
         saveConfig(tmpActionsVisible);

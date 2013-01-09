@@ -63,7 +63,7 @@ signals:
 public slots:
 
 private:
-    QtManagedMenu mMenu;
+    QtManagedMenu *mMenu;
     PanelTabBar *mTabBar;
 
 };

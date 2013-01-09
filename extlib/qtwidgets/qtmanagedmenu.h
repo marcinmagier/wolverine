@@ -50,12 +50,12 @@ public:
     void saveConfig();
     void restoreConfig();
 
-    bool isManagerEnabled() { return mIsManagerEnabled; }
+    bool isManagerEnabled();
 
 
 
 public slots:
-    void setManagerEnabled(bool val) { mIsManagerEnabled = val; }
+    void setManagerEnabled(bool val);
 
 
 
@@ -67,13 +67,14 @@ protected:
 private slots:
     void showManagerDialog();
 
+
+
 private:
     void initialize(const QString &name);
 
     void addActionAvailable(const QString &name, QAction *action);
     void applyConfiguration(const QStringList &actionNames);
     QStringList createConfiguration();
-
 
     bool mIsManagerEnabled;
     QString mMenuName;

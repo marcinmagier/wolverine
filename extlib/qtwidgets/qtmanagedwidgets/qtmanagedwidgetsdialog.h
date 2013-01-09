@@ -52,6 +52,7 @@ public:
     explicit QtManagedWidgetsDialog(QWidget *parent = 0);
     ~QtManagedWidgetsDialog();
 
+    void setSupportForWidgets(bool val);
     int exec(const QtActionNameMap *actionsAvailable, QStringList *actionsVisible);
 
 
@@ -70,6 +71,7 @@ private:
     void fillActionsAvailable(const QtActionNameMap *actionsAvailable, const QStringList *actionsVisible);
     void fillActionsVisible(const QStringList *actionsVisible);
 
+    bool mAreWidgetsSupported;
     QMap<QListWidgetItem*, QString> mActionsAvailableMap;
     QMap<QListWidgetItem*, QString> mActionsVisibleMap;
 

@@ -47,11 +47,11 @@ Panel::Panel(QWidget *parent) :
     connect( mTabBar, SIGNAL(scrollButtonsHiddenChanged(bool)),
                 this, SLOT(setListButtonHidden(bool)) );
 
-
-    mMenu.addAction(QString("Test"), new QAction("Test test", 0));
-    mMenu.addAction(QString("Costam"), new QAction("Test Costam", 0));
-    mMenu.addAction(QString("HejHej"), new QAction("Test HejHej", 0));
-
+    mMenu = new QtManagedMenu(this, "tabWidgetMenu");
+    mMenu->addAction(QString("Test"), new QAction(QIcon(":/undo.png"), "Test test", 0));
+    mMenu->addAction(QString("Costam"), new QAction(QIcon(":/redo.png"), "Test Costam", 0));
+    mMenu->addAction(QString("HejHej"), new QAction("Test HejHej", 0));
+    mMenu->restoreConfig();
 }
 
 
@@ -76,5 +76,5 @@ int Panel::addTab(Editor *editor)
 
 void Panel::contextMenuEvent(QContextMenuEvent *event)
 {
-        mMenu.exec(event->globalPos());
+        mMenu->exec(event->globalPos());
 }

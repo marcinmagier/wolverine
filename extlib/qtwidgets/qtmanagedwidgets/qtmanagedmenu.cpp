@@ -53,8 +53,8 @@ QtManagedMenu::QtManagedMenu(QWidget *parent) :
     QMenu(parent)
 {
     // Calculate unique name to prevent future problems.
-    QString toolbarName = defMenuName + QString::number(defMenuCount++);
-    initialize(toolbarName);
+    QString menuName = defMenuName + QString::number(defMenuCount++);
+    initialize(menuName);
 }
 
 
@@ -79,8 +79,8 @@ QtManagedMenu::QtManagedMenu(QWidget *parent, const QString &menuName) :
 void QtManagedMenu::initialize(const QString &name)
 {
     mMenuName = name;
-    mActionsAvailable.clear();
     mIsManagerEnabled = true;
+    mActionsAvailable.clear();
 }
 
 
@@ -97,27 +97,47 @@ void QtManagedMenu::addAction(const QString &name, QAction *action)
 }
 
 
-
-
+/**
+ *  Shows menu
+ *
+ * @return
+ */
 QAction* QtManagedMenu::exec()
 {
+    QMenu menu;
+    foreach(QAction *action, this->actions()) {
+        menu.addAction(action);
+    }
+
     if(mIsManagerEnabled) {
-        QAction *action = QMenu::addAction(tr("Customize"));
+        QAction *action = menu.addAction(tr("Customize"));
         action->setIcon(QIcon(QT_MANAGEDMENU_ICON_CUSTOMIZE));
         connect(action, SIGNAL(triggered()), this, SLOT(showManagerDialog()));
     }
-    return QMenu::exec();
+
+    return menu.exec();
 }
 
 
+/**
+ *  Shows menu at the specific point
+ *
+ * @return
+ */
 QAction* QtManagedMenu::exec(const QPoint &pos, QAction *at)
 {
+    QMenu menu;
+    foreach(QAction *action, this->actions()) {
+        menu.addAction(action);
+    }
+
     if(mIsManagerEnabled) {
-        QAction *action = QMenu::addAction(tr("Customize"));
+        QAction *action = menu.addAction(tr("Customize"));
         action->setIcon(QIcon(QT_MANAGEDMENU_ICON_CUSTOMIZE));
         connect(action, SIGNAL(triggered()), this, SLOT(showManagerDialog()));
     }
-    return QMenu::exec(pos, at);
+
+    return menu.exec(pos, at);
 }
 
 
@@ -129,6 +149,7 @@ void QtManagedMenu::showManagerDialog()
     QtManagedWidgetsDialog dlg(this);
     QStringList tmpActionsVisible = createConfiguration();
 
+    dlg.setSupportForWidgets(false);
     if(dlg.exec(&mActionsAvailable, &tmpActionsVisible)) {
         applyConfiguration(tmpActionsVisible);
         saveConfig(tmpActionsVisible);
@@ -167,7 +188,6 @@ void QtManagedMenu::saveConfig(const QStringList &actionNames)
  */
 void QtManagedMenu::restoreConfig()
 {
-
     QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "menus");
     QVariant var = qset.value(mMenuName);
     QStringList actionNames = var.toStringList();
@@ -236,3 +256,23 @@ QStringList QtManagedMenu::createConfiguration()
 }
 
 
+/**
+ *  Enables/disables manager
+ *
+ * @param val
+ */
+void QtManagedMenu::setManagerEnabled(bool val)
+{
+   mIsManagerEnabled = val;
+}
+
+
+/**
+ *  Returns state of manager - enabled/disabled
+ *
+ * @return
+ */
+bool QtManagedMenu::isManagerEnabled()
+{
+    return mIsManagerEnabled;
+}
