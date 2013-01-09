@@ -25,7 +25,6 @@
 #include "WPanel.h"
 #include "WPanelTabBar.h"
 
-#include <QMenu>
 #include <QContextMenuEvent>
 #include <QDebug>
 
@@ -47,6 +46,11 @@ Panel::Panel(QWidget *parent) :
 
     connect( mTabBar, SIGNAL(scrollButtonsHiddenChanged(bool)),
                 this, SLOT(setListButtonHidden(bool)) );
+
+
+    mMenu.addActiona(QString("Test"), new QAction("Test test", 0));
+    mMenu.addActiona(QString("Costam"), new QAction("Test Costam", 0));
+    mMenu.addActiona(QString("HejHej"), new QAction("Test HejHej", 0));
 
 }
 
@@ -72,13 +76,5 @@ int Panel::addTab(Editor *editor)
 
 void Panel::contextMenuEvent(QContextMenuEvent *event)
 {
-        QMenu *contextMenu = new QMenu(this);
-        QAction *action = contextMenu->addAction(tr("Customize"));
-        //action->setIcon(QIcon(QT_MANAGEDTOOLBAR_ICON_CUSTOMIZE));
-        //connect(action, SIGNAL(triggered()), this, SLOT(showManagerDialog()));
-
-        contextMenu->exec(event->globalPos());
-
-        delete contextMenu;
-        //check if action is deleted
+        mMenu.exec(event->globalPos());
 }

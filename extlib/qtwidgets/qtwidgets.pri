@@ -12,6 +12,7 @@ uselib {
 } else {
     SOURCES      += \
                     $$PWD/qtcolorbutton/qtcolorbutton.cpp \
+                    $$PWD/qtmanagedwidgets/qtmanagedmenu.cpp \
                     $$PWD/qtmanagedwidgets/qtmanagedtoolbar.cpp \
                     $$PWD/qtmanagedwidgets/qtmanagedwidgetsdialog.cpp \
                     $$PWD/qtmanagedwidgets/qtmanagedwidgetslistbox.cpp \
@@ -25,6 +26,7 @@ uselib {
 
     HEADERS      += \
                     $$PWD/qtcolorbutton.h \
+                    $$PWD/qtmanagedmenu.h \
                     $$PWD/qtmanagedtoolbar.h \
                     $$PWD/qtmanagedwidgets/qtmanagedwidgetsdialog.h \
                     $$PWD/qtmanagedwidgets/qtmanagedwidgetslistbox.h \

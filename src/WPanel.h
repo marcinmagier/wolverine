@@ -25,7 +25,7 @@
 #ifndef __W_PANEL_H_
  #define __W_PANEL_H_
 
-
+#include "qtmanagedmenu.h"
 #include "qttabwidget.h"
 
 
@@ -63,6 +63,7 @@ signals:
 public slots:
 
 private:
+    QtManagedMenu mMenu;
     PanelTabBar *mTabBar;
 
 };
