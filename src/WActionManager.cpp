@@ -156,6 +156,22 @@ void initializeActions()
     sInstance->addAction(W_ACTION_GROUP_FILE, W_ACTION_OPEN, action);
 
 
+    action = new QAction(QObject::tr("Close"), 0);
+    action->setShortcut(QObject::tr("Ctrl+W"));
+    action->setStatusTip(QObject::tr("Close current file"));
+    sInstance->addAction(W_ACTION_GROUP_FILE, W_ACTION_CLOSE, action);
+
+    action = new QAction(QObject::tr("Close Others"), 0);
+    //action->setShortcut(QObject::tr());
+    action->setStatusTip(QObject::tr("Close other files"));
+    sInstance->addAction(W_ACTION_GROUP_FILE, W_ACTION_CLOSE_OTHERS, action);
+
+    action = new QAction(QObject::tr("Close All"), 0);
+    action->setShortcut(QObject::tr("Ctrl+Shift+W"));
+    action->setStatusTip(QObject::tr("Close all files"));
+    sInstance->addAction(W_ACTION_GROUP_FILE, W_ACTION_CLOSE_ALL, action);
+
+
     action = new QAction(QObject::tr("Undo"), 0);
     action->setShortcut(QObject::tr("Ctrl+Z"));
     action->setStatusTip(QObject::tr("Undo action"));

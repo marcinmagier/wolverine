@@ -97,6 +97,21 @@ void CentralWidget::onOpenDocForm()
 
 }
 
+void CentralWidget::onClose()
+{
+
+}
+
+void CentralWidget::onCloseOthers()
+{
+
+}
+
+void CentralWidget::onCloseAll()
+{
+
+}
+
 
 void CentralWidget::onCurrentTabChanged(int index)
 {

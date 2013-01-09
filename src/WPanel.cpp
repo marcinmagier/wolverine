@@ -47,7 +47,7 @@ Panel::Panel(QWidget *parent) :
     connect( mTabBar, SIGNAL(scrollButtonsHiddenChanged(bool)),
                 this, SLOT(setListButtonHidden(bool)) );
 
-    mMenu = new QtManagedMenu(this, "tabWidgetMenu");
+    mMenu = new QtManagedMenu(this, "TabWidgetMenu");
     mMenu->addAction(QString("Test"), new QAction(QIcon(":/undo.png"), "Test test", 0));
     mMenu->addAction(QString("Costam"), new QAction(QIcon(":/redo.png"), "Test Costam", 0));
     mMenu->addAction(QString("HejHej"), new QAction("Test HejHej", 0));

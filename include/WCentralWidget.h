@@ -55,6 +55,10 @@ public slots:
     void onOpenDoc(const QString &path);
     void onOpenDocForm();
 
+    void onClose();
+    void onCloseOthers();
+    void onCloseAll();
+
 
 private slots:
     void onCurrentTabChanged(int index);

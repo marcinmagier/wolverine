@@ -66,17 +66,42 @@ void MainWindow::createMenusAndToolbars()
 
     action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_NEW);
     action->setIcon(QIcon(":/new.png"));
-    connect(action, SIGNAL(triggered()),
-            mCentralWidget, SLOT(onCreateNewDoc()) );
+    connect(         action, SIGNAL(triggered()),
+             mCentralWidget, SLOT(onCreateNewDoc()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_NEW, action);
 
     action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_OPEN);
     action->setIcon(QIcon(":/open.png"));
-    connect(action, SIGNAL(triggered()),
-              this, SLOT(onPopup2()) );
+    connect(          action, SIGNAL(triggered()),
+              mCentralWidget, SLOT(onOpenDocForm()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_OPEN, action);
+
+
+    action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_CLOSE);
+    action->setIcon(QIcon(":/close.png"));
+    connect(          action, SIGNAL(triggered()),
+              mCentralWidget, SLOT(onClose()) );
+    menu->addAction(action);
+    toolbar->addAction(W_ACTION_OPEN, action);
+
+    action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_CLOSE_OTHERS);
+    //action->setIcon(QIcon(":/close.png"));
+    connect(          action, SIGNAL(triggered()),
+              mCentralWidget, SLOT(onCloseOthers()) );
+    menu->addAction(action);
+    toolbar->addAction(W_ACTION_OPEN, action);
+
+    action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_CLOSE_ALL);
+    action->setIcon(QIcon(":/close_all.png"));
+    connect(          action, SIGNAL(triggered()),
+              mCentralWidget, SLOT(onCloseAll()) );
+    menu->addAction(action);
+    toolbar->addAction(W_ACTION_OPEN, action);
+
+
+
 
 
     mMenus[W_ACTION_GROUP_FILE] = menu;

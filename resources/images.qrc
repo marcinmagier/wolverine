@@ -15,5 +15,7 @@
         <file alias="save_grey.png">images/save_grey.png</file>
         <file alias="move_left.png">images/move_left.png</file>
         <file alias="move_right.png">images/move_right.png</file>
+        <file alias="close.png">images/close.png</file>
+        <file alias="close_all.png">images/close_all.png</file>
     </qresource>
 </RCC>
