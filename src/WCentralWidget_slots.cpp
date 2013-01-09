@@ -100,6 +100,9 @@ void CentralWidget::onCurrentTabChanged(int index)
 
 void CentralWidget::onTabCloseRequest(int index)
 {
+    if(index<0)
+        return;
+
     Panel *panel = panelRight->hasFocus() ? panelRight : panelLeft;
     this->removeTab(panel, index);
 }

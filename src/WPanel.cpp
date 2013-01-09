@@ -46,7 +46,6 @@ Panel::Panel(Position position, QWidget *parent) :
 {
     mTabBar = new PanelTabBar(this);
     this->setTabBar(mTabBar);
-    this->setIconSize(QSize(13, 13));
 
     connect( mTabBar, SIGNAL(scrollButtonsHiddenChanged(bool)),
                 this, SLOT(setListButtonHidden(bool)) );
@@ -98,5 +97,6 @@ int Panel::addTab(Editor *editor)
 
 void Panel::contextMenuEvent(QContextMenuEvent *event)
 {
+        qDebug() << mTabBar->tabAt(event->pos());
         mMenu->exec(event->globalPos());
 }

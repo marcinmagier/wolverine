@@ -95,6 +95,11 @@ bool QtTabBar::areScrollButtonsHidden()
 }
 
 
+/**
+ *  Enables/disables defined("modern") style for tab bar
+ *
+ * @param enable
+ */
 void QtTabBar::enableModernStyle(bool enable)
 {
     if(enable)
@@ -102,6 +107,7 @@ void QtTabBar::enableModernStyle(bool enable)
     else
         this->setStyleSheet(TABBAR_CLASSIC_STYLE);
 }
+
 
 /**
  *  resizeEvent() handler

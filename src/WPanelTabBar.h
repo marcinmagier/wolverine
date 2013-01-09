@@ -28,6 +28,8 @@
 
 #include "qttabbar.h"
 
+class QMouseEvent;
+
 
 namespace Wolverine
 {
@@ -44,7 +46,8 @@ public slots:
 
 
 protected:
-
+    virtual void mouseReleaseEvent(QMouseEvent *event);
+    virtual void mouseDoubleClickEvent(QMouseEvent *event);
 
 };
 
