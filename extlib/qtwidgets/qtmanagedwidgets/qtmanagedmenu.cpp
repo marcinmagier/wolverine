@@ -93,6 +93,7 @@ void QtManagedMenu::initialize(const QString &name)
 void QtManagedMenu::addAction(const QString &name, QAction *action)
 {
     addActionAvailable(name, action);
+    mBackup.addAction(action);
     QMenu::addAction(action);
 }
 
@@ -104,6 +105,8 @@ void QtManagedMenu::addAction(const QString &name, QAction *action)
  */
 QAction* QtManagedMenu::exec()
 {
+    // Create temporary copy of the menu was the only way to make managed menu working (that I found)
+    // There was a problem with signal/slot when I added "Customize" action and hid/showed it if needed
     QMenu tmpMenu;
     copyMenuActions(tmpMenu);
 

@@ -79,6 +79,7 @@ private:
     bool mIsManagerEnabled;
     QString mMenuName;
     QMap<QString, QAction*> mActionsAvailable;
+    QMenu mBackup;  //We have to backup actions in order to prevent deleting them when clean() function is called
 };
 
 #endif //__QT_MANAGED_MENU_H_

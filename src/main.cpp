@@ -125,6 +125,9 @@ void appInit(QApplication *app)
     loadTranslations(app);
     // We can initialize actions after translations are loaded
     Wolverine::ActionManager::instanceWithNewThread();
+
+    // Make icons visible in menus (on Linux menus icons are switched off by default)
+    app->setAttribute(Qt::AA_DontShowIconsInMenus, false);
 }
 
 

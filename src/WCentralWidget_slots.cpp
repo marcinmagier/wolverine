@@ -122,11 +122,11 @@ void CentralWidget::onCustomContextMenuRequested(QPoint pos)
     if(idx < 0) {
         menuClose->setEnabled(false);
         menuCloseOthers->setEnabled(false);
-        menuMoveTab->setEnabled(false);
+        menuMoveTab->setVisible(false);
     } else {
         menuClose->setEnabled(true);
         menuCloseOthers->setEnabled(true);
-        menuMoveTab->setEnabled(true);
+        menuMoveTab->setVisible(true);
     }
 
     QAction *action = mContextMenu->exec(QCursor::pos());

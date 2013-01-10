@@ -67,14 +67,14 @@ void MainWindow::createMenusAndToolbars()
     action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_NEW);
     action->setIcon(QIcon(":/new.png"));
     connect(         action, SIGNAL(triggered()),
-             mCentralWidget, SLOT(onCreateNewDoc()) );
+             mCentralWidget, SLOT(onNew()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_NEW, action);
 
     action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_OPEN);
     action->setIcon(QIcon(":/open.png"));
     connect(          action, SIGNAL(triggered()),
-              mCentralWidget, SLOT(onOpenDocForm()) );
+              mCentralWidget, SLOT(onOpenForm()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_OPEN, action);
 
@@ -132,21 +132,6 @@ void MainWindow::createMenusAndToolbars()
     addToolBar(toolbar);
     toolbar->setIconSize(QSize(16,16));
     toolbar->restoreConfig();
-
-
-
-
-
-
-    action = mActionManager->getAction(W_ACTION_GROUP_MISC, W_ACTION_MOVE_RIGHT);
-    action->setIcon(QIcon(":/move_right.png"));
-    connect(         action, SIGNAL(triggered()),
-             mCentralWidget, SLOT(onMoveToRight()) );
-
-    action = mActionManager->getAction(W_ACTION_GROUP_MISC, W_ACTION_MOVE_LEFT);
-    action->setIcon(QIcon(":/move_left.png"));
-    connect(         action, SIGNAL(triggered()),
-             mCentralWidget, SLOT(onMoveToLeft()) );
 
 }
 
