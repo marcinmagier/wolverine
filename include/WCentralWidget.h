@@ -64,6 +64,7 @@ public slots:
     void onCloseAll();
 
     void onMoveToOther();
+    void onMoveToOtherIdx(int index);
 
 
 private slots:
@@ -74,7 +75,9 @@ private slots:
 private:
     void setupContextMenu();
     void removeTab(Panel *panel, int index);
+    void moveTab(Panel *from, int fromIdx, Panel *to);
     void removeEditor(Editor *editor);
+
 
     QHBoxLayout *layout;
     QSplitter *splitter;

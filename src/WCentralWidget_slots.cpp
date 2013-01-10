@@ -43,10 +43,15 @@ void CentralWidget::onNew()
 {
     Document *doc = new Document();
     Editor *edit = doc->getEditor();
-    int idx = panelLeft->addTab(edit);
-    panelLeft->setCurrentIndex(idx);
+
+    Panel *panel = panelLeft;
+    if(panelRight->isVisible() && panelRight->hasFocus())
+        panel = panelRight;
+
+    int idx = panel->addTab(edit);
+    panel->setCurrentIndex(idx);
     mEditorList.append(edit);
-    //currentEditor is update via slot
+    //currentEditor is updated via slot
 }
 
 void CentralWidget::onNewIdx(int index)
@@ -100,6 +105,16 @@ void CentralWidget::onMoveToOther()
 
 }
 
+void CentralWidget::onMoveToOtherIdx(int index)
+{
+    if(panelLeft->hasFocus()) {
+        //Move to the right
+        this->moveTab(panelLeft, index, panelRight);
+        panelRight->setVisible(true);
+    }
+
+}
+
 
 
 
@@ -136,7 +151,7 @@ void CentralWidget::onCustomContextMenuRequested(QPoint pos)
     } else if(action == menuCloseOthers) {
         onCloseOthersIdx(idx);
     } else if(action == menuMoveTab) {
-        onMoveToOther();
+        onMoveToOtherIdx(idx);
     }
 }
 

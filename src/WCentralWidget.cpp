@@ -100,6 +100,13 @@ void CentralWidget::removeTab(Panel *panel, int index)
     //jezeli to jest ostatnia w prawym to ukryj prawy
 }
 
+
+void CentralWidget::moveTab(Panel *from, int fromIdx, Panel *to)
+{
+    Editor *edit = dynamic_cast<Editor*>(from->widget(fromIdx));
+    to->addTab(edit);
+}
+
 void CentralWidget::removeEditor(Editor *editor)
 {
     mEditorList.removeAll(editor);

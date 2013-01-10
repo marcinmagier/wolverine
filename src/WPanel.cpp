@@ -44,6 +44,7 @@ Panel::Panel(QWidget *parent) :
     mTabBar = new PanelTabBar(this);
     this->setTabBar(mTabBar);
     mTabBar->setContextMenuPolicy(Qt::CustomContextMenu);
+    this->setFocusPolicy(Qt::StrongFocus);
 
     connect( mTabBar, SIGNAL(customContextMenuRequested(QPoint)),
                 this, SLOT(onCustomContextMenuRequested(QPoint)) );
@@ -74,6 +75,16 @@ int Panel::tabAt(const QPoint &pos)
     return mTabBar->tabAt(pos);
 }
 
+
+void Panel::focusInEvent(QFocusEvent *event)
+{
+    qDebug() << "Focus In";
+}
+
+void Panel::focusOutEvent(QFocusEvent *event)
+{
+    qDebug() << "Focus Out";
+}
 
 
 
