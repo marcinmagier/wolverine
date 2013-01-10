@@ -50,20 +50,23 @@ public:
         LeftPanel
     };
 
-    explicit Panel(Position position, QWidget *parent = 0);
+    explicit Panel(QWidget *parent = 0);
     virtual ~Panel();
 
 
     int addTab(Editor* editor);
+    int tabAt(const QPoint &pos);
     
-    void contextMenuEvent(QContextMenuEvent *event);
 
-signals:
-    
 public slots:
 
+signals:
+
+
+private slots:
+    void onCustomContextMenuRequested(QPoint pos);
+
 private:
-    QtManagedMenu *mMenu;
     PanelTabBar *mTabBar;
 
 };

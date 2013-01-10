@@ -20,7 +20,6 @@
  *  @brief      Wolverine::Panel class implementation.
  */
 
-#include "WActionManager.h"
 #include "WDocument.h"
 #include "WEditor.h"
 #include "WPanel.h"
@@ -29,8 +28,6 @@
 #include <QContextMenuEvent>
 #include <QDebug>
 
-
-#define W_ACTION_MOVE_TAB "MoveTab"
 
 
 using namespace Wolverine;
@@ -41,37 +38,17 @@ using namespace Wolverine;
  *
  * @param parent
  */
-Panel::Panel(Position position, QWidget *parent) :
+Panel::Panel(QWidget *parent) :
     QtTabWidget(parent)
 {
     mTabBar = new PanelTabBar(this);
     this->setTabBar(mTabBar);
+    mTabBar->setContextMenuPolicy(Qt::CustomContextMenu);
 
+    connect( mTabBar, SIGNAL(customContextMenuRequested(QPoint)),
+                this, SLOT(onCustomContextMenuRequested(QPoint)) );
     connect( mTabBar, SIGNAL(scrollButtonsHiddenChanged(bool)),
                 this, SLOT(setListButtonHidden(bool)) );
-
-
-    QAction *action;
-    ActionManager *actionManager = ActionManager::instance();
-    mMenu = new QtManagedMenu(this, "TabWidgetMenu");
-    action = actionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_CLOSE);
-    mMenu->addAction(W_ACTION_CLOSE, action);
-    action = actionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_CLOSE_OTHERS);
-    mMenu->addAction(W_ACTION_CLOSE_OTHERS, action);
-    action = actionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_CLOSE_ALL);
-    mMenu->addAction(W_ACTION_CLOSE_ALL, action);
-    mMenu->addSeparator();
-    if(position == Panel::LeftPanel) {
-        action = actionManager->getAction(W_ACTION_GROUP_MISC, W_ACTION_MOVE_RIGHT);
-        mMenu->addAction(W_ACTION_MOVE_TAB, action);
-    } else {
-        action = actionManager->getAction(W_ACTION_GROUP_MISC, W_ACTION_MOVE_LEFT);
-        mMenu->addAction(W_ACTION_MOVE_TAB, action);
-    }
-
-    mMenu->restoreConfig();
-
-
 }
 
 
@@ -81,7 +58,6 @@ Panel::Panel(Position position, QWidget *parent) :
 Panel::~Panel()
 {
     delete mTabBar;
-    delete mMenu;
 }
 
 
@@ -93,10 +69,16 @@ int Panel::addTab(Editor *editor)
 }
 
 
-
-
-void Panel::contextMenuEvent(QContextMenuEvent *event)
+int Panel::tabAt(const QPoint &pos)
 {
-        qDebug() << mTabBar->tabAt(event->pos());
-        mMenu->exec(event->globalPos());
+    return mTabBar->tabAt(pos);
 }
+
+
+
+
+void Panel::onCustomContextMenuRequested(QPoint pos)
+{
+    emit customContextMenuRequested(pos);
+}
+

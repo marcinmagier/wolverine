@@ -27,6 +27,7 @@
 
 class QHBoxLayout;
 class QSplitter;
+class QtManagedMenu;
 
 
 #include <QWidget>
@@ -51,23 +52,27 @@ public:
     EditorProxy *currentEditor;
 
 public slots:
-    void onCreateNewDoc();
-    void onOpenDoc(const QString &path);
-    void onOpenDocForm();
+    void onNew();
+    void onNewIdx(int index);
+    void onOpen(const QString &path);
+    void onOpenForm();
 
     void onClose();
+    void onCloseIdx(int index);
     void onCloseOthers();
+    void onCloseOthersIdx(int index);
     void onCloseAll();
 
-    void onMoveToLeft();
-    void onMoveToRight();
+    void onMoveToOther();
 
 
 private slots:
+    void onCustomContextMenuRequested(QPoint pos);
     void onCurrentTabChanged(int index);
-    void onTabCloseRequest(int index);
+
 
 private:
+    void setupContextMenu();
     void removeTab(Panel *panel, int index);
     void removeEditor(Editor *editor);
 
@@ -77,6 +82,10 @@ private:
     Panel *panelLeft;
     Panel *panelRight;
 
+    QtManagedMenu *mContextMenu;
+    QAction *menuClose;
+    QAction *menuCloseOthers;
+    QAction *menuMoveTab;
     EditorList mEditorList;
 
 };

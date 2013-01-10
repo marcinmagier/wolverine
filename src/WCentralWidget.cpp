@@ -27,9 +27,18 @@
 #include "WDocument.h"
 #include "WPanel.h"
 
+#include "qtmanagedmenu.h"
+
 #include <QHBoxLayout>
 #include <QSplitter>
 #include <QIcon>
+
+
+
+
+#define W_ACTION_MOVE_TAB "MoveTab"
+
+
 
 
 
@@ -46,8 +55,8 @@ CentralWidget::CentralWidget(QWidget *parent):
     layout->setContentsMargins(0, 0, 0, 0);
     splitter = new QSplitter(this);
     splitter->setOrientation(Qt::Horizontal);
-    panelLeft = new Panel(Panel::LeftPanel, splitter);
-    panelRight = new Panel(Panel::RightPanel, splitter);
+    panelLeft = new Panel(splitter);
+    panelRight = new Panel(splitter);
     panelRight->hide();
     splitter->addWidget(panelLeft);
     splitter->addWidget(panelRight);
@@ -57,14 +66,19 @@ CentralWidget::CentralWidget(QWidget *parent):
     connect( panelLeft, SIGNAL(currentChanged(int)),
                   this, SLOT(onCurrentTabChanged(int)) );
     connect( panelLeft, SIGNAL(tabCloseRequested(int)),
-                  this, SLOT(onTabCloseRequest(int)) );
+                  this, SLOT(onCloseIdx(int)) );
+    connect( panelLeft, SIGNAL(customContextMenuRequested(QPoint)),
+                  this, SLOT(onCustomContextMenuRequested(QPoint)) );
+
     connect( panelRight, SIGNAL(currentChanged(int)),
                    this, SLOT(onCurrentTabChanged(int)) );
     connect( panelRight, SIGNAL(tabCloseRequested(int)),
-                   this, SLOT(onTabCloseRequest(int)) );
+                   this, SLOT(onCloseIdx(int)) );
+    connect( panelRight, SIGNAL(customContextMenuRequested(QPoint)),
+                   this, SLOT(onCustomContextMenuRequested(QPoint)) );
 
-
-    onCreateNewDoc();
+    onNew();
+    setupContextMenu();
 }
 
 CentralWidget::~CentralWidget()
@@ -94,5 +108,44 @@ void CentralWidget::removeEditor(Editor *editor)
     doc->removeEditor(editor);    // Document deletes editor
     if(!doc->hasEditors())
         delete doc;
+}
+
+
+
+void CentralWidget::setupContextMenu()
+{
+    QAction *action;
+    mContextMenu = new QtManagedMenu(this, "TabBarContextMenu");
+    action = new QAction(tr("New"), mContextMenu);
+    action->setIcon(QIcon(":/new.png"));
+    connect( action, SIGNAL(triggered()),
+               this, SLOT(onNew()) );
+    mContextMenu->addAction("New", action);
+
+    action = new QAction(tr("Close"), mContextMenu);
+    action->setIcon(QIcon(":/close.png"));
+    //action is done within context menu hander
+    menuClose = action;
+    mContextMenu->addAction("Close", action);
+
+    action = new QAction(tr("Close Others"), mContextMenu);
+    //action->setIcon(QIcon(":/close.png"));
+    //action is done within context menu hander
+    menuCloseOthers = action;
+    mContextMenu->addAction("CloseOthers", action);
+
+    action = new QAction(tr("Close All"), mContextMenu);
+    action->setIcon(QIcon(":/close_all.png"));
+    connect( action, SIGNAL(triggered()),
+               this, SLOT(onCloseAll()) );
+    mContextMenu->addAction("CloseAll", action);
+
+    action = new QAction(mContextMenu);
+    //icon and text is set within menu handler
+    //action is done within menu hander
+    menuMoveTab = action;
+    mContextMenu->addAction("MoveTab", action);
+
+    mContextMenu->restoreConfig();
 }
 

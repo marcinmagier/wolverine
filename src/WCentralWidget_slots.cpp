@@ -28,6 +28,8 @@
 #include "WPanel.h"
 
 
+#include <QCursor>
+#include <QDebug>
 
 
 using namespace Wolverine;
@@ -37,7 +39,7 @@ using namespace Wolverine;
 
 
 
-void CentralWidget::onCreateNewDoc()
+void CentralWidget::onNew()
 {
     Document *doc = new Document();
     Editor *edit = doc->getEditor();
@@ -47,12 +49,17 @@ void CentralWidget::onCreateNewDoc()
     //currentEditor is update via slot
 }
 
-void CentralWidget::onOpenDoc(const QString &path)
+void CentralWidget::onNewIdx(int index)
 {
 
 }
 
-void CentralWidget::onOpenDocForm()
+void CentralWidget::onOpen(const QString &path)
+{
+
+}
+
+void CentralWidget::onOpenForm()
 {
 
 }
@@ -64,7 +71,21 @@ void CentralWidget::onClose()
     this->removeTab(panel, index);
 }
 
+void CentralWidget::onCloseIdx(int index)
+{
+    if(index<0)
+        return;
+
+    Panel *panel = panelRight->hasFocus() ? panelRight : panelLeft;
+    this->removeTab(panel, index);
+}
+
 void CentralWidget::onCloseOthers()
+{
+
+}
+
+void CentralWidget::onCloseOthersIdx(int index)
 {
 
 }
@@ -74,12 +95,7 @@ void CentralWidget::onCloseAll()
 
 }
 
-void CentralWidget::onMoveToLeft()
-{
-
-}
-
-void CentralWidget::onMoveToRight()
+void CentralWidget::onMoveToOther()
 {
 
 }
@@ -89,7 +105,40 @@ void CentralWidget::onMoveToRight()
 
 
 
+void CentralWidget::onCustomContextMenuRequested(QPoint pos)
+{
+    Panel *panel;
+    if(panelRight->hasFocus()) {
+        panel = panelRight;
+        menuMoveTab->setText(tr("Move to left"));
+        menuMoveTab->setIcon(QIcon(":/move_left.png"));
+    } else {
+        panel = panelLeft;
+        menuMoveTab->setText(tr("Move to right"));
+        menuMoveTab->setIcon(QIcon(":/move_right.png"));
+    }
+    int idx = panel->tabAt(pos);
 
+    if(idx < 0) {
+        menuClose->setEnabled(false);
+        menuCloseOthers->setEnabled(false);
+        menuMoveTab->setEnabled(false);
+    } else {
+        menuClose->setEnabled(true);
+        menuCloseOthers->setEnabled(true);
+        menuMoveTab->setEnabled(true);
+    }
+
+    QAction *action = mContextMenu->exec(QCursor::pos());
+
+    if(action == menuClose) {
+        onCloseIdx(idx);
+    } else if(action == menuCloseOthers) {
+        onCloseOthersIdx(idx);
+    } else if(action == menuMoveTab) {
+        onMoveToOther();
+    }
+}
 
 void CentralWidget::onCurrentTabChanged(int index)
 {
@@ -98,11 +147,4 @@ void CentralWidget::onCurrentTabChanged(int index)
     currentEditor->setCurrentEditor(edit);
 }
 
-void CentralWidget::onTabCloseRequest(int index)
-{
-    if(index<0)
-        return;
 
-    Panel *panel = panelRight->hasFocus() ? panelRight : panelLeft;
-    this->removeTab(panel, index);
-}
