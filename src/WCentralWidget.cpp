@@ -23,8 +23,8 @@
 
 #include "WCentralWidget.h"
 #include "WEditor.h"
+#include "WEditorBinder.h"
 #include "WEditorProxy.h"
-#include "WDocument.h"
 #include "WPanel.h"
 
 #include "qtmanagedmenu.h"

@@ -35,8 +35,8 @@ SOURCES      += \
                 ../src/WActionManager.cpp \
                 ../src/WCentralWidget.cpp \
                 ../src/WCentralWidget_slots.cpp \
-                ../src/WDocument.cpp \
                 ../src/WEditor.cpp \
+                ../src/WEditorBinder.cpp \
                 ../src/WEditorProxy.cpp \
                 ../src/WLib.cpp \
                 ../src/WMainWindow.cpp \
@@ -65,8 +65,8 @@ HEADERS      += \
                 ../include/CfgViewSettings.h \
                 ../include/WActionManager.h \
                 ../include/WCentralWidget.h \
-                ../include/WDocument.h \
                 ../include/WEditor.h \
+                ../include/WEditorBinder.h \
                 ../include/WEditorProxy.h \
                 ../include/WLib.h \
                 ../include/WMainWindow.h
