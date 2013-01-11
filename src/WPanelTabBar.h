@@ -44,10 +44,15 @@ public:
 
 public slots:
 
+signals:
+    void focusReceived();
+
 
 protected:
+    virtual void focusInEvent(QFocusEvent *event);
     virtual void mouseReleaseEvent(QMouseEvent *event);
     virtual void mouseDoubleClickEvent(QMouseEvent *event);
+
 
 };
 

@@ -51,32 +51,37 @@ CentralWidget::CentralWidget(QWidget *parent):
     currentEditor = new EditorProxy();
     mEditorList.clear();
 
-    layout = new QHBoxLayout(this);
-    layout->setContentsMargins(0, 0, 0, 0);
-    splitter = new QSplitter(this);
-    splitter->setOrientation(Qt::Horizontal);
-    panelLeft = new Panel(splitter);
-    panelRight = new Panel(splitter);
-    panelRight->hide();
-    splitter->addWidget(panelLeft);
-    splitter->addWidget(panelRight);
-    layout->addWidget(splitter);
+    mLayout = new QHBoxLayout(this);
+    mLayout->setContentsMargins(0, 0, 0, 0);
+    mSplitter = new QSplitter(this);
+    mSplitter->setOrientation(Qt::Horizontal);
+    mPanelLeft = new Panel(mSplitter);
+    mPanelRight = new Panel(mSplitter);
+    mPanelRight->hide();
+    mSplitter->addWidget(mPanelLeft);
+    mSplitter->addWidget(mPanelRight);
+    mLayout->addWidget(mSplitter);
 
 
-    connect( panelLeft, SIGNAL(currentChanged(int)),
+    connect( mPanelLeft, SIGNAL(currentChanged(int)),
                   this, SLOT(onCurrentTabChanged(int)) );
-    connect( panelLeft, SIGNAL(tabCloseRequested(int)),
+    connect( mPanelLeft, SIGNAL(tabCloseRequested(int)),
                   this, SLOT(onCloseIdx(int)) );
-    connect( panelLeft, SIGNAL(customContextMenuRequested(QPoint)),
+    connect( mPanelLeft, SIGNAL(customContextMenuRequested(QPoint)),
                   this, SLOT(onCustomContextMenuRequested(QPoint)) );
+    connect( mPanelLeft, SIGNAL(focusReceived()),
+                   this, SLOT(onInternalWidgetFocusReceived()) );
 
-    connect( panelRight, SIGNAL(currentChanged(int)),
+    connect( mPanelRight, SIGNAL(currentChanged(int)),
                    this, SLOT(onCurrentTabChanged(int)) );
-    connect( panelRight, SIGNAL(tabCloseRequested(int)),
+    connect( mPanelRight, SIGNAL(tabCloseRequested(int)),
                    this, SLOT(onCloseIdx(int)) );
-    connect( panelRight, SIGNAL(customContextMenuRequested(QPoint)),
+    connect( mPanelRight, SIGNAL(customContextMenuRequested(QPoint)),
                    this, SLOT(onCustomContextMenuRequested(QPoint)) );
+    connect( mPanelRight, SIGNAL(focusReceived()),
+                   this, SLOT(onInternalWidgetFocusReceived()) );
 
+    mPanelCurrent = mPanelLeft;
     onNew();
     setupContextMenu();
 }
@@ -132,13 +137,13 @@ void CentralWidget::setupContextMenu()
     action = new QAction(tr("Close"), mContextMenu);
     action->setIcon(QIcon(":/close.png"));
     //action is done within context menu hander
-    menuClose = action;
+    mMenuClose = action;
     mContextMenu->addAction("Close", action);
 
     action = new QAction(tr("Close Others"), mContextMenu);
     //action->setIcon(QIcon(":/close.png"));
     //action is done within context menu hander
-    menuCloseOthers = action;
+    mMenuCloseOthers = action;
     mContextMenu->addAction("CloseOthers", action);
 
     action = new QAction(tr("Close All"), mContextMenu);
@@ -150,7 +155,7 @@ void CentralWidget::setupContextMenu()
     action = new QAction(mContextMenu);
     //icon and text is set within menu handler
     //action is done within menu hander
-    menuMoveTab = action;
+    mMenuMoveTab = action;
     mContextMenu->addAction("MoveTab", action);
 
     mContextMenu->restoreConfig();

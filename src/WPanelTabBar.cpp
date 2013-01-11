@@ -55,10 +55,23 @@ PanelTabBar::PanelTabBar(QWidget *parent) :
 
 
 /**
+ *  focusInEvent() handler
+ *
+ * @param event
+ */
+//virtual
+void PanelTabBar::focusInEvent(QFocusEvent */*event*/)
+{
+    emit focusReceived();
+}
+
+
+/**
  *  mouseReleaseEvent() handler
  *
  * @param event
  */
+//virtual
 void PanelTabBar::mouseReleaseEvent(QMouseEvent *event)
 {
     if(event->button() & Qt::MidButton) {
@@ -76,6 +89,7 @@ void PanelTabBar::mouseReleaseEvent(QMouseEvent *event)
  *
  * @param event
  */
+//virtual
 void PanelTabBar::mouseDoubleClickEvent(QMouseEvent *event)
 {
     if(event->button() & Qt::LeftButton) {

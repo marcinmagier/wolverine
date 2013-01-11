@@ -63,12 +63,11 @@ public slots:
 signals:
     void focusReceived();
 
-protected:
-    virtual void focusInEvent(QFocusEvent *event);
-    virtual void focusOutEvent(QFocusEvent *event);
+
 
 private slots:
     void onCustomContextMenuRequested(QPoint pos);
+    void onInternalWidgetFocusReceived();
 
 private:
     PanelTabBar *mTabBar;

@@ -70,6 +70,7 @@ public slots:
 private slots:
     void onCustomContextMenuRequested(QPoint pos);
     void onCurrentTabChanged(int index);
+    void onInternalWidgetFocusReceived();
 
 
 private:
@@ -79,16 +80,17 @@ private:
     void removeEditor(Editor *editor);
 
 
-    QHBoxLayout *layout;
-    QSplitter *splitter;
+    QHBoxLayout *mLayout;
+    QSplitter *mSplitter;
 
-    Panel *panelLeft;
-    Panel *panelRight;
+    Panel *mPanelLeft;
+    Panel *mPanelRight;
+    Panel *mPanelCurrent;
 
     QtManagedMenu *mContextMenu;
-    QAction *menuClose;
-    QAction *menuCloseOthers;
-    QAction *menuMoveTab;
+    QAction *mMenuClose;
+    QAction *mMenuCloseOthers;
+    QAction *mMenuMoveTab;
     EditorList mEditorList;
 
 };

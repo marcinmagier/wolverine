@@ -50,6 +50,8 @@ Panel::Panel(QWidget *parent) :
                 this, SLOT(onCustomContextMenuRequested(QPoint)) );
     connect( mTabBar, SIGNAL(scrollButtonsHiddenChanged(bool)),
                 this, SLOT(setListButtonHidden(bool)) );
+    connect( mTabBar, SIGNAL(focusReceived()),
+                this, SLOT(onInternalWidgetFocusReceived()) );
 }
 
 
@@ -76,20 +78,16 @@ int Panel::tabAt(const QPoint &pos)
 }
 
 
-void Panel::focusInEvent(QFocusEvent *event)
-{
-    qDebug() << "Focus In";
-}
-
-void Panel::focusOutEvent(QFocusEvent *event)
-{
-    qDebug() << "Focus Out";
-}
 
 
 
 void Panel::onCustomContextMenuRequested(QPoint pos)
 {
     emit customContextMenuRequested(pos);
+}
+
+void Panel::onInternalWidgetFocusReceived()
+{
+    emit focusReceived();
 }
 

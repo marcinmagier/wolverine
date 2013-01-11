@@ -44,12 +44,9 @@ void CentralWidget::onNew()
     Document *doc = new Document();
     Editor *edit = doc->getEditor();
 
-    Panel *panel = panelLeft;
-    if(panelRight->isVisible() && panelRight->hasFocus())
-        panel = panelRight;
 
-    int idx = panel->addTab(edit);
-    panel->setCurrentIndex(idx);
+    int idx = mPanelCurrent->addTab(edit);
+    mPanelCurrent->setCurrentIndex(idx);
     mEditorList.append(edit);
     //currentEditor is updated via slot
 }
@@ -71,7 +68,7 @@ void CentralWidget::onOpenForm()
 
 void CentralWidget::onClose()
 {
-    Panel *panel = panelRight->hasFocus() ? panelRight : panelLeft;
+    Panel *panel = mPanelRight->hasFocus() ? mPanelRight : mPanelLeft;
     int index = panel->currentIndex();
     this->removeTab(panel, index);
 }
@@ -81,7 +78,7 @@ void CentralWidget::onCloseIdx(int index)
     if(index<0)
         return;
 
-    Panel *panel = panelRight->hasFocus() ? panelRight : panelLeft;
+    Panel *panel = mPanelRight->hasFocus() ? mPanelRight : mPanelLeft;
     this->removeTab(panel, index);
 }
 
@@ -107,10 +104,10 @@ void CentralWidget::onMoveToOther()
 
 void CentralWidget::onMoveToOtherIdx(int index)
 {
-    if(panelLeft->hasFocus()) {
+    if(mPanelLeft->hasFocus()) {
         //Move to the right
-        this->moveTab(panelLeft, index, panelRight);
-        panelRight->setVisible(true);
+        this->moveTab(mPanelLeft, index, mPanelRight);
+        mPanelRight->setVisible(true);
     }
 
 }
@@ -123,43 +120,50 @@ void CentralWidget::onMoveToOtherIdx(int index)
 void CentralWidget::onCustomContextMenuRequested(QPoint pos)
 {
     Panel *panel;
-    if(panelRight->hasFocus()) {
-        panel = panelRight;
-        menuMoveTab->setText(tr("Move to left"));
-        menuMoveTab->setIcon(QIcon(":/move_left.png"));
+    if(mPanelRight->hasFocus()) {
+        panel = mPanelRight;
+        mMenuMoveTab->setText(tr("Move to left"));
+        mMenuMoveTab->setIcon(QIcon(":/move_left.png"));
     } else {
-        panel = panelLeft;
-        menuMoveTab->setText(tr("Move to right"));
-        menuMoveTab->setIcon(QIcon(":/move_right.png"));
+        panel = mPanelLeft;
+        mMenuMoveTab->setText(tr("Move to right"));
+        mMenuMoveTab->setIcon(QIcon(":/move_right.png"));
     }
     int idx = panel->tabAt(pos);
 
     if(idx < 0) {
-        menuClose->setEnabled(false);
-        menuCloseOthers->setEnabled(false);
-        menuMoveTab->setVisible(false);
+        mMenuClose->setEnabled(false);
+        mMenuCloseOthers->setEnabled(false);
+        mMenuMoveTab->setVisible(false);
     } else {
-        menuClose->setEnabled(true);
-        menuCloseOthers->setEnabled(true);
-        menuMoveTab->setVisible(true);
+        mMenuClose->setEnabled(true);
+        mMenuCloseOthers->setEnabled(true);
+        mMenuMoveTab->setVisible(true);
     }
 
     QAction *action = mContextMenu->exec(QCursor::pos());
 
-    if(action == menuClose) {
+    if(action == mMenuClose) {
         onCloseIdx(idx);
-    } else if(action == menuCloseOthers) {
+    } else if(action == mMenuCloseOthers) {
         onCloseOthersIdx(idx);
-    } else if(action == menuMoveTab) {
+    } else if(action == mMenuMoveTab) {
         onMoveToOtherIdx(idx);
     }
 }
 
 void CentralWidget::onCurrentTabChanged(int index)
 {
-    Panel *panel = panelRight->hasFocus() ? panelRight : panelLeft;
-    Editor *edit = dynamic_cast<Editor*>(panel->widget(index));
+    Editor *edit = dynamic_cast<Editor*>(mPanelCurrent->widget(index));
     currentEditor->setCurrentEditor(edit);
+}
+
+void CentralWidget::onInternalWidgetFocusReceived()
+{
+    if(sender() == mPanelRight)
+        mPanelCurrent = mPanelRight;
+    else
+        mPanelCurrent = mPanelLeft;
 }
 
 
