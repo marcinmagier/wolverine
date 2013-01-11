@@ -1,7 +1,7 @@
 
 #include "Logger.h"
 #include "WEditor.h"
-#include "WDocument.h"
+#include "WEditorBinder.h"
 
 using namespace Wolverine;
 
@@ -30,6 +30,11 @@ Editor::~Editor()
 
 }
 
+
+Editor* Editor::getLinkedCopy()
+{
+   return mDocument->getLinkedEditor(this);
+}
 
 void Editor::setBinder(EditorBinder *doc)
 {

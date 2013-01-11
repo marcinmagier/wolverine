@@ -66,17 +66,22 @@ public slots:
     void onMoveToOther();
     void onMoveToOtherIdx(int index);
 
+    void onCopyToOther();
+    void onCopyToOtherIdx(int index);
+
 
 private slots:
-    void onCustomContextMenuRequested(QPoint pos);
     void onCurrentTabChanged(int index);
     void onInternalWidgetFocusReceived();
+    void onCustomContextMenuRequested(QPoint pos);
 
 
 private:
     void setupContextMenu();
     void removeTab(Panel *panel, int index);
+    void moveAll(Panel *from, Panel *to);
     void moveTab(Panel *from, int fromIdx, Panel *to);
+    void copyTab(Panel *from, int fromIdx, Panel *to);
     void removeEditor(Editor *editor);
 
 
@@ -91,7 +96,7 @@ private:
     QAction *mMenuClose;
     QAction *mMenuCloseOthers;
     QAction *mMenuMoveTab;
-    EditorList mEditorList;
+    QAction *mMenuCopyTab;
 
 };
 

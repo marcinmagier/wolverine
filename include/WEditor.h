@@ -20,8 +20,11 @@ public:
     explicit Editor(EditorBinder *doc, QWidget *parent = 0);
     virtual ~Editor();
 
+    Editor* getLinkedCopy();
+
     void setBinder(EditorBinder* doc);
     EditorBinder* getBinder();
+
 
 
 private:

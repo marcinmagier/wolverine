@@ -1,5 +1,5 @@
 
-#include "WDocument.h"
+#include "WEditorBinder.h"
 #include "WEditor.h"
 
 #include <QFileInfo>
@@ -65,7 +65,7 @@ Editor* EditorBinder::getNewEditor()
 
 Editor* EditorBinder::getLinkedEditor(Editor *editor)
 {
-    Editor *newEditor = new Editor();
+    Editor *newEditor = new Editor(this);
     mEditors.append(newEditor);
     newEditor->setDocument(editor->document());
     return newEditor;

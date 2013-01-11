@@ -23,8 +23,8 @@
 
 #include "WCentralWidget.h"
 #include "WEditor.h"
+#include "WEditorBinder.h"
 #include "WEditorProxy.h"
-#include "WDocument.h"
 #include "WPanel.h"
 
 
@@ -47,7 +47,6 @@ void CentralWidget::onNew()
 
     int idx = mPanelCurrent->addTab(edit);
     mPanelCurrent->setCurrentIndex(idx);
-    mEditorList.append(edit);
     //currentEditor is updated via slot
 }
 
@@ -68,18 +67,19 @@ void CentralWidget::onOpenForm()
 
 void CentralWidget::onClose()
 {
-    Panel *panel = mPanelRight->hasFocus() ? mPanelRight : mPanelLeft;
-    int index = panel->currentIndex();
-    this->removeTab(panel, index);
+    this->onCloseIdx(mPanelCurrent->currentIndex());
 }
 
 void CentralWidget::onCloseIdx(int index)
 {
-    if(index<0)
-        return;
+    this->removeTab(mPanelCurrent, index);
 
-    Panel *panel = mPanelRight->hasFocus() ? mPanelRight : mPanelLeft;
-    this->removeTab(panel, index);
+    if(mPanelCurrent->count() == 0) {
+        if(mPanelCurrent == mPanelLeft)
+            this->moveAll(mPanelRight, mPanelLeft);
+        mPanelRight->setVisible(false);
+        mPanelCurrent = mPanelLeft;
+    }
 }
 
 void CentralWidget::onCloseOthers()
@@ -104,41 +104,78 @@ void CentralWidget::onMoveToOther()
 
 void CentralWidget::onMoveToOtherIdx(int index)
 {
-    if(mPanelLeft->hasFocus()) {
-        //Move to the right
+    if(mPanelCurrent == mPanelRight) {
+        this->moveTab(mPanelRight, index, mPanelLeft);
+    } else {
         this->moveTab(mPanelLeft, index, mPanelRight);
         mPanelRight->setVisible(true);
     }
+}
 
+void CentralWidget::onCopyToOther()
+{
+
+}
+
+void CentralWidget::onCopyToOtherIdx(int index)
+{
+    if(mPanelCurrent == mPanelRight) {
+        // Copy to the left panel
+        this->copyTab(mPanelRight, index, mPanelLeft);
+    } else {
+        // Copy to the right panel
+        this->copyTab(mPanelLeft, index, mPanelRight);
+        mPanelRight->setVisible(true);
+    }
 }
 
 
 
 
+void CentralWidget::onCurrentTabChanged(int index)
+{
+    Editor *edit = mPanelCurrent->getEditor(index);
+    currentEditor->setCurrentEditor(edit);
+}
 
+void CentralWidget::onInternalWidgetFocusReceived()
+{
+    if(sender() == mPanelRight)
+        mPanelCurrent = mPanelRight;
+    else
+        mPanelCurrent = mPanelLeft;
+}
 
 void CentralWidget::onCustomContextMenuRequested(QPoint pos)
 {
-    Panel *panel;
-    if(mPanelRight->hasFocus()) {
-        panel = mPanelRight;
+    if(mPanelCurrent == mPanelRight) {
         mMenuMoveTab->setText(tr("Move to left"));
-        mMenuMoveTab->setIcon(QIcon(":/move_left.png"));
+        mMenuCopyTab->setText(tr("Copy to left"));
     } else {
-        panel = mPanelLeft;
         mMenuMoveTab->setText(tr("Move to right"));
-        mMenuMoveTab->setIcon(QIcon(":/move_right.png"));
+        mMenuCopyTab->setText(tr("Copy to right"));
     }
-    int idx = panel->tabAt(pos);
 
-    if(idx < 0) {
-        mMenuClose->setEnabled(false);
-        mMenuCloseOthers->setEnabled(false);
-        mMenuMoveTab->setVisible(false);
-    } else {
+    int idx = mPanelCurrent->tabAt(pos);
+
+    mMenuClose->setEnabled(false);
+    mMenuCloseOthers->setEnabled(false);
+    mMenuMoveTab->setEnabled(false);
+    mMenuCopyTab->setEnabled(false);
+
+    if(idx >= 0) {
         mMenuClose->setEnabled(true);
-        mMenuCloseOthers->setEnabled(true);
-        mMenuMoveTab->setVisible(true);
+        mMenuCopyTab->setEnabled(true);
+
+        if(mPanelCurrent->count() > 1) {
+            mMenuCloseOthers->setEnabled(true);
+            mMenuMoveTab->setEnabled(true);
+        } else {
+            // Only one tab
+            if(mPanelCurrent == mPanelRight) {
+                mMenuMoveTab->setEnabled(true);
+            }
+        }
     }
 
     QAction *action = mContextMenu->exec(QCursor::pos());
@@ -149,21 +186,9 @@ void CentralWidget::onCustomContextMenuRequested(QPoint pos)
         onCloseOthersIdx(idx);
     } else if(action == mMenuMoveTab) {
         onMoveToOtherIdx(idx);
+    } else if(action == mMenuCopyTab) {
+        onCopyToOtherIdx(idx);
     }
-}
-
-void CentralWidget::onCurrentTabChanged(int index)
-{
-    Editor *edit = dynamic_cast<Editor*>(mPanelCurrent->widget(index));
-    currentEditor->setCurrentEditor(edit);
-}
-
-void CentralWidget::onInternalWidgetFocusReceived()
-{
-    if(sender() == mPanelRight)
-        mPanelCurrent = mPanelRight;
-    else
-        mPanelCurrent = mPanelLeft;
 }
 
 

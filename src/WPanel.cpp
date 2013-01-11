@@ -20,8 +20,8 @@
  *  @brief      Wolverine::Panel class implementation.
  */
 
-#include "WDocument.h"
 #include "WEditor.h"
+#include "WEditorBinder.h"
 #include "WPanel.h"
 #include "WPanelTabBar.h"
 
@@ -71,6 +71,21 @@ int Panel::addTab(Editor *editor)
     return QtTabWidget::addTab(editor, doc->getIcon(), doc->fileName());
 }
 
+
+int Panel::indexOf(Editor *editor)
+{
+    for(int i=0; i<count(); i++) {
+        Editor *tmp = dynamic_cast<Editor*>(this->widget(i));
+        if(tmp->getBinder() == editor->getBinder())
+            return i;
+    }
+    return -1;
+}
+
+Editor* Panel::getEditor(int idx)
+{
+    return dynamic_cast<Editor*>(this->widget(idx));
+}
 
 int Panel::tabAt(const QPoint &pos)
 {

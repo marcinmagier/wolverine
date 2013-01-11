@@ -54,7 +54,9 @@ public:
     virtual ~Panel();
 
 
-    int addTab(Editor* editor);
+    int addTab(Editor *editor);
+    int indexOf(Editor *editor);
+    Editor* getEditor(int idx);
     int tabAt(const QPoint &pos);
     
 

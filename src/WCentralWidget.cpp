@@ -37,7 +37,7 @@
 
 
 #define W_ACTION_MOVE_TAB "MoveTab"
-
+#define W_ACTION_COPY_TAB "CopyTab"
 
 
 
@@ -49,7 +49,6 @@ CentralWidget::CentralWidget(QWidget *parent):
     QWidget(parent)
 {
     currentEditor = new EditorProxy();
-    mEditorList.clear();
 
     mLayout = new QHBoxLayout(this);
     mLayout->setContentsMargins(0, 0, 0, 0);
@@ -106,16 +105,53 @@ void CentralWidget::removeTab(Panel *panel, int index)
 }
 
 
+void CentralWidget::moveAll(Panel *from, Panel *to)
+{
+    int idx = to->currentIndex();
+    if(to->count() == 0)
+        idx = from->currentIndex();
+
+    for(int i=0; i<from->count(); i++) {
+        Editor *edit = from->getEditor(0);
+        from->removeTab(0);
+        to->addTab(edit);
+    }
+    to->setCurrentIndex(idx);
+}
+
+
 void CentralWidget::moveTab(Panel *from, int fromIdx, Panel *to)
 {
-    Editor *edit = dynamic_cast<Editor*>(from->widget(fromIdx));
-    to->addTab(edit);
+    Editor *edit = from->getEditor(fromIdx);
+    int idx = to->indexOf(edit);
+    from->removeTab(fromIdx);
+    if(idx<0) {
+        to->addTab(edit);
+        to->setCurrentWidget(edit);
+    } else {
+        // There is already a copy of the editor on the other panel
+        // Remove this linked copy
+        removeEditor(edit);
+        to->setCurrentIndex(idx);
+    }
+}
+
+void CentralWidget::copyTab(Panel *from, int fromIdx, Panel *to)
+{
+    Editor *edit = from->getEditor(fromIdx);
+    int idx = to->indexOf(edit);
+    if(idx<0) {
+        Editor *copy = edit->getLinkedCopy();
+        to->addTab(copy);
+        to->setCurrentWidget(copy);
+    } else {
+        // There is already a copy of the editor - select it
+        to->setCurrentIndex(idx);
+    }
 }
 
 void CentralWidget::removeEditor(Editor *editor)
 {
-    mEditorList.removeAll(editor);
-
     EditorBinder *doc = editor->getBinder();
     doc->removeEditor(editor);    // Document deletes editor
     if(!doc->hasEditors())
@@ -153,10 +189,16 @@ void CentralWidget::setupContextMenu()
     mContextMenu->addAction("CloseAll", action);
 
     action = new QAction(mContextMenu);
-    //icon and text is set within menu handler
+    //text is set within menu handler
     //action is done within menu hander
     mMenuMoveTab = action;
-    mContextMenu->addAction("MoveTab", action);
+    mContextMenu->addAction(W_ACTION_MOVE_TAB, action);
+
+    action = new QAction(mContextMenu);
+    //text is set within menu handler
+    //action is done within menu hander
+    mMenuCopyTab = action;
+    mContextMenu->addAction(W_ACTION_COPY_TAB, action);
 
     mContextMenu->restoreConfig();
 }
