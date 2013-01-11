@@ -9,7 +9,7 @@
 namespace Wolverine
 {
 
-class Document;
+class EditorBinder;
 
 class Editor: public QsciScintilla
 {
@@ -17,15 +17,15 @@ class Editor: public QsciScintilla
 
 public:
     explicit Editor(QWidget *parent = 0);
-    explicit Editor(Document *doc, QWidget *parent = 0);
+    explicit Editor(EditorBinder *doc, QWidget *parent = 0);
     virtual ~Editor();
 
-    void setDocument(Document* doc);
-    Document* getDocument();
+    void setBinder(EditorBinder* doc);
+    EditorBinder* getBinder();
 
 
 private:
-    Document *mDocument;
+    EditorBinder *mDocument;
 
 };
 

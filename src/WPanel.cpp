@@ -66,7 +66,7 @@ Panel::~Panel()
 
 int Panel::addTab(Editor *editor)
 {
-    Document *doc = editor->getDocument();
+    EditorBinder *doc = editor->getBinder();
 
     return QtTabWidget::addTab(editor, doc->getIcon(), doc->fileName());
 }

@@ -116,7 +116,7 @@ void CentralWidget::removeEditor(Editor *editor)
 {
     mEditorList.removeAll(editor);
 
-    Document *doc = editor->getDocument();
+    EditorBinder *doc = editor->getBinder();
     doc->removeEditor(editor);    // Document deletes editor
     if(!doc->hasEditors())
         delete doc;

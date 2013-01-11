@@ -41,7 +41,7 @@ using namespace Wolverine;
 
 void CentralWidget::onNew()
 {
-    Document *doc = new Document();
+    EditorBinder *doc = new EditorBinder();
     Editor *edit = doc->getEditor();
 
 

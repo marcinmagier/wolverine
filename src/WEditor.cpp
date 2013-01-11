@@ -16,7 +16,7 @@ Editor::Editor(QWidget *parent) :
 }
 
 
-Editor::Editor(Document *doc, QWidget *parent) :
+Editor::Editor(EditorBinder *doc, QWidget *parent) :
     QsciScintilla(parent),
     mDocument(doc)
 {
@@ -31,13 +31,13 @@ Editor::~Editor()
 }
 
 
-void Editor::setDocument(Document *doc)
+void Editor::setBinder(EditorBinder *doc)
 {
     mDocument = doc;
 }
 
 
-Document* Editor::getDocument()
+EditorBinder* Editor::getBinder()
 {
     if(mDocument == 0)
         LOG_ERROR("There is no document asociated with the editor");

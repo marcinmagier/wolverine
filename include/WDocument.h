@@ -21,20 +21,21 @@ typedef QList<Editor*> EditorList;
 
 
 
-class Document: public QObject, public QFileInfo
+class EditorBinder: public QObject, public QFileInfo
 {
     Q_OBJECT
 
 public:
-    explicit Document();
-    explicit Document(const QString &path);
-    virtual ~Document();
+    explicit EditorBinder();
+    explicit EditorBinder(const QString &path);
+    virtual ~EditorBinder();
 
 
     bool hasEditors() const;
     Editor* getEditor();
     EditorList& getEditors();
     Editor* getNewEditor();
+    Editor* getLinkedEditor(Editor *editor);
     void removeEditor(Editor *editor);
 
     QIcon getIcon() const;

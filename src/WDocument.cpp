@@ -7,10 +7,10 @@
 using namespace Wolverine;
 
 
-int Document::sNewFileNo = 1;
+int EditorBinder::sNewFileNo = 1;
 
 
-Document::Document() :
+EditorBinder::EditorBinder() :
     QObject(),
     QFileInfo( QString(tr("New %1").arg(sNewFileNo++)) )
 {
@@ -18,7 +18,7 @@ Document::Document() :
 }
 
 
-Document::Document(const QString &path) :
+EditorBinder::EditorBinder(const QString &path) :
     QObject(),
     QFileInfo(path)
 {
@@ -26,7 +26,7 @@ Document::Document(const QString &path) :
 }
 
 
-Document::~Document()
+EditorBinder::~EditorBinder()
 {
     foreach(Editor *editor, mEditors) {
         delete editor;
@@ -35,13 +35,13 @@ Document::~Document()
 
 
 
-bool Document::hasEditors() const
+bool EditorBinder::hasEditors() const
 {
     return !mEditors.empty();
 }
 
 
-Editor* Document::getEditor()
+Editor* EditorBinder::getEditor()
 {
     if(mEditors.empty())
         return getNewEditor();
@@ -49,13 +49,13 @@ Editor* Document::getEditor()
     return mEditors[0];
 }
 
-EditorList& Document::getEditors()
+EditorList& EditorBinder::getEditors()
 {
    return mEditors;
 }
 
 
-Editor* Document::getNewEditor()
+Editor* EditorBinder::getNewEditor()
 {
     Editor *newEditor = new Editor(this);
     mEditors.append(newEditor);
@@ -63,14 +63,23 @@ Editor* Document::getNewEditor()
 }
 
 
-void Document::removeEditor(Editor *editor)
+Editor* EditorBinder::getLinkedEditor(Editor *editor)
+{
+    Editor *newEditor = new Editor();
+    mEditors.append(newEditor);
+    newEditor->setDocument(editor->document());
+    return newEditor;
+}
+
+
+void EditorBinder::removeEditor(Editor *editor)
 {
     mEditors.removeAll(editor);
     delete editor;
 }
 
 
-QIcon Document::getIcon() const
+QIcon EditorBinder::getIcon() const
 {
     if(!exists())
         return QIcon(":/save_red.png");
