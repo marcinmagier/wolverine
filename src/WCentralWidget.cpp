@@ -95,15 +95,28 @@ CentralWidget::~CentralWidget()
 
 void CentralWidget::removeTab(Panel *panel, int index)
 {
-    Editor *edit = dynamic_cast<Editor*>(panel->widget(index));
+    Editor *edit = panel->getEditor(index);
     panel->removeTab(index);
     removeEditor(edit);
-
-    //TODO: nowa zakladka jeżeli to jest ostatnia (lub zamknięcie) - nastrojka
-    //jeżeli to jest ostatnia w lewym a w prawym cos jest to przerzuc z prawego do lewego
-    //jezeli to jest ostatnia w prawym to ukryj prawy
 }
 
+
+void CentralWidget::removeOthers(Panel *panel, int index)
+{
+    if(panel->count() < 2)
+        return;
+
+    int idxToRemove = 0;    // Remove first widget for i < index
+    int i=-1;
+    int numOfTabs= panel->count();
+    while(++i < numOfTabs) {
+        if(i == index) {
+            idxToRemove = 1;    // Remove second widget for i > index
+            continue;
+        }
+        this->removeTab(panel, idxToRemove);
+    }
+}
 
 void CentralWidget::moveAll(Panel *from, Panel *to)
 {

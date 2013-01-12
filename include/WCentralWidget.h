@@ -79,6 +79,7 @@ private slots:
 private:
     void setupContextMenu();
     void removeTab(Panel *panel, int index);
+    void removeOthers(Panel *panel, int index);
     void moveAll(Panel *from, Panel *to);
     void moveTab(Panel *from, int fromIdx, Panel *to);
     void copyTab(Panel *from, int fromIdx, Panel *to);

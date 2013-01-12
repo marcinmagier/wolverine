@@ -84,12 +84,12 @@ void CentralWidget::onCloseIdx(int index)
 
 void CentralWidget::onCloseOthers()
 {
-
+    this->onCloseOthersIdx(mPanelCurrent->currentIndex());
 }
 
 void CentralWidget::onCloseOthersIdx(int index)
 {
-
+    this->removeOthers(mPanelCurrent, index);
 }
 
 void CentralWidget::onCloseAll()
@@ -99,22 +99,27 @@ void CentralWidget::onCloseAll()
 
 void CentralWidget::onMoveToOther()
 {
-
+    this->onCopyToOtherIdx(mPanelCurrent->currentIndex());
 }
 
 void CentralWidget::onMoveToOtherIdx(int index)
 {
     if(mPanelCurrent == mPanelRight) {
         this->moveTab(mPanelRight, index, mPanelLeft);
+        if(mPanelRight->count() == 0) {
+            mPanelRight->setVisible(false);
+            mPanelCurrent = mPanelLeft;
+        }
     } else {
         this->moveTab(mPanelLeft, index, mPanelRight);
         mPanelRight->setVisible(true);
+        mPanelCurrent = mPanelRight;
     }
 }
 
 void CentralWidget::onCopyToOther()
 {
-
+    this->onCopyToOtherIdx(mPanelCurrent->currentIndex());
 }
 
 void CentralWidget::onCopyToOtherIdx(int index)
