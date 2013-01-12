@@ -140,7 +140,7 @@ void CentralWidget::onCopyToOtherIdx(int index)
 void CentralWidget::onCurrentTabChanged(int index)
 {
     Editor *edit = mPanelCurrent->getEditor(index);
-    currentEditor->setCurrentEditor(edit);
+    this->setCurrentEditor(edit);
 }
 
 void CentralWidget::onInternalWidgetFocusReceived()
@@ -149,6 +149,7 @@ void CentralWidget::onInternalWidgetFocusReceived()
         mPanelCurrent = mPanelRight;
     else
         mPanelCurrent = mPanelLeft;
+    this->setCurrentEditor(mPanelCurrent->getEditor(mPanelCurrent->currentIndex()));
 }
 
 void CentralWidget::onCustomContextMenuRequested(QPoint pos)

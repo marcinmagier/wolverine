@@ -53,24 +53,27 @@ public:
 
 public slots:
     void onNew();
-    void onNewIdx(int index);
+
     void onOpen(const QString &path);
     void onOpenForm();
 
     void onClose();
-    void onCloseIdx(int index);
     void onCloseOthers();
-    void onCloseOthersIdx(int index);
     void onCloseAll();
 
     void onMoveToOther();
-    void onMoveToOtherIdx(int index);
-
     void onCopyToOther();
-    void onCopyToOtherIdx(int index);
+
 
 
 private slots:
+    void onNewIdx(int index);
+    void onCloseIdx(int index);
+    void onCloseOthersIdx(int index);
+    void onMoveToOtherIdx(int index);
+    void onCopyToOtherIdx(int index);
+
+
     void onCurrentTabChanged(int index);
     void onInternalWidgetFocusReceived();
     void onCustomContextMenuRequested(QPoint pos);
@@ -83,6 +86,7 @@ private:
     void moveAll(Panel *from, Panel *to);
     void moveTab(Panel *from, int fromIdx, Panel *to);
     void copyTab(Panel *from, int fromIdx, Panel *to);
+    void setCurrentEditor(Editor *editor);
     void removeEditor(Editor *editor);
 
 

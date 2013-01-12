@@ -163,6 +163,13 @@ void CentralWidget::copyTab(Panel *from, int fromIdx, Panel *to)
     }
 }
 
+void CentralWidget::setCurrentEditor(Editor *editor)
+{
+    currentEditor->setCurrentEditor(editor);
+    editor->setFocus();
+
+}
+
 void CentralWidget::removeEditor(Editor *editor)
 {
     EditorBinder *doc = editor->getBinder();
