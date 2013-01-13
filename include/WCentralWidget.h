@@ -61,6 +61,7 @@ public slots:
     void onCloseOthers();
     void onCloseAll();
 
+    void onSplit();
     void onMoveToOther();
     void onCopyToOther();
 
@@ -70,6 +71,7 @@ private slots:
     void onNewIdx(int index);
     void onCloseIdx(int index);
     void onCloseOthersIdx(int index);
+    void onSplitIdx(int index);
     void onMoveToOtherIdx(int index);
     void onCopyToOtherIdx(int index);
 
@@ -101,6 +103,7 @@ private:
     QtManagedMenu *mContextMenu;
     QAction *mMenuClose;
     QAction *mMenuCloseOthers;
+    QAction *mMenuSplitTab;
     QAction *mMenuMoveTab;
     QAction *mMenuCopyTab;
 

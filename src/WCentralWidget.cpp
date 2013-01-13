@@ -209,13 +209,13 @@ void CentralWidget::setupContextMenu()
 
     action = new QAction(tr("Close"), mContextMenu);
     action->setIcon(QIcon(":/close.png"));
-    //action is done within context menu hander
+    //action is handled within context menu hander
     mMenuClose = action;
     mContextMenu->addAction("Close", action);
 
     action = new QAction(tr("Close Others"), mContextMenu);
     //action->setIcon(QIcon(":/close.png"));
-    //action is done within context menu hander
+    //action is handled within context menu hander
     mMenuCloseOthers = action;
     mContextMenu->addAction("CloseOthers", action);
 
@@ -225,15 +225,20 @@ void CentralWidget::setupContextMenu()
                this, SLOT(onCloseAll()) );
     mContextMenu->addAction("CloseAll", action);
 
+    action = new QAction(tr("Split"), mContextMenu);
+    //action is handled within context menu hander
+    mMenuSplitTab = action;
+    mContextMenu->addAction("SplitTab", action);
+
     action = new QAction(mContextMenu);
     //text is set within menu handler
-    //action is done within menu hander
+    //action is handled within menu hander
     mMenuMoveTab = action;
     mContextMenu->addAction(W_ACTION_MOVE_TAB, action);
 
     action = new QAction(mContextMenu);
     //text is set within menu handler
-    //action is done within menu hander
+    //action is handled within menu hander
     mMenuCopyTab = action;
     mContextMenu->addAction(W_ACTION_COPY_TAB, action);
 

@@ -23,6 +23,7 @@
 #include "WEditor.h"
 #include "WEditorBinder.h"
 #include "WPanel.h"
+#include "WPanelSplitter.h"
 #include "WPanelTabBar.h"
 
 #include <QContextMenuEvent>
@@ -69,15 +70,19 @@ int Panel::addTab(Editor *editor)
     EditorBinder *doc = editor->getBinder();
     connect( editor, SIGNAL(focusReceived()),
                this, SLOT(onInternalWidgetFocusReceived()) );
-    return QtTabWidget::addTab(editor, doc->getIcon(), doc->fileName());
+
+    PanelSplitter *splitter = new PanelSplitter(this);
+    splitter->addWidget(editor);
+    return QtTabWidget::addTab(splitter, doc->getIcon(), doc->fileName());
 }
 
 
 int Panel::indexOf(Editor *editor)
 {
     for(int i=0; i<count(); i++) {
-        Editor *tmp = dynamic_cast<Editor*>(this->widget(i));
-        if(tmp->getBinder() == editor->getBinder())
+        PanelSplitter *splitter = dynamic_cast<PanelSplitter*>(this->widget(i));
+        Editor *tmpEditor = dynamic_cast<Editor*>(splitter->widget(0));
+        if(tmpEditor->getBinder() == editor->getBinder())
             return i;
     }
     return -1;
@@ -86,8 +91,9 @@ int Panel::indexOf(Editor *editor)
 int Panel::indexOf(const QString &filePath)
 {
     for(int i=0; i<count(); i++) {
-        Editor *editor = dynamic_cast<Editor*>(this->widget(i));
-        if(editor->getBinder()->absoluteFilePath() == filePath)
+        PanelSplitter *splitter = dynamic_cast<PanelSplitter*>(this->widget(i));
+        Editor *tmpEditor = dynamic_cast<Editor*>(splitter->widget(0));
+        if(tmpEditor->getBinder()->absoluteFilePath() == filePath)
             return i;
     }
     return -1;
@@ -100,12 +106,22 @@ int Panel::tabAt(const QPoint &pos)
 
 Editor* Panel::getEditor(int idx)
 {
-    return dynamic_cast<Editor*>(this->widget(idx));
+    PanelSplitter *splitter = dynamic_cast<PanelSplitter*>(this->widget(idx));
+    return dynamic_cast<Editor*>(splitter->widget(0));
+}
+
+void Panel::splitTab(int index)
+{
+    PanelSplitter *splitter = dynamic_cast<PanelSplitter*>(this->widget(index));
+    Editor *editor = dynamic_cast<Editor*>(splitter->widget(0));
+    Editor *newEditor = editor->getLinkedCopy();
+    splitter->addWidget(newEditor);
 }
 
 void Panel::removeTab(int index)
 {
-    Editor *editor = dynamic_cast<Editor*>(this->widget(index));
+    PanelSplitter *splitter = dynamic_cast<PanelSplitter*>(this->widget(index));
+    Editor *editor = dynamic_cast<Editor*>(splitter->widget(0));
     disconnect( editor, SIGNAL(focusReceived()),
                   this, SLOT(onInternalWidgetFocusReceived()) );
     return QtTabWidget::removeTab(index);

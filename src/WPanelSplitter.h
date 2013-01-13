@@ -16,71 +16,42 @@
 **************************************************************************************************/
 
 /**
- *  @file       WPanel.h
- *  @brief      Wolverine::Panel class interface.
+ *  @file       WPanelSplitter.h
+ *  @brief      Wolverine::PanelSplitter class interface.
  */
 
 
 
-#ifndef __W_PANEL_H_
- #define __W_PANEL_H_
-
-#include "qtmanagedmenu.h"
-#include "qttabwidget.h"
+#ifndef __W_PANEL_SPLITTER_H_
+ #define __W_PANEL_SPLITTER_H_
 
 
+#include <QSplitter>
 
 
 namespace Wolverine
 {
 
-class Editor;
-class PanelTabBar;
-
-
-
-class Panel : public QtTabWidget
+class PanelSplitter : public QSplitter
 {
     Q_OBJECT
 
 public:
-
-    enum Position {
-        RightPanel,
-        LeftPanel
-    };
-
-    explicit Panel(QWidget *parent = 0);
-    virtual ~Panel();
-
-
-    int addTab(Editor *editor);
-    int indexOf(Editor *editor);
-    int indexOf(const QString &filePath);
-    int tabAt(const QPoint &pos);
-    Editor* getEditor(int idx);
-    void splitTab(int index);
-    void removeTab(int index);
+    explicit PanelSplitter(QWidget *parent = 0);
+    
 
 public slots:
 
-
 signals:
-    void focusReceived();
-    void tabNewRequested();
 
 
-private slots:
-    void onCustomContextMenuRequested(QPoint pos);
-    void onInternalWidgetFocusReceived();
-    void onTabNewRequested();
+protected:
 
-private:
-    PanelTabBar *mTabBar;
 
 };
 
 
+
 }
 
-#endif // __W_PANEL_H_
+#endif // __W_PANEL_SPLITTER_H_

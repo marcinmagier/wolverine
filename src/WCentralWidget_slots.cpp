@@ -96,6 +96,16 @@ void CentralWidget::onCloseAll()
 
 }
 
+void CentralWidget::onSplit()
+{
+    this->onSplitIdx(mPanelCurrent->currentIndex());
+}
+
+void CentralWidget::onSplitIdx(int index)
+{
+    mPanelCurrent->splitTab(index);
+}
+
 void CentralWidget::onMoveToOther()
 {
     this->onCopyToOtherIdx(mPanelCurrent->currentIndex());
@@ -174,6 +184,7 @@ void CentralWidget::onCustomContextMenuRequested(QPoint pos)
 
     mMenuClose->setEnabled(false);
     mMenuCloseOthers->setEnabled(false);
+    mMenuSplitTab->setEnabled(false);
     mMenuMoveTab->setEnabled(false);
     mMenuCopyTab->setEnabled(false);
 
@@ -190,6 +201,10 @@ void CentralWidget::onCustomContextMenuRequested(QPoint pos)
                 mMenuMoveTab->setEnabled(true);
             }
         }
+
+        if(mPanelCurrent->currentIndex() == idx) {
+            mMenuSplitTab->setEnabled(true);
+        }
     }
 
     QAction *action = mContextMenu->exec(QCursor::pos());
@@ -198,6 +213,8 @@ void CentralWidget::onCustomContextMenuRequested(QPoint pos)
         onCloseIdx(idx);
     } else if(action == mMenuCloseOthers) {
         onCloseOthersIdx(idx);
+    } else if(action == mMenuSplitTab) {
+        onSplitIdx(idx);
     } else if(action == mMenuMoveTab) {
         onMoveToOtherIdx(idx);
     } else if(action == mMenuCopyTab) {

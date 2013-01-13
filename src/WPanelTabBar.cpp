@@ -34,6 +34,7 @@ using namespace Wolverine;
 
 /**
  *  Constructor
+ *
  * @param parent
  */
 PanelTabBar::PanelTabBar(QWidget *parent) :
