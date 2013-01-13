@@ -84,6 +84,16 @@ int Panel::indexOf(Editor *editor)
     return -1;
 }
 
+int Panel::indexOf(const QString &filePath)
+{
+    for(int i=0; i<count(); i++) {
+        Editor *tmp = dynamic_cast<Editor*>(this->widget(i));
+        if(tmp->getBinder()->absoluteFilePath() == filePath)
+            return i;
+    }
+    return -1;
+}
+
 Editor* Panel::getEditor(int idx)
 {
     return dynamic_cast<Editor*>(this->widget(idx));

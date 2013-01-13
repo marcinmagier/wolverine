@@ -28,7 +28,7 @@ public:
 
 
 private:
-    EditorBinder *mDocument;
+    EditorBinder *mBinder;
 
 };
 

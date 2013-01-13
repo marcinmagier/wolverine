@@ -10,7 +10,7 @@ using namespace Wolverine;
 
 Editor::Editor(QWidget *parent) :
     QsciScintilla(parent),
-    mDocument(0)
+    mBinder(0)
 {
 
 }
@@ -18,7 +18,7 @@ Editor::Editor(QWidget *parent) :
 
 Editor::Editor(EditorBinder *doc, QWidget *parent) :
     QsciScintilla(parent),
-    mDocument(doc)
+    mBinder(doc)
 {
 
 }
@@ -33,19 +33,20 @@ Editor::~Editor()
 
 Editor* Editor::getLinkedCopy()
 {
-   return mDocument->getLinkedEditor(this);
+   return mBinder->getLinkedEditor(this);
 }
+
 
 void Editor::setBinder(EditorBinder *doc)
 {
-    mDocument = doc;
+    mBinder = doc;
 }
 
 
 EditorBinder* Editor::getBinder()
 {
-    if(mDocument == 0)
-        LOG_ERROR("There is no document asociated with the editor");
+    if(mBinder == 0)
+        LOG_ERROR("There is no binder asociated with the editor");
 
-    return mDocument;
+    return mBinder;
 }
