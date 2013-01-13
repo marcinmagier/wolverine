@@ -27,7 +27,6 @@
 #include "WEditorProxy.h"
 #include "WPanel.h"
 
-
 #include <QCursor>
 #include <QDebug>
 
@@ -78,7 +77,6 @@ void CentralWidget::onCloseIdx(int index)
         if(mPanelCurrent == mPanelLeft)
             this->moveAll(mPanelRight, mPanelLeft);
         mPanelRight->setVisible(false);
-        mPanelCurrent = mPanelLeft;
     }
 }
 
@@ -108,12 +106,10 @@ void CentralWidget::onMoveToOtherIdx(int index)
         this->moveTab(mPanelRight, index, mPanelLeft);
         if(mPanelRight->count() == 0) {
             mPanelRight->setVisible(false);
-            mPanelCurrent = mPanelLeft;
         }
     } else {
         this->moveTab(mPanelLeft, index, mPanelRight);
         mPanelRight->setVisible(true);
-        mPanelCurrent = mPanelRight;
     }
 }
 
@@ -126,9 +122,11 @@ void CentralWidget::onCopyToOtherIdx(int index)
 {
     if(mPanelCurrent == mPanelRight) {
         // Copy to the left panel
+        mPanelCurrent = mPanelLeft;
         this->copyTab(mPanelRight, index, mPanelLeft);
     } else {
         // Copy to the right panel
+        mPanelCurrent = mPanelRight;
         this->copyTab(mPanelLeft, index, mPanelRight);
         mPanelRight->setVisible(true);
     }
@@ -139,8 +137,12 @@ void CentralWidget::onCopyToOtherIdx(int index)
 
 void CentralWidget::onCurrentTabChanged(int index)
 {
+    if(index < 0)
+        return;
+
     Editor *edit = mPanelCurrent->getEditor(index);
-    this->setCurrentEditor(edit);
+    if(edit)
+        this->setCurrentEditor(edit);
 }
 
 void CentralWidget::onInternalWidgetFocusReceived()

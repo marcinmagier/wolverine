@@ -33,7 +33,7 @@
 #include <QSplitter>
 #include <QIcon>
 
-
+#include <QDebug>
 
 
 #define W_ACTION_MOVE_TAB "MoveTab"
@@ -128,11 +128,13 @@ void CentralWidget::moveAll(Panel *from, Panel *to)
     if(to->count() == 0)
         idx = from->currentIndex();
 
-    for(int i=0; i<from->count(); i++) {
+    int fromLength = from->count();
+    for(int i=0; i<fromLength; i++) {
         Editor *edit = from->getEditor(0);
         from->removeTab(0);
         to->addTab(edit);
     }
+    mPanelCurrent = to;
     to->setCurrentIndex(idx);
 }
 
@@ -140,8 +142,9 @@ void CentralWidget::moveAll(Panel *from, Panel *to)
 void CentralWidget::moveTab(Panel *from, int fromIdx, Panel *to)
 {
     Editor *edit = from->getEditor(fromIdx);
-    int idx = to->indexOf(edit);
     from->removeTab(fromIdx);
+    mPanelCurrent = to;
+    int idx = to->indexOf(edit);
     if(idx<0) {
         to->addTab(edit);
         to->setCurrentWidget(edit);
@@ -156,6 +159,7 @@ void CentralWidget::moveTab(Panel *from, int fromIdx, Panel *to)
 void CentralWidget::copyTab(Panel *from, int fromIdx, Panel *to)
 {
     Editor *edit = from->getEditor(fromIdx);
+    mPanelCurrent = to;
     int idx = to->indexOf(edit);
     if(idx<0) {
         Editor *copy = edit->getLinkedCopy();
