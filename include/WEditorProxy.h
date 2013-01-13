@@ -20,6 +20,8 @@ public:
     explicit EditorProxy();
     virtual ~EditorProxy();
 
+    Editor* getCurrentEditor();
+
 public slots:
     void setCurrentEditor(Editor *editor);
 

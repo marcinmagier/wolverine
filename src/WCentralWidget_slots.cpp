@@ -145,6 +145,11 @@ void CentralWidget::onCurrentTabChanged(int index)
 
 void CentralWidget::onInternalWidgetFocusReceived()
 {
+    if(sender() == mPanelCurrent) {
+        currentEditor->getCurrentEditor()->setFocus();
+        return;
+    }
+
     if(sender() == mPanelRight)
         mPanelCurrent = mPanelRight;
     else
