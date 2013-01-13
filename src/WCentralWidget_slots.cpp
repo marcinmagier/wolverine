@@ -77,6 +77,7 @@ void CentralWidget::onCloseIdx(int index)
         if(mPanelCurrent == mPanelLeft)
             this->moveAll(mPanelRight, mPanelLeft);
         mPanelRight->setVisible(false);
+        this->setCurrentPanel(mPanelLeft);
     }
 }
 
@@ -153,10 +154,9 @@ void CentralWidget::onInternalWidgetFocusReceived()
     }
 
     if(sender() == mPanelRight)
-        mPanelCurrent = mPanelRight;
+        this->setCurrentPanel(mPanelRight);
     else
-        mPanelCurrent = mPanelLeft;
-    this->setCurrentEditor(mPanelCurrent->getEditor(mPanelCurrent->currentIndex()));
+        this->setCurrentPanel(mPanelLeft);
 }
 
 void CentralWidget::onCustomContextMenuRequested(QPoint pos)

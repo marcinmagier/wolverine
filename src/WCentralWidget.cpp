@@ -171,6 +171,15 @@ void CentralWidget::copyTab(Panel *from, int fromIdx, Panel *to)
     }
 }
 
+
+void CentralWidget::setCurrentPanel(Panel *panel)
+{
+    if(mPanelCurrent != panel) {
+        mPanelCurrent = panel;
+        this->setCurrentEditor(mPanelCurrent->getEditor(mPanelCurrent->currentIndex()));
+    }
+}
+
 void CentralWidget::setCurrentEditor(Editor *editor)
 {
     currentEditor->setCurrentEditor(editor);

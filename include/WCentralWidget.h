@@ -86,6 +86,7 @@ private:
     void moveAll(Panel *from, Panel *to);
     void moveTab(Panel *from, int fromIdx, Panel *to);
     void copyTab(Panel *from, int fromIdx, Panel *to);
+    void setCurrentPanel(Panel *panel);
     void setCurrentEditor(Editor *editor);
     void removeEditor(Editor *editor);
 
