@@ -26,8 +26,16 @@ public:
     EditorBinder* getBinder();
 
 
+signals:
+    void focusReceived();
+
+
+protected:
+    virtual void focusInEvent(QFocusEvent *event);
 
 private:
+    void initialize();
+
     EditorBinder *mBinder;
 
 };

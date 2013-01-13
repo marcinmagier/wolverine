@@ -39,6 +39,9 @@ using namespace Wolverine;
 PanelTabBar::PanelTabBar(QWidget *parent) :
     QtTabBar(parent)
 {
+    this->setContextMenuPolicy(Qt::CustomContextMenu);
+    this->setFocusPolicy(Qt::ClickFocus);
+
     AppSettings *settings = AppSettings::instance();
     this->setMovable(!settings->general->isTabBarLocked());
 
@@ -60,9 +63,10 @@ PanelTabBar::PanelTabBar(QWidget *parent) :
  * @param event
  */
 //virtual
-void PanelTabBar::focusInEvent(QFocusEvent */*event*/)
+void PanelTabBar::focusInEvent(QFocusEvent *event)
 {
     emit focusReceived();
+    QtTabBar::focusInEvent(event);
 }
 
 

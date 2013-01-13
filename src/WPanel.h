@@ -57,9 +57,9 @@ public:
     int addTab(Editor *editor);
     int indexOf(Editor *editor);
     int indexOf(const QString &filePath);
-    Editor* getEditor(int idx);
     int tabAt(const QPoint &pos);
-    
+    Editor* getEditor(int idx);
+    void removeTab(int index);
 
 public slots:
 

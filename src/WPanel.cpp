@@ -43,8 +43,6 @@ Panel::Panel(QWidget *parent) :
 {
     mTabBar = new PanelTabBar(this);
     this->setTabBar(mTabBar);
-    mTabBar->setContextMenuPolicy(Qt::CustomContextMenu);
-    mTabBar->setFocusPolicy(Qt::ClickFocus);
 
     connect( mTabBar, SIGNAL(customContextMenuRequested(QPoint)),
                 this, SLOT(onCustomContextMenuRequested(QPoint)) );
@@ -69,7 +67,8 @@ Panel::~Panel()
 int Panel::addTab(Editor *editor)
 {
     EditorBinder *doc = editor->getBinder();
-
+    connect( editor, SIGNAL(focusReceived()),
+               this, SLOT(onInternalWidgetFocusReceived()) );
     return QtTabWidget::addTab(editor, doc->getIcon(), doc->fileName());
 }
 
@@ -87,16 +86,11 @@ int Panel::indexOf(Editor *editor)
 int Panel::indexOf(const QString &filePath)
 {
     for(int i=0; i<count(); i++) {
-        Editor *tmp = dynamic_cast<Editor*>(this->widget(i));
-        if(tmp->getBinder()->absoluteFilePath() == filePath)
+        Editor *editor = dynamic_cast<Editor*>(this->widget(i));
+        if(editor->getBinder()->absoluteFilePath() == filePath)
             return i;
     }
     return -1;
-}
-
-Editor* Panel::getEditor(int idx)
-{
-    return dynamic_cast<Editor*>(this->widget(idx));
 }
 
 int Panel::tabAt(const QPoint &pos)
@@ -104,6 +98,18 @@ int Panel::tabAt(const QPoint &pos)
     return mTabBar->tabAt(pos);
 }
 
+Editor* Panel::getEditor(int idx)
+{
+    return dynamic_cast<Editor*>(this->widget(idx));
+}
+
+void Panel::removeTab(int index)
+{
+    Editor *editor = dynamic_cast<Editor*>(this->widget(index));
+    disconnect( editor, SIGNAL(focusReceived()),
+                  this, SLOT(onInternalWidgetFocusReceived()) );
+    return QtTabWidget::removeTab(index);
+}
 
 
 

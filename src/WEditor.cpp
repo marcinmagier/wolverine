@@ -12,7 +12,7 @@ Editor::Editor(QWidget *parent) :
     QsciScintilla(parent),
     mBinder(0)
 {
-
+    initialize();
 }
 
 
@@ -20,9 +20,8 @@ Editor::Editor(EditorBinder *doc, QWidget *parent) :
     QsciScintilla(parent),
     mBinder(doc)
 {
-
+    initialize();
 }
-
 
 
 Editor::~Editor()
@@ -30,6 +29,11 @@ Editor::~Editor()
 
 }
 
+
+void Editor::initialize()
+{
+    this->setFocusPolicy(Qt::ClickFocus);
+}
 
 Editor* Editor::getLinkedCopy()
 {
@@ -49,4 +53,16 @@ EditorBinder* Editor::getBinder()
         LOG_ERROR("There is no binder asociated with the editor");
 
     return mBinder;
+}
+
+
+/**
+ *  focusInEvent() handler
+ *
+ */
+//virtual
+void Editor::focusInEvent(QFocusEvent *event)
+{
+    emit focusReceived();
+    QsciScintilla::focusInEvent(event);
 }
