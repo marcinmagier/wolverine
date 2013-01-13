@@ -62,14 +62,16 @@ public:
 
 public slots:
 
+
 signals:
     void focusReceived();
-
+    void tabNewRequested();
 
 
 private slots:
     void onCustomContextMenuRequested(QPoint pos);
     void onInternalWidgetFocusReceived();
+    void onTabNewRequested();
 
 private:
     PanelTabBar *mTabBar;

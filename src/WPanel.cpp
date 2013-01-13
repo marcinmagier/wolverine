@@ -52,6 +52,8 @@ Panel::Panel(QWidget *parent) :
                 this, SLOT(setListButtonHidden(bool)) );
     connect( mTabBar, SIGNAL(focusReceived()),
                 this, SLOT(onInternalWidgetFocusReceived()) );
+    connect( mTabBar, SIGNAL(tabNewRequested()),
+                this, SLOT(onTabNewRequested()) );
 }
 
 
@@ -106,3 +108,7 @@ void Panel::onInternalWidgetFocusReceived()
     emit focusReceived();
 }
 
+void Panel::onTabNewRequested()
+{
+    emit tabNewRequested();
+}

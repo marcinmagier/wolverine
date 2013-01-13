@@ -46,6 +46,7 @@ public slots:
 
 signals:
     void focusReceived();
+    void tabNewRequested();
 
 
 protected:

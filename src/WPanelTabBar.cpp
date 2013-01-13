@@ -75,9 +75,14 @@ void PanelTabBar::focusInEvent(QFocusEvent */*event*/)
 void PanelTabBar::mouseReleaseEvent(QMouseEvent *event)
 {
     if(event->button() & Qt::MidButton) {
-        if(AppSettings::instance()->general->isTabBarMiddleBtnClose()) {
-            int idx = this->tabAt(event->pos());
-            emit tabCloseRequested(idx);
+        int idx = this->tabAt(event->pos());
+        AppSettings *settings = AppSettings::instance();
+        if(idx < 0) {
+            if(settings->general->isTabBarMiddleBtnNew())
+                emit tabNewRequested();
+        } else {
+            if(settings->general->isTabBarMiddleBtnClose())
+                emit tabCloseRequested(idx);
         }
     }
     QtTabBar::mouseReleaseEvent(event);
@@ -93,9 +98,14 @@ void PanelTabBar::mouseReleaseEvent(QMouseEvent *event)
 void PanelTabBar::mouseDoubleClickEvent(QMouseEvent *event)
 {
     if(event->button() & Qt::LeftButton) {
-        if(AppSettings::instance()->general->isTabBarDoubleClkClose()) {
-            int idx = this->tabAt(event->pos());
-            emit tabCloseRequested(idx);
+        int idx = this->tabAt(event->pos());
+        AppSettings *settings = AppSettings::instance();
+        if(idx < 0) {
+            if(settings->general->isTabBarDoubleClkNew())
+                emit tabNewRequested();
+        } else {
+            if(settings->general->isTabBarDoubleClkClose())
+                emit tabCloseRequested(idx);
         }
     }
     QtTabBar::mouseDoubleClickEvent(event);

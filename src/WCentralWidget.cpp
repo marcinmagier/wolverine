@@ -70,6 +70,8 @@ CentralWidget::CentralWidget(QWidget *parent):
                   this, SLOT(onCustomContextMenuRequested(QPoint)) );
     connect( mPanelLeft, SIGNAL(focusReceived()),
                    this, SLOT(onInternalWidgetFocusReceived()) );
+    connect( mPanelLeft, SIGNAL(tabNewRequested()),
+                   this, SLOT(onNew()) );
 
     connect( mPanelRight, SIGNAL(currentChanged(int)),
                    this, SLOT(onCurrentTabChanged(int)) );
@@ -79,6 +81,8 @@ CentralWidget::CentralWidget(QWidget *parent):
                    this, SLOT(onCustomContextMenuRequested(QPoint)) );
     connect( mPanelRight, SIGNAL(focusReceived()),
                    this, SLOT(onInternalWidgetFocusReceived()) );
+    connect( mPanelRight, SIGNAL(tabNewRequested()),
+                    this, SLOT(onNew()) );
 
     mPanelCurrent = mPanelLeft;
     onNew();

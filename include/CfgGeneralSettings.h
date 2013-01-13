@@ -16,11 +16,12 @@ class GeneralSettings : public QObject
     Q_PROPERTY(bool     logFileEnabled              READ isLogFileEnabled               WRITE setLogFileEnabled             )
     Q_PROPERTY(bool     logConsoleEnabled           READ isLogConsoleEnabled            WRITE setLogConsoleEnabled          )
 
-    Q_PROPERTY(bool     tabBarHidden                READ isTabBarHidden                 WRITE setTabBarHidden               )
     Q_PROPERTY(bool     tabBarLocked                READ isTabBarLocked                 WRITE setTabBarLocked               )
     Q_PROPERTY(bool     tabBarCloseVisible          READ isTabBarCloseVisible           WRITE setTabBarCloseVisible         )
     Q_PROPERTY(bool     tabBarDoubleClkClose        READ isTabBarDoubleClkClose         WRITE setTabBarDoubleClkClose       )
+    Q_PROPERTY(bool     tabBarDoubleClkNew          READ isTabBarDoubleClkNew           WRITE setTabBarDoubleClkNew         )
     Q_PROPERTY(bool     tabBarMiddleBtnClose        READ isTabBarMiddleBtnClose         WRITE setTabBarMiddleBtnClose       )
+    Q_PROPERTY(bool     tabBarMiddleBtnNew          READ isTabBarMiddleBtnNew           WRITE setTabBarMiddleBtnNew         )
     Q_PROPERTY(bool     tabBarIconVisible           READ isTabBarIconVisible            WRITE setTabBarIconVisible          )
     Q_PROPERTY(bool     tabBarModernStyleEnabled    READ isTabBarModernStyleEnabled     WRITE setTabBarModernStyleEnabled   )
 
@@ -36,11 +37,12 @@ public:
     bool isLogFileEnabled();
     bool isLogConsoleEnabled();
 
-    bool isTabBarHidden();
     bool isTabBarLocked();
     bool isTabBarCloseVisible();
     bool isTabBarDoubleClkClose();
+    bool isTabBarDoubleClkNew();
     bool isTabBarMiddleBtnClose();
+    bool isTabBarMiddleBtnNew();
     bool isTabBarIconVisible();
     bool isTabBarModernStyleEnabled();
 
@@ -48,11 +50,12 @@ public:
 signals:
     void languageChanged(QString val);
 
-    void tabBarHiddenChanged(bool val);
     void tabBarLockedChanged(bool val);
     void tabBarCloseVisibleChanged(bool val);
     void tabBarDoubleClkCloseChanged(bool val);
+    void tabBarDoubleClkCloseNew(bool val);
     void tabBarMiddleBtnCloseChanged(bool val);
+    void tabBarMiddleBtnCloseNew(bool val);
     void tabBarIconVisibleChanged(bool val);
     void tabBarModernStyleEnabledChanged(bool val);
 
@@ -65,11 +68,12 @@ public slots:
     void setLogFileEnabled(bool val);
     void setLogConsoleEnabled(bool val);
 
-    void setTabBarHidden(bool val);
     void setTabBarLocked(bool val);
     void setTabBarCloseVisible(bool val);
     void setTabBarDoubleClkClose(bool val);
+    void setTabBarDoubleClkNew(bool val);
     void setTabBarMiddleBtnClose(bool val);
+    void setTabBarMiddleBtnNew(bool val);
     void setTabBarIconVisible(bool val);
     void setTabBarModernStyleEnabled(bool val);
 
@@ -82,11 +86,12 @@ private:
     bool mLogFileEnabled;
     bool mLogConsoleEnabled;
 
-    bool mTabBarHidden;
     bool mTabBarLocked;
     bool mTabBarCloseVisible;
     bool mTabBarDoubleClkClose;
+    bool mTabBarDoubleClkNew;
     bool mTabBarMiddleBtnClose;
+    bool mTabBarMiddleBtnNew;
     bool mTabBarIconVisible;
     bool mTabBarModernStyleEnabled;
 

@@ -14,11 +14,12 @@ GeneralSettings::GeneralSettings()
     mLogFileEnabled = true;
     mLogConsoleEnabled = true;
 
-    mTabBarHidden = false;
     mTabBarLocked = false;
     mTabBarCloseVisible = true;
     mTabBarDoubleClkClose = true;
+    mTabBarDoubleClkNew = true;
     mTabBarMiddleBtnClose = true;
+    mTabBarMiddleBtnNew = true;
     mTabBarIconVisible = true;
     mTabBarModernStyleEnabled = true;
 }
@@ -37,6 +38,7 @@ QString GeneralSettings::getLanguage()
 {
     return mLanguage;
 }
+
 
 
 //=======================  Log  =============================================//
@@ -77,19 +79,9 @@ bool GeneralSettings::isLogConsoleEnabled()
     return mLogConsoleEnabled;
 }
 
-//=======================  TabBar  ==========================================//
 
-void GeneralSettings::setTabBarHidden(bool val)
-{
-    if(mTabBarHidden != val) {
-        mTabBarHidden = val;
-        emit tabBarHiddenChanged(mTabBarHidden);
-    }
-}
-bool GeneralSettings::isTabBarHidden()
-{
-    return mTabBarHidden;
-}
+
+//=======================  TabBar  ==========================================//
 
 void GeneralSettings::setTabBarLocked(bool val)
 {
@@ -127,6 +119,18 @@ bool GeneralSettings::isTabBarDoubleClkClose()
     return mTabBarDoubleClkClose;
 }
 
+void GeneralSettings::setTabBarDoubleClkNew(bool val)
+{
+    if(mTabBarDoubleClkNew != val) {
+        mTabBarDoubleClkNew = val;
+        emit tabBarDoubleClkCloseChanged(mTabBarDoubleClkNew);
+    }
+}
+bool GeneralSettings::isTabBarDoubleClkNew()
+{
+    return mTabBarDoubleClkNew;
+}
+
 void GeneralSettings::setTabBarMiddleBtnClose(bool val)
 {
     if(mTabBarMiddleBtnClose != val) {
@@ -137,6 +141,18 @@ void GeneralSettings::setTabBarMiddleBtnClose(bool val)
 bool GeneralSettings::isTabBarMiddleBtnClose()
 {
     return mTabBarMiddleBtnClose;
+}
+
+void GeneralSettings::setTabBarMiddleBtnNew(bool val)
+{
+    if(mTabBarMiddleBtnNew != val) {
+        mTabBarMiddleBtnNew = val;
+        emit tabBarMiddleBtnCloseChanged(mTabBarMiddleBtnNew);
+    }
+}
+bool GeneralSettings::isTabBarMiddleBtnNew()
+{
+    return mTabBarMiddleBtnNew;
 }
 
 void GeneralSettings::setTabBarIconVisible(bool val)
