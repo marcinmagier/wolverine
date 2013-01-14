@@ -136,6 +136,7 @@ void Panel::onCustomContextMenuRequested(QPoint pos)
 void Panel::onInternalWidgetFocusReceived()
 {
     Editor *edit = this->getEditor(this->currentIndex());
+    mEditorProxy->setCurrentEditor(edit);
 
     // Emit focusReceived() only if signal comes from editor
     if(!edit->hasFocus()) {

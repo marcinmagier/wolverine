@@ -49,12 +49,11 @@ public:
     Editor* getEditor();
     bool hasEditor(Editor *editor);
     bool hasEditor(const QString &filePath);
-    void removeEditor(int idx);
     void split();
 
 
+
 signals:
-    void currentEditorChanged(Editor *editor);
     void focusReceived();
 
 
@@ -63,12 +62,15 @@ private slots:
     void onInternalWidgetFocusReceived();
     void onSplitterMoved(int pos, int index);
 
+
+
 private:
+    void removeEditor(int idx);
+
     Editor *mCurrentEditor;
 
 
 };
-
 
 
 }

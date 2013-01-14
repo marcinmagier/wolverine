@@ -29,7 +29,7 @@ using namespace Wolverine;
 
 
 /**
- *  Constructor
+ *  Constructor.
  *
  * @param parent
  */
@@ -42,14 +42,31 @@ PanelSplitter::PanelSplitter(QWidget *parent) :
              this, SLOT(onSplitterMoved(int,int)) );
 }
 
+
+/**
+ *  Destructor.
+ */
 PanelSplitter::~PanelSplitter()
 {
+    int i=0;
+    while(i < this->count()) {
+        if(mCurrentEditor != this->widget(i))
+            this->removeEditor(i);
+        else
+            i++;
+    }
+    mCurrentEditor->setParent(0);   // Do not delete editor
     disconnect( mCurrentEditor, SIGNAL(focusReceived()),
                           this, SLOT(onInternalWidgetFocusReceived()) );
-    mCurrentEditor->setParent(0);   // Do not delete editor
+
 }
 
 
+/**
+ *  Adds widget to the splitter.
+ *
+ * @param editor
+ */
 void PanelSplitter::addWidget(Editor *editor)
 {
     mCurrentEditor = editor;
@@ -60,12 +77,23 @@ void PanelSplitter::addWidget(Editor *editor)
 }
 
 
+/**
+ *  Returns current editor.
+ *
+ * @return
+ */
 Editor* PanelSplitter::getEditor()
 {
     return mCurrentEditor;
 }
 
 
+/**
+ *  Checks if splitter has given editor.
+ *
+ * @param editor
+ * @return
+ */
 bool PanelSplitter::hasEditor(Editor *editor)
 {
     for(int i=0; i<count(); i++) {
@@ -77,6 +105,12 @@ bool PanelSplitter::hasEditor(Editor *editor)
 }
 
 
+/**
+ *  Checks if splitter has editor associated with given file path.
+ *
+ * @param filePath
+ * @return
+ */
 bool PanelSplitter::hasEditor(const QString &filePath)
 {
     for(int i=0; i<count(); i++) {
@@ -88,6 +122,11 @@ bool PanelSplitter::hasEditor(const QString &filePath)
 }
 
 
+/**
+ *  Removes editor from splitter.
+ *
+ * @param idx
+ */
 void PanelSplitter::removeEditor(int idx)
 {
     Editor *editor = dynamic_cast<Editor*>(this->widget(idx));
@@ -95,6 +134,10 @@ void PanelSplitter::removeEditor(int idx)
     binder->removeEditor(editor);
 }
 
+
+/**
+ *  Splits current editor into linked editors.
+ */
 void PanelSplitter::split()
 {
     Editor *newEditor = mCurrentEditor->getLinkedCopy();
@@ -102,6 +145,9 @@ void PanelSplitter::split()
 }
 
 
+/**
+ *  Editor's focusReceived() handler.
+ */
 void PanelSplitter::onInternalWidgetFocusReceived()
 {
     mCurrentEditor = dynamic_cast<Editor*>(this->sender());
@@ -109,13 +155,24 @@ void PanelSplitter::onInternalWidgetFocusReceived()
 }
 
 
+/**
+ *  Checks if editor should be closed.
+ */
 void PanelSplitter::onSplitterMoved(int /*pos*/, int /*index*/)
 {
     QList<int> sizes = this->sizes();
 
-    for(int i=0; i<count(); i++) {
+    int i=0;
+    while(i < this->count()) {
         if(sizes[i] == 0) {
             this->removeEditor(i);
+            sizes.removeAt(i);
+        }
+        else {
+            i++;
         }
     }
+
+    mCurrentEditor = dynamic_cast<Editor*>(this->widget(0));
+    mCurrentEditor->setFocus();
 }
