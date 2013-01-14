@@ -46,6 +46,7 @@ PanelSplitter::~PanelSplitter()
 {
     disconnect( mCurrentEditor, SIGNAL(focusReceived()),
                           this, SLOT(onInternalWidgetFocusReceived()) );
+    mCurrentEditor->setParent(0);   // Do not delete editor
 }
 
 
