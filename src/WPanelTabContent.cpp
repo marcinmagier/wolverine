@@ -133,8 +133,7 @@ bool PanelTabContent::hasEditor(const QString &filePath)
 void PanelTabContent::removeEditor(int index)
 {
     Editor *editor = dynamic_cast<Editor*>(this->widget(index));
-    EditorBinder *binder = editor->getBinder();
-    binder->removeEditor(editor);
+    Editor::removeEditor(editor);
 }
 
 

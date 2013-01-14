@@ -41,6 +41,15 @@ Editor* Editor::getLinkedCopy()
 }
 
 
+//static
+void Editor::removeEditor(Editor *editor)
+{
+    EditorBinder *doc = editor->getBinder();
+    doc->removeEditor(editor);    // Document deletes editor
+    if(!doc->hasEditors())
+        delete doc;
+}
+
 void Editor::setBinder(EditorBinder *doc)
 {
     mBinder = doc;

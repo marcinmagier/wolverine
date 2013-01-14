@@ -21,6 +21,7 @@ public:
     virtual ~Editor();
 
     Editor* getLinkedCopy();
+    static void removeEditor(Editor *editor);
 
     void setBinder(EditorBinder* doc);
     EditorBinder* getBinder();

@@ -25,6 +25,7 @@
 #ifndef __W_PANEL_H_
  #define __W_PANEL_H_
 
+
 #include "qtmanagedmenu.h"
 #include "qttabwidget.h"
 
@@ -46,12 +47,6 @@ class Panel : public QtTabWidget
     Q_OBJECT
 
 public:
-
-    enum Position {
-        RightPanel,
-        LeftPanel
-    };
-
     explicit Panel(EditorProxy *editorProxy, QWidget *parent = 0);
     virtual ~Panel();
 
@@ -79,7 +74,7 @@ private slots:
     void onTabNewRequested();
 
 private:
-    PanelTabContent* getSplitter(int idx);
+    PanelTabContent* getTabContent(int idx);
 
     PanelTabBar *mTabBar;
     EditorProxy *mEditorProxy;

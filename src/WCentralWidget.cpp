@@ -102,7 +102,7 @@ void CentralWidget::removeTab(Panel *panel, int index)
 {
     Editor *edit = panel->getEditor(index);
     panel->removeTab(index);
-    removeEditor(edit);
+    Editor::removeEditor(edit);
 }
 
 
@@ -152,7 +152,7 @@ void CentralWidget::moveTab(Panel *from, int fromIdx, Panel *to)
     } else {
         // There is already a copy of the editor on the other panel
         // Remove this linked copy
-        removeEditor(edit);
+        Editor::removeEditor(edit);
         to->setCurrentIndex(idx);
     }
 }
@@ -188,13 +188,7 @@ void CentralWidget::setCurrentEditor(Editor *editor)
 
 }
 
-void CentralWidget::removeEditor(Editor *editor)
-{
-    EditorBinder *doc = editor->getBinder();
-    doc->removeEditor(editor);    // Document deletes editor
-    if(!doc->hasEditors())
-        delete doc;
-}
+
 
 
 

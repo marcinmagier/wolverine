@@ -28,7 +28,6 @@
 #include "WPanelTabContent.h"
 
 #include <QContextMenuEvent>
-#include <QDebug>
 
 
 
@@ -73,19 +72,19 @@ Panel::~Panel()
 int Panel::addTab(Editor *editor)
 {
     EditorBinder *doc = editor->getBinder();
-    PanelTabContent *splitter = new PanelTabContent(this);
-    connect( splitter, SIGNAL(focusReceived()),
+    PanelTabContent *tabContent = new PanelTabContent(this);
+    connect( tabContent, SIGNAL(focusReceived()),
                  this, SLOT(onInternalWidgetFocusReceived()) );
-    splitter->addWidget(editor);
-    return QtTabWidget::addTab(splitter, doc->getIcon(), doc->fileName());
+    tabContent->addWidget(editor);
+    return QtTabWidget::addTab(tabContent, doc->getIcon(), doc->fileName());
 }
 
 
 int Panel::indexOf(Editor *editor)
 {
     for(int i=0; i<count(); i++) {
-        PanelTabContent *splitter = this->getSplitter(i);
-        if(splitter->hasEditor(editor))
+        PanelTabContent *tabContent = this->getTabContent(i);
+        if(tabContent->hasEditor(editor))
             return i;
     }
     return -1;
@@ -94,8 +93,8 @@ int Panel::indexOf(Editor *editor)
 int Panel::indexOf(const QString &filePath)
 {
     for(int i=0; i<count(); i++) {
-        PanelTabContent *splitter = this->getSplitter(i);
-        if(splitter->hasEditor(filePath))
+        PanelTabContent *tabContent = this->getTabContent(i);
+        if(tabContent->hasEditor(filePath))
             return i;
     }
     return -1;
@@ -108,22 +107,23 @@ int Panel::tabAt(const QPoint &pos)
 
 Editor* Panel::getEditor(int index)
 {
-    PanelTabContent *splitter = this->getSplitter(index);
-    return splitter->getEditor();
+    PanelTabContent *tabContent = this->getTabContent(index);
+    return tabContent->getEditor();
 }
 
 void Panel::splitTab(int index)
 {
-    PanelTabContent *splitter = this->getSplitter(index);
-    splitter->split();
+    PanelTabContent *tabContent = this->getTabContent(index);
+    tabContent->split();
 }
 
 void Panel::removeTab(int index)
 {
-    PanelTabContent *splitter = this->getSplitter(index);
+    PanelTabContent *tabContent = this->getTabContent(index);
     QtTabWidget::removeTab(index);
-    delete splitter;
+    delete tabContent;
 }
+
 
 
 
@@ -152,8 +152,8 @@ void Panel::onCurrentTabChanged(int idx)
         return;
 
     Editor *edit = this->getEditor(idx);
-    edit->setFocus();
     mEditorProxy->setCurrentEditor(edit);
+    edit->setFocus();
 }
 
 void Panel::onTabNewRequested()
@@ -162,7 +162,7 @@ void Panel::onTabNewRequested()
 }
 
 
-PanelTabContent* Panel::getSplitter(int idx)
+PanelTabContent* Panel::getTabContent(int idx)
 {
     return dynamic_cast<PanelTabContent*>(this->widget(idx));
 }
