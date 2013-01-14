@@ -21,6 +21,8 @@
  */
 
 #include "WPanelSplitter.h"
+#include "WEditor.h"
+#include "WEditorBinder.h"
 
 
 
@@ -37,4 +39,77 @@ PanelSplitter::PanelSplitter(QWidget *parent) :
 {
     this->setOrientation(Qt::Vertical);
 
+    connect( this, SIGNAL(splitterMoved(int,int)),
+             this, SLOT(onSplitterMoved(int,int)) );
+}
+
+
+void PanelSplitter::addWidget(Editor *editor)
+{
+    mCurrentEditor = editor;
+    connect( editor, SIGNAL(focusReceived()),
+               this, SLOT(onInternalWidgetFocusReceived()) );
+
+    QSplitter::addWidget(editor);
+}
+
+
+Editor* PanelSplitter::getEditor()
+{
+    return mCurrentEditor;
+}
+
+
+bool PanelSplitter::hasEditor(Editor *editor)
+{
+    for(int i=0; i<count(); i++) {
+        Editor *tmpEditor = dynamic_cast<Editor*>(this->widget(i));
+        if(tmpEditor->getBinder() == editor->getBinder())
+            return true;
+    }
+    return false;
+}
+
+
+bool PanelSplitter::hasEditor(const QString &filePath)
+{
+    for(int i=0; i<count(); i++) {
+        Editor *tmpEditor = dynamic_cast<Editor*>(this->widget(i));
+        if(tmpEditor->getBinder()->absoluteFilePath() == filePath)
+            return true;
+    }
+    return false;
+}
+
+
+void PanelSplitter::removeEditor(int idx)
+{
+    Editor *editor = dynamic_cast<Editor*>(this->widget(idx));
+    EditorBinder *binder = editor->getBinder();
+    binder->removeEditor(editor);
+}
+
+void PanelSplitter::split()
+{
+    Editor *newEditor = mCurrentEditor->getLinkedCopy();
+    this->addWidget(newEditor);
+}
+
+
+void PanelSplitter::onInternalWidgetFocusReceived()
+{
+    mCurrentEditor = dynamic_cast<Editor*>(this->sender());
+    emit focusReceived();
+}
+
+
+void PanelSplitter::onSplitterMoved(int /*pos*/, int /*index*/)
+{
+    QList<int> sizes = this->sizes();
+
+    for(int i=0; i<count(); i++) {
+        if(sizes[i] == 0) {
+            this->removeEditor(i);
+        }
+    }
 }

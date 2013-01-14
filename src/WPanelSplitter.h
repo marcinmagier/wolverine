@@ -32,6 +32,10 @@
 namespace Wolverine
 {
 
+class Editor;
+
+
+
 class PanelSplitter : public QSplitter
 {
     Q_OBJECT
@@ -40,12 +44,26 @@ public:
     explicit PanelSplitter(QWidget *parent = 0);
     
 
-public slots:
+    void addWidget(Editor *editor);
+    Editor* getEditor();
+    bool hasEditor(Editor *editor);
+    bool hasEditor(const QString &filePath);
+    void removeEditor(int idx);
+    void split();
+
 
 signals:
+    void currentEditorChanged(Editor *editor);
+    void focusReceived();
 
 
-protected:
+
+private slots:
+    void onInternalWidgetFocusReceived();
+    void onSplitterMoved(int pos, int index);
+
+private:
+    Editor *mCurrentEditor;
 
 
 };
