@@ -16,11 +16,12 @@
 **************************************************************************************************/
 
 /**
- *  @file       WPanelSplitter.cpp
- *  @brief      Wolverine::PanelSplitter class implementation.
+ *  @file       WPanelTabContent.cpp
+ *  @brief      Wolverine::PanelTabContent class implementation.
  */
 
-#include "WPanelSplitter.h"
+
+#include "WPanelTabContent.h"
 #include "WEditor.h"
 #include "WEditorBinder.h"
 
@@ -28,12 +29,14 @@
 using namespace Wolverine;
 
 
+
+
 /**
  *  Constructor.
  *
  * @param parent
  */
-PanelSplitter::PanelSplitter(QWidget *parent) :
+PanelTabContent::PanelTabContent(QWidget *parent) :
     QSplitter(parent)
 {
     this->setOrientation(Qt::Vertical);
@@ -46,18 +49,18 @@ PanelSplitter::PanelSplitter(QWidget *parent) :
 /**
  *  Destructor.
  */
-PanelSplitter::~PanelSplitter()
+PanelTabContent::~PanelTabContent()
 {
     int i=0;
-    while(i < this->count()) {
-        if(mCurrentEditor != this->widget(i))
+    while(i < count()) {
+        if(mEditorProxy != this->widget(i))
             this->removeEditor(i);
         else
             i++;
     }
-    mCurrentEditor->setParent(0);   // Do not delete editor
-    disconnect( mCurrentEditor, SIGNAL(focusReceived()),
-                          this, SLOT(onInternalWidgetFocusReceived()) );
+    mEditorProxy->setParent(0);   // Do not delete editor
+    disconnect( mEditorProxy, SIGNAL(focusReceived()),
+                        this, SLOT(onInternalWidgetFocusReceived()) );
 
 }
 
@@ -67,13 +70,13 @@ PanelSplitter::~PanelSplitter()
  *
  * @param editor
  */
-void PanelSplitter::addWidget(Editor *editor)
+void PanelTabContent::addWidget(Editor *editor)
 {
-    mCurrentEditor = editor;
-    connect( editor, SIGNAL(focusReceived()),
-               this, SLOT(onInternalWidgetFocusReceived()) );
+    mEditorProxy = editor;
+    connect( mEditorProxy, SIGNAL(focusReceived()),
+                     this, SLOT(onInternalWidgetFocusReceived()) );
 
-    QSplitter::addWidget(editor);
+    QSplitter::addWidget(mEditorProxy);
 }
 
 
@@ -82,9 +85,9 @@ void PanelSplitter::addWidget(Editor *editor)
  *
  * @return
  */
-Editor* PanelSplitter::getEditor()
+Editor* PanelTabContent::getEditor()
 {
-    return mCurrentEditor;
+    return mEditorProxy;
 }
 
 
@@ -94,7 +97,7 @@ Editor* PanelSplitter::getEditor()
  * @param editor
  * @return
  */
-bool PanelSplitter::hasEditor(Editor *editor)
+bool PanelTabContent::hasEditor(Editor *editor)
 {
     for(int i=0; i<count(); i++) {
         Editor *tmpEditor = dynamic_cast<Editor*>(this->widget(i));
@@ -111,7 +114,7 @@ bool PanelSplitter::hasEditor(Editor *editor)
  * @param filePath
  * @return
  */
-bool PanelSplitter::hasEditor(const QString &filePath)
+bool PanelTabContent::hasEditor(const QString &filePath)
 {
     for(int i=0; i<count(); i++) {
         Editor *tmpEditor = dynamic_cast<Editor*>(this->widget(i));
@@ -127,9 +130,9 @@ bool PanelSplitter::hasEditor(const QString &filePath)
  *
  * @param idx
  */
-void PanelSplitter::removeEditor(int idx)
+void PanelTabContent::removeEditor(int index)
 {
-    Editor *editor = dynamic_cast<Editor*>(this->widget(idx));
+    Editor *editor = dynamic_cast<Editor*>(this->widget(index));
     EditorBinder *binder = editor->getBinder();
     binder->removeEditor(editor);
 }
@@ -138,9 +141,9 @@ void PanelSplitter::removeEditor(int idx)
 /**
  *  Splits current editor into linked editors.
  */
-void PanelSplitter::split()
+void PanelTabContent::split()
 {
-    Editor *newEditor = mCurrentEditor->getLinkedCopy();
+    Editor *newEditor = mEditorProxy->getLinkedCopy();
     this->addWidget(newEditor);
 }
 
@@ -148,9 +151,9 @@ void PanelSplitter::split()
 /**
  *  Editor's focusReceived() handler.
  */
-void PanelSplitter::onInternalWidgetFocusReceived()
+void PanelTabContent::onInternalWidgetFocusReceived()
 {
-    mCurrentEditor = dynamic_cast<Editor*>(this->sender());
+    mEditorProxy = dynamic_cast<Editor*>(this->sender());
     emit focusReceived();
 }
 
@@ -158,12 +161,12 @@ void PanelSplitter::onInternalWidgetFocusReceived()
 /**
  *  Checks if editor should be closed.
  */
-void PanelSplitter::onSplitterMoved(int /*pos*/, int /*index*/)
+void PanelTabContent::onSplitterMoved(int /*pos*/, int /*index*/)
 {
     QList<int> sizes = this->sizes();
 
     int i=0;
-    while(i < this->count()) {
+    while(i < count()) {
         if(sizes[i] == 0) {
             this->removeEditor(i);
             sizes.removeAt(i);
@@ -173,6 +176,6 @@ void PanelSplitter::onSplitterMoved(int /*pos*/, int /*index*/)
         }
     }
 
-    mCurrentEditor = dynamic_cast<Editor*>(this->widget(0));
-    mCurrentEditor->setFocus();
+    mEditorProxy = dynamic_cast<Editor*>(this->widget(0));
+    mEditorProxy->setFocus();
 }

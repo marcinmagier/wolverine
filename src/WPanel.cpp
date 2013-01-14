@@ -24,8 +24,8 @@
 #include "WEditorBinder.h"
 #include "WEditorProxy.h"
 #include "WPanel.h"
-#include "WPanelSplitter.h"
 #include "WPanelTabBar.h"
+#include "WPanelTabContent.h"
 
 #include <QContextMenuEvent>
 #include <QDebug>
@@ -73,7 +73,7 @@ Panel::~Panel()
 int Panel::addTab(Editor *editor)
 {
     EditorBinder *doc = editor->getBinder();
-    PanelSplitter *splitter = new PanelSplitter(this);
+    PanelTabContent *splitter = new PanelTabContent(this);
     connect( splitter, SIGNAL(focusReceived()),
                  this, SLOT(onInternalWidgetFocusReceived()) );
     splitter->addWidget(editor);
@@ -84,7 +84,7 @@ int Panel::addTab(Editor *editor)
 int Panel::indexOf(Editor *editor)
 {
     for(int i=0; i<count(); i++) {
-        PanelSplitter *splitter = this->getSplitter(i);
+        PanelTabContent *splitter = this->getSplitter(i);
         if(splitter->hasEditor(editor))
             return i;
     }
@@ -94,7 +94,7 @@ int Panel::indexOf(Editor *editor)
 int Panel::indexOf(const QString &filePath)
 {
     for(int i=0; i<count(); i++) {
-        PanelSplitter *splitter = this->getSplitter(i);
+        PanelTabContent *splitter = this->getSplitter(i);
         if(splitter->hasEditor(filePath))
             return i;
     }
@@ -108,19 +108,19 @@ int Panel::tabAt(const QPoint &pos)
 
 Editor* Panel::getEditor(int index)
 {
-    PanelSplitter *splitter = this->getSplitter(index);
+    PanelTabContent *splitter = this->getSplitter(index);
     return splitter->getEditor();
 }
 
 void Panel::splitTab(int index)
 {
-    PanelSplitter *splitter = this->getSplitter(index);
+    PanelTabContent *splitter = this->getSplitter(index);
     splitter->split();
 }
 
 void Panel::removeTab(int index)
 {
-    PanelSplitter *splitter = this->getSplitter(index);
+    PanelTabContent *splitter = this->getSplitter(index);
     QtTabWidget::removeTab(index);
     delete splitter;
 }
@@ -162,7 +162,7 @@ void Panel::onTabNewRequested()
 }
 
 
-PanelSplitter* Panel::getSplitter(int idx)
+PanelTabContent* Panel::getSplitter(int idx)
 {
-    return dynamic_cast<PanelSplitter*>(this->widget(idx));
+    return dynamic_cast<PanelTabContent*>(this->widget(idx));
 }

@@ -41,8 +41,8 @@ SOURCES      += \
                 ../src/WLib.cpp \
                 ../src/WMainWindow.cpp \
                 ../src/WPanel.cpp \
-                ../src/WPanelSplitter.cpp \
                 ../src/WPanelTabBar.cpp \
+                ../src/WPanelTabContent.cpp \
                 ../src/WPopup.cpp \
                 ../src/WStatusBar.cpp
 
@@ -50,8 +50,8 @@ SOURCES      += \
 HEADERS      += \
                 ../src/wolverine_cfg.h \
                 ../src/WPanel.h \
-                ../src/WPanelSplitter.h \
                 ../src/WPanelTabBar.h \
+                ../src/WPanelTabContent.h \
                 ../src/WPopup.h \
                 ../src/WStatusBar.h \
                 ../src/settings/DlgSettings.h \

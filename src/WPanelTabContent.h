@@ -16,14 +16,14 @@
 **************************************************************************************************/
 
 /**
- *  @file       WPanelSplitter.h
- *  @brief      Wolverine::PanelSplitter class interface.
+ *  @file       WPanelTabContent.h
+ *  @brief      Wolverine::PanelTabContent class interface.
  */
 
 
 
-#ifndef __W_PANEL_SPLITTER_H_
- #define __W_PANEL_SPLITTER_H_
+#ifndef __W_PANEL_TAB_CONTENT_H_
+ #define __W_PANEL_TAB_CONTENT_H_
 
 
 #include <QSplitter>
@@ -36,13 +36,13 @@ class Editor;
 
 
 
-class PanelSplitter : public QSplitter
+class PanelTabContent : public QSplitter
 {
     Q_OBJECT
 
 public:
-    explicit PanelSplitter(QWidget *parent = 0);
-    virtual ~PanelSplitter();
+    explicit PanelTabContent(QWidget *parent = 0);
+    virtual ~PanelTabContent();
     
 
     void addWidget(Editor *editor);
@@ -65,9 +65,9 @@ private slots:
 
 
 private:
-    void removeEditor(int idx);
+    void removeEditor(int index);
 
-    Editor *mCurrentEditor;
+    Editor *mEditorProxy;
 
 
 };
@@ -75,4 +75,4 @@ private:
 
 }
 
-#endif // __W_PANEL_SPLITTER_H_
+#endif // __W_PANEL_TAB_CONTENT_H_

@@ -36,7 +36,7 @@ namespace Wolverine
 
 class Editor;
 class EditorProxy;
-class PanelSplitter;
+class PanelTabContent;
 class PanelTabBar;
 
 
@@ -79,7 +79,7 @@ private slots:
     void onTabNewRequested();
 
 private:
-    PanelSplitter* getSplitter(int idx);
+    PanelTabContent* getSplitter(int idx);
 
     PanelTabBar *mTabBar;
     EditorProxy *mEditorProxy;
