@@ -25,7 +25,6 @@
 #include "WEditorBinder.h"
 
 
-
 using namespace Wolverine;
 
 
@@ -41,6 +40,12 @@ PanelSplitter::PanelSplitter(QWidget *parent) :
 
     connect( this, SIGNAL(splitterMoved(int,int)),
              this, SLOT(onSplitterMoved(int,int)) );
+}
+
+PanelSplitter::~PanelSplitter()
+{
+    disconnect( mCurrentEditor, SIGNAL(focusReceived()),
+                          this, SLOT(onInternalWidgetFocusReceived()) );
 }
 
 

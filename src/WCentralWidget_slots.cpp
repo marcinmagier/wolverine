@@ -145,25 +145,8 @@ void CentralWidget::onCopyToOtherIdx(int index)
 
 
 
-
-void CentralWidget::onCurrentTabChanged(int index)
-{
-    if(index < 0)
-        return;
-
-    Editor *edit = mPanelCurrent->getEditor(index);
-    if(edit)
-        this->setCurrentEditor(edit);
-}
-
 void CentralWidget::onInternalWidgetFocusReceived()
 {
-    if(sender() == mPanelCurrent) {
-        if(!currentEditor->getCurrentEditor()->hasFocus())
-            currentEditor->getCurrentEditor()->setFocus();
-        return;
-    }
-
     if(sender() == mPanelRight)
         this->setCurrentPanel(mPanelRight);
     else

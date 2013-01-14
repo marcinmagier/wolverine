@@ -42,6 +42,7 @@ class PanelSplitter : public QSplitter
 
 public:
     explicit PanelSplitter(QWidget *parent = 0);
+    virtual ~PanelSplitter();
     
 
     void addWidget(Editor *editor);

@@ -49,7 +49,7 @@ public:
     explicit CentralWidget(QWidget *parent = 0);
     virtual ~CentralWidget();
 
-    EditorProxy *currentEditor;
+    EditorProxy* getCurrentEditor();
 
 public slots:
     void onNew();
@@ -76,7 +76,6 @@ private slots:
     void onCopyToOtherIdx(int index);
 
 
-    void onCurrentTabChanged(int index);
     void onInternalWidgetFocusReceived();
     void onCustomContextMenuRequested(QPoint pos);
 
@@ -99,6 +98,8 @@ private:
     Panel *mPanelLeft;
     Panel *mPanelRight;
     Panel *mPanelCurrent;
+
+    EditorProxy *mCurrentEditor;
 
     QtManagedMenu *mContextMenu;
     QAction *mMenuClose;

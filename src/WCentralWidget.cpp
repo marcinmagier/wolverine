@@ -48,22 +48,20 @@ using namespace Wolverine;
 CentralWidget::CentralWidget(QWidget *parent):
     QWidget(parent)
 {
-    currentEditor = new EditorProxy();
+    mCurrentEditor = new EditorProxy();
 
     mLayout = new QHBoxLayout(this);
     mLayout->setContentsMargins(0, 0, 0, 0);
     mSplitter = new QSplitter(this);
     mSplitter->setOrientation(Qt::Horizontal);
-    mPanelLeft = new Panel(mSplitter);
-    mPanelRight = new Panel(mSplitter);
+    mPanelLeft = new Panel(mCurrentEditor, mSplitter);
+    mPanelRight = new Panel(mCurrentEditor, mSplitter);
     mPanelRight->hide();
     mSplitter->addWidget(mPanelLeft);
     mSplitter->addWidget(mPanelRight);
     mLayout->addWidget(mSplitter);
 
 
-    connect( mPanelLeft, SIGNAL(currentChanged(int)),
-                  this, SLOT(onCurrentTabChanged(int)) );
     connect( mPanelLeft, SIGNAL(tabCloseRequested(int)),
                   this, SLOT(onCloseIdx(int)) );
     connect( mPanelLeft, SIGNAL(customContextMenuRequested(QPoint)),
@@ -73,8 +71,6 @@ CentralWidget::CentralWidget(QWidget *parent):
     connect( mPanelLeft, SIGNAL(tabNewRequested()),
                    this, SLOT(onNew()) );
 
-    connect( mPanelRight, SIGNAL(currentChanged(int)),
-                   this, SLOT(onCurrentTabChanged(int)) );
     connect( mPanelRight, SIGNAL(tabCloseRequested(int)),
                    this, SLOT(onCloseIdx(int)) );
     connect( mPanelRight, SIGNAL(customContextMenuRequested(QPoint)),
@@ -91,10 +87,15 @@ CentralWidget::CentralWidget(QWidget *parent):
 
 CentralWidget::~CentralWidget()
 {
-    delete currentEditor;
+    delete mCurrentEditor;
     //layout, spliter and panels are deleted automatically
 }
 
+
+EditorProxy* CentralWidget::getCurrentEditor()
+{
+    return mCurrentEditor;
+}
 
 
 void CentralWidget::removeTab(Panel *panel, int index)
@@ -182,7 +183,7 @@ void CentralWidget::setCurrentPanel(Panel *panel)
 
 void CentralWidget::setCurrentEditor(Editor *editor)
 {
-    currentEditor->setCurrentEditor(editor);
+    mCurrentEditor->setCurrentEditor(editor);
     editor->setFocus();
 
 }

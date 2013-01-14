@@ -35,6 +35,8 @@ namespace Wolverine
 {
 
 class Editor;
+class EditorProxy;
+class PanelSplitter;
 class PanelTabBar;
 
 
@@ -50,7 +52,7 @@ public:
         LeftPanel
     };
 
-    explicit Panel(QWidget *parent = 0);
+    explicit Panel(EditorProxy *editorProxy, QWidget *parent = 0);
     virtual ~Panel();
 
 
@@ -58,7 +60,7 @@ public:
     int indexOf(Editor *editor);
     int indexOf(const QString &filePath);
     int tabAt(const QPoint &pos);
-    Editor* getEditor(int idx);
+    Editor* getEditor(int index);
     void splitTab(int index);
     void removeTab(int index);
 
@@ -73,10 +75,14 @@ signals:
 private slots:
     void onCustomContextMenuRequested(QPoint pos);
     void onInternalWidgetFocusReceived();
+    void onCurrentTabChanged(int idx);
     void onTabNewRequested();
 
 private:
+    PanelSplitter* getSplitter(int idx);
+
     PanelTabBar *mTabBar;
+    EditorProxy *mEditorProxy;
 
 };
 

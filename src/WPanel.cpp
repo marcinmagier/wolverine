@@ -22,6 +22,7 @@
 
 #include "WEditor.h"
 #include "WEditorBinder.h"
+#include "WEditorProxy.h"
 #include "WPanel.h"
 #include "WPanelSplitter.h"
 #include "WPanelTabBar.h"
@@ -39,8 +40,9 @@ using namespace Wolverine;
  *
  * @param parent
  */
-Panel::Panel(QWidget *parent) :
-    QtTabWidget(parent)
+Panel::Panel(EditorProxy *editorProxy, QWidget *parent) :
+    QtTabWidget(parent),
+    mEditorProxy(editorProxy)
 {
     mTabBar = new PanelTabBar(this);
     this->setTabBar(mTabBar);
@@ -53,6 +55,9 @@ Panel::Panel(QWidget *parent) :
                 this, SLOT(onInternalWidgetFocusReceived()) );
     connect( mTabBar, SIGNAL(tabNewRequested()),
                 this, SLOT(onTabNewRequested()) );
+
+    connect( this, SIGNAL(currentChanged(int)),
+             this, SLOT(onCurrentTabChanged(int)) );
 }
 
 
@@ -69,6 +74,8 @@ int Panel::addTab(Editor *editor)
 {
     EditorBinder *doc = editor->getBinder();
     PanelSplitter *splitter = new PanelSplitter(this);
+    connect( splitter, SIGNAL(focusReceived()),
+                 this, SLOT(onInternalWidgetFocusReceived()) );
     splitter->addWidget(editor);
     return QtTabWidget::addTab(splitter, doc->getIcon(), doc->fileName());
 }
@@ -77,7 +84,7 @@ int Panel::addTab(Editor *editor)
 int Panel::indexOf(Editor *editor)
 {
     for(int i=0; i<count(); i++) {
-        PanelSplitter *splitter = dynamic_cast<PanelSplitter*>(this->widget(i));
+        PanelSplitter *splitter = this->getSplitter(i);
         if(splitter->hasEditor(editor))
             return i;
     }
@@ -87,7 +94,7 @@ int Panel::indexOf(Editor *editor)
 int Panel::indexOf(const QString &filePath)
 {
     for(int i=0; i<count(); i++) {
-        PanelSplitter *splitter = dynamic_cast<PanelSplitter*>(this->widget(i));
+        PanelSplitter *splitter = this->getSplitter(i);
         if(splitter->hasEditor(filePath))
             return i;
     }
@@ -99,21 +106,21 @@ int Panel::tabAt(const QPoint &pos)
     return mTabBar->tabAt(pos);
 }
 
-Editor* Panel::getEditor(int idx)
+Editor* Panel::getEditor(int index)
 {
-    PanelSplitter *splitter = dynamic_cast<PanelSplitter*>(this->widget(idx));
+    PanelSplitter *splitter = this->getSplitter(index);
     return splitter->getEditor();
 }
 
 void Panel::splitTab(int index)
 {
-    PanelSplitter *splitter = dynamic_cast<PanelSplitter*>(this->widget(index));
+    PanelSplitter *splitter = this->getSplitter(index);
     splitter->split();
 }
 
 void Panel::removeTab(int index)
 {
-    PanelSplitter *splitter = dynamic_cast<PanelSplitter*>(this->widget(index));
+    PanelSplitter *splitter = this->getSplitter(index);
     QtTabWidget::removeTab(index);
     delete splitter;
 }
@@ -128,10 +135,33 @@ void Panel::onCustomContextMenuRequested(QPoint pos)
 
 void Panel::onInternalWidgetFocusReceived()
 {
-    emit focusReceived();
+    Editor *edit = this->getEditor(this->currentIndex());
+
+    // Emit focusReceived() only if signal comes from editor
+    if(!edit->hasFocus()) {
+        edit->setFocus();
+    } else {
+        emit focusReceived();
+    }
+}
+
+void Panel::onCurrentTabChanged(int idx)
+{
+    if(idx<0)
+        return;
+
+    Editor *edit = this->getEditor(idx);
+    edit->setFocus();
+    mEditorProxy->setCurrentEditor(edit);
 }
 
 void Panel::onTabNewRequested()
 {
     emit tabNewRequested();
+}
+
+
+PanelSplitter* Panel::getSplitter(int idx)
+{
+    return dynamic_cast<PanelSplitter*>(this->widget(idx));
 }
