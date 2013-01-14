@@ -69,6 +69,12 @@ Panel::~Panel()
 }
 
 
+/**
+ *  Adds new tab to the panel.
+ *
+ * @param editor
+ * @return
+ */
 int Panel::addTab(Editor *editor)
 {
     EditorBinder *doc = editor->getBinder();
@@ -80,6 +86,12 @@ int Panel::addTab(Editor *editor)
 }
 
 
+/**
+ *  Checks if given editor is already opened in panel.
+ *
+ * @param editor
+ * @return
+ */
 int Panel::indexOf(Editor *editor)
 {
     for(int i=0; i<count(); i++) {
@@ -90,6 +102,13 @@ int Panel::indexOf(Editor *editor)
     return -1;
 }
 
+
+/**
+ *  Checks if file path associated with given editor is already opened in panel.
+ *
+ * @param filePath
+ * @return
+ */
 int Panel::indexOf(const QString &filePath)
 {
     for(int i=0; i<count(); i++) {
@@ -100,23 +119,49 @@ int Panel::indexOf(const QString &filePath)
     return -1;
 }
 
+
+/**
+ *  Returns tab index from given point. Used by context menu handler.
+ *
+ * @param pos
+ * @return
+ */
 int Panel::tabAt(const QPoint &pos)
 {
     return mTabBar->tabAt(pos);
 }
 
+
+/**
+ *  Returns editor placed on the given index.
+ *
+ * @param index
+ * @return
+ */
 Editor* Panel::getEditor(int index)
 {
     PanelTabContent *tabContent = this->getTabContent(index);
     return tabContent->getEditor();
 }
 
+
+/**
+ *  Splits editor.
+ *
+ * @param index
+ */
 void Panel::splitTab(int index)
 {
     PanelTabContent *tabContent = this->getTabContent(index);
     tabContent->split();
 }
 
+
+/**
+ *  Removes tab.
+ *
+ * @param index
+ */
 void Panel::removeTab(int index)
 {
     PanelTabContent *tabContent = this->getTabContent(index);
@@ -127,12 +172,20 @@ void Panel::removeTab(int index)
 
 
 
-
+/**
+ *  TabBar's customContextMenuRequested() signal handler.
+ *
+ * @param pos
+ */
 void Panel::onCustomContextMenuRequested(QPoint pos)
 {
     emit customContextMenuRequested(pos);
 }
 
+
+/**
+ *  Internal widgets focusReceived() signal handler.
+ */
 void Panel::onInternalWidgetFocusReceived()
 {
     Editor *edit = this->getEditor(this->currentIndex());
@@ -146,6 +199,12 @@ void Panel::onInternalWidgetFocusReceived()
     }
 }
 
+
+/**
+ *  TabWidget's currentChanged() signal handler.
+ *
+ * @param idx
+ */
 void Panel::onCurrentTabChanged(int idx)
 {
     if(idx<0)
@@ -156,12 +215,22 @@ void Panel::onCurrentTabChanged(int idx)
     edit->setFocus();
 }
 
+
+/**
+ *  TabBar's tabNewRequested() signal handler.
+ */
 void Panel::onTabNewRequested()
 {
     emit tabNewRequested();
 }
 
 
+/**
+ *  Retrieves PanelTabContent from the given index.
+ *
+ * @param idx
+ * @return
+ */
 PanelTabContent* Panel::getTabContent(int idx)
 {
     return dynamic_cast<PanelTabContent*>(this->widget(idx));

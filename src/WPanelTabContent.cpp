@@ -159,6 +159,10 @@ void PanelTabContent::onInternalWidgetFocusReceived()
 
 /**
  *  Checks if editor should be closed.
+ *
+ * BUG Qt 4.8.1 Windows
+ * Feature doesn't work fine because there is a problem with widgets within QSplitter. Widgets are added
+ * in reversed order (???) so that sizes[i] != widget(i).
  */
 void PanelTabContent::onSplitterMoved(int /*pos*/, int /*index*/)
 {
