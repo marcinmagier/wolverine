@@ -16,8 +16,8 @@
 **************************************************************************************************/
 
 /**
- *  @file       WEditorProxy.cpp
- *  @brief      Wolverine::EditorProxy class implementation.
+ *  @file       WEditorProxy_slots.cpp
+ *  @brief      Wolverine::EditorProxy slots implementation.
  */
 
 
@@ -29,19 +29,15 @@
 using namespace Wolverine;
 
 
-EditorProxy::EditorProxy()
+
+
+
+
+void EditorProxy::setCurrentEditor(Editor *editor)
 {
-
-}
-
-EditorProxy::~EditorProxy()
-{
-
-}
-
-
-Editor *EditorProxy::getCurrentEditor()
-{
-    return mCurrentEditor;
+    if(mCurrentEditor != editor) {
+        mCurrentEditor = editor;
+        emit currentEditorChanged(mCurrentEditor);
+    }
 }
 

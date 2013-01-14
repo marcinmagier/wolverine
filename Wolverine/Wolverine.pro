@@ -36,8 +36,10 @@ SOURCES      += \
                 ../src/WCentralWidget.cpp \
                 ../src/WCentralWidget_slots.cpp \
                 ../src/WEditor.cpp \
+                ../src/WEditor_slots.cpp \
                 ../src/WEditorBinder.cpp \
                 ../src/WEditorProxy.cpp \
+                ../src/WEditorProxy_slots.cpp \
                 ../src/WLib.cpp \
                 ../src/WMainWindow.cpp \
                 ../src/WPanel.cpp \
@@ -79,13 +81,16 @@ INCLUDEPATH  += \
                 ../src \
                 ../src/settings
 
+
 RESOURCES    += \
                 ../resources/images.qrc 
+
 
 FORMS        += \
                 ../src/settings/PageGeneral.ui \
                 ../src/settings/PageScintilla.ui \
                 ../src/settings/PageView.ui
+
 
 TRANSLATIONS += \
                 ../translations/wolverine_en_US.ts \

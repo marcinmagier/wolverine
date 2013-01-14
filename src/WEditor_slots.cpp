@@ -16,32 +16,17 @@
 **************************************************************************************************/
 
 /**
- *  @file       WEditorProxy.cpp
- *  @brief      Wolverine::EditorProxy class implementation.
+ *  @file       WEditor_slots.cpp
+ *  @brief      Wolverine::Editor slots implementation.
  */
 
 
 
-
-#include "WEditorProxy.h"
-
+#include "Logger.h"
+#include "WEditor.h"
+#include "WEditorBinder.h"
 
 using namespace Wolverine;
 
 
-EditorProxy::EditorProxy()
-{
-
-}
-
-EditorProxy::~EditorProxy()
-{
-
-}
-
-
-Editor *EditorProxy::getCurrentEditor()
-{
-    return mCurrentEditor;
-}
 
