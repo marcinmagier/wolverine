@@ -311,6 +311,8 @@ QStringList QtManagedToolBar::createConfiguration()
 void QtManagedToolBar::setManagerEnabled(bool val)
 {
    mIsManagerEnabled = val;
+   this->setFloatable(val);
+   this->setMovable(val);
 }
 
 

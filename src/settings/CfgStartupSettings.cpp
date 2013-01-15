@@ -21,40 +21,8 @@ StartupSettings::StartupSettings()
 
 
 
-QString StartupSettings::getLanguage()
-{
-    return mLanguage;
-}
 
-QString StartupSettings::getLogLevel()
-{
-    return mLogLevel;
-}
-
-QString StartupSettings::getLogFilePath()
-{
-    return mLogFilePath;
-}
-
-bool StartupSettings::isLogFileEnabled()
-{
-    return mLogFileEnabled;
-}
-
-bool StartupSettings::isLogConsoleEnabled()
-{
-    return mLogConsoleEnabled;
-}
-
-bool StartupSettings::isAlwaysNewInstance()
-{
-    return mAlwaysNewInstance;
-}
-
-
-
-
-
+//=======================  Lang  ============================================//
 
 void StartupSettings::setLanguage(QString val)
 {
@@ -68,29 +36,61 @@ void StartupSettings::setLanguage(QString val)
         emit languageChanged(mLanguage);
     }
 }
+QString StartupSettings::getLanguage()
+{
+    return mLanguage;
+}
+
+
+
+
+//=======================  Log  =============================================//
 
 void StartupSettings::setLogLevel(QString val)
 {
     mLogLevel = val;
+}
+QString StartupSettings::getLogLevel()
+{
+    return mLogLevel;
 }
 
 void StartupSettings::setLogFilePath(QString val)
 {
     mLogFilePath = val;
 }
+QString StartupSettings::getLogFilePath()
+{
+    return mLogFilePath;
+}
 
 void StartupSettings::setLogFileEnabled(bool val)
 {
     mLogFileEnabled = val;
+}
+bool StartupSettings::isLogFileEnabled()
+{
+    return mLogFileEnabled;
 }
 
 void StartupSettings::setLogConsoleEnabled(bool val)
 {
     mLogConsoleEnabled = val;
 }
+bool StartupSettings::isLogConsoleEnabled()
+{
+    return mLogConsoleEnabled;
+}
 
 void StartupSettings::setAlwaysNewInstance(bool val)
 {
     mAlwaysNewInstance = val;
 }
+bool StartupSettings::isAlwaysNewInstance()
+{
+    return mAlwaysNewInstance;
+}
+
+
+
 

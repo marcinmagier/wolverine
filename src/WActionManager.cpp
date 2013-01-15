@@ -180,6 +180,12 @@ void initializeActions()
     sInstance->addAction(W_ACTION_GROUP_EDIT, W_ACTION_UNDO, action);
 
 
+    action = new QAction(QObject::tr("Customize"), 0);
+    //action->setShortcut(QObject::tr("Ctrl+Alt+S"));
+    action->setStatusTip(QObject::tr("Enable/disable customization"));
+    action->setCheckable(true);
+    sInstance->addAction(W_ACTION_GROUP_TOOLS, W_ACTION_CUSTOMIZE, action);
+
     action = new QAction(QObject::tr("Settings"), 0);
     //action->setShortcut(QObject::tr("Ctrl+Alt+S"));
     action->setStatusTip(QObject::tr("Settings dialog"));

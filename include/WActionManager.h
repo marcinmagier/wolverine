@@ -73,6 +73,7 @@ private:
 #define W_ACTION_PASTE          "Paste"
 
     //W_ACTION_GROUP_TOOLS
+#define W_ACTION_CUSTOMIZE      "Customize"
 #define W_ACTION_SETTINGS       "Settings"
 
 

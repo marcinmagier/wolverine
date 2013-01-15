@@ -24,7 +24,19 @@
 
 
 #include "WEditorProxy.h"
+
+#include "CfgAppSettings.h"
+#include "CfgGeneralSettings.h"
+
 #include "qtmanagedmenu.h"
+
+
+
+#define W_ACTION_CUT "Cut"
+#define W_ACTION_COPY "Copy"
+#define W_ACTION_PASTE "Paste"
+
+#define W_EDITOR_CONTEXT_MENU  "EditorContextMenu"
 
 
 using namespace Wolverine;
@@ -55,24 +67,32 @@ Editor *EditorProxy::getCurrentEditor()
 void EditorProxy::setupContextMenu()
 {
     QAction *action;
-    mContextMenu = new QtManagedMenu(0, "EditorContextMenu");
+    GeneralSettings *settings = AppSettings::instance()->general;
+    mContextMenu = new QtManagedMenu(0, W_EDITOR_CONTEXT_MENU);
+    mContextMenu->setManagerEnabled(settings->isAppCustomizeEnabled());
+    connect(     settings, SIGNAL(appCustomizeEnabledChanged(bool)),
+             mContextMenu, SLOT(setManagerEnabled(bool)), Qt::DirectConnection );
+
     action = new QAction(tr("Cut"), mContextMenu);
     action->setIcon(QIcon(":/cut.png"));
     connect( action, SIGNAL(triggered()),
                this, SLOT(onCut()) );
-    mContextMenu->addAction("Cut", action);
+    mContextMenu->addAction(W_ACTION_CUT, action);
 
     action = new QAction(tr("Copy"), mContextMenu);
     action->setIcon(QIcon(":/copy.png"));
     connect( action, SIGNAL(triggered()),
                this, SLOT(onCopy()) );
-    mContextMenu->addAction("Copy", action);
+    mContextMenu->addAction(W_ACTION_COPY, action);
 
     action = new QAction(tr("Paste"), mContextMenu);
     action->setIcon(QIcon(":/paste.png"));
     connect( action, SIGNAL(triggered()),
                this, SLOT(onPaste()) );
-    mContextMenu->addAction("Paste", action);
+    mContextMenu->addAction(W_ACTION_PASTE, action);
+
+
+
 
     mContextMenu->restoreConfig();
 }
