@@ -58,7 +58,7 @@ Editor::~Editor()
 
 void Editor::initialize()
 {
-    //this->setContextMenuPolicy(Qt::CustomContextMenu);
+    this->setContextMenuPolicy(Qt::CustomContextMenu);
     this->setFocusPolicy(Qt::ClickFocus);
 }
 
@@ -103,7 +103,3 @@ void Editor::focusInEvent(QFocusEvent *event)
     QsciScintilla::focusInEvent(event);
 }
 
-void Editor::contextMenuEvent(QContextMenuEvent *event)
-{
-    emit customContextMenuRequestedd(event->pos());
-}

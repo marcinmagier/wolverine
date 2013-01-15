@@ -24,8 +24,9 @@
 
 
 #include "WEditorProxy.h"
+#include "WEditor.h"
+#include "WEditorBinder.h"
 #include "qtmanagedmenu.h"
-#include <QTabBar>
 
 
 #include <QCursor>
@@ -42,9 +43,8 @@ void EditorProxy::setCurrentEditor(Editor *editor)
 {
     if(mCurrentEditor != editor) {
         mCurrentEditor = editor;
-        QTabBar *tabbar = new QTabBar(0);
-        connect( editor, SIGNAL(customContextMenuRequestedd(QPoint)),
-                   this, SLOT(onCustomContextMenuRequested(QPoint)) );
+        connect( mCurrentEditor, SIGNAL(customContextMenuRequested(QPoint)),
+                           this, SLOT(onCustomContextMenuRequested(QPoint)) );
 
         emit currentEditorChanged(mCurrentEditor);
     }
