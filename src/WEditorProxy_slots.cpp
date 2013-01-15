@@ -24,6 +24,11 @@
 
 
 #include "WEditorProxy.h"
+#include "qtmanagedmenu.h"
+#include <QTabBar>
+
+
+#include <QCursor>
 
 
 using namespace Wolverine;
@@ -37,7 +42,38 @@ void EditorProxy::setCurrentEditor(Editor *editor)
 {
     if(mCurrentEditor != editor) {
         mCurrentEditor = editor;
+        QTabBar *tabbar = new QTabBar(0);
+        connect( editor, SIGNAL(customContextMenuRequestedd(QPoint)),
+                   this, SLOT(onCustomContextMenuRequested(QPoint)) );
+
         emit currentEditorChanged(mCurrentEditor);
     }
+}
+
+
+
+void EditorProxy::onCut()
+{
+
+}
+
+void EditorProxy::onCopy()
+{
+
+}
+
+
+void EditorProxy::onPaste()
+{
+
+}
+
+
+
+
+
+void EditorProxy::onCustomContextMenuRequested(const QPoint &pos)
+{
+    mContextMenu->exec(QCursor::pos());
 }
 

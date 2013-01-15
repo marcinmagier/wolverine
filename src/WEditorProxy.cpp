@@ -24,6 +24,7 @@
 
 
 #include "WEditorProxy.h"
+#include "qtmanagedmenu.h"
 
 
 using namespace Wolverine;
@@ -31,12 +32,12 @@ using namespace Wolverine;
 
 EditorProxy::EditorProxy()
 {
-
+    setupContextMenu();
 }
 
 EditorProxy::~EditorProxy()
 {
-
+    delete mContextMenu;
 }
 
 
@@ -45,3 +46,33 @@ Editor *EditorProxy::getCurrentEditor()
     return mCurrentEditor;
 }
 
+
+
+
+
+
+
+void EditorProxy::setupContextMenu()
+{
+    QAction *action;
+    mContextMenu = new QtManagedMenu(0, "EditorContextMenu");
+    action = new QAction(tr("Cut"), mContextMenu);
+    action->setIcon(QIcon(":/cut.png"));
+    connect( action, SIGNAL(triggered()),
+               this, SLOT(onCut()) );
+    mContextMenu->addAction("Cut", action);
+
+    action = new QAction(tr("Copy"), mContextMenu);
+    action->setIcon(QIcon(":/copy.png"));
+    connect( action, SIGNAL(triggered()),
+               this, SLOT(onCopy()) );
+    mContextMenu->addAction("Copy", action);
+
+    action = new QAction(tr("Paste"), mContextMenu);
+    action->setIcon(QIcon(":/paste.png"));
+    connect( action, SIGNAL(triggered()),
+               this, SLOT(onPaste()) );
+    mContextMenu->addAction("Paste", action);
+
+    mContextMenu->restoreConfig();
+}

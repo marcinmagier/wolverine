@@ -28,6 +28,11 @@
 
 
 #include <QObject>
+#include <QPoint>
+
+
+
+class QtManagedMenu;
 
 
 namespace Wolverine
@@ -49,12 +54,25 @@ public:
 public slots:
     void setCurrentEditor(Editor *editor);
 
+    void onCut();
+    void onCopy();
+    void onPaste();
+
+
 signals:
     void currentEditorChanged(Editor *editor);
 
 
+private slots:
+    void onCustomContextMenuRequested(const QPoint &pos);
+
+
 private:
+    void setupContextMenu();
+
     Editor *mCurrentEditor;
+
+    QtManagedMenu *mContextMenu;
 
 };
 

@@ -53,10 +53,12 @@ public:
 
 signals:
     void focusReceived();
+    void customContextMenuRequestedd(const QPoint &pos);
 
 
 protected:
     virtual void focusInEvent(QFocusEvent *event);
+    virtual void contextMenuEvent(QContextMenuEvent *event);
 
 private:
     void initialize();

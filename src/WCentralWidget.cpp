@@ -88,6 +88,7 @@ CentralWidget::CentralWidget(QWidget *parent):
 CentralWidget::~CentralWidget()
 {
     delete mCurrentEditor;
+    delete mContextMenu;
     //layout, spliter and panels are deleted automatically
 }
 
