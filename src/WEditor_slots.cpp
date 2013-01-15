@@ -26,7 +26,27 @@
 #include "WEditor.h"
 #include "WEditorBinder.h"
 
+#include "CfgAppSettings.h"
+#include "CfgScintillaSettings.h"
+
+
+
 using namespace Wolverine;
 
 
 
+void Editor::onShowLineNumbersEnabledChanged(bool val)
+{
+    this->updateLineNoMargin(val);
+}
+
+
+void Editor::onCursorPositionChanged(int line, int index)
+{
+    this->updateLineNoMargin(mSettings->isShowLineNumbersEnabled());
+}
+
+void Editor::onLinesChanged()
+{
+    emit linesChanged(this->lines());
+}

@@ -30,6 +30,8 @@
 #include "Qsci/qsciscintilla.h"
 
 
+class ScintillaSettings;
+
 namespace Wolverine
 {
 
@@ -52,16 +54,25 @@ public:
 
 
 signals:
+    void linesChanged(int val);
     void focusReceived();
 
 
 protected:
     virtual void focusInEvent(QFocusEvent *event);
 
+private slots:
+    void onCursorPositionChanged(int line, int index);
+    void onLinesChanged();
+    void onShowLineNumbersEnabledChanged(bool val);
+
+
 private:
     void initialize();
+    void updateLineNoMargin(bool visible);
 
     EditorBinder *mBinder;
+    ScintillaSettings *mSettings;
 
 };
 

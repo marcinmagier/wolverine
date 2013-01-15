@@ -26,6 +26,8 @@
 #include "WEditor.h"
 #include "WEditorBinder.h"
 
+#include "CfgAppSettings.h"
+#include "CfgScintillaSettings.h"
 
 #include <QContextMenuEvent>
 
@@ -58,8 +60,19 @@ Editor::~Editor()
 
 void Editor::initialize()
 {
+    mSettings = AppSettings::instance()->scintilla;
+
     this->setContextMenuPolicy(Qt::CustomContextMenu);
     this->setFocusPolicy(Qt::ClickFocus);
+
+    connect( this, SIGNAL(linesChanged()),
+             this, SLOT(onLinesChanged()) );
+    connect( this, SIGNAL(cursorPositionChanged(int,int)),
+             this, SLOT(onCursorPositionChanged(int,int)) );
+
+
+    connect( mSettings, SIGNAL(showLineNumbersEnabledChanged(bool)),
+                  this, SLOT(onShowLineNumbersEnabledChanged(bool)), Qt::DirectConnection );
 }
 
 Editor* Editor::getLinkedCopy()
@@ -101,5 +114,15 @@ void Editor::focusInEvent(QFocusEvent *event)
 {
     emit focusReceived();
     QsciScintilla::focusInEvent(event);
+}
+
+
+void Editor::updateLineNoMargin(bool visible)
+{
+    if(visible) {
+
+    } else {
+        setMarginWidth(1, 0);
+    }
 }
 
