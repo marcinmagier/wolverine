@@ -37,7 +37,7 @@ using namespace Wolverine;
 
 
 Editor::Editor(QWidget *parent) :
-    QsciScintilla(parent),
+    QtScintilla(parent),
     mBinder(0)
 {
     initialize();
@@ -45,7 +45,7 @@ Editor::Editor(QWidget *parent) :
 
 
 Editor::Editor(EditorBinder *doc, QWidget *parent) :
-    QsciScintilla(parent),
+    QtScintilla(parent),
     mBinder(doc)
 {
     initialize();
@@ -65,11 +65,8 @@ void Editor::initialize()
     this->setContextMenuPolicy(Qt::CustomContextMenu);
     this->setFocusPolicy(Qt::ClickFocus);
 
-    connect( this, SIGNAL(linesChanged()),
-             this, SLOT(onLinesChanged()) );
-    connect( this, SIGNAL(cursorPositionChanged(int,int)),
-             this, SLOT(onCursorPositionChanged(int,int)) );
-
+    connect( this, SIGNAL(cursorLineChanged(int)),
+             this, SLOT(onCursorLineChanged(int)) );
 
     connect( mSettings, SIGNAL(showLineNumbersEnabledChanged(bool)),
                   this, SLOT(onShowLineNumbersEnabledChanged(bool)), Qt::DirectConnection );
@@ -120,7 +117,8 @@ void Editor::focusInEvent(QFocusEvent *event)
 void Editor::updateLineNoMargin(bool visible)
 {
     if(visible) {
-
+        QString str = QString("00%1").arg(lines());
+        setMarginWidth(1, str);
     } else {
         setMarginWidth(1, 0);
     }

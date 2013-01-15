@@ -41,12 +41,7 @@ void Editor::onShowLineNumbersEnabledChanged(bool val)
 }
 
 
-void Editor::onCursorPositionChanged(int line, int index)
+void Editor::onCursorLineChanged(int line)
 {
     this->updateLineNoMargin(mSettings->isShowLineNumbersEnabled());
-}
-
-void Editor::onLinesChanged()
-{
-    emit linesChanged(this->lines());
 }

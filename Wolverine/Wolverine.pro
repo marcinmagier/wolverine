@@ -21,6 +21,12 @@ include(../extlib/qtscintilla/qtscintilla.pri)
 
 SOURCES      += \
                 ../src/main.cpp \
+                ../src/editor/WEditor.cpp \
+                ../src/editor/WEditor_slots.cpp \
+                ../src/editor/WEditorBinder.cpp \
+                ../src/editor/WEditorProxy.cpp \
+                ../src/editor/WEditorProxy_slots.cpp \
+				../src/editor/qtscintilla.cpp \
                 ../src/settings/DlgSettings.cpp \
                 ../src/settings/PageGeneral.cpp \
                 ../src/settings/PageScintilla.cpp \
@@ -35,11 +41,6 @@ SOURCES      += \
                 ../src/WActionManager.cpp \
                 ../src/WCentralWidget.cpp \
                 ../src/WCentralWidget_slots.cpp \
-                ../src/WEditor.cpp \
-                ../src/WEditor_slots.cpp \
-                ../src/WEditorBinder.cpp \
-                ../src/WEditorProxy.cpp \
-                ../src/WEditorProxy_slots.cpp \
                 ../src/WLib.cpp \
                 ../src/WMainWindow.cpp \
                 ../src/WPanel.cpp \
@@ -73,7 +74,8 @@ HEADERS      += \
                 ../include/WEditorBinder.h \
                 ../include/WEditorProxy.h \
                 ../include/WLib.h \
-                ../include/WMainWindow.h
+                ../include/WMainWindow.h \
+				../include/qtscintilla.h
 
 
 INCLUDEPATH  += \

@@ -16,66 +16,51 @@
 **************************************************************************************************/
 
 /**
- *  @file       WEditor.h
- *  @brief      Wolverine::Editor class interface.
+ *  @file       qtscintilla.cpp
+ *  @brief      QtScintilla class implementation.
  */
-
-
-
-
-#ifndef __W_EDITOR_H_
- #define __W_EDITOR_H_
 
 
 #include "qtscintilla.h"
 
 
-class ScintillaSettings;
-
-namespace Wolverine
+/**
+ *  Constructor
+ *
+ * @param parent
+ */
+QtScintilla::QtScintilla(QWidget *parent) :
+    QsciScintilla(parent)
 {
+    mCursorLine = 0;
 
-class EditorBinder;
-
-class Editor: public QtScintilla
-{
-    Q_OBJECT
-
-public:
-    explicit Editor(QWidget *parent = 0);
-    explicit Editor(EditorBinder *doc, QWidget *parent = 0);
-    virtual ~Editor();
-
-    Editor* getLinkedCopy();
-    static void removeEditor(Editor *editor);
-
-    void setBinder(EditorBinder* doc);
-    EditorBinder* getBinder();
-
-
-signals:
-    void focusReceived();
-
-
-protected:
-    virtual void focusInEvent(QFocusEvent *event);
-
-private slots:
-    void onCursorLineChanged(int line);
-    void onShowLineNumbersEnabledChanged(bool val);
-
-
-private:
-    void initialize();
-    void updateLineNoMargin(bool visible);
-
-    EditorBinder *mBinder;
-    ScintillaSettings *mSettings;
-
-};
-
-
-
+    connect( this, SIGNAL(linesChanged()),
+             this, SLOT(onLinesChanged()) );
+    connect( this, SIGNAL(cursorPositionChanged(int,int)),
+             this, SLOT(onCursorPositionChanged(int,int)) );
 }
 
-#endif // __W_EDITOR_H_
+
+
+
+
+
+
+
+
+
+
+
+void QtScintilla::onLinesChanged()
+{
+    emit linesChanged(this->lines());
+}
+
+
+void QtScintilla::onCursorPositionChanged(int line, int index)
+{
+    if(mCursorLine != line) {
+        mCursorLine = line;
+        emit cursorLineChanged(mCursorLine);
+    }
+}
