@@ -36,6 +36,7 @@ class QtScintilla : public QsciScintilla
 public:
     explicit QtScintilla(QWidget *parent = 0);
 
+    int linesVisible();
 
 public slots:
     

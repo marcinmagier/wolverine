@@ -41,6 +41,11 @@ QtScintilla::QtScintilla(QWidget *parent) :
 }
 
 
+int QtScintilla::linesVisible()
+{
+    return SendScintilla(SCI_LINESONSCREEN);
+}
+
 
 
 

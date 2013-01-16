@@ -22,14 +22,17 @@
 
 
 
-#include "Logger.h"
 #include "WEditor.h"
 #include "WEditorBinder.h"
 
 #include "CfgAppSettings.h"
 #include "CfgScintillaSettings.h"
 
+#include "Logger.h"
+
 #include <QContextMenuEvent>
+
+#include <algorithm>
 
 using namespace Wolverine;
 
@@ -64,6 +67,14 @@ void Editor::initialize()
 
     this->setContextMenuPolicy(Qt::CustomContextMenu);
     this->setFocusPolicy(Qt::ClickFocus);
+    this->setUtf8(true);
+    this->setAutoIndent(true);
+    this->setFolding(QsciScintilla::BoxedTreeFoldStyle);
+    this->setBraceMatching(QsciScintilla::SloppyBraceMatch);
+    this->setMarginLineNumbers(0, false);
+    this->setMarginLineNumbers(1, true);
+    this->setMarginSensitivity(0, true);
+
 
     connect( this, SIGNAL(cursorLineChanged(int)),
              this, SLOT(onCursorLineChanged(int)) );
@@ -117,8 +128,12 @@ void Editor::focusInEvent(QFocusEvent *event)
 void Editor::updateLineNoMargin(bool visible)
 {
     if(visible) {
-        QString str = QString("00%1").arg(lines());
-        setMarginWidth(1, str);
+        int lastVisibleLine = this->firstVisibleLine() + this->linesVisible() + 1;
+        int num = QString::number(lastVisibleLine).size();
+        num = std::max(num, 3);
+        int width = SendScintilla(SCI_TEXTWIDTH, STYLE_LINENUMBER, "8");
+        #define SPACE_PIXELS 8
+        setMarginWidth(1, width * num + SPACE_PIXELS);
     } else {
         setMarginWidth(1, 0);
     }
