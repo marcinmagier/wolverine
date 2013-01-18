@@ -29,6 +29,8 @@ class QHBoxLayout;
 class QSplitter;
 class QtManagedMenu;
 
+class AppSettings;
+
 
 #include <QWidget>
 
@@ -108,6 +110,7 @@ private:
     QAction *mMenuMoveTab;
     QAction *mMenuCopyTab;
 
+    AppSettings *mSettings;
 };
 
 

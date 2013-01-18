@@ -88,6 +88,8 @@ CentralWidget::CentralWidget(QWidget *parent):
     connect( mPanelRight, SIGNAL(tabNewRequested()),
                     this, SLOT(onNew()) );
 
+    mSettings = AppSettings::instance();
+
     mPanelCurrent = mPanelLeft;
     onNew();
     setupContextMenu();

@@ -27,7 +27,12 @@
 #include "WEditorProxy.h"
 #include "WPanel.h"
 
+#include "CfgAppSettings.h"
+#include "CfgGeneralSettings.h"
+
 #include <QCursor>
+#include <QFileDialog>
+#include <QFileInfo>
 #include <QDebug>
 
 
@@ -40,8 +45,8 @@ using namespace Wolverine;
 
 void CentralWidget::onNew()
 {
-    EditorBinder *doc = new EditorBinder();
-    Editor *edit = doc->getEditor();
+    EditorBinder *binder = new EditorBinder();
+    Editor *edit = binder->getEditor();
 
 
     int idx = mPanelCurrent->addTab(edit);
@@ -56,12 +61,32 @@ void CentralWidget::onNewIdx(int index)
 
 void CentralWidget::onOpen(const QString &path)
 {
+    EditorBinder *binder = new EditorBinder(path);
+    Editor *edit = binder->getEditor();
 
+    int idx = mPanelCurrent->addTab(edit);
+    mPanelCurrent->setCurrentIndex(idx);
 }
 
 void CentralWidget::onOpenForm()
 {
+    QString initialPath;
+    if(mSettings->general->isAppOpenFromCurrentEnabled()) {
+        initialPath = mCurrentEditor->getCurrentEditorDir();
+    } else {
+        initialPath = mSettings->general->getAppLastOpenedDir();
+    }
 
+    QStringList files = QFileDialog::getOpenFileNames(this, tr("Open files"), initialPath);
+    if(files.count() == 0)
+        return;
+
+    QFileInfo fileInfo = QFileInfo(files[0]);
+    mSettings->general->setAppLastOpenedDir(fileInfo.canonicalPath());
+
+    foreach(QString file, files) {
+        this->onOpen(file);
+    }
 }
 
 void CentralWidget::onClose()

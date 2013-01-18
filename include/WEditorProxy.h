@@ -50,6 +50,8 @@ public:
     virtual ~EditorProxy();
 
     Editor* getCurrentEditor();
+    QString getCurrentEditorDir();
+    QString getCurrentEditorName();
 
 public slots:
     void setCurrentEditor(Editor *editor);

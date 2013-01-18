@@ -26,7 +26,15 @@
 #include "WEditorBinder.h"
 #include "WEditor.h"
 
+#include "Logger.h"
+
+
+#include <QFile>
 #include <QFileInfo>
+#include <QTextStream>
+#include <QTextCodec>
+
+#include <QDebug>
 
 
 using namespace Wolverine;
@@ -84,6 +92,17 @@ Editor* EditorBinder::getNewEditor()
 {
     Editor *newEditor = new Editor(this);
     mEditors.append(newEditor);
+
+    if(exists()) {
+        QString fileName(this->canonicalFilePath());
+        QFile file(fileName);
+        if(!file.open(QIODevice::ReadOnly))
+            LOG_ERROR("Cannot open the file %s", fileName.constData());
+
+        QTextStream in(&file);
+        in.setCodec(QTextCodec::codecForLocale());
+        newEditor->setText(in.readAll());
+    }
     return newEditor;
 }
 

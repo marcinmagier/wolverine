@@ -14,6 +14,9 @@ class GeneralSettings : public QObject
 
     Q_PROPERTY(bool     appCloseWhenLastTabClosed   READ isAppCloseWhenLastTabClosed    WRITE setAppCloseWhenLastTabClosed  )
     Q_PROPERTY(bool     appCustomizeEnabled         READ isAppCustomizeEnabled          WRITE setAppCustomizeEnabled        )
+    Q_PROPERTY(bool     appOpenFromCurrent          READ isAppOpenFromCurrentEnabled    WRITE setAppOpenFromCurrentEnabled  )
+    Q_PROPERTY(QString  appLastOpenedDir            READ getAppLastOpenedDir            WRITE setAppLastOpenedDir           )
+
 
     Q_PROPERTY(bool     tabBarLocked                READ isTabBarLocked                 WRITE setTabBarLocked               )
     Q_PROPERTY(bool     tabBarCloseVisible          READ isTabBarCloseVisible           WRITE setTabBarCloseVisible         )
@@ -30,6 +33,8 @@ public:
 
     bool isAppCloseWhenLastTabClosed();
     bool isAppCustomizeEnabled();
+    bool isAppOpenFromCurrentEnabled();
+    QString getAppLastOpenedDir();
 
     bool isTabBarLocked();
     bool isTabBarCloseVisible();
@@ -44,6 +49,8 @@ public:
 signals:
     void appCloseWhenLastTabClosedChanged(bool val);
     void appCustomizeEnabledChanged(bool val);
+    void appOpenFromCurrentChanged(bool val);
+    void appLastOpenedDirChanged(QString val);
 
     void tabBarLockedChanged(bool val);
     void tabBarCloseVisibleChanged(bool val);
@@ -58,6 +65,8 @@ signals:
 public slots:
     void setAppCloseWhenLastTabClosed(bool val);
     void setAppCustomizeEnabled(bool val);
+    void setAppOpenFromCurrentEnabled(bool val);
+    void setAppLastOpenedDir(const QString &val);
 
     void setTabBarLocked(bool val);
     void setTabBarCloseVisible(bool val);
@@ -72,6 +81,8 @@ public slots:
 private:
     bool mAppCloseWhenLastTabClosed;
     bool mAppCustomizeEnabled;
+    bool mAppOpenFromCurrentEnabled;
+    QString mAppLastOpenedDir;
 
     bool mTabBarLocked;
     bool mTabBarCloseVisible;

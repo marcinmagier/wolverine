@@ -9,6 +9,8 @@ GeneralSettings::GeneralSettings()
 {
     mAppCloseWhenLastTabClosed = false;
     mAppCustomizeEnabled = false;
+    mAppOpenFromCurrentEnabled = false;
+    mAppLastOpenedDir = ".";
 
     mTabBarLocked = false;
     mTabBarCloseVisible = true;
@@ -46,6 +48,30 @@ void GeneralSettings::setAppCustomizeEnabled(bool val)
 bool GeneralSettings::isAppCustomizeEnabled()
 {
     return mAppCustomizeEnabled;
+}
+
+void GeneralSettings::setAppOpenFromCurrentEnabled(bool val)
+{
+    if(mAppOpenFromCurrentEnabled != val) {
+        mAppOpenFromCurrentEnabled = val;
+        emit appOpenFromCurrentChanged(mAppOpenFromCurrentEnabled);
+    }
+}
+bool GeneralSettings::isAppOpenFromCurrentEnabled()
+{
+    return mAppOpenFromCurrentEnabled;
+}
+
+void GeneralSettings::setAppLastOpenedDir(const QString &val)
+{
+    if(mAppLastOpenedDir != val) {
+        mAppLastOpenedDir = val;
+        emit appLastOpenedDirChanged(mAppLastOpenedDir);
+    }
+}
+QString GeneralSettings::getAppLastOpenedDir()
+{
+    return mAppLastOpenedDir;
 }
 
 

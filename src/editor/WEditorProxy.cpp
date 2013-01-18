@@ -24,6 +24,8 @@
 
 
 #include "WEditorProxy.h"
+#include "WEditor.h"
+#include "WEditorBinder.h"
 
 #include "CfgAppSettings.h"
 #include "CfgGeneralSettings.h"
@@ -58,7 +60,15 @@ Editor *EditorProxy::getCurrentEditor()
     return mCurrentEditor;
 }
 
+QString EditorProxy::getCurrentEditorDir()
+{
+    return mCurrentEditor->getBinder()->canonicalPath();
+}
 
+QString EditorProxy::getCurrentEditorName()
+{
+    return mCurrentEditor->getBinder()->fileName();
+}
 
 
 
