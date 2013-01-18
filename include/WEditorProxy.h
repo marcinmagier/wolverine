@@ -31,7 +31,7 @@
 #include <QPoint>
 
 
-
+class QString;
 class QtManagedMenu;
 
 
@@ -53,6 +53,7 @@ public:
 
 public slots:
     void setCurrentEditor(Editor *editor);
+    void setCurrentEditorLexer(const QString &name);
 
     void onCut();
     void onCopy();

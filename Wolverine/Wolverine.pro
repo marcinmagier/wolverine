@@ -24,9 +24,10 @@ SOURCES      += \
                 ../src/editor/WEditor.cpp \
                 ../src/editor/WEditor_slots.cpp \
                 ../src/editor/WEditorBinder.cpp \
+                ../src/editor/WEditorLexerManager.cpp \
                 ../src/editor/WEditorProxy.cpp \
                 ../src/editor/WEditorProxy_slots.cpp \
-				../src/editor/qtscintilla.cpp \
+                ../src/editor/qtscintilla.cpp \
                 ../src/settings/DlgSettings.cpp \
                 ../src/settings/PageGeneral.cpp \
                 ../src/settings/PageScintilla.cpp \
@@ -72,10 +73,11 @@ HEADERS      += \
                 ../include/WCentralWidget.h \
                 ../include/WEditor.h \
                 ../include/WEditorBinder.h \
+                ../include/WEditorLexerManager.h \
                 ../include/WEditorProxy.h \
                 ../include/WLib.h \
                 ../include/WMainWindow.h \
-				../include/qtscintilla.h
+                ../include/qtscintilla.h
 
 
 INCLUDEPATH  += \

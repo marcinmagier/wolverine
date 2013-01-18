@@ -50,6 +50,10 @@ void EditorProxy::setCurrentEditor(Editor *editor)
     }
 }
 
+void EditorProxy::setCurrentEditorLexer(const QString &name)
+{
+
+}
 
 
 void EditorProxy::onCut()
