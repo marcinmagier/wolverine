@@ -1,6 +1,6 @@
 
-#ifndef __CFG_VOLATILE_SETTINGS_H_
- #define __CFG_VOLATILE_SETTINGS_H_
+#ifndef __CFG_DYNAMIC_SETTINGS_H_
+ #define __CFG_DYNAMIC_SETTINGS_H_
 
 #include <QObject>
 #include <QString>
@@ -43,4 +43,4 @@ private:
     QString mInstalDir;
 };
 
-#endif //__CFG_VOLATILE_SETTINGS_H_
+#endif //__CFG_DYNAMIC_SETTINGS_H_
