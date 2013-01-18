@@ -16,21 +16,18 @@
 **************************************************************************************************/
 
 /**
- *  @file       WEditorBinder.h
- *  @brief      Wolverine::EditorBinder class interface.
+ *  @file       WEditorLexerManager.h
+ *  @brief      Wolverine::EditorLexerManager class interface.
  */
 
 
 
 
-#ifndef __W_EDITOR_BINDER_H_
- #define __W_EDITOR_BINDER_H_
+#ifndef __W_EDITOR_LEXER_MANAGER_H_
+ #define __W_EDITOR_LEXER_MANAGER_H_
 
 
 #include <QObject>
-#include <QList>
-#include <QFileInfo>
-#include <QIcon>
 
 
 
@@ -38,42 +35,20 @@
 namespace Wolverine
 {
 
-class Editor;
 
-typedef QList<Editor*> EditorList;
-
-
-
-
-class EditorBinder : public QObject, public QFileInfo
+class EditorLexerManager : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit EditorBinder();
-    explicit EditorBinder(const QString &path);
-    virtual ~EditorBinder();
+    explicit EditorLexerManager();
+    virtual ~EditorLexerManager();
 
 
-    bool hasEditors() const;
-    Editor* getEditor();
-    EditorList& getEditors();
-    Editor* getNewEditor();
-    Editor* getLinkedEditor(Editor *editor);
-    void removeEditor(Editor *editor);
-
-    QIcon getIcon() const;
-
-
-
-private:
-    EditorList mEditors;
-
-    static int sNewFileNo;
 };
 
 
 
 }
 
-#endif // __W_EDITOR_BINDER_H_
+#endif // __W_EDITOR_LEXER_MANAGER_H_

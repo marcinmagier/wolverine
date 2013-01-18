@@ -16,64 +16,56 @@
 **************************************************************************************************/
 
 /**
- *  @file       WEditorBinder.h
- *  @brief      Wolverine::EditorBinder class interface.
+ *  @file       qtscintilla.cpp
+ *  @brief      QtScintilla class implementation.
  */
 
 
+#include "qtscintilla.h"
 
 
-#ifndef __W_EDITOR_BINDER_H_
- #define __W_EDITOR_BINDER_H_
-
-
-#include <QObject>
-#include <QList>
-#include <QFileInfo>
-#include <QIcon>
-
-
-
-
-namespace Wolverine
+/**
+ *  Constructor
+ *
+ * @param parent
+ */
+QtScintilla::QtScintilla(QWidget *parent) :
+    QsciScintilla(parent)
 {
+    mCursorLine = 0;
 
-class Editor;
-
-typedef QList<Editor*> EditorList;
-
-
-
-
-class EditorBinder : public QObject, public QFileInfo
-{
-    Q_OBJECT
-
-public:
-    explicit EditorBinder();
-    explicit EditorBinder(const QString &path);
-    virtual ~EditorBinder();
-
-
-    bool hasEditors() const;
-    Editor* getEditor();
-    EditorList& getEditors();
-    Editor* getNewEditor();
-    Editor* getLinkedEditor(Editor *editor);
-    void removeEditor(Editor *editor);
-
-    QIcon getIcon() const;
-
-
-
-private:
-    EditorList mEditors;
-
-    static int sNewFileNo;
-};
-
-
-
+    connect( this, SIGNAL(linesChanged()),
+             this, SLOT(onLinesChanged()) );
+    connect( this, SIGNAL(cursorPositionChanged(int,int)),
+             this, SLOT(onCursorPositionChanged(int,int)) );
 }
 
-#endif // __W_EDITOR_BINDER_H_
+
+int QtScintilla::linesVisible()
+{
+    return SendScintilla(SCI_LINESONSCREEN);
+}
+
+
+
+
+
+
+
+
+
+
+
+void QtScintilla::onLinesChanged()
+{
+    emit linesChanged(this->lines());
+}
+
+
+void QtScintilla::onCursorPositionChanged(int line, int index)
+{
+    if(mCursorLine != line) {
+        mCursorLine = line;
+        emit cursorLineChanged(mCursorLine);
+    }
+}

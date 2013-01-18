@@ -16,64 +16,68 @@
 **************************************************************************************************/
 
 /**
- *  @file       WEditorBinder.h
- *  @brief      Wolverine::EditorBinder class interface.
+ *  @file       WEditorProxy_slots.cpp
+ *  @brief      Wolverine::EditorProxy slots implementation.
  */
 
 
 
 
-#ifndef __W_EDITOR_BINDER_H_
- #define __W_EDITOR_BINDER_H_
+#include "WEditorProxy.h"
+#include "WEditor.h"
+#include "WEditorBinder.h"
+#include "qtmanagedmenu.h"
 
 
-#include <QObject>
-#include <QList>
-#include <QFileInfo>
-#include <QIcon>
+#include <QCursor>
+
+
+using namespace Wolverine;
 
 
 
 
-namespace Wolverine
+
+
+void EditorProxy::setCurrentEditor(Editor *editor)
 {
+    if(mCurrentEditor != editor) {
+        mCurrentEditor = editor;
+        connect( mCurrentEditor, SIGNAL(customContextMenuRequested(QPoint)),
+                           this, SLOT(onCustomContextMenuRequested(QPoint)), Qt::UniqueConnection );
 
-class Editor;
+        emit currentEditorChanged(mCurrentEditor);
+    }
+}
 
-typedef QList<Editor*> EditorList;
-
-
-
-
-class EditorBinder : public QObject, public QFileInfo
+void EditorProxy::setCurrentEditorLexer(const QString &name)
 {
-    Q_OBJECT
-
-public:
-    explicit EditorBinder();
-    explicit EditorBinder(const QString &path);
-    virtual ~EditorBinder();
-
-
-    bool hasEditors() const;
-    Editor* getEditor();
-    EditorList& getEditors();
-    Editor* getNewEditor();
-    Editor* getLinkedEditor(Editor *editor);
-    void removeEditor(Editor *editor);
-
-    QIcon getIcon() const;
-
-
-
-private:
-    EditorList mEditors;
-
-    static int sNewFileNo;
-};
-
-
 
 }
 
-#endif // __W_EDITOR_BINDER_H_
+
+void EditorProxy::onCut()
+{
+
+}
+
+void EditorProxy::onCopy()
+{
+
+}
+
+
+void EditorProxy::onPaste()
+{
+
+}
+
+
+
+
+
+void EditorProxy::onCustomContextMenuRequested(const QPoint &pos)
+{
+    mContextMenu->exec(QCursor::pos());
+}
+

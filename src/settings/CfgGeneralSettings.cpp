@@ -7,12 +7,8 @@
 
 GeneralSettings::GeneralSettings()
 {
-    mLanguage = QLocale::system().name();
-
-    mLogLevel = "Info";
-    mLogFilePath = "Wolverine.log";
-    mLogFileEnabled = true;
-    mLogConsoleEnabled = true;
+    mAppCloseWhenLastTabClosed = false;
+    mAppCustomizeEnabled = false;
 
     mTabBarLocked = false;
     mTabBarCloseVisible = true;
@@ -25,58 +21,31 @@ GeneralSettings::GeneralSettings()
 }
 
 
-//=======================  Lang  ============================================//
 
-void GeneralSettings::setLanguage(QString val)
+//========================  App  ============================================//
+
+void GeneralSettings::setAppCloseWhenLastTabClosed(bool val)
 {
-    if(mLanguage != val) {
-        mLanguage = val;
-        emit languageChanged(mLanguage);
+    if(mAppCloseWhenLastTabClosed != val) {
+        mAppCloseWhenLastTabClosed = val;
+        emit appCloseWhenLastTabClosedChanged(mAppCloseWhenLastTabClosed);
     }
 }
-QString GeneralSettings::getLanguage()
+bool GeneralSettings::isAppCloseWhenLastTabClosed()
 {
-    return mLanguage;
+    return mAppCloseWhenLastTabClosed;
 }
 
-
-
-//=======================  Log  =============================================//
-
-void GeneralSettings::setLogLevel(QString val)
+void GeneralSettings::setAppCustomizeEnabled(bool val)
 {
-    mLogLevel = val;
+    if(mAppCustomizeEnabled != val) {
+        mAppCustomizeEnabled = val;
+        emit appCustomizeEnabledChanged(mAppCustomizeEnabled);
+    }
 }
-QString GeneralSettings::getLogLevel()
+bool GeneralSettings::isAppCustomizeEnabled()
 {
-    return mLogLevel;
-}
-
-void GeneralSettings::setLogFilePath(QString val)
-{
-    mLogFilePath = val;
-}
-QString GeneralSettings::getLogFilePath()
-{
-    return mLogFilePath;
-}
-
-void GeneralSettings::setLogFileEnabled(bool val)
-{
-    mLogFileEnabled = val;
-}
-bool GeneralSettings::isLogFileEnabled()
-{
-    return mLogFileEnabled;
-}
-
-void GeneralSettings::setLogConsoleEnabled(bool val)
-{
-    mLogConsoleEnabled = val;
-}
-bool GeneralSettings::isLogConsoleEnabled()
-{
-    return mLogConsoleEnabled;
+    return mAppCustomizeEnabled;
 }
 
 

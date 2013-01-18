@@ -16,64 +16,43 @@
 **************************************************************************************************/
 
 /**
- *  @file       WEditorBinder.h
- *  @brief      Wolverine::EditorBinder class interface.
+ *  @file       qtscintilla.h
+ *  @brief      QtScintilla class interface.
  */
 
 
 
-
-#ifndef __W_EDITOR_BINDER_H_
- #define __W_EDITOR_BINDER_H_
-
-
-#include <QObject>
-#include <QList>
-#include <QFileInfo>
-#include <QIcon>
+#ifndef __QT_SCINTILLA_H_
+ #define __QT_SCINTILLA_H_
 
 
+#include "Qsci/qsciscintilla.h"
 
 
-namespace Wolverine
-{
-
-class Editor;
-
-typedef QList<Editor*> EditorList;
-
-
-
-
-class EditorBinder : public QObject, public QFileInfo
+class QtScintilla : public QsciScintilla
 {
     Q_OBJECT
 
 public:
-    explicit EditorBinder();
-    explicit EditorBinder(const QString &path);
-    virtual ~EditorBinder();
+    explicit QtScintilla(QWidget *parent = 0);
 
+    int linesVisible();
 
-    bool hasEditors() const;
-    Editor* getEditor();
-    EditorList& getEditors();
-    Editor* getNewEditor();
-    Editor* getLinkedEditor(Editor *editor);
-    void removeEditor(Editor *editor);
+public slots:
+    
 
-    QIcon getIcon() const;
+signals:
+    void cursorLineChanged(int line);
+    void linesChanged(int lines);
 
+protected:
 
+private slots:
+    void onLinesChanged();
+    void onCursorPositionChanged(int line, int index);
 
 private:
-    EditorList mEditors;
-
-    static int sNewFileNo;
+    int mCursorLine;
 };
 
-
-
-}
-
-#endif // __W_EDITOR_BINDER_H_
+#endif // __QT_SCINTILLA_H_

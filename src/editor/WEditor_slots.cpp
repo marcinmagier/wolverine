@@ -16,64 +16,32 @@
 **************************************************************************************************/
 
 /**
- *  @file       WEditorBinder.h
- *  @brief      Wolverine::EditorBinder class interface.
+ *  @file       WEditor_slots.cpp
+ *  @brief      Wolverine::Editor slots implementation.
  */
 
 
 
+#include "Logger.h"
+#include "WEditor.h"
+#include "WEditorBinder.h"
 
-#ifndef __W_EDITOR_BINDER_H_
- #define __W_EDITOR_BINDER_H_
-
-
-#include <QObject>
-#include <QList>
-#include <QFileInfo>
-#include <QIcon>
+#include "CfgAppSettings.h"
+#include "CfgScintillaSettings.h"
 
 
 
+using namespace Wolverine;
 
-namespace Wolverine
+
+
+void Editor::onShowLineNumbersEnabledChanged(bool val)
 {
-
-class Editor;
-
-typedef QList<Editor*> EditorList;
-
-
-
-
-class EditorBinder : public QObject, public QFileInfo
-{
-    Q_OBJECT
-
-public:
-    explicit EditorBinder();
-    explicit EditorBinder(const QString &path);
-    virtual ~EditorBinder();
-
-
-    bool hasEditors() const;
-    Editor* getEditor();
-    EditorList& getEditors();
-    Editor* getNewEditor();
-    Editor* getLinkedEditor(Editor *editor);
-    void removeEditor(Editor *editor);
-
-    QIcon getIcon() const;
-
-
-
-private:
-    EditorList mEditors;
-
-    static int sNewFileNo;
-};
-
-
-
+    this->updateLineNoMargin(val);
 }
 
-#endif // __W_EDITOR_BINDER_H_
+
+void Editor::onCursorLineChanged(int line)
+{
+    this->updateLineNoMargin(mSettings->isShowLineNumbersEnabled());
+}

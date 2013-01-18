@@ -27,6 +27,9 @@
 #include "WEditorProxy.h"
 #include "WPanel.h"
 
+#include "CfgAppSettings.h"
+#include "CfgGeneralSettings.h"
+
 #include "qtmanagedmenu.h"
 
 #include <QHBoxLayout>
@@ -36,10 +39,15 @@
 #include <QDebug>
 
 
+#define W_ACTION_NEW "New"
+#define W_ACTION_CLOSE "Close"
+#define W_ACTION_CLOSE_OTHERS "CloseOthers"
+#define W_ACTION_CLOSE_ALL "CloseAll"
+#define W_ACTION_SPLIT_TAB "SplitTab"
 #define W_ACTION_MOVE_TAB "MoveTab"
 #define W_ACTION_COPY_TAB "CopyTab"
 
-
+#define W_TABBAR_CONTEXT_MENU  "TabBarContextMenu"
 
 
 using namespace Wolverine;
@@ -88,6 +96,7 @@ CentralWidget::CentralWidget(QWidget *parent):
 CentralWidget::~CentralWidget()
 {
     delete mCurrentEditor;
+    delete mContextMenu;
     //layout, spliter and panels are deleted automatically
 }
 
@@ -195,35 +204,40 @@ void CentralWidget::setCurrentEditor(Editor *editor)
 void CentralWidget::setupContextMenu()
 {
     QAction *action;
-    mContextMenu = new QtManagedMenu(this, "TabBarContextMenu");
+    GeneralSettings *settings = AppSettings::instance()->general;
+    mContextMenu = new QtManagedMenu(this, W_TABBAR_CONTEXT_MENU);
+    mContextMenu->setManagerEnabled(settings->isAppCustomizeEnabled());
+    connect(     settings, SIGNAL(appCustomizeEnabledChanged(bool)),
+             mContextMenu, SLOT(setManagerEnabled(bool)), Qt::DirectConnection );
+
     action = new QAction(tr("New"), mContextMenu);
     action->setIcon(QIcon(":/new.png"));
     connect( action, SIGNAL(triggered()),
                this, SLOT(onNew()) );
-    mContextMenu->addAction("New", action);
+    mContextMenu->addAction(W_ACTION_NEW, action);
 
     action = new QAction(tr("Close"), mContextMenu);
     action->setIcon(QIcon(":/close.png"));
     //action is handled within context menu hander
     mMenuClose = action;
-    mContextMenu->addAction("Close", action);
+    mContextMenu->addAction(W_ACTION_CLOSE, action);
 
     action = new QAction(tr("Close Others"), mContextMenu);
     //action->setIcon(QIcon(":/close.png"));
     //action is handled within context menu hander
     mMenuCloseOthers = action;
-    mContextMenu->addAction("CloseOthers", action);
+    mContextMenu->addAction(W_ACTION_CLOSE_OTHERS, action);
 
     action = new QAction(tr("Close All"), mContextMenu);
     action->setIcon(QIcon(":/close_all.png"));
     connect( action, SIGNAL(triggered()),
                this, SLOT(onCloseAll()) );
-    mContextMenu->addAction("CloseAll", action);
+    mContextMenu->addAction(W_ACTION_CLOSE_ALL, action);
 
     action = new QAction(tr("Split"), mContextMenu);
     //action is handled within context menu hander
     mMenuSplitTab = action;
-    mContextMenu->addAction("SplitTab", action);
+    mContextMenu->addAction(W_ACTION_SPLIT_TAB, action);
 
     action = new QAction(mContextMenu);
     //text is set within menu handler
@@ -236,6 +250,7 @@ void CentralWidget::setupContextMenu()
     //action is handled within menu hander
     mMenuCopyTab = action;
     mContextMenu->addAction(W_ACTION_COPY_TAB, action);
+
 
     mContextMenu->restoreConfig();
 }

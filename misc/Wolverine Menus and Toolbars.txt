@@ -63,11 +63,21 @@ View:
 		Zoom In
 		Zoom Out
 		Zoom Default
-
+	--------------------------------------------
+	Split
+	Move to other panel
+	Copy to other panel
+	Move to dock
+	Copy to dock
+	Move to new instance
+	Copy to new instance
 
 Tools:
+	Customize <checkmark>
 	Settings
 	Show Character Panel	(maybe as dock)
+	Document Map
+	
 	
 Plugins:
 	Plugin1
@@ -101,6 +111,35 @@ Help:
 	Column Editor...
 	Character Panel
 	Clipboard History
+	
+
+	
+	
+	
+	
+	
+TabBar context menu:
+	New
+	Close
+	Close Others
+	Close All
+	Split
+	Move to left/right
+	Copy to left/right
+	Move to dock
+	Copy to dock
+	Move to new
+	Copy to new
+
+	
+	
+Scintilla context menu:
+	Copy
+	Cut
+	Paste
+	
+	
+	
 	
 	
 	

@@ -6,6 +6,7 @@
 
 #include "qtmanagedtoolbar.h"
 #include "CfgAppSettings.h"
+#include "CfgGeneralSettings.h"
 #include "CfgHiddenSettings.h"
 #include "DlgSettings.h"
 
@@ -57,12 +58,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::createMenusAndToolbars()
 {
-    QMenu *menu;
-    QAction *action;
     QtManagedToolBar *toolbar = new QtManagedToolBar(this, W_ACTION_GROUP_GENERAL);
+    toolbar->setManagerEnabled(mSettings->general->isAppCustomizeEnabled());
+    connect( mSettings->general, SIGNAL(appCustomizeEnabledChanged(bool)),
+                        toolbar, SLOT(setManagerEnabled(bool)), Qt::DirectConnection );
 
-
-    menu = menuBar()->addMenu(tr("File"));
+    QAction *action;
+    QMenu *menu = menuBar()->addMenu(tr("File"));
 
     action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_NEW);
     action->setIcon(QIcon(":/new.png"));
@@ -118,9 +120,17 @@ void MainWindow::createMenusAndToolbars()
     mMenus[W_ACTION_GROUP_EDIT] = menu;
     menu = menuBar()->addMenu(tr("Tools"));
 
+    action = mActionManager->getAction(W_ACTION_GROUP_TOOLS, W_ACTION_CUSTOMIZE);
+    //action->setIcon(QIcon(":/settings.png"));
+    action->setChecked(mSettings->general->isAppCustomizeEnabled());
+    connect(             action, SIGNAL(triggered(bool)),
+             mSettings->general, SLOT(setAppCustomizeEnabled(bool)), Qt::DirectConnection );
+    menu->addAction(action);
+
     action = mActionManager->getAction(W_ACTION_GROUP_TOOLS, W_ACTION_SETTINGS);
     action->setIcon(QIcon(":/settings.png"));
-    connect(action, SIGNAL(triggered()), mSettingsDialog, SLOT(showDialog()));
+    connect(          action, SIGNAL(triggered()),
+             mSettingsDialog, SLOT(showDialog()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_SETTINGS, action);
 

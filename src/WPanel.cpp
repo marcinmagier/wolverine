@@ -65,6 +65,15 @@ Panel::Panel(EditorProxy *editorProxy, QWidget *parent) :
  */
 Panel::~Panel()
 {
+    disconnect( this, SIGNAL(currentChanged(int)),
+                this, SLOT(onCurrentTabChanged(int)) );
+
+    while(this->count() > 0) {
+        Editor *editor = this->getEditor(0);
+        this->removeTab(0);
+        Editor::removeEditor(editor);
+    }
+
     delete mTabBar;
 }
 

@@ -21,6 +21,13 @@ include(../extlib/qtscintilla/qtscintilla.pri)
 
 SOURCES      += \
                 ../src/main.cpp \
+                ../src/editor/WEditor.cpp \
+                ../src/editor/WEditor_slots.cpp \
+                ../src/editor/WEditorBinder.cpp \
+                ../src/editor/WEditorLexerManager.cpp \
+                ../src/editor/WEditorProxy.cpp \
+                ../src/editor/WEditorProxy_slots.cpp \
+                ../src/editor/qtscintilla.cpp \
                 ../src/settings/DlgSettings.cpp \
                 ../src/settings/PageGeneral.cpp \
                 ../src/settings/PageScintilla.cpp \
@@ -35,9 +42,6 @@ SOURCES      += \
                 ../src/WActionManager.cpp \
                 ../src/WCentralWidget.cpp \
                 ../src/WCentralWidget_slots.cpp \
-                ../src/WEditor.cpp \
-                ../src/WEditorBinder.cpp \
-                ../src/WEditorProxy.cpp \
                 ../src/WLib.cpp \
                 ../src/WMainWindow.cpp \
                 ../src/WPanel.cpp \
@@ -69,9 +73,11 @@ HEADERS      += \
                 ../include/WCentralWidget.h \
                 ../include/WEditor.h \
                 ../include/WEditorBinder.h \
+                ../include/WEditorLexerManager.h \
                 ../include/WEditorProxy.h \
                 ../include/WLib.h \
-                ../include/WMainWindow.h
+                ../include/WMainWindow.h \
+                ../include/qtscintilla.h
 
 
 INCLUDEPATH  += \
@@ -79,13 +85,16 @@ INCLUDEPATH  += \
                 ../src \
                 ../src/settings
 
+
 RESOURCES    += \
                 ../resources/images.qrc 
+
 
 FORMS        += \
                 ../src/settings/PageGeneral.ui \
                 ../src/settings/PageScintilla.ui \
                 ../src/settings/PageView.ui
+
 
 TRANSLATIONS += \
                 ../translations/wolverine_en_US.ts \
