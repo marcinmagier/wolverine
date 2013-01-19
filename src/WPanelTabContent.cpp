@@ -74,7 +74,7 @@ void PanelTabContent::addWidget(Editor *editor)
 {
     mEditorProxy = editor;
     connect( mEditorProxy, SIGNAL(focusReceived()),
-                     this, SLOT(onInternalWidgetFocusReceived()) );
+                     this, SLOT(onInternalWidgetFocusReceived()), Qt::UniqueConnection );
 
     QSplitter::addWidget(mEditorProxy);
 }

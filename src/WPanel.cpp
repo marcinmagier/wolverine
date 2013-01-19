@@ -89,7 +89,7 @@ int Panel::addTab(Editor *editor)
     EditorBinder *doc = editor->getBinder();
     PanelTabContent *tabContent = new PanelTabContent(this);
     connect( tabContent, SIGNAL(focusReceived()),
-                 this, SLOT(onInternalWidgetFocusReceived()) );
+                 this, SLOT(onInternalWidgetFocusReceived()), Qt::UniqueConnection );
     tabContent->addWidget(editor);
     return QtTabWidget::addTab(tabContent, doc->getIcon(), doc->fileName());
 }
