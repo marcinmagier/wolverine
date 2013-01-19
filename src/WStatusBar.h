@@ -17,6 +17,9 @@
 #include <QStatusBar>
 
 
+class QLabel;
+class QtLabel;
+class QMouseEvent;
 
 namespace Wolverine
 {
@@ -36,9 +39,22 @@ public:
 private slots:
     void onCurrentEditorChanged(Editor *editor);
 
+    void onClicked(QMouseEvent *event);
+    void onClickedLong(QMouseEvent *event);
+    void onDoubleClicked(QMouseEvent *event);
+
 
 private:
     EditorProxy *mCurrentEditor;
+
+    QtLabel *mLblFilePath;
+    QLabel *mLblFileStatistics;
+    QLabel *mLblPosition;
+    QLabel *mLblCodec;
+    QLabel *mLblLexer;
+    QLabel *mLblEoL;
+    QLabel *mLblInsOvr;
+
 
 };
 
