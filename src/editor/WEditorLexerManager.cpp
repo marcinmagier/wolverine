@@ -25,21 +25,93 @@
 
 #include "WEditorLexerManager.h"
 
+#include <QWidget>
+#include <QStringList>
+#include <QApplication>
+
 
 using namespace Wolverine;
 
 
+static void deleteEditorLexerManagerInstance();
+
+static EditorLexerManager *sInstance = 0;
+const QStringList EditorLexerManager::sLexerList = (QStringList() << "Bash"
+                                                                  << "Batch"
+                                                    << "C++"
+                                                    << "C#"
+                                                    << "CMake"
+                                                    << "CSS"
+                                                    << "D"
+                                                    << "Diff"
+                                                    << "HTML"
+                                                    << "Java"
+                                                    << "Lua"
+                                                    << "Makefile"
+                                                    << "Matlab"
+                                                    << "Pascal"
+                                                    << "Perl"
+                                                    << "PHP"
+                                                    << "Python"
+                                                    << "Ruby");
 
 
+
+
+
+
+/**
+ *  Constructor
+ */
 EditorLexerManager::EditorLexerManager() :
     QObject()
 {
+    qAddPostRoutine(deleteEditorLexerManagerInstance);
+}
 
+
+/**
+ *  Creates instance of EditorLexerManager class.
+ * @return
+ */
+//static
+EditorLexerManager* EditorLexerManager::instance()
+{
+    if(sInstance == 0)
+        sInstance = new EditorLexerManager();
+    return sInstance;
+}
+
+
+/**
+ *  Deletes instance of EditorLexerManager
+ */
+//static
+void deleteEditorLexerManagerInstance()
+{
+    delete sInstance;
+    sInstance = 0;
 }
 
 
 
-EditorLexerManager::~EditorLexerManager()
+
+void EditorLexerManager::createConfigurationBackup()
 {
 
+}
+
+void EditorLexerManager::restoreConfigurationBackup()
+{
+
+}
+
+void EditorLexerManager::dropConfigurationBackup()
+{
+
+}
+
+QWidget* EditorLexerManager::getLexerManagerWidget(QWidget *parent)
+{
+    return new QWidget(parent);
 }

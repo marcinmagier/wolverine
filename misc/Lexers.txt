@@ -1,0 +1,63 @@
+Ada
+ASP
+Assembly
+Batch
+C
+C++
+C#
+Cmake
+CSS
+D
+Diff
+Haskell
+HTML
+Java
+JavaScript
+JSP
+LISP
+Lua
+Makefile
+Matlab
+MS INI file
+Normal Text
+Objective-C
+Pascal
+Perl
+PHP
+Postscript
+PowerShell
+Properties
+Python
+R
+Resource file
+Ruby
+Shell
+SQL
+TCL
+TeX
+VB
+XML
+
+
+
+
+
+
+AutoIt
+Caml
+COBOL
+Flash actionscript
+Fortan
+Gui4Cli
+INNO
+KIXtart
+MS-DOS Style
+NSIS
+Scheme
+Smaltalk
+YAML
+VHDL
+Verilog
+
+
+

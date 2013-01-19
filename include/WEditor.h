@@ -36,6 +36,7 @@ namespace Wolverine
 {
 
 class EditorBinder;
+class EditorLexerManager;
 
 class Editor: public QtScintilla
 {
@@ -70,6 +71,7 @@ private:
     void updateLineNoMargin(bool visible);
 
     EditorBinder *mBinder;
+    static EditorLexerManager mLexerManager;
     ScintillaSettings *mSettings;
 
 };

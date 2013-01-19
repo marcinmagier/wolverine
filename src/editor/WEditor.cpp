@@ -24,6 +24,7 @@
 
 #include "WEditor.h"
 #include "WEditorBinder.h"
+#include "WEditorLexerManager.h"
 
 #include "CfgAppSettings.h"
 #include "CfgScintillaSettings.h"

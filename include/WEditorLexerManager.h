@@ -30,7 +30,7 @@
 #include <QObject>
 
 
-
+class QStringList;
 
 namespace Wolverine
 {
@@ -40,11 +40,22 @@ class EditorLexerManager : public QObject
 {
     Q_OBJECT
 
-public:
+private:
     explicit EditorLexerManager();
-    virtual ~EditorLexerManager();
+
+public:
+    static EditorLexerManager* instance();
+
+    //void saveConfig();
+    //void restoreConfig();
+    void createConfigurationBackup();
+    void restoreConfigurationBackup();
+    void dropConfigurationBackup();
+    QWidget* getLexerManagerWidget(QWidget *parent = 0);
 
 
+private:
+    static const QStringList sLexerList;
 };
 
 
