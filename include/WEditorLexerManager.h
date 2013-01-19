@@ -30,7 +30,11 @@
 #include <QObject>
 
 
+class QAction;
 class QStringList;
+
+typedef QList<QAction*> QActionList;
+
 
 namespace Wolverine
 {
@@ -52,10 +56,14 @@ public:
     void restoreConfigurationBackup();
     void dropConfigurationBackup();
     QWidget* getLexerManagerWidget(QWidget *parent = 0);
+    QActionList getLexerActions();
 
 
 private:
-    static const QStringList sLexerList;
+    void initializeActions();
+
+    QActionList mLexerActions;
+
 };
 
 

@@ -27,6 +27,7 @@
 
 #include <QWidget>
 #include <QStringList>
+#include <QAction>
 #include <QApplication>
 
 
@@ -36,28 +37,6 @@ using namespace Wolverine;
 static void deleteEditorLexerManagerInstance();
 
 static EditorLexerManager *sInstance = 0;
-const QStringList EditorLexerManager::sLexerList = (QStringList() << "Bash"
-                                                                  << "Batch"
-                                                    << "C++"
-                                                    << "C#"
-                                                    << "CMake"
-                                                    << "CSS"
-                                                    << "D"
-                                                    << "Diff"
-                                                    << "HTML"
-                                                    << "Java"
-                                                    << "Lua"
-                                                    << "Makefile"
-                                                    << "Matlab"
-                                                    << "Pascal"
-                                                    << "Perl"
-                                                    << "PHP"
-                                                    << "Python"
-                                                    << "Ruby");
-
-
-
-
 
 
 /**
@@ -114,4 +93,40 @@ void EditorLexerManager::dropConfigurationBackup()
 QWidget* EditorLexerManager::getLexerManagerWidget(QWidget *parent)
 {
     return new QWidget(parent);
+}
+
+
+QActionList EditorLexerManager::getLexerActions()
+{
+    return mLexerActions;
+}
+
+
+
+void EditorLexerManager::initializeActions()
+{
+    QAction *action;
+    action = new QAction(QString("Bash"), 0);
+    mLexerActions.append(action);
+
+    action = new QAction(QString("Batch"), 0);
+    mLexerActions.append(action);
+
+    action = new QAction(QString("C++"), 0);
+    mLexerActions.append(action);
+
+    action = new QAction(QString("C#"), 0);
+    mLexerActions.append(action);
+
+    action = new QAction(QString("HTML"), 0);
+    mLexerActions.append(action);
+
+    action = new QAction(QString("Java"), 0);
+    mLexerActions.append(action);
+
+    action = new QAction(QString("Makefile"), 0);
+    mLexerActions.append(action);
+
+    action = new QAction(QString("Python"), 0);
+    mLexerActions.append(action);
 }
