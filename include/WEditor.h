@@ -53,6 +53,9 @@ public:
     void setBinder(EditorBinder* doc);
     EditorBinder* getBinder();
 
+    QString getFileName();
+    QString getFilePath();
+
 
 signals:
     void focusReceived();

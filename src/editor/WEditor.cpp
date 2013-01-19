@@ -113,6 +113,16 @@ EditorBinder* Editor::getBinder()
     return mBinder;
 }
 
+QString Editor::getFileName()
+{
+    return mBinder->fileName();
+}
+
+QString Editor::getFilePath()
+{
+    return mBinder->canonicalFilePath();
+}
+
 
 /**
  *  focusInEvent() handler

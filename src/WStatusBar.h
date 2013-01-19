@@ -38,22 +38,23 @@ public:
 
 private slots:
     void onCurrentEditorChanged(Editor *editor);
+    void onCurrentEditorPosChanged(int line, int column);
+    void onCurrentEditorTextChanged();
+    void onCurrentEditorSelectionChanged();
 
-    void onClicked(QMouseEvent *event);
-    void onClickedLong(QMouseEvent *event);
-    void onDoubleClicked(QMouseEvent *event);
+
 
 
 private:
-    EditorProxy *mCurrentEditor;
+    EditorProxy *mEditorProxy;
 
     QtLabel *mLblFilePath;
-    QLabel *mLblFileStatistics;
-    QLabel *mLblPosition;
-    QLabel *mLblCodec;
-    QLabel *mLblLexer;
-    QLabel *mLblEoL;
-    QLabel *mLblInsOvr;
+    QtLabel *mLblFileStatistics;
+    QtLabel *mLblPosition;
+    QtLabel *mLblCodec;
+    QtLabel *mLblLexer;
+    QtLabel *mLblEoL;
+    QtLabel *mLblInsOvr;
 
 
 };

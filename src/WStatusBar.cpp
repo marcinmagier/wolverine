@@ -28,53 +28,50 @@
                                 "padding-right: 4px;"       \
                                 "}"
 
-
+#define FILE_STATISTICS_PATTERN     "length: %1     lines: %2"
+#define POSITION_PATTERN            "Ln: %1     Col: %2     Sel: 0 | 0"
 
 using namespace Wolverine;
 
 
 StatusBar::StatusBar(EditorProxy *currentEditor, QWidget *parent) :
     QStatusBar(parent),
-    mCurrentEditor(currentEditor)
+    mEditorProxy(currentEditor)
 {
-    connect(mCurrentEditor, SIGNAL(currentEditorChanged(Editor*)),
-                      this, SLOT(onCurrentEditorChanged(Editor*)) );
-
-
+    mLblPosition = new QtLabel();
+    mLblPosition->setStyleSheet(QString(STATUS_LABEL_STYLE));
+    mLblPosition->setMinimumWidth(180);
+    this->addPermanentWidget(mLblPosition);
 
     mLblFilePath = new QtLabel("/test/file/path");
     mLblFilePath->setStyleSheet(QString(STATUS_LABEL_STYLE));
-    connect(mLblFilePath, SIGNAL(clicked(QMouseEvent*)),
-            this, SLOT(onClicked(QMouseEvent*)) );
-    connect(mLblFilePath, SIGNAL(clickedLong(QMouseEvent*)),
-            this, SLOT(onClickedLong(QMouseEvent*)) );
-    connect(mLblFilePath, SIGNAL(doubleClicked(QMouseEvent*)),
-            this, SLOT(onDoubleClicked(QMouseEvent*)) );
-    this->addWidget(mLblFilePath, 2);
+    this->addPermanentWidget(mLblFilePath, 2);
 
-    mLblFileStatistics = new QLabel("length: 36     lines: 8");
+    mLblFileStatistics = new QtLabel();
     mLblFileStatistics->setStyleSheet(QString(STATUS_LABEL_STYLE));
-    this->addWidget(mLblFileStatistics);
+    mLblFileStatistics->setMinimumWidth(160);
+    this->addPermanentWidget(mLblFileStatistics);
 
-    mLblPosition = new QLabel("Ln: 5     Col: 9     Sel: 0 | 0");
-    mLblPosition->setStyleSheet(QString(STATUS_LABEL_STYLE));
-    this->addWidget(mLblPosition);
-
-    mLblCodec = new QLabel("ANSI");
+    mLblCodec = new QtLabel("ANSI");
     mLblCodec->setStyleSheet(QString(STATUS_LABEL_STYLE));
-    this->addWidget(mLblCodec);
+    this->addPermanentWidget(mLblCodec);
 
-    mLblLexer = new QLabel("C++");
+    mLblLexer = new QtLabel("C++");
     mLblLexer->setStyleSheet(QString(STATUS_LABEL_STYLE));
-    this->addWidget(mLblLexer);
+    this->addPermanentWidget(mLblLexer);
 
-    mLblEoL = new QLabel("WINDOWS");
+    mLblEoL = new QtLabel("WINDOWS");
     mLblEoL->setStyleSheet(QString(STATUS_LABEL_STYLE));
-    this->addWidget(mLblEoL);
+    this->addPermanentWidget(mLblEoL);
 
-    mLblInsOvr = new QLabel("INS");
+    mLblInsOvr = new QtLabel("INS");
     mLblInsOvr->setStyleSheet(QString(STATUS_LABEL_STYLE));
-    this->addWidget(mLblInsOvr);
+    this->addPermanentWidget(mLblInsOvr);
+
+
+    connect(mEditorProxy, SIGNAL(currentEditorChanged(Editor*)),
+                      this, SLOT(onCurrentEditorChanged(Editor*)) );
+    onCurrentEditorChanged(mEditorProxy->getCurrentEditor());
 }
 
 
@@ -82,21 +79,39 @@ StatusBar::StatusBar(EditorProxy *currentEditor, QWidget *parent) :
 
 void StatusBar::onCurrentEditorChanged(Editor *editor)
 {
+    QString filePath = editor->getFilePath();
+    if(filePath.length() > 0)
+        mLblFilePath->setText(editor->getFilePath());
+    else
+        mLblFilePath->setText(tr("New"));
 
+    connect(editor, SIGNAL(cursorPositionChanged(int,int)),
+              this, SLOT(onCurrentEditorPosChanged(int,int)), Qt::UniqueConnection );
+    connect(editor, SIGNAL(textChanged()),
+              this, SLOT(onCurrentEditorTextChanged()), Qt::UniqueConnection );
+    connect(editor, SIGNAL(selectionChanged()),
+            this, SLOT(onCurrentEditorSelectionChanged()), Qt::UniqueConnection );
+
+    QPoint pos = editor->pos();
+    onCurrentEditorPosChanged(pos.x(), pos.y());
+    onCurrentEditorTextChanged();
 }
 
-void StatusBar::onClicked(QMouseEvent *event)
+
+void StatusBar::onCurrentEditorPosChanged(int line, int column)
 {
-    qDebug() << "Clicked";
+    mLblPosition->setText(QString(POSITION_PATTERN).arg(line)
+                                                   .arg(column) );
 }
 
-void StatusBar::onClickedLong(QMouseEvent *event)
+void StatusBar::onCurrentEditorTextChanged()
 {
-    qDebug() << "Clicked long";
+    Editor *editor = mEditorProxy->getCurrentEditor();
+    mLblFileStatistics->setText(QString(FILE_STATISTICS_PATTERN).arg(editor->length())
+                                                                .arg(editor->lines()) );
 }
 
-void StatusBar::onDoubleClicked(QMouseEvent *event)
+void StatusBar::onCurrentEditorSelectionChanged()
 {
-    qDebug() << "Double clicked";
+    qDebug() << "Selection changed";
 }
-
