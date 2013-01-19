@@ -38,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     setCentralWidget(mCentralWidget);
-    setStatusBar(new StatusBar(this));
+    setStatusBar(new StatusBar(mCentralWidget->getCurrentEditor(), this));
 
     Popup::initialize();
 

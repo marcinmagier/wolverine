@@ -43,10 +43,12 @@ void EditorProxy::setCurrentEditor(Editor *editor)
 {
     if(mCurrentEditor != editor) {
         mCurrentEditor = editor;
-        connect( mCurrentEditor, SIGNAL(customContextMenuRequested(QPoint)),
-                           this, SLOT(onCustomContextMenuRequested(QPoint)), Qt::UniqueConnection );
+        if(mCurrentEditor) {
+            connect( mCurrentEditor, SIGNAL(customContextMenuRequested(QPoint)),
+                               this, SLOT(onCustomContextMenuRequested(QPoint)), Qt::UniqueConnection );
 
-        emit currentEditorChanged(mCurrentEditor);
+            emit currentEditorChanged(mCurrentEditor);
+        }
     }
 }
 

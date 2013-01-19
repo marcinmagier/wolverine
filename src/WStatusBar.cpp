@@ -12,6 +12,9 @@
 
 
 #include "WStatusBar.h"
+#include "WEditor.h"
+#include "WEditorProxy.h"
+
 
 #include "CfgAppSettings.h"
 
@@ -19,8 +22,19 @@
 using namespace Wolverine;
 
 
-StatusBar::StatusBar(QWidget *parent) :
-    QStatusBar(parent)
+StatusBar::StatusBar(EditorProxy *currentEditor, QWidget *parent) :
+    QStatusBar(parent),
+    mCurrentEditor(currentEditor)
 {
 
+}
+
+
+
+
+void StatusBar::onCurrentEditorChanged(Editor *editor)
+{
+    if(editor != mCurrentEditor) {
+
+    }
 }

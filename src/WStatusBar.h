@@ -21,13 +21,24 @@
 namespace Wolverine
 {
 
+class Editor;
+class EditorProxy;
+
 
 class StatusBar : public QStatusBar
 {
     Q_OBJECT
 
 public:
-    StatusBar(QWidget *parent=0);
+    StatusBar(EditorProxy *currentEditor, QWidget *parent=0);
+
+
+private slots:
+    void onCurrentEditorChanged(Editor *editor);
+
+
+private:
+    EditorProxy *mCurrentEditor;
 
 };
 
