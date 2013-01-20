@@ -112,12 +112,8 @@ void QtLabel::mouseReleaseEvent(QMouseEvent *event)
     if(mMouseButton == event->button()) {
         if(mTimer->isActive()) {
             mTimer->stop();
-        }
-
-        if(mTimeoutReached)
-            emit clickedLong(event);
-        else
             emit clicked(event);
+        }
     }
 }
 
@@ -152,4 +148,5 @@ void QtLabel::onTimeout()
 {
     mTimeoutReached = true;
     mTimer->stop();
+    emit clickedLong(mMouseButton);
 }

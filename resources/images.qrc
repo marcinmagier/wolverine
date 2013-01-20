@@ -17,5 +17,8 @@
         <file alias="move_right.png">images/move_right.png</file>
         <file alias="close.png">images/close.png</file>
         <file alias="close_all.png">images/close_all.png</file>
+        <file alias="eol_mac.png">images/eol_mac.png</file>
+        <file alias="eol_unix.png">images/eol_unix.png</file>
+        <file alias="eol_win.png">images/eol_win.png</file>
     </qresource>
 </RCC>

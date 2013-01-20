@@ -17,8 +17,13 @@
 #include "CfgAppSettings.h"
 
 #include "qtlabel.h"
+#include "Logger.h"
 
+#include <QCursor>
+#include <QIcon>
 #include <QLabel>
+#include <QMenu>
+#include <QMouseEvent>
 
 #include <QDebug>
 
@@ -31,7 +36,28 @@
 #define FILE_STATISTICS_PATTERN     "length: %1     lines: %2"
 #define POSITION_PATTERN            "Ln: %1     Col: %2     Sel: 0 | 0"
 
+
 using namespace Wolverine;
+
+
+
+static QIcon getEoLIcon(Editor::EolMode eol);
+
+QIcon getEoLIcon(Editor::EolMode eol)
+{
+    switch(eol) {
+        case Editor::EolWindows :
+            return QIcon(":/eol_win.png");
+        case Editor::EolMac :
+            return QIcon(":/eol_mac.png");
+        case Editor::EolUnix :
+            return QIcon(":/eol_unix.png");
+    }
+    LOG_ERROR("EoL not known");
+    return QIcon();
+}
+
+
 
 
 StatusBar::StatusBar(EditorProxy *currentEditor, QWidget *parent) :
@@ -58,14 +84,23 @@ StatusBar::StatusBar(EditorProxy *currentEditor, QWidget *parent) :
 
     mLblLexer = new QtLabel("C++");
     mLblLexer->setStyleSheet(QString(STATUS_LABEL_STYLE));
+    connect(mLblLexer, SIGNAL(clickedLong(Qt::MouseButton)),
+                 this, SLOT(onLblLexerClickLong(Qt::MouseButton)) );
     this->addPermanentWidget(mLblLexer);
 
-    mLblEoL = new QtLabel("WINDOWS");
+    mLblEoL = new QtLabel();
     mLblEoL->setStyleSheet(QString(STATUS_LABEL_STYLE));
+    Editor::EolMode eolMode = mEditorProxy->getCurrentEditor()->eolMode();
+    mLblEoL->setPixmap(getEoLIcon(eolMode).pixmap(15, 15));
+    connect(mLblEoL, SIGNAL(clickedLong(Qt::MouseButton)),
+               this, SLOT(onLblEoLClickLong(Qt::MouseButton)) );
     this->addPermanentWidget(mLblEoL);
 
     mLblInsOvr = new QtLabel("INS");
     mLblInsOvr->setStyleSheet(QString(STATUS_LABEL_STYLE));
+    mLblInsOvr->setMinimumWidth(36);
+    connect(mLblInsOvr, SIGNAL(doubleClicked(QMouseEvent*)),
+                  this, SLOT(onLblInsOvrDoubleClick(QMouseEvent*)) );
     this->addPermanentWidget(mLblInsOvr);
 
 
@@ -114,4 +149,57 @@ void StatusBar::onCurrentEditorTextChanged()
 void StatusBar::onCurrentEditorSelectionChanged()
 {
     qDebug() << "Selection changed";
+}
+
+
+
+void StatusBar::onLblLexerClickLong(QMouseEvent *event)
+{
+
+}
+
+void StatusBar::onLblEoLClickLong(Qt::MouseButton button)
+{
+    QAction *action;
+    QMenu menu(this);
+    Editor::EolMode oldEolMode = mEditorProxy->getCurrentEditor()->eolMode();
+
+    action = menu.addAction(QIcon(":/eol_win.png"), QString("Win"));
+    action->setData( static_cast<int>(Editor::EolWindows));
+    action->setCheckable(true);
+    if(oldEolMode == Editor::EolWindows) {
+        action->setChecked(true);
+    }
+
+    action = menu.addAction(QIcon(":/eol_mac.png"), QString("Mac"));
+    action->setData( static_cast<int>(Editor::EolMac));
+    action->setCheckable(true);
+    if(oldEolMode == Editor::EolMac) {
+        action->setChecked(true);
+    }
+
+    action = menu.addAction(QIcon(":/eol_unix.png"), QString("Unix"));
+    action->setData( static_cast<int>(Editor::EolUnix));
+    action->setCheckable(true);
+    if(oldEolMode == Editor::EolUnix) {
+        action->setChecked(true);
+    }
+
+    action = menu.exec(QCursor::pos());
+    if(action == 0)
+        return;
+
+    Editor::EolMode newEolMode = static_cast<Editor::EolMode>(action->data().toInt());
+    if(oldEolMode != newEolMode) {
+        mLblEoL->setPixmap(action->icon().pixmap(15, 15));
+        mEditorProxy->getCurrentEditor()->setEolMode(newEolMode);
+    }
+}
+
+void StatusBar::onLblInsOvrDoubleClick(QMouseEvent *event)
+{
+    if(mLblInsOvr->text() == "INS")
+        mLblInsOvr->setText("OVR");
+    else
+        mLblInsOvr->setText("INS");
 }

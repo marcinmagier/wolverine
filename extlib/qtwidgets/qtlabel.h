@@ -44,7 +44,7 @@ public:
 
 signals:
     void clicked(QMouseEvent *event);
-    void clickedLong(QMouseEvent *event);
+    void clickedLong(Qt::MouseButton button);
     void doubleClicked(QMouseEvent *event);
 
 

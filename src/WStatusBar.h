@@ -42,10 +42,14 @@ private slots:
     void onCurrentEditorTextChanged();
     void onCurrentEditorSelectionChanged();
 
-
+    void onLblLexerClickLong(QMouseEvent *event);
+    void onLblEoLClickLong(Qt::MouseButton button);
+    void onLblInsOvrDoubleClick(QMouseEvent *event);
 
 
 private:
+
+
     EditorProxy *mEditorProxy;
 
     QtLabel *mLblFilePath;
