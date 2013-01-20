@@ -82,8 +82,9 @@ StatusBar::StatusBar(EditorProxy *currentEditor, QWidget *parent) :
     mLblCodec->setStyleSheet(QString(STATUS_LABEL_STYLE));
     this->addPermanentWidget(mLblCodec);
 
-    mLblLexer = new QtLabel("C++");
+    mLblLexer = new QtLabel();
     mLblLexer->setStyleSheet(QString(STATUS_LABEL_STYLE));
+    mLblLexer->setMinimumWidth(100);
     connect(mLblLexer, SIGNAL(clickedLong(Qt::MouseButton)),
                  this, SLOT(onLblLexerClickLong(Qt::MouseButton)) );
     this->addPermanentWidget(mLblLexer);
@@ -119,6 +120,8 @@ void StatusBar::onCurrentEditorChanged(Editor *editor)
         mLblFilePath->setText(editor->getFilePath());
     else
         mLblFilePath->setText(tr("New"));
+
+    mLblLexer->setText(editor->getLexerName());
 
     connect(editor, SIGNAL(cursorPositionChanged(int,int)),
               this, SLOT(onCurrentEditorPosChanged(int,int)), Qt::UniqueConnection );

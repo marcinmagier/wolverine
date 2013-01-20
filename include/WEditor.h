@@ -57,7 +57,6 @@ public:
     QString getFilePath();
 
     void setLexer(const QString &name);
-    void setLexerFromFile(const QString &fileName);
     QString getLexerName();
 
 signals:
@@ -78,6 +77,7 @@ private:
 
     EditorBinder *mBinder;
     EditorLexerManager *mLexerManager;
+    QString mLexerName;
     ScintillaSettings *mSettings;
 
 };

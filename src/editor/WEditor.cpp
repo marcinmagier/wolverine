@@ -45,6 +45,8 @@ Editor::Editor(QWidget *parent) :
     mBinder(0)
 {
     initialize();
+    mLexerName = QString("Normal Text");
+    QtScintilla::setLexer(mLexerManager->getLexer(mLexerName));
 }
 
 
@@ -53,6 +55,9 @@ Editor::Editor(EditorBinder *doc, QWidget *parent) :
     mBinder(doc)
 {
     initialize();
+    mLexerName = mLexerManager->getLexerName(mBinder);
+    QtScintilla::setLexer(mLexerManager->getLexer(mLexerName));
+
 }
 
 
@@ -123,6 +128,19 @@ QString Editor::getFilePath()
 {
     return mBinder->canonicalFilePath();
 }
+
+
+void Editor::setLexer(const QString &name)
+{
+    mLexerName = name;
+    QtScintilla::setLexer(mLexerManager->getLexer(name));
+}
+
+QString Editor::getLexerName()
+{
+    return mLexerName;
+}
+
 
 
 /**

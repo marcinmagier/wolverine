@@ -30,6 +30,9 @@
 #include <QObject>
 #include <QMap>
 
+class QFileInfo;
+class QSettings;
+class QsciLexer;
 
 namespace Wolverine
 {
@@ -48,6 +51,9 @@ public:
     ~EditorLexerManager();
     static EditorLexerManager* instance();
 
+    QString getLexerName(QFileInfo *fileInfo);
+    QsciLexer* getLexer(const QString &lexName);
+
     void saveConfig();
     void restoreBasicConfig();
     void restoreLexerConfig(const QString &lexerName);
@@ -59,6 +65,10 @@ public:
 
 private:
     void initializeLexers();
+
+
+    QsciLexer* createLexerCPP(const QString &name, QSettings *qset);
+    QsciLexer* createLexerPython(const QString &name, QSettings *qset);
 
     QMap<QString, EditorLexer*> mLexerMap;
 

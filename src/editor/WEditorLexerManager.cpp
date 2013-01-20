@@ -25,24 +25,33 @@
 
 #include "WEditorLexerManager.h"
 
+#include "Logger.h"
+
 #include "Qsci/qscilexer.h"
+#include "Qsci/qscilexercpp.h"
+#include "Qsci/qscilexerpython.h"
 
 #include <QWidget>
 #include <QStringList>
 #include <QAction>
 #include <QApplication>
 #include <QSettings>
+#include <QFileInfo>
 
 
 
 namespace Wolverine
 {
 
+typedef QsciLexer* (EditorLexerManager::*pfCreateLexerFunct)(const QString&, QSettings *);
+
+
 class EditorLexer
 {
 public:
 
-    explicit EditorLexer(bool available = false) : mLexer(0), mAvailable(available) {}
+    explicit EditorLexer(pfCreateLexerFunct createFunct, bool available = false) :
+        mLexer(0), mCreateFunction(createFunct), mAvailable(available) {}
     ~EditorLexer() { delete mLexer; }
 
     void setAvailable(bool val) { mAvailable = val; }
@@ -51,9 +60,11 @@ public:
     void setLexer(QsciLexer *lexer) { mLexer = lexer; }
     QsciLexer* getLexer() { return mLexer; }
 
+    pfCreateLexerFunct getCreateFunct() { return mCreateFunction; }
 
 private:
     QsciLexer *mLexer;
+    pfCreateLexerFunct mCreateFunction;
     bool mAvailable;
 };
 
@@ -116,65 +127,33 @@ void deleteEditorLexerManagerInstance()
 
 
 
-
-void EditorLexerManager::createConfigurationBackup()
+QString EditorLexerManager::getLexerName(QFileInfo *fileInfo)
 {
+    if(!fileInfo->exists())
+        return QString("Normal Text");
 
-}
-
-void EditorLexerManager::restoreConfigurationBackup()
-{
-
-}
-
-void EditorLexerManager::dropConfigurationBackup()
-{
-
-}
-
-QWidget* EditorLexerManager::getLexerManagerWidget(QWidget *parent)
-{
-    return new QWidget(parent);
+    return QString("C++");
 }
 
 
-
-
-
-
-void EditorLexerManager::initializeLexers()
+QsciLexer* EditorLexerManager::getLexer(const QString &lexName)
 {
-    EditorLexer *eLexer;
+    if(!mLexerMap.contains(lexName))
+        LOG_ERROR("Lexer not known!");
 
-    eLexer = new EditorLexer();
-    mLexerMap["Normal Text"] = eLexer;
+    EditorLexer *eLexer = mLexerMap[lexName];
+    QsciLexer *lexer = eLexer->getLexer();
+    if(lexer)
+        return lexer;
 
-    eLexer = new EditorLexer();
-    mLexerMap["Bash"] = eLexer;
+    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "lexers");
+    pfCreateLexerFunct createFunct= eLexer->getCreateFunct();
+    lexer = (this->*createFunct)(lexName, &qset);
+    eLexer->setLexer(lexer);
 
-    eLexer = new EditorLexer();
-    mLexerMap["Batch"] = eLexer;
-
-    eLexer = new EditorLexer();
-    mLexerMap["C++"] = eLexer;
-
-    eLexer = new EditorLexer();
-    mLexerMap["C#"] = eLexer;
-
-    eLexer = new EditorLexer();
-    mLexerMap["HTML"] = eLexer;
-
-    eLexer = new EditorLexer();
-    mLexerMap["Java"] = eLexer;
-
-    eLexer = new EditorLexer();
-    mLexerMap["Makefile"] = eLexer;
-
-    eLexer = new EditorLexer();
-    mLexerMap["Python"] = eLexer;
-
-    restoreBasicConfig();
+    return lexer;
 }
+
 
 
 
@@ -214,4 +193,62 @@ void EditorLexerManager::restoreLexerConfig(const QString &lexerName)
 
     qset.endGroup();
 }
+
+
+void EditorLexerManager::createConfigurationBackup()
+{
+
+}
+
+void EditorLexerManager::restoreConfigurationBackup()
+{
+
+}
+
+void EditorLexerManager::dropConfigurationBackup()
+{
+
+}
+
+QWidget* EditorLexerManager::getLexerManagerWidget(QWidget *parent)
+{
+    return new QWidget(parent);
+}
+
+
+
+
+
+
+void EditorLexerManager::initializeLexers()
+{
+    EditorLexer *eLexer;
+
+    eLexer = new EditorLexer(&EditorLexerManager::createLexerPython);
+    mLexerMap["Normal Text"] = eLexer;
+
+    eLexer = new EditorLexer(&EditorLexerManager::createLexerCPP);
+    mLexerMap["C++"] = eLexer;
+
+    eLexer = new EditorLexer(0);
+    mLexerMap["Java"] = eLexer;
+
+    eLexer = new EditorLexer(&EditorLexerManager::createLexerPython);
+    mLexerMap["Python"] = eLexer;
+
+    restoreBasicConfig();
+}
+
+
+QsciLexer* EditorLexerManager::createLexerCPP(const QString &name, QSettings *qset)
+{
+    return new QsciLexerCPP();
+}
+
+QsciLexer* EditorLexerManager::createLexerPython(const QString &name, QSettings *qset)
+{
+    return new QsciLexerCPP();
+}
+
+
 
