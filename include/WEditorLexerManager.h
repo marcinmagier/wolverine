@@ -68,7 +68,12 @@ private:
 
 
     QsciLexer* createLexerCPP(const QString &name, QSettings *qset);
+    void saveLexerCPP(QsciLexer *lexer, const QString &name, QSettings *qset);
+
     QsciLexer* createLexerPython(const QString &name, QSettings *qset);
+    void saveLexerPython(QsciLexer *lexer, const QString &name, QSettings *qset);
+
+
 
     QMap<QString, EditorLexer*> mLexerMap;
 

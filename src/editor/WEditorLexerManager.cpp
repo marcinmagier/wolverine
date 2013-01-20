@@ -39,19 +39,22 @@
 #include <QFileInfo>
 
 
+#include <QDebug>
+
 
 namespace Wolverine
 {
 
-typedef QsciLexer* (EditorLexerManager::*pfCreateLexerFunct)(const QString&, QSettings *);
+typedef QsciLexer* (EditorLexerManager::*pfCreateLexerFunct)(const QString&, QSettings*);
+typedef void (EditorLexerManager::*pfSaveLexerFunct)(QsciLexer*, const QString&, QSettings*);
 
 
 class EditorLexer
 {
 public:
 
-    explicit EditorLexer(pfCreateLexerFunct createFunct, bool available = false) :
-        mLexer(0), mCreateFunction(createFunct), mAvailable(available) {}
+    explicit EditorLexer(pfCreateLexerFunct createFunct, pfSaveLexerFunct saveFunct, bool available = false) :
+        mLexer(0), mCreateFunction(createFunct), mSaveFunction(saveFunct), mAvailable(available) {}
     ~EditorLexer() { delete mLexer; }
 
     void setAvailable(bool val) { mAvailable = val; }
@@ -61,10 +64,12 @@ public:
     QsciLexer* getLexer() { return mLexer; }
 
     pfCreateLexerFunct getCreateFunct() { return mCreateFunction; }
+    pfSaveLexerFunct getSaveFunct() { return mSaveFunction;}
 
 private:
     QsciLexer *mLexer;
     pfCreateLexerFunct mCreateFunction;
+    pfSaveLexerFunct mSaveFunction;
     bool mAvailable;
 };
 
@@ -167,7 +172,16 @@ void EditorLexerManager::saveConfig()
     foreach(QString lexName, mLexerMap.keys()) {
         qset.beginGroup(lexName);
         EditorLexer *eLexer = mLexerMap[lexName];
-        qset.setValue("available", QVariant::fromValue( eLexer->isAvailable()) );
+        qset.setValue( "available", QVariant::fromValue( eLexer->isAvailable()) );
+        QsciLexer *lexer = eLexer->getLexer();
+        if(lexer) {
+            qset.setValue( "def_font", QVariant::fromValue(lexer->defaultFont()) );
+            qset.setValue( "def_fgcolor", QVariant::fromValue(lexer->defaultColor()) );
+            qset.setValue( "def_bgcolor", QVariant::fromValue(lexer->defaultPaper()) );
+
+            pfSaveLexerFunct saveFunct= eLexer->getSaveFunct();
+            (this->*saveFunct)(lexer, lexName, &qset);
+        }
         qset.endGroup();
     }
 }
@@ -224,16 +238,16 @@ void EditorLexerManager::initializeLexers()
 {
     EditorLexer *eLexer;
 
-    eLexer = new EditorLexer(&EditorLexerManager::createLexerPython);
+    eLexer = new EditorLexer(&EditorLexerManager::createLexerPython, &EditorLexerManager::saveLexerPython);
     mLexerMap["Normal Text"] = eLexer;
 
-    eLexer = new EditorLexer(&EditorLexerManager::createLexerCPP);
+    eLexer = new EditorLexer(&EditorLexerManager::createLexerCPP, &EditorLexerManager::saveLexerCPP);
     mLexerMap["C++"] = eLexer;
 
-    eLexer = new EditorLexer(0);
+    eLexer = new EditorLexer(0, 0);
     mLexerMap["Java"] = eLexer;
 
-    eLexer = new EditorLexer(&EditorLexerManager::createLexerPython);
+    eLexer = new EditorLexer(&EditorLexerManager::createLexerPython, &EditorLexerManager::saveLexerPython);
     mLexerMap["Python"] = eLexer;
 
     restoreBasicConfig();
@@ -245,10 +259,44 @@ QsciLexer* EditorLexerManager::createLexerCPP(const QString &name, QSettings *qs
     return new QsciLexerCPP();
 }
 
-QsciLexer* EditorLexerManager::createLexerPython(const QString &name, QSettings *qset)
+void EditorLexerManager::saveLexerCPP(QsciLexer *lexer, const QString &name, QSettings *qset)
 {
-    return new QsciLexerCPP();
+    qset->beginGroup(name);
+    qset->setValue("font", QVariant::fromValue(lexer->font(0)));
+    qset->endGroup();
 }
 
+QsciLexer* EditorLexerManager::createLexerPython(const QString &name, QSettings *qset)
+{
+    return new QsciLexerPython();
+}
+
+void EditorLexerManager::saveLexerPython(QsciLexer *lexer, const QString &name, QSettings *qset)
+{
+    //QsciLexerPython *lexerPython = dynamic_cast<QsciLexerPython*>(lexer);
+    qDebug() << lexer->description(QsciLexerPython::Default);
+    qset->beginGroup(lexer->description(QsciLexerPython::Default));
+    qset->setValue( "font", QVariant::fromValue(lexer->font(QsciLexerPython::Default)) );
+    qset->setValue( "fgcolor", QVariant::fromValue(lexer->color(QsciLexerPython::Default)) );
+    qset->setValue( "bgcolor", QVariant::fromValue(lexer->paper(QsciLexerPython::Default)) );
+    qset->setValue( "filleol", QVariant::fromValue(lexer->defaultEolFill(QsciLexerPython::Default)) );
+    qset->endGroup();
+
+    qDebug() << lexer->description(QsciLexerPython::Comment);
+    qset->beginGroup(lexer->description(QsciLexerPython::Comment));
+    qset->setValue( "font", QVariant::fromValue(lexer->font(QsciLexerPython::Comment)) );
+    qset->setValue( "fgcolor", QVariant::fromValue(lexer->color(QsciLexerPython::Comment)) );
+    qset->setValue( "bgcolor", QVariant::fromValue(lexer->paper(QsciLexerPython::Comment)) );
+    qset->setValue( "filleol", QVariant::fromValue(lexer->defaultEolFill(QsciLexerPython::Comment)) );
+    qset->endGroup();
+
+    qDebug() << lexer->description(QsciLexerPython::Number);
+    qset->beginGroup(lexer->description(QsciLexerPython::Number));
+    qset->setValue( "font", QVariant::fromValue(lexer->font(QsciLexerPython::Number)) );
+    qset->setValue( "fgcolor", QVariant::fromValue(lexer->color(QsciLexerPython::Number)) );
+    qset->setValue( "bgcolor", QVariant::fromValue(lexer->paper(QsciLexerPython::Number)) );
+    qset->setValue( "filleol", QVariant::fromValue(lexer->defaultEolFill(QsciLexerPython::Number)) );
+    qset->endGroup();
+}
 
 
