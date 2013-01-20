@@ -64,6 +64,7 @@ Editor::~Editor()
 
 void Editor::initialize()
 {
+    mLexerManager = EditorLexerManager::instance();
     mSettings = AppSettings::instance()->scintilla;
 
     this->setContextMenuPolicy(Qt::CustomContextMenu);

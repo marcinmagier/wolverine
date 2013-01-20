@@ -28,16 +28,13 @@
 
 
 #include <QObject>
-
-
-class QAction;
-class QStringList;
-
-typedef QList<QAction*> QActionList;
+#include <QMap>
 
 
 namespace Wolverine
 {
+
+class EditorLexer;
 
 
 class EditorLexerManager : public QObject
@@ -48,21 +45,22 @@ private:
     explicit EditorLexerManager();
 
 public:
+    ~EditorLexerManager();
     static EditorLexerManager* instance();
 
-    //void saveConfig();
-    //void restoreConfig();
+    void saveConfig();
+    void restoreBasicConfig();
+    void restoreLexerConfig(const QString &lexerName);
     void createConfigurationBackup();
     void restoreConfigurationBackup();
     void dropConfigurationBackup();
     QWidget* getLexerManagerWidget(QWidget *parent = 0);
-    QActionList getLexerActions();
 
 
 private:
-    void initializeActions();
+    void initializeLexers();
 
-    QActionList mLexerActions;
+    QMap<QString, EditorLexer*> mLexerMap;
 
 };
 

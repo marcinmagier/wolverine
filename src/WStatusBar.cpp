@@ -148,7 +148,7 @@ void StatusBar::onCurrentEditorTextChanged()
 
 void StatusBar::onCurrentEditorSelectionChanged()
 {
-    qDebug() << "Selection changed";
+   // qDebug() << "Selection changed";
 }
 
 

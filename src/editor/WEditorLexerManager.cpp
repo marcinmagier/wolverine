@@ -25,13 +25,45 @@
 
 #include "WEditorLexerManager.h"
 
+#include "Qsci/qscilexer.h"
+
 #include <QWidget>
 #include <QStringList>
 #include <QAction>
 #include <QApplication>
+#include <QSettings>
+
+
+
+namespace Wolverine
+{
+
+class EditorLexer
+{
+public:
+
+    explicit EditorLexer(bool available = false) : mLexer(0), mAvailable(available) {}
+    ~EditorLexer() { delete mLexer; }
+
+    void setAvailable(bool val) { mAvailable = val; }
+    bool isAvailable() { return mAvailable; }
+
+    void setLexer(QsciLexer *lexer) { mLexer = lexer; }
+    QsciLexer* getLexer() { return mLexer; }
+
+
+private:
+    QsciLexer *mLexer;
+    bool mAvailable;
+};
+
+}
+
 
 
 using namespace Wolverine;
+
+
 
 
 static void deleteEditorLexerManagerInstance();
@@ -46,6 +78,16 @@ EditorLexerManager::EditorLexerManager() :
     QObject()
 {
     qAddPostRoutine(deleteEditorLexerManagerInstance);
+    initializeLexers();
+}
+
+EditorLexerManager::~EditorLexerManager()
+{
+    saveConfig();
+
+    foreach(EditorLexer *eLexer, mLexerMap) {
+        delete eLexer;
+    }
 }
 
 
@@ -96,37 +138,80 @@ QWidget* EditorLexerManager::getLexerManagerWidget(QWidget *parent)
 }
 
 
-QActionList EditorLexerManager::getLexerActions()
+
+
+
+
+void EditorLexerManager::initializeLexers()
 {
-    return mLexerActions;
+    EditorLexer *eLexer;
+
+    eLexer = new EditorLexer();
+    mLexerMap["Normal Text"] = eLexer;
+
+    eLexer = new EditorLexer();
+    mLexerMap["Bash"] = eLexer;
+
+    eLexer = new EditorLexer();
+    mLexerMap["Batch"] = eLexer;
+
+    eLexer = new EditorLexer();
+    mLexerMap["C++"] = eLexer;
+
+    eLexer = new EditorLexer();
+    mLexerMap["C#"] = eLexer;
+
+    eLexer = new EditorLexer();
+    mLexerMap["HTML"] = eLexer;
+
+    eLexer = new EditorLexer();
+    mLexerMap["Java"] = eLexer;
+
+    eLexer = new EditorLexer();
+    mLexerMap["Makefile"] = eLexer;
+
+    eLexer = new EditorLexer();
+    mLexerMap["Python"] = eLexer;
+
+    restoreBasicConfig();
 }
 
 
 
-void EditorLexerManager::initializeActions()
+void EditorLexerManager::saveConfig()
 {
-    QAction *action;
-    action = new QAction(QString("Bash"), 0);
-    mLexerActions.append(action);
+    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "lexers");
 
-    action = new QAction(QString("Batch"), 0);
-    mLexerActions.append(action);
+    if(!qset.isWritable())
+        return;
 
-    action = new QAction(QString("C++"), 0);
-    mLexerActions.append(action);
-
-    action = new QAction(QString("C#"), 0);
-    mLexerActions.append(action);
-
-    action = new QAction(QString("HTML"), 0);
-    mLexerActions.append(action);
-
-    action = new QAction(QString("Java"), 0);
-    mLexerActions.append(action);
-
-    action = new QAction(QString("Makefile"), 0);
-    mLexerActions.append(action);
-
-    action = new QAction(QString("Python"), 0);
-    mLexerActions.append(action);
+    foreach(QString lexName, mLexerMap.keys()) {
+        qset.beginGroup(lexName);
+        EditorLexer *eLexer = mLexerMap[lexName];
+        qset.setValue("available", QVariant::fromValue( eLexer->isAvailable()) );
+        qset.endGroup();
+    }
 }
+
+
+void EditorLexerManager::restoreBasicConfig()
+{
+    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "lexers");
+
+    foreach(QString lexName, mLexerMap.keys()) {
+        qset.beginGroup(lexName);
+        EditorLexer *eLexer = mLexerMap[lexName];
+        eLexer->setAvailable( qset.value("available").toBool() );
+        qset.endGroup();
+    }
+}
+
+
+void EditorLexerManager::restoreLexerConfig(const QString &lexerName)
+{
+    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "lexers");
+    qset.beginGroup(lexerName);
+
+    qset.endGroup();
+}
+

@@ -77,7 +77,7 @@ private:
     void updateLineNoMargin(bool visible);
 
     EditorBinder *mBinder;
-    static EditorLexerManager mLexerManager;
+    EditorLexerManager *mLexerManager;
     ScintillaSettings *mSettings;
 
 };
