@@ -94,7 +94,6 @@ int QtLabel::getLongClickTimeout()
 void QtLabel::mousePressEvent(QMouseEvent *event)
 {
     if(!mTimer->isActive()) {
-        mTimeoutReached = false;
         mMouseButton = event->button();
         mTimer->start(1000);
     }
@@ -112,7 +111,7 @@ void QtLabel::mouseReleaseEvent(QMouseEvent *event)
     if(mMouseButton == event->button()) {
         if(mTimer->isActive()) {
             mTimer->stop();
-            emit clicked(event);
+            emit clicked(mMouseButton);
         }
     }
 }
@@ -126,7 +125,7 @@ void QtLabel::mouseReleaseEvent(QMouseEvent *event)
 //virtual
 void QtLabel::mouseDoubleClickEvent(QMouseEvent *event)
 {
-    emit doubleClicked(event);
+    emit doubleClicked(event->button());
 }
 
 /**
@@ -146,7 +145,6 @@ void QtLabel::mouseMoveEvent(QMouseEvent *event)
  */
 void QtLabel::onTimeout()
 {
-    mTimeoutReached = true;
     mTimer->stop();
     emit clickedLong(mMouseButton);
 }

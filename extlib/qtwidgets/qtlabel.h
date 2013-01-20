@@ -43,9 +43,9 @@ public:
     int getLongClickTimeout();
 
 signals:
-    void clicked(QMouseEvent *event);
+    void clicked(Qt::MouseButton button);
     void clickedLong(Qt::MouseButton button);
-    void doubleClicked(QMouseEvent *event);
+    void doubleClicked(Qt::MouseButton button);
 
 
 
@@ -64,7 +64,6 @@ private:
     QTimer *mTimer;
     int mTimerTimeout;
     Qt::MouseButton mMouseButton;
-    bool mTimeoutReached;
 
 };
 

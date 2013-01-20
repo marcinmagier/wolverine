@@ -99,8 +99,8 @@ StatusBar::StatusBar(EditorProxy *currentEditor, QWidget *parent) :
     mLblInsOvr = new QtLabel("INS");
     mLblInsOvr->setStyleSheet(QString(STATUS_LABEL_STYLE));
     mLblInsOvr->setMinimumWidth(36);
-    connect(mLblInsOvr, SIGNAL(doubleClicked(QMouseEvent*)),
-                  this, SLOT(onLblInsOvrDoubleClick(QMouseEvent*)) );
+    connect(mLblInsOvr, SIGNAL(doubleClicked(Qt::MouseButton)),
+                  this, SLOT(onLblInsOvrDoubleClick(Qt::MouseButton)) );
     this->addPermanentWidget(mLblInsOvr);
 
 
@@ -153,7 +153,7 @@ void StatusBar::onCurrentEditorSelectionChanged()
 
 
 
-void StatusBar::onLblLexerClickLong(QMouseEvent *event)
+void StatusBar::onLblLexerClickLong(Qt::MouseButton button)
 {
 
 }
@@ -196,7 +196,7 @@ void StatusBar::onLblEoLClickLong(Qt::MouseButton button)
     }
 }
 
-void StatusBar::onLblInsOvrDoubleClick(QMouseEvent *event)
+void StatusBar::onLblInsOvrDoubleClick(Qt::MouseButton button)
 {
     if(mLblInsOvr->text() == "INS")
         mLblInsOvr->setText("OVR");
