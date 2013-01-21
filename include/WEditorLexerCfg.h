@@ -38,7 +38,7 @@ namespace Wolverine
 class EditorLexerCfg;
 }
 
-typedef QsciLexer* (*pfCreateLexer)(Wolverine::EditorLexerCfg*, QSettings*);
+typedef void (*pfCreateLexer)(Wolverine::EditorLexerCfg*, QSettings*);
 typedef void (*pfSaveLexer)(Wolverine::EditorLexerCfg*, QSettings*);
 
 
@@ -67,10 +67,10 @@ public:
 
 
 
-QsciLexer* createLexCPP(Wolverine::EditorLexerCfg *eLexer, QSettings *qset);
+void createLexCPP(Wolverine::EditorLexerCfg *eLexer, QSettings *qset);
 void saveLexCPP(Wolverine::EditorLexerCfg *eLexer, QSettings *qset);
 
-QsciLexer* createLexPython(Wolverine::EditorLexerCfg *eLexer, QSettings *qset);
+void createLexPython(Wolverine::EditorLexerCfg *eLexer, QSettings *qset);
 void saveLexPython(Wolverine::EditorLexerCfg *eLexer, QSettings *qset);
 
 

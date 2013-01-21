@@ -119,7 +119,10 @@ QsciLexer* EditorLexerManager::getLexer(const QString &lexName)
         return eLexer->lexer;
 
     QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "lexers");
-    return eLexer->createFunction(eLexer, &qset);
+    qset.beginGroup(lexName);
+    eLexer->createFunction(eLexer, &qset);
+    qset.endGroup();
+    return eLexer->lexer;
 }
 
 
@@ -151,19 +154,13 @@ void EditorLexerManager::restoreBasicConfig()
     foreach(QString lexName, mLexerMap.keys()) {
         qset.beginGroup(lexName);
         EditorLexerCfg *eLexer = mLexerMap[lexName];
-        eLexer->isAvailable = qset.value("available").toBool();
+        if(qset.contains("available"))
+            eLexer->isAvailable = qset.value("available").toBool();
         qset.endGroup();
     }
 }
 
 
-void EditorLexerManager::restoreLexerConfig(const QString &lexerName)
-{
-    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "lexers");
-    qset.beginGroup(lexerName);
-
-    qset.endGroup();
-}
 
 
 void EditorLexerManager::createConfigurationBackup()
@@ -195,7 +192,7 @@ void EditorLexerManager::initializeLexers()
 {
     EditorLexerCfg *eLexer;
 
-    eLexer = new EditorLexerCfg(&createLexPython, &saveLexPython);
+    eLexer = new EditorLexerCfg(&createLexPython, &saveLexPython, true);
     mLexerMap["Normal Text"] = eLexer;
 
     eLexer = new EditorLexerCfg(&createLexCPP, &saveLexCPP);

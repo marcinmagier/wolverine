@@ -56,7 +56,6 @@ public:
 
     void saveConfig();
     void restoreBasicConfig();
-    void restoreLexerConfig(const QString &lexerName);
     void createConfigurationBackup();
     void restoreConfigurationBackup();
     void dropConfigurationBackup();

@@ -32,6 +32,8 @@
 #include <QString>
 #include <QSettings>
 
+#include <QDebug>
+
 
 
 using namespace Wolverine;
@@ -63,21 +65,46 @@ EditorLexerCfg::~EditorLexerCfg()
 
 void readCommonSettings(EditorLexerCfg *eLexer, QSettings *qset)
 {
+    if(qset->contains("def_font")) {
+        QFont font;
+        if(font.fromString( qset->value("def_font").toString()) )
+            eLexer->lexer->setDefaultFont(font);
+    }
+    if(qset->contains("def_fgcolor"))
+        eLexer->lexer->setDefaultColor( QColor(qset->value("def_fgcolor").toString()) );
+    if(qset->contains("def_bgcolor"))
+        eLexer->lexer->setDefaultPaper( QColor(qset->value("def_bgcolor").toString()) );
 
+    foreach(int style, eLexer->styles) {
+        QString styleGroup = eLexer->lexer->description(style).replace(" ", "_");
+        qset->beginGroup(styleGroup);
+        if(qset->contains("font")) {
+            QFont font;
+            if( font.fromString(qset->value("font").toString()) )
+                eLexer->lexer->setFont( font, style);
+        }
+        if(qset->contains("fgcolor"))
+            eLexer->lexer->setColor( QColor(qset->value("fgcolor").toString()), style);
+        if(qset->contains("bgcolor"))
+            eLexer->lexer->setPaper( QColor(qset->value("bgcolor").toString()), style);
+        if(qset->contains("filleol"))
+            eLexer->lexer->setEolFill( qset->value("filleol").toBool() );
+        qset->endGroup();
+    }
 }
 
 void saveCommonSettings(EditorLexerCfg *eLexer, QSettings *qset)
 {
-    qset->setValue( "def_font", QVariant::fromValue(eLexer->lexer->defaultFont()) );
-    qset->setValue( "def_fgcolor", QVariant::fromValue(eLexer->lexer->defaultColor()) );
-    qset->setValue( "def_bgcolor", QVariant::fromValue(eLexer->lexer->defaultPaper()) );
+    qset->setValue( "def_font", QVariant::fromValue(eLexer->lexer->defaultFont().toString()) );
+    qset->setValue( "def_fgcolor", QVariant::fromValue(eLexer->lexer->defaultColor().name()) );
+    qset->setValue( "def_bgcolor", QVariant::fromValue(eLexer->lexer->defaultPaper().name()) );
 
     foreach(int style, eLexer->styles) {
-        QString style_group = eLexer->lexer->description(style);
-        qset->beginGroup(style_group);
-        qset->setValue( "font", QVariant::fromValue(eLexer->lexer->font(style)) );
-        qset->setValue( "fgcolor", QVariant::fromValue(eLexer->lexer->color(style)) );
-        qset->setValue( "bgcolor", QVariant::fromValue(eLexer->lexer->paper(style)) );
+        QString styleGroup = eLexer->lexer->description(style).replace(" ", "_");
+        qset->beginGroup(styleGroup);
+        qset->setValue( "font", QVariant::fromValue(eLexer->lexer->font(style).toString()) );
+        qset->setValue( "fgcolor", QVariant::fromValue(eLexer->lexer->color(style).name()) );
+        qset->setValue( "bgcolor", QVariant::fromValue(eLexer->lexer->paper(style).name()) );
         qset->setValue( "filleol", QVariant::fromValue(eLexer->lexer->defaultEolFill(style)) );
         qset->endGroup();
     }
@@ -89,7 +116,7 @@ void saveCommonSettings(EditorLexerCfg *eLexer, QSettings *qset)
 
 
 
-QsciLexer* createLexCPP(EditorLexerCfg *eLexer, QSettings *qset)
+void createLexCPP(EditorLexerCfg *eLexer, QSettings *qset)
 {
     QsciLexerCPP *lexer = new QsciLexerCPP();
     eLexer->lexer = lexer;
@@ -99,7 +126,6 @@ QsciLexer* createLexCPP(EditorLexerCfg *eLexer, QSettings *qset)
                    << QsciLexerCPP::CommentDoc ;
 
     readCommonSettings(eLexer, qset);
-    return lexer;
 }
 void saveLexCPP(Wolverine::EditorLexerCfg *eLexer, QSettings *qset)
 {
@@ -108,7 +134,7 @@ void saveLexCPP(Wolverine::EditorLexerCfg *eLexer, QSettings *qset)
 
 
 
-QsciLexer* createLexPython(EditorLexerCfg *eLexer, QSettings *qset)
+void createLexPython(EditorLexerCfg *eLexer, QSettings *qset)
 {
     QsciLexerPython *lexer = new QsciLexerPython();
     eLexer->lexer = lexer;
@@ -130,7 +156,6 @@ QsciLexer* createLexPython(EditorLexerCfg *eLexer, QSettings *qset)
                    << QsciLexerPython::Decorator ;
 
     readCommonSettings(eLexer, qset);
-    return lexer;
 }
 void saveLexPython(Wolverine::EditorLexerCfg *eLexer, QSettings *qset)
 {
