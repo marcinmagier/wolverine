@@ -67,10 +67,10 @@ private:
     void initializeLexers();
 
 
-    QsciLexer* createLexerCPP(const QString &name, QSettings *qset);
+    QsciLexer* createLexerCPP(const QString &name, EditorLexer *eLexer, QSettings *qset);
     void saveLexerCPP(QsciLexer *lexer, const QString &name, QSettings *qset);
 
-    QsciLexer* createLexerPython(const QString &name, QSettings *qset);
+    QsciLexer* createLexerPython(const QString &name, EditorLexer *eLexer, QSettings *qset);
     void saveLexerPython(QsciLexer *lexer, const QString &name, QSettings *qset);
 
 

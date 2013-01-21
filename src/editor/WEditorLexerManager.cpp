@@ -45,7 +45,7 @@
 namespace Wolverine
 {
 
-typedef QsciLexer* (EditorLexerManager::*pfCreateLexerFunct)(const QString&, QSettings*);
+typedef QsciLexer* (EditorLexerManager::*pfCreateLexerFunct)(const QString&, EditorLexer*, QSettings*);
 typedef void (EditorLexerManager::*pfSaveLexerFunct)(QsciLexer*, const QString&, QSettings*);
 
 
@@ -66,11 +66,16 @@ public:
     pfCreateLexerFunct getCreateFunct() { return mCreateFunction; }
     pfSaveLexerFunct getSaveFunct() { return mSaveFunction;}
 
+    QList<int>& getStyles() { return mStyles; }
+
 private:
     QsciLexer *mLexer;
     pfCreateLexerFunct mCreateFunction;
     pfSaveLexerFunct mSaveFunction;
+    QList<int> mStyles;
     bool mAvailable;
+
+    friend class EditorLexerManager;
 };
 
 }
@@ -153,7 +158,7 @@ QsciLexer* EditorLexerManager::getLexer(const QString &lexName)
 
     QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "lexers");
     pfCreateLexerFunct createFunct= eLexer->getCreateFunct();
-    lexer = (this->*createFunct)(lexName, &qset);
+    lexer = (this->*createFunct)(lexName, eLexer, &qset);
     eLexer->setLexer(lexer);
 
     return lexer;
@@ -175,12 +180,24 @@ void EditorLexerManager::saveConfig()
         qset.setValue( "available", QVariant::fromValue( eLexer->isAvailable()) );
         QsciLexer *lexer = eLexer->getLexer();
         if(lexer) {
+            QSettings qs(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "tmplexers");
+            lexer->writeSettings(qs, "lexName");
             qset.setValue( "def_font", QVariant::fromValue(lexer->defaultFont()) );
             qset.setValue( "def_fgcolor", QVariant::fromValue(lexer->defaultColor()) );
             qset.setValue( "def_bgcolor", QVariant::fromValue(lexer->defaultPaper()) );
 
+            foreach(int style, eLexer->getStyles()) {
+                qset.beginGroup(lexer->description(style));
+                qset.setValue( "font", QVariant::fromValue(lexer->font(style)) );
+                qset.setValue( "fgcolor", QVariant::fromValue(lexer->color(style)) );
+                qset.setValue( "bgcolor", QVariant::fromValue(lexer->paper(style)) );
+                qset.setValue( "filleol", QVariant::fromValue(lexer->defaultEolFill(style)) );
+                qset.endGroup();
+            }
+
             pfSaveLexerFunct saveFunct= eLexer->getSaveFunct();
-            (this->*saveFunct)(lexer, lexName, &qset);
+            if(saveFunct)
+                (this->*saveFunct)(lexer, lexName, &qset);
         }
         qset.endGroup();
     }
@@ -254,49 +271,46 @@ void EditorLexerManager::initializeLexers()
 }
 
 
-QsciLexer* EditorLexerManager::createLexerCPP(const QString &name, QSettings *qset)
+QsciLexer* EditorLexerManager::createLexerCPP(const QString &name, EditorLexer *eLexer, QSettings *qset)
 {
+    eLexer->mStyles << QsciLexerCPP::Default
+           << QsciLexerCPP::Comment
+           << QsciLexerCPP::CommentLine
+           << QsciLexerCPP::CommentDoc ;
+
     return new QsciLexerCPP();
 }
 
 void EditorLexerManager::saveLexerCPP(QsciLexer *lexer, const QString &name, QSettings *qset)
 {
-    qset->beginGroup(name);
-    qset->setValue("font", QVariant::fromValue(lexer->font(0)));
-    qset->endGroup();
+
 }
 
-QsciLexer* EditorLexerManager::createLexerPython(const QString &name, QSettings *qset)
+QsciLexer* EditorLexerManager::createLexerPython(const QString &name, EditorLexer *eLexer, QSettings *qset)
 {
+    eLexer->mStyles << QsciLexerPython::Default
+           << QsciLexerPython::Comment
+           << QsciLexerPython::Number
+           << QsciLexerPython::DoubleQuotedString
+           << QsciLexerPython::SingleQuotedString
+           << QsciLexerPython::Keyword
+           << QsciLexerPython::TripleSingleQuotedString
+           << QsciLexerPython::TripleDoubleQuotedString
+           << QsciLexerPython::ClassName
+           << QsciLexerPython::FunctionMethodName
+           << QsciLexerPython::Operator
+           << QsciLexerPython::Identifier
+           << QsciLexerPython::CommentBlock
+           << QsciLexerPython::UnclosedString
+           << QsciLexerPython::HighlightedIdentifier
+           << QsciLexerPython::Decorator ;
+
     return new QsciLexerPython();
 }
 
 void EditorLexerManager::saveLexerPython(QsciLexer *lexer, const QString &name, QSettings *qset)
 {
-    //QsciLexerPython *lexerPython = dynamic_cast<QsciLexerPython*>(lexer);
-    qDebug() << lexer->description(QsciLexerPython::Default);
-    qset->beginGroup(lexer->description(QsciLexerPython::Default));
-    qset->setValue( "font", QVariant::fromValue(lexer->font(QsciLexerPython::Default)) );
-    qset->setValue( "fgcolor", QVariant::fromValue(lexer->color(QsciLexerPython::Default)) );
-    qset->setValue( "bgcolor", QVariant::fromValue(lexer->paper(QsciLexerPython::Default)) );
-    qset->setValue( "filleol", QVariant::fromValue(lexer->defaultEolFill(QsciLexerPython::Default)) );
-    qset->endGroup();
 
-    qDebug() << lexer->description(QsciLexerPython::Comment);
-    qset->beginGroup(lexer->description(QsciLexerPython::Comment));
-    qset->setValue( "font", QVariant::fromValue(lexer->font(QsciLexerPython::Comment)) );
-    qset->setValue( "fgcolor", QVariant::fromValue(lexer->color(QsciLexerPython::Comment)) );
-    qset->setValue( "bgcolor", QVariant::fromValue(lexer->paper(QsciLexerPython::Comment)) );
-    qset->setValue( "filleol", QVariant::fromValue(lexer->defaultEolFill(QsciLexerPython::Comment)) );
-    qset->endGroup();
-
-    qDebug() << lexer->description(QsciLexerPython::Number);
-    qset->beginGroup(lexer->description(QsciLexerPython::Number));
-    qset->setValue( "font", QVariant::fromValue(lexer->font(QsciLexerPython::Number)) );
-    qset->setValue( "fgcolor", QVariant::fromValue(lexer->color(QsciLexerPython::Number)) );
-    qset->setValue( "bgcolor", QVariant::fromValue(lexer->paper(QsciLexerPython::Number)) );
-    qset->setValue( "filleol", QVariant::fromValue(lexer->defaultEolFill(QsciLexerPython::Number)) );
-    qset->endGroup();
 }
 
 
