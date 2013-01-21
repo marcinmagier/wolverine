@@ -23,7 +23,7 @@
 
 #include "qtcolorbutton.h"
 
-#include "QColorDialog"
+#include <QColorDialog>
 
 
 #define COLOR_BUTTON_STYLE_PATTERN  "QPushButton {"                       \

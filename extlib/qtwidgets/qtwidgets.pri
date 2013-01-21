@@ -11,7 +11,8 @@ uselib {
     LIBS += -L$$QTWIDGETS_LIBDIR -l$$QTWIDGETS_LIBNAME
 } else {
     SOURCES      += \
-                    $$PWD/qtcolorbutton/qtcolorbutton.cpp \
+                    $$PWD/qtbuttons/qtcolorbutton.cpp \
+                    $$PWD/qtbuttons/qtfontbutton.cpp \
                     $$PWD/qtlabel/qtlabel.cpp \
                     $$PWD/qtmanagedwidgets/qtmanagedmenu.cpp \
                     $$PWD/qtmanagedwidgets/qtmanagedtoolbar.cpp \
@@ -27,6 +28,7 @@ uselib {
 
     HEADERS      += \
                     $$PWD/qtcolorbutton.h \
+                    $$PWD/qtfontbutton.h \
                     $$PWD/qtlabel.h \
                     $$PWD/qtmanagedmenu.h \
                     $$PWD/qtmanagedtoolbar.h \

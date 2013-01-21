@@ -16,35 +16,39 @@
 **************************************************************************************************/
 
 /**
- *  @file       WEditorLexerManagerWidget.cpp
- *  @brief      Wolverine::EditorLexerManagerWidget class implementation.
+ *  @file       qtfontbutton.h
+ *  @brief      QtFontButton class interface.
  */
 
 
 
-#include "WEditorLexerManagerWidget.h"
-#include "ui_WEditorLexerManagerWidget.h"
-#include "WEditorLexerCfg.h"
-#include "Qsci/qscilexer.h"
+#ifndef __QT_FONT_BUTTON_H_
+ #define __QT_FONT_BUTTON_H_
 
 
-using namespace Wolverine;
+#include <QPushButton>
+#include <QFont>
 
 
-
-EditorLexerManagerWidget::EditorLexerManagerWidget(QMap<QString, EditorLexerCfg *> &lexerMap, QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::EditorLexerManagerWidget),
-    mLexerMap(lexerMap)
+class QtFontButton : public QPushButton
 {
-    ui->setupUi(this);
+    Q_OBJECT
 
-    ui->cmbLexer->addItems(mLexerMap.keys());
-    ui->pushButton->setFont(QFont("Verdana"));
+public:
+    explicit QtFontButton(QWidget *parent = 0);
+    void setFont(const QFont &font);
+    
 
-}
+signals:
+    void fontChanged(QFont font);
+    
 
-EditorLexerManagerWidget::~EditorLexerManagerWidget()
-{
-    delete ui;
-}
+protected slots:
+    void onButtonClicked();
+
+
+private:
+    QFont mFont;
+};
+
+#endif // __QT_FONT_BUTTON_H_
