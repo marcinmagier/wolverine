@@ -16,64 +16,62 @@
 **************************************************************************************************/
 
 /**
- *  @file       WEditorLexerManager.h
- *  @brief      Wolverine::EditorLexerManager class interface.
+ *  @file       WEditorLexerCfg.h
+ *  @brief      Wolverine::EditorLexerCfg class interface.
  */
 
 
 
 
-#ifndef __W_EDITOR_LEXER_MANAGER_H_
- #define __W_EDITOR_LEXER_MANAGER_H_
+#ifndef __W_EDITOR_LEXER_CFG_H_
+ #define __W_EDITOR_LEXER_CFG_H_
 
 
-#include <QObject>
-#include <QMap>
+#include <QList>
 
-class QFileInfo;
+class QString;
 class QSettings;
 class QsciLexer;
 
 namespace Wolverine
 {
-
 class EditorLexerCfg;
+}
+
+typedef QsciLexer* (*pfCreateLexer)(Wolverine::EditorLexerCfg*, QSettings*);
+typedef void (*pfSaveLexer)(Wolverine::EditorLexerCfg*, QSettings*);
 
 
-class EditorLexerManager : public QObject
+
+
+namespace Wolverine
 {
-    Q_OBJECT
 
-private:
-    explicit EditorLexerManager();
 
+class EditorLexerCfg
+{
 public:
-    ~EditorLexerManager();
-    static EditorLexerManager* instance();
 
-    QString getLexerName(QFileInfo *fileInfo);
-    QsciLexer* getLexer(const QString &lexName);
+    explicit EditorLexerCfg(pfCreateLexer createFunct, pfSaveLexer saveFunct, bool available = false);
+    ~EditorLexerCfg();
 
-    void saveConfig();
-    void restoreBasicConfig();
-    void restoreLexerConfig(const QString &lexerName);
-    void createConfigurationBackup();
-    void restoreConfigurationBackup();
-    void dropConfigurationBackup();
-    QWidget* getLexerManagerWidget(QWidget *parent = 0);
-
-
-private:
-    void initializeLexers();
-
-
-
-    QMap<QString, EditorLexerCfg*> mLexerMap;
+    QsciLexer *lexer;
+    pfCreateLexer createFunction;
+    pfSaveLexer saveFunction;
+    QList<int> styles;
+    bool isAvailable;
 
 };
 
-
-
 }
 
-#endif // __W_EDITOR_LEXER_MANAGER_H_
+
+
+QsciLexer* createLexCPP(Wolverine::EditorLexerCfg *eLexer, QSettings *qset);
+void saveLexCPP(Wolverine::EditorLexerCfg *eLexer, QSettings *qset);
+
+QsciLexer* createLexPython(Wolverine::EditorLexerCfg *eLexer, QSettings *qset);
+void saveLexPython(Wolverine::EditorLexerCfg *eLexer, QSettings *qset);
+
+
+#endif // __W_EDITOR_LEXER_CFG_H_

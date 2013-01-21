@@ -24,6 +24,7 @@ SOURCES      += \
                 ../src/editor/WEditor.cpp \
                 ../src/editor/WEditor_slots.cpp \
                 ../src/editor/WEditorBinder.cpp \
+                ../src/editor/WEditorLexerCfg.cpp \
                 ../src/editor/WEditorLexerManager.cpp \
                 ../src/editor/WEditorProxy.cpp \
                 ../src/editor/WEditorProxy_slots.cpp \
@@ -73,6 +74,7 @@ HEADERS      += \
                 ../include/WCentralWidget.h \
                 ../include/WEditor.h \
                 ../include/WEditorBinder.h \
+                ../include/WEditorLexerCfg.h \
                 ../include/WEditorLexerManager.h \
                 ../include/WEditorProxy.h \
                 ../include/WLib.h \

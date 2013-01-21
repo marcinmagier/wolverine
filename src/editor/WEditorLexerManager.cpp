@@ -24,6 +24,7 @@
 
 
 #include "WEditorLexerManager.h"
+#include "WEditorLexerCfg.h"
 
 #include "Logger.h"
 
@@ -41,44 +42,6 @@
 
 #include <QDebug>
 
-
-namespace Wolverine
-{
-
-typedef QsciLexer* (EditorLexerManager::*pfCreateLexerFunct)(const QString&, EditorLexer*, QSettings*);
-typedef void (EditorLexerManager::*pfSaveLexerFunct)(QsciLexer*, const QString&, QSettings*);
-
-
-class EditorLexer
-{
-public:
-
-    explicit EditorLexer(pfCreateLexerFunct createFunct, pfSaveLexerFunct saveFunct, bool available = false) :
-        mLexer(0), mCreateFunction(createFunct), mSaveFunction(saveFunct), mAvailable(available) {}
-    ~EditorLexer() { delete mLexer; }
-
-    void setAvailable(bool val) { mAvailable = val; }
-    bool isAvailable() { return mAvailable; }
-
-    void setLexer(QsciLexer *lexer) { mLexer = lexer; }
-    QsciLexer* getLexer() { return mLexer; }
-
-    pfCreateLexerFunct getCreateFunct() { return mCreateFunction; }
-    pfSaveLexerFunct getSaveFunct() { return mSaveFunction;}
-
-    QList<int>& getStyles() { return mStyles; }
-
-private:
-    QsciLexer *mLexer;
-    pfCreateLexerFunct mCreateFunction;
-    pfSaveLexerFunct mSaveFunction;
-    QList<int> mStyles;
-    bool mAvailable;
-
-    friend class EditorLexerManager;
-};
-
-}
 
 
 
@@ -106,7 +69,7 @@ EditorLexerManager::~EditorLexerManager()
 {
     saveConfig();
 
-    foreach(EditorLexer *eLexer, mLexerMap) {
+    foreach(EditorLexerCfg *eLexer, mLexerMap) {
         delete eLexer;
     }
 }
@@ -151,17 +114,12 @@ QsciLexer* EditorLexerManager::getLexer(const QString &lexName)
     if(!mLexerMap.contains(lexName))
         LOG_ERROR("Lexer not known!");
 
-    EditorLexer *eLexer = mLexerMap[lexName];
-    QsciLexer *lexer = eLexer->getLexer();
-    if(lexer)
-        return lexer;
+    EditorLexerCfg *eLexer = mLexerMap[lexName];
+    if(eLexer->lexer)
+        return eLexer->lexer;
 
     QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "lexers");
-    pfCreateLexerFunct createFunct= eLexer->getCreateFunct();
-    lexer = (this->*createFunct)(lexName, eLexer, &qset);
-    eLexer->setLexer(lexer);
-
-    return lexer;
+    return eLexer->createFunction(eLexer, &qset);
 }
 
 
@@ -176,28 +134,10 @@ void EditorLexerManager::saveConfig()
 
     foreach(QString lexName, mLexerMap.keys()) {
         qset.beginGroup(lexName);
-        EditorLexer *eLexer = mLexerMap[lexName];
-        qset.setValue( "available", QVariant::fromValue( eLexer->isAvailable()) );
-        QsciLexer *lexer = eLexer->getLexer();
-        if(lexer) {
-            QSettings qs(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "tmplexers");
-            lexer->writeSettings(qs, "lexName");
-            qset.setValue( "def_font", QVariant::fromValue(lexer->defaultFont()) );
-            qset.setValue( "def_fgcolor", QVariant::fromValue(lexer->defaultColor()) );
-            qset.setValue( "def_bgcolor", QVariant::fromValue(lexer->defaultPaper()) );
-
-            foreach(int style, eLexer->getStyles()) {
-                qset.beginGroup(lexer->description(style));
-                qset.setValue( "font", QVariant::fromValue(lexer->font(style)) );
-                qset.setValue( "fgcolor", QVariant::fromValue(lexer->color(style)) );
-                qset.setValue( "bgcolor", QVariant::fromValue(lexer->paper(style)) );
-                qset.setValue( "filleol", QVariant::fromValue(lexer->defaultEolFill(style)) );
-                qset.endGroup();
-            }
-
-            pfSaveLexerFunct saveFunct= eLexer->getSaveFunct();
-            if(saveFunct)
-                (this->*saveFunct)(lexer, lexName, &qset);
+        EditorLexerCfg *eLexer = mLexerMap[lexName];
+        qset.setValue( "available", QVariant::fromValue( eLexer->isAvailable) );
+        if(eLexer->lexer && eLexer->saveFunction) {
+            eLexer->saveFunction(eLexer, &qset);
         }
         qset.endGroup();
     }
@@ -210,8 +150,8 @@ void EditorLexerManager::restoreBasicConfig()
 
     foreach(QString lexName, mLexerMap.keys()) {
         qset.beginGroup(lexName);
-        EditorLexer *eLexer = mLexerMap[lexName];
-        eLexer->setAvailable( qset.value("available").toBool() );
+        EditorLexerCfg *eLexer = mLexerMap[lexName];
+        eLexer->isAvailable = qset.value("available").toBool();
         qset.endGroup();
     }
 }
@@ -253,64 +193,20 @@ QWidget* EditorLexerManager::getLexerManagerWidget(QWidget *parent)
 
 void EditorLexerManager::initializeLexers()
 {
-    EditorLexer *eLexer;
+    EditorLexerCfg *eLexer;
 
-    eLexer = new EditorLexer(&EditorLexerManager::createLexerPython, &EditorLexerManager::saveLexerPython);
+    eLexer = new EditorLexerCfg(&createLexPython, &saveLexPython);
     mLexerMap["Normal Text"] = eLexer;
 
-    eLexer = new EditorLexer(&EditorLexerManager::createLexerCPP, &EditorLexerManager::saveLexerCPP);
+    eLexer = new EditorLexerCfg(&createLexCPP, &saveLexCPP);
     mLexerMap["C++"] = eLexer;
 
-    eLexer = new EditorLexer(0, 0);
+    eLexer = new EditorLexerCfg(0, 0);
     mLexerMap["Java"] = eLexer;
 
-    eLexer = new EditorLexer(&EditorLexerManager::createLexerPython, &EditorLexerManager::saveLexerPython);
+    eLexer = new EditorLexerCfg(&createLexPython, &saveLexPython);
     mLexerMap["Python"] = eLexer;
 
     restoreBasicConfig();
 }
-
-
-QsciLexer* EditorLexerManager::createLexerCPP(const QString &name, EditorLexer *eLexer, QSettings *qset)
-{
-    eLexer->mStyles << QsciLexerCPP::Default
-           << QsciLexerCPP::Comment
-           << QsciLexerCPP::CommentLine
-           << QsciLexerCPP::CommentDoc ;
-
-    return new QsciLexerCPP();
-}
-
-void EditorLexerManager::saveLexerCPP(QsciLexer *lexer, const QString &name, QSettings *qset)
-{
-
-}
-
-QsciLexer* EditorLexerManager::createLexerPython(const QString &name, EditorLexer *eLexer, QSettings *qset)
-{
-    eLexer->mStyles << QsciLexerPython::Default
-           << QsciLexerPython::Comment
-           << QsciLexerPython::Number
-           << QsciLexerPython::DoubleQuotedString
-           << QsciLexerPython::SingleQuotedString
-           << QsciLexerPython::Keyword
-           << QsciLexerPython::TripleSingleQuotedString
-           << QsciLexerPython::TripleDoubleQuotedString
-           << QsciLexerPython::ClassName
-           << QsciLexerPython::FunctionMethodName
-           << QsciLexerPython::Operator
-           << QsciLexerPython::Identifier
-           << QsciLexerPython::CommentBlock
-           << QsciLexerPython::UnclosedString
-           << QsciLexerPython::HighlightedIdentifier
-           << QsciLexerPython::Decorator ;
-
-    return new QsciLexerPython();
-}
-
-void EditorLexerManager::saveLexerPython(QsciLexer *lexer, const QString &name, QSettings *qset)
-{
-
-}
-
 
