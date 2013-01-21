@@ -26,6 +26,7 @@ SOURCES      += \
                 ../src/editor/WEditorBinder.cpp \
                 ../src/editor/WEditorLexerCfg.cpp \
                 ../src/editor/WEditorLexerManager.cpp \
+                ../src/editor/WEditorLexerManagerWidget.cpp \
                 ../src/editor/WEditorProxy.cpp \
                 ../src/editor/WEditorProxy_slots.cpp \
                 ../src/editor/qtscintilla.cpp \
@@ -59,6 +60,7 @@ HEADERS      += \
                 ../src/WPanelTabContent.h \
                 ../src/WPopup.h \
                 ../src/WStatusBar.h \
+                ../src/editor/WEditorLexerManagerWidget.h \
                 ../src/settings/DlgSettings.h \
                 ../src/settings/PageGeneral.h \
                 ../src/settings/PageScintilla.h \
@@ -93,6 +95,7 @@ RESOURCES    += \
 
 
 FORMS        += \
+                ../src/editor/WEditorLexerManagerWidget.ui \
                 ../src/settings/PageGeneral.ui \
                 ../src/settings/PageScintilla.ui \
                 ../src/settings/PageView.ui
