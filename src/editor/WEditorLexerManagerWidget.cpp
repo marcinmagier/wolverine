@@ -40,7 +40,9 @@ EditorLexerManagerWidget::EditorLexerManagerWidget(QMap<QString, EditorLexerCfg 
     ui->setupUi(this);
 
     ui->cmbLexer->addItems(mLexerMap.keys());
-    ui->pushButton->setFont(QFont("Verdana"));
+    ui->btnDefFont->setFont(QFont("Verdana"));
+    ui->btnDefFgColor->setColor(QColor(32, 148, 92));
+    ui->btnDefBgColor->setColor(QColor(210, 182, 81));
 
 }
 
