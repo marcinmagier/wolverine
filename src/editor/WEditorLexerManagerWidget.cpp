@@ -24,15 +24,18 @@
 
 #include "WEditorLexerManagerWidget.h"
 #include "ui_WEditorLexerManagerWidget.h"
+#include "WEditorLexerCfg.h"
+#include "Qsci/qscilexer.h"
 
 
 using namespace Wolverine;
 
 
 
-EditorLexerManagerWidget::EditorLexerManagerWidget(QWidget *parent) :
+EditorLexerManagerWidget::EditorLexerManagerWidget(QMap<QString, EditorLexerCfg *> &lexerMap, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::EditorLexerManagerWidget)
+    ui(new Ui::EditorLexerManagerWidget),
+    mLexerMap(lexerMap)
 {
     ui->setupUi(this);
 }

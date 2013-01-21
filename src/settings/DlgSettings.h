@@ -10,6 +10,7 @@ class AppSettings;
 
 namespace Wolverine {
 class ActionManager;
+class EditorLexerManager;
 }
 
 
@@ -37,6 +38,7 @@ protected:
 private:
     AppSettings *mSettings;
     ActionManager *mActionManager;
+    EditorLexerManager *mLexerManager;
 };
 
 

@@ -25,6 +25,7 @@
 
 #include "WEditorLexerManager.h"
 #include "WEditorLexerCfg.h"
+#include "WEditorLexerManagerWidget.h"
 
 #include "Logger.h"
 
@@ -180,7 +181,7 @@ void EditorLexerManager::dropConfigurationBackup()
 
 QWidget* EditorLexerManager::getLexerManagerWidget(QWidget *parent)
 {
-    return new QWidget(parent);
+    return new EditorLexerManagerWidget(mLexerMap, parent);
 }
 
 

@@ -3,6 +3,7 @@
 #include "DlgSettings.h"
 #include "CfgAppSettings.h"
 #include "WActionManager.h"
+#include "WEditorLexerManager.h"
 
 #include "PageGeneral.h"
 #include "PageScintilla.h"
@@ -17,7 +18,8 @@ using namespace Wolverine;
 DlgSettings::DlgSettings(QWidget *parent) :
     QtDialogSettings(AppSettings::instance(), parent),
     mSettings(AppSettings::instance()),
-    mActionManager(ActionManager::instance())
+    mActionManager(ActionManager::instance()),
+    mLexerManager(EditorLexerManager::instance())
 {
     this->setWindowTitle(tr("Wolverine Settings"));
     this->setWindowIcon(QIcon(":/settings.png"));
@@ -34,6 +36,9 @@ void DlgSettings::showDialog()
     Settings::PageScintilla *scintilla = new Settings::PageScintilla(mSettings, this);
     addSettingsPage(tr("Scintilla"), scintilla);
 
+    QWidget *lexerManagerWidget = mLexerManager->getLexerManagerWidget(this);
+    addSettingsPage(tr("Lexers"), tr("Scintilla"), lexerManagerWidget);
+
     QWidget *actionManagerWidget = mActionManager->getActionManagerWidget(this);
     addSettingsPage(tr("Key Binding"), actionManagerWidget);
 
@@ -49,6 +54,7 @@ void DlgSettings::showDialog()
     delete scintilla;
     delete view;
     delete actionManagerWidget;
+    delete lexerManagerWidget;
 }
 
 

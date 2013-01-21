@@ -29,6 +29,8 @@
 
 
 #include <QWidget>
+#include <QMap>
+
 
 namespace Ui {
 class EditorLexerManagerWidget;
@@ -38,17 +40,20 @@ class EditorLexerManagerWidget;
 namespace Wolverine
 {
 
+class EditorLexerCfg;
 
 class EditorLexerManagerWidget : public QWidget
 {
     Q_OBJECT
     
 public:
-    explicit EditorLexerManagerWidget(QWidget *parent = 0);
+    explicit EditorLexerManagerWidget(QMap<QString, EditorLexerCfg*> &lexerMap, QWidget *parent = 0);
     ~EditorLexerManagerWidget();
     
 private:
     Ui::EditorLexerManagerWidget *ui;
+
+    QMap<QString, EditorLexerCfg*> &mLexerMap;
 };
 
 }
