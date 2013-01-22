@@ -29,6 +29,7 @@
 #include "qtcolorbutton.h"
 #include "qtfontbutton.h"
 #include "Qsci/qscilexer.h"
+#include "Logger.h"
 
 #include <QScrollArea>
 #include <QGridLayout>
@@ -47,20 +48,26 @@ EditorLexerManagerWidget::EditorLexerManagerWidget(QMap<QString, EditorLexerCfg 
     ui->setupUi(this);
 
     ui->cmbLexer->addItems(mLexerMap.keys());
+    connect (ui->cmbLexer, SIGNAL(currentIndexChanged(QString)),
+                     this, SLOT(onLexerChanged(QString)) );
 
     mScrollArea = new QScrollArea();
     mScrollArea->setFrameShape(QFrame::NoFrame);
+    mScrollArea->setWidgetResizable(true);
+    QString lexName = ui->cmbLexer->currentText();
+    mScrollArea->setWidget(getLexerStyles(lexName, mLexerMap[lexName]));
     ui->tabWidget->insertTab(0, mScrollArea, "Styles");
     ui->tabWidget->setCurrentIndex(0);
 
-    mScrollArea->setWidgetResizable(true);
-    mScrollArea->setWidget(getLexerStyles("Normal Text", mLexerMap["Normal Text"]));
+
 
 }
 
 EditorLexerManagerWidget::~EditorLexerManagerWidget()
 {
     delete ui;
+    QWidget *widget = mScrollArea->widget();
+    delete widget;
     delete mScrollArea;
 
 }
@@ -68,6 +75,11 @@ EditorLexerManagerWidget::~EditorLexerManagerWidget()
 
 QWidget* EditorLexerManagerWidget::getLexerStyles(const QString &name, EditorLexerCfg *eLexer)
 {
+    if(eLexer == 0) {
+        LOG_ERROR("Lexer unknown");
+        return 0;
+    }
+
     QWidget *widget = new QWidget();
     QGridLayout *layout = new QGridLayout(widget);
 
@@ -133,9 +145,20 @@ QWidget* EditorLexerManagerWidget::getLexerStyles(const QString &name, EditorLex
         layout->addWidget(checkFillEol, style+3, 6);
     }
 
+    QSpacerItem *spacer = new QSpacerItem(5, 5, QSizePolicy::Minimum, QSizePolicy::Expanding);
+    layout->addItem(spacer, layout->rowCount(), 0);
     layout->setSpacing(12);
     layout->setColumnMinimumWidth(1, 20);
     layout->setColumnMinimumWidth(5, 20);
 
     return widget;
+}
+
+
+
+void EditorLexerManagerWidget::onLexerChanged(const QString &name)
+{
+    QWidget *widget = mScrollArea->widget();
+    delete widget;
+    mScrollArea->setWidget(getLexerStyles(name, mLexerMap[name]));
 }

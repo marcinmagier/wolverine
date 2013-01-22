@@ -52,6 +52,9 @@ public:
     explicit EditorLexerManagerWidget(QMap<QString, EditorLexerCfg*> &lexerMap, QWidget *parent = 0);
     ~EditorLexerManagerWidget();
     
+private slots:
+    void onLexerChanged(const QString &name);
+
 private:
     QWidget* getLexerStyles(const QString &name, EditorLexerCfg *eLexer);
     void setupLexerStyles(const QString &name, EditorLexerCfg *eLexer);
