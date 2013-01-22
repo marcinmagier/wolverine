@@ -63,6 +63,7 @@ EditorLexerManager::EditorLexerManager() :
     QObject()
 {
     qAddPostRoutine(deleteEditorLexerManagerInstance);
+    mLexerMap = new QMap<QString, EditorLexerCfg*>();
     initializeLexers();
 }
 
