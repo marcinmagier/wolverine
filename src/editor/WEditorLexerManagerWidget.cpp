@@ -53,48 +53,25 @@ EditorLexerManagerWidget::EditorLexerManagerWidget(QMap<QString, EditorLexerCfg 
     ui->tabWidget->insertTab(0, mScrollArea, "Styles");
     ui->tabWidget->setCurrentIndex(0);
 
-    mScrollAreaLayout = new QGridLayout(mScrollArea);
-    mScrollArea->setWidgetResizable(false);
-    mScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-/*
-    QLabel *lblDefault = new QLabel("default");
-    QtFontButton *btnDefaultFont = new QtFontButton();
-    QtColorButton *btnDefaultFgColor = new QtColorButton();
-    QtColorButton *btnDefaultBgColor = new QtColorButton();
+    mScrollArea->setWidgetResizable(true);
+    mScrollArea->setWidget(getLexerStyles("Normal Text", mLexerMap["Normal Text"]));
 
-    mScrollAreaLayout->addWidget(lblDefault, 0, 0);
-    mScrollAreaLayout->addWidget(btnDefaultFont, 0, 2);
-    mScrollAreaLayout->addWidget(btnDefaultFgColor, 0, 4);
-    btnDefaultFgColor->setMaximumSize(21, 21);
-    mScrollAreaLayout->addWidget(btnDefaultBgColor, 0, 5);
-    btnDefaultBgColor->setMaximumSize(21, 21);
-
-    QLabel *lblStyle1 = new QLabel("Style1");
-    QtFontButton *btnStyle1Font = new QtFontButton();
-    QtColorButton *btnStyle1FgColor = new QtColorButton();
-    btnStyle1FgColor->setMaximumSize(21, 21);
-    QtColorButton *btnStyle1BgColor = new QtColorButton();
-    btnStyle1BgColor->setMaximumSize(21, 21);
-
-    mScrollAreaLayout->addWidget(lblStyle1, 2, 0);
-    mScrollAreaLayout->addWidget(btnStyle1Font, 2, 2);
-    mScrollAreaLayout->addWidget(btnStyle1FgColor, 2, 4);
-    mScrollAreaLayout->addWidget(btnStyle1BgColor, 2, 5);
-*/
-    setupLexerStyles("Normal Text", mLexerMap["Normal Text"]);
 }
 
 EditorLexerManagerWidget::~EditorLexerManagerWidget()
 {
     delete ui;
-    delete mScrollAreaLayout;
     delete mScrollArea;
 
 }
 
 
-void EditorLexerManagerWidget::setupLexerStyles(const QString &name, EditorLexerCfg *eLexer)
+QWidget* EditorLexerManagerWidget::getLexerStyles(const QString &name, EditorLexerCfg *eLexer)
 {
+    QWidget *widget = new QWidget();
+    QGridLayout *layout = new QGridLayout(widget);
+
+
     if(!eLexer->lexer) {
         QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "lexers");
         qset.beginGroup(name);
@@ -102,27 +79,63 @@ void EditorLexerManagerWidget::setupLexerStyles(const QString &name, EditorLexer
         qset.endGroup();
     }
 
+    QLabel *lblDefault = new QLabel("default");
+    layout->addWidget(lblDefault, 0, 0);
+
+    QtFontButton *btnDefaultFont = new QtFontButton();
+    btnDefaultFont->setFont(eLexer->lexer->defaultFont());
+    btnDefaultFont->setMinimumHeight(21);
+    layout->addWidget(btnDefaultFont, 0, 2);
+
+    QtColorButton *btnDefaultFgColor = new QtColorButton();
+    btnDefaultFgColor->setColor(eLexer->lexer->defaultColor());
+    btnDefaultFgColor->setMaximumSize(21, 21);
+    layout->addWidget(btnDefaultFgColor, 0, 3);
+
+    QtColorButton *btnDefaultBgColor = new QtColorButton();
+    btnDefaultBgColor->setColor(eLexer->lexer->defaultPaper());
+    btnDefaultBgColor->setMaximumSize(21, 21);
+    layout->addWidget(btnDefaultBgColor, 0, 4);
+
+    layout->setRowMinimumHeight(1, 20);
+
+    QLabel *lblFont = new QLabel("Font");
+    layout->addWidget(lblFont, 2, 2);
+    QLabel *lblFg = new QLabel("Fg");
+    layout->addWidget(lblFg, 2, 3);
+    QLabel *lblBg = new QLabel("Bg");
+    layout->addWidget(lblBg, 2, 4);
+    QLabel *lblEol = new QLabel("Fill EoL");
+    layout->addWidget(lblEol, 2, 6);
+
     foreach(int style, eLexer->styles) {
-        QLabel *lblStyle = new QLabel(eLexer->lexer->description(style));
-        mScrollAreaLayout->addWidget(lblStyle, style, 0);
+        QLabel *lblStyleName = new QLabel(eLexer->lexer->description(style));
+        layout->addWidget(lblStyleName, style+3, 0);
 
         QtFontButton *btnFont = new QtFontButton();
         btnFont->setFont(eLexer->lexer->font(style));
         btnFont->setMinimumHeight(21);
-        mScrollAreaLayout->addWidget(btnFont, style, 2);
+        layout->addWidget(btnFont, style+3, 2);
 
         QtColorButton *btnFgColor = new QtColorButton();
         btnFgColor->setColor(eLexer->lexer->color(style));
         btnFgColor->setMaximumSize(21, 21);
-        mScrollAreaLayout->addWidget(btnFgColor, style, 4);
+        layout->addWidget(btnFgColor, style+3, 3);
 
         QtColorButton *btnBgColor = new QtColorButton();
         btnBgColor->setColor(eLexer->lexer->paper(style));
         btnBgColor->setMaximumSize(21, 21);
-        mScrollAreaLayout->addWidget(btnBgColor, style, 5);
+        layout->addWidget(btnBgColor, style+3, 4);
 
         QCheckBox *checkFillEol = new QCheckBox();
-        mScrollAreaLayout->addWidget(checkFillEol, style, 7);
-        mScrollAreaLayout->setRowMinimumHeight(style, 21);
+        checkFillEol->setChecked(eLexer->lexer->defaultEolFill(style));
+        checkFillEol->setMaximumWidth(50);
+        layout->addWidget(checkFillEol, style+3, 6);
     }
+
+    layout->setSpacing(12);
+    layout->setColumnMinimumWidth(1, 20);
+    layout->setColumnMinimumWidth(5, 20);
+
+    return widget;
 }

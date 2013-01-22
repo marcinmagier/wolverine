@@ -53,13 +53,13 @@ public:
     ~EditorLexerManagerWidget();
     
 private:
+    QWidget* getLexerStyles(const QString &name, EditorLexerCfg *eLexer);
     void setupLexerStyles(const QString &name, EditorLexerCfg *eLexer);
 
     Ui::EditorLexerManagerWidget *ui;
 
     QMap<QString, EditorLexerCfg*> &mLexerMap;
     QScrollArea *mScrollArea;
-    QGridLayout *mScrollAreaLayout;
 };
 
 }
