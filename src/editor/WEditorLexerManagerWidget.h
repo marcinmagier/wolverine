@@ -49,7 +49,7 @@ class EditorLexerManagerWidget : public QWidget
     Q_OBJECT
     
 public:
-    explicit EditorLexerManagerWidget(QMap<QString, EditorLexerCfg*> &lexerMap, QWidget *parent = 0);
+    explicit EditorLexerManagerWidget(QMap<QString, EditorLexerCfg*> *lexerMap, QWidget *parent = 0);
     ~EditorLexerManagerWidget();
     
 private slots:
@@ -66,7 +66,7 @@ private:
 
     Ui::EditorLexerManagerWidget *ui;
 
-    QMap<QString, EditorLexerCfg*> &mLexerMap;
+    QMap<QString, EditorLexerCfg*> *mLexerMap;
     QScrollArea *mScrollArea;
 };
 

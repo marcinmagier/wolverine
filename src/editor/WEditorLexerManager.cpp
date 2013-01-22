@@ -70,7 +70,7 @@ EditorLexerManager::~EditorLexerManager()
 {
     saveConfig();
 
-    foreach(EditorLexerCfg *eLexer, mLexerMap) {
+    foreach(EditorLexerCfg *eLexer, mLexerMap->values()) {
         delete eLexer;
     }
 }
@@ -112,10 +112,10 @@ QString EditorLexerManager::getLexerName(QFileInfo *fileInfo)
 
 QsciLexer* EditorLexerManager::getLexer(const QString &lexName)
 {
-    if(!mLexerMap.contains(lexName))
+    if(!mLexerMap->contains(lexName))
         LOG_ERROR("Lexer not known!");
 
-    EditorLexerCfg *eLexer = mLexerMap[lexName];
+    EditorLexerCfg *eLexer = mLexerMap->value(lexName);
     if(eLexer->lexer)
         return eLexer->lexer;
 
@@ -136,9 +136,9 @@ void EditorLexerManager::saveConfig()
     if(!qset.isWritable())
         return;
 
-    foreach(QString lexName, mLexerMap.keys()) {
+    foreach(QString lexName, mLexerMap->keys()) {
         qset.beginGroup(lexName);
-        EditorLexerCfg *eLexer = mLexerMap[lexName];
+        EditorLexerCfg *eLexer = mLexerMap->value(lexName);
         qset.setValue( "available", QVariant::fromValue( eLexer->isAvailable) );
         if(eLexer->lexer && eLexer->saveFunction) {
             eLexer->saveFunction(eLexer, &qset);
@@ -152,9 +152,9 @@ void EditorLexerManager::restoreBasicConfig()
 {
     QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "lexers");
 
-    foreach(QString lexName, mLexerMap.keys()) {
+    foreach(QString lexName, mLexerMap->keys()) {
         qset.beginGroup(lexName);
-        EditorLexerCfg *eLexer = mLexerMap[lexName];
+        EditorLexerCfg *eLexer = mLexerMap->value(lexName);
         if(qset.contains("available"))
             eLexer->isAvailable = qset.value("available").toBool();
         qset.endGroup();
@@ -194,16 +194,16 @@ void EditorLexerManager::initializeLexers()
     EditorLexerCfg *eLexer;
 
     eLexer = new EditorLexerCfg(&createLexPython, &saveLexPython, true);
-    mLexerMap["Normal Text"] = eLexer;
+    mLexerMap->insert("Normal Text", eLexer);
 
     eLexer = new EditorLexerCfg(&createLexCPP, &saveLexCPP);
-    mLexerMap["C++"] = eLexer;
+    mLexerMap->insert("C++", eLexer);
 
     eLexer = new EditorLexerCfg(0, 0);
-    mLexerMap["Java"] = eLexer;
+    mLexerMap->insert("Java", eLexer);
 
     eLexer = new EditorLexerCfg(&createLexPython, &saveLexPython);
-    mLexerMap["Python"] = eLexer;
+    mLexerMap->insert("Python", eLexer);
 
     restoreBasicConfig();
 }

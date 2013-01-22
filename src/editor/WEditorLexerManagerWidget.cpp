@@ -66,27 +66,27 @@ public:
 
 
 
-EditorLexerManagerWidget::EditorLexerManagerWidget(QMap<QString, EditorLexerCfg *> &lexerMap, QWidget *parent) :
+EditorLexerManagerWidget::EditorLexerManagerWidget(QMap<QString, EditorLexerCfg *> *lexerMap, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::EditorLexerManagerWidget),
     mLexerMap(lexerMap)
 {
     ui->setupUi(this);
 
-    ui->cmbLexer->addItems(mLexerMap.keys());
+    ui->cmbLexer->addItems(mLexerMap->keys());
     connect (ui->cmbLexer, SIGNAL(currentIndexChanged(QString)),
                      this, SLOT(onLexerChanged(QString)) );
 
     QString lexName = ui->cmbLexer->currentText();
 
-    ui->checkShowInMenu->setChecked(mLexerMap[lexName]->isAvailable);
+    ui->checkShowInMenu->setChecked(mLexerMap->value(lexName)->isAvailable);
     connect(ui->checkShowInMenu, SIGNAL(toggled(bool)),
                            this, SLOT(onShowInMenuChanged(bool)) );
 
     mScrollArea = new QScrollArea();
     mScrollArea->setFrameShape(QFrame::NoFrame);
     mScrollArea->setWidgetResizable(true);
-    mScrollArea->setWidget(getLexerStyles(lexName, mLexerMap[lexName]));
+    mScrollArea->setWidget(getLexerStyles(lexName, mLexerMap->value(lexName)));
     ui->tabWidget->insertTab(0, mScrollArea, "Styles");
     ui->tabWidget->setCurrentIndex(0);
 
@@ -214,8 +214,8 @@ void EditorLexerManagerWidget::onLexerChanged(const QString &name)
 {
     QWidget *widget = mScrollArea->widget();
     delete widget;
-    mScrollArea->setWidget(getLexerStyles(name, mLexerMap[name]));
-    ui->checkShowInMenu->setChecked(mLexerMap[name]->isAvailable);
+    mScrollArea->setWidget(getLexerStyles(name, mLexerMap->value(name)));
+    ui->checkShowInMenu->setChecked(mLexerMap->value(name)->isAvailable);
 }
 
 void EditorLexerManagerWidget::onLexerFontChanged(const QFont &font)
@@ -224,9 +224,9 @@ void EditorLexerManagerWidget::onLexerFontChanged(const QFont &font)
     QString lexName = ui->cmbLexer->currentText();
 
     if(button->index == -1)
-        mLexerMap[lexName]->lexer->setDefaultFont(font);
+        mLexerMap->value(lexName)->lexer->setDefaultFont(font);
     else
-        mLexerMap[lexName]->lexer->setFont(font, button->index);
+        mLexerMap->value(lexName)->lexer->setFont(font, button->index);
 }
 
 void EditorLexerManagerWidget::onLexerFgColorChanged(const QColor &color)
@@ -235,9 +235,9 @@ void EditorLexerManagerWidget::onLexerFgColorChanged(const QColor &color)
     QString lexName = ui->cmbLexer->currentText();
 
     if(button->index == -1)
-        mLexerMap[lexName]->lexer->setDefaultColor(color);
+        mLexerMap->value(lexName)->lexer->setDefaultColor(color);
     else
-        mLexerMap[lexName]->lexer->setColor(color, button->index);
+        mLexerMap->value(lexName)->lexer->setColor(color, button->index);
 }
 
 void EditorLexerManagerWidget::onLexerBgColorChanged(const QColor &color)
@@ -246,9 +246,9 @@ void EditorLexerManagerWidget::onLexerBgColorChanged(const QColor &color)
     QString lexName = ui->cmbLexer->currentText();
 
     if(button->index == -1)
-        mLexerMap[lexName]->lexer->setDefaultPaper(color);
+        mLexerMap->value(lexName)->lexer->setDefaultPaper(color);
     else
-        mLexerMap[lexName]->lexer->setPaper(color, button->index);
+        mLexerMap->value(lexName)->lexer->setPaper(color, button->index);
 }
 
 void EditorLexerManagerWidget::onLexerFillEoLChanged(bool checked)
@@ -256,11 +256,11 @@ void EditorLexerManagerWidget::onLexerFillEoLChanged(bool checked)
     CheckBoxButton *button = dynamic_cast<CheckBoxButton*>(sender());
     QString lexName = ui->cmbLexer->currentText();
 
-    mLexerMap[lexName]->lexer->setEolFill(checked, button->index);
+    mLexerMap->value(lexName)->lexer->setEolFill(checked, button->index);
 }
 
 void EditorLexerManagerWidget::onShowInMenuChanged(bool checked)
 {
     QString lexName = ui->cmbLexer->currentText();
-    mLexerMap[lexName]->isAvailable = checked;
+    mLexerMap->value(lexName)->isAvailable = checked;
 }

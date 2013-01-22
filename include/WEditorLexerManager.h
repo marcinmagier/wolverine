@@ -67,7 +67,7 @@ private:
 
 
 
-    QMap<QString, EditorLexerCfg*> mLexerMap;
+    QMap<QString, EditorLexerCfg*> *mLexerMap;
 
 };
 
