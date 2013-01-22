@@ -31,6 +31,8 @@
 #include <QWidget>
 #include <QMap>
 
+class QScrollArea;
+class QGridLayout;
 
 namespace Ui {
 class EditorLexerManagerWidget;
@@ -51,9 +53,13 @@ public:
     ~EditorLexerManagerWidget();
     
 private:
+    void setupLexerStyles(const QString &name, EditorLexerCfg *eLexer);
+
     Ui::EditorLexerManagerWidget *ui;
 
     QMap<QString, EditorLexerCfg*> &mLexerMap;
+    QScrollArea *mScrollArea;
+    QGridLayout *mScrollAreaLayout;
 };
 
 }
