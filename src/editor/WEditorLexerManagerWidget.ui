@@ -61,7 +61,7 @@
     </layout>
    </item>
    <item row="1" column="0">
-    <widget class="QCheckBox" name="checkBox">
+    <widget class="QCheckBox" name="checkShowInMenu">
      <property name="text">
       <string>Show in menu</string>
      </property>

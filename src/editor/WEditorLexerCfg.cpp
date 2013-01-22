@@ -88,7 +88,7 @@ void readCommonSettings(EditorLexerCfg *eLexer, QSettings *qset)
         if(qset->contains("bgcolor"))
             eLexer->lexer->setPaper( QColor(qset->value("bgcolor").toString()), style);
         if(qset->contains("filleol"))
-            eLexer->lexer->setEolFill( qset->value("filleol").toBool() );
+            eLexer->lexer->setEolFill( qset->value("filleol").toBool(), style);
         qset->endGroup();
     }
 }
@@ -105,7 +105,7 @@ void saveCommonSettings(EditorLexerCfg *eLexer, QSettings *qset)
         qset->setValue( "font", QVariant::fromValue(eLexer->lexer->font(style).toString()) );
         qset->setValue( "fgcolor", QVariant::fromValue(eLexer->lexer->color(style).name()) );
         qset->setValue( "bgcolor", QVariant::fromValue(eLexer->lexer->paper(style).name()) );
-        qset->setValue( "filleol", QVariant::fromValue(eLexer->lexer->defaultEolFill(style)) );
+        qset->setValue( "filleol", QVariant::fromValue(eLexer->lexer->eolFill(style)) );
         qset->endGroup();
     }
 

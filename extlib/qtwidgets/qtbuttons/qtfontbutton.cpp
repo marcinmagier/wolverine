@@ -25,7 +25,6 @@
 
 #include <QFontDialog>
 
-#include <QDebug>
 
 
 #define FONT_BUTTON_LABEL_PATTERN   "%1, %2"

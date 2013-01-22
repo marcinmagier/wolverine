@@ -54,6 +54,11 @@ public:
     
 private slots:
     void onLexerChanged(const QString &name);
+    void onLexerFontChanged(const QFont &font);
+    void onLexerFgColorChanged(const QColor &color);
+    void onLexerBgColorChanged(const QColor &color);
+    void onLexerFillEoLChanged(bool checked);
+    void onShowInMenuChanged(bool checked);
 
 private:
     QWidget* getLexerStyles(const QString &name, EditorLexerCfg *eLexer);
