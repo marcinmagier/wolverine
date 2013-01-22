@@ -50,6 +50,22 @@ QtColorButton::QtColorButton(QWidget *parent) :
 
 
 /**
+ *  Constructor
+ *
+ * @param color
+ * @param parent
+ */
+QtColorButton::QtColorButton(const QColor &color, QWidget *parent)
+{
+    this->setColor(color);
+    this->setAutoFillBackground(true);
+    this->setText("");
+
+    connect( this, SIGNAL(clicked()),
+             this, SLOT(onButtonClicked()) );
+}
+
+/**
  *  On button clicked slot
  */
 void QtColorButton::onButtonClicked()

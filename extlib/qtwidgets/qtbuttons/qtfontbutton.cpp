@@ -54,6 +54,21 @@ QtFontButton::QtFontButton(QWidget *parent) :
 
 
 /**
+ *  Constructor
+ *
+ * @param font
+ * @param parent
+ */
+QtFontButton::QtFontButton(const QFont &font, QWidget *parent)
+{
+    this->setFont(font);
+
+    connect( this, SIGNAL(clicked()),
+             this, SLOT(onButtonClicked()) );
+}
+
+
+/**
  *  On button clicked slot
  */
 void QtFontButton::onButtonClicked()

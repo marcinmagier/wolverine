@@ -36,6 +36,7 @@ class QtFontButton : public QPushButton
 
 public:
     explicit QtFontButton(QWidget *parent = 0);
+    explicit QtFontButton(const QFont &font, QWidget *parent = 0);
     void setFont(const QFont &font);
     
 
