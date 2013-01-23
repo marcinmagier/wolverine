@@ -207,6 +207,16 @@ QWidget* EditorLexerManager::getLexerManagerWidget(QWidget *parent)
 
 
 
+QList<QString> EditorLexerManager::getLexerNames()
+{
+    QList<QString> lexNames;
+    foreach(const QString &name, mLexerMap->keys()) {
+        if(mLexerMap->value(name)->isAvailable)
+            lexNames.append(name);
+    }
+
+    return lexNames;
+}
 
 
 

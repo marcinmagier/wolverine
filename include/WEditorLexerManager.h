@@ -62,6 +62,8 @@ public:
     void dropConfigurationBackup();
     QWidget* getLexerManagerWidget(QWidget *parent = 0);
 
+    QList<QString> getLexerNames();
+
 
 private:
     void initializeLexers();

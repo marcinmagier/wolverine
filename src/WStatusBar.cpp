@@ -14,6 +14,7 @@
 #include "WStatusBar.h"
 #include "WEditor.h"
 #include "WEditorProxy.h"
+#include "WEditorLexerManager.h"
 #include "CfgAppSettings.h"
 
 #include "qtlabel.h"
@@ -158,7 +159,27 @@ void StatusBar::onCurrentEditorSelectionChanged()
 
 void StatusBar::onLblLexerClickLong(Qt::MouseButton button)
 {
+    Editor *editor = mEditorProxy->getCurrentEditor();
+    QList<QString> lexNames = EditorLexerManager::instance()->getLexerNames();
+    QString currLexName = editor->getLexerName();
+    QMenu menu(this);
 
+    QAction *action;
+    foreach(const QString &name, lexNames) {
+        action = menu.addAction(name);
+        action->setCheckable(true);
+        if(name == currLexName)
+            action->setChecked(true);
+    }
+
+    action = menu.exec(QCursor::pos());
+    if(action == 0)
+        return;
+
+    action->setChecked(true);
+    currLexName = action->text();
+    mLblLexer->setText(currLexName);
+    editor->setLexer(currLexName);
 }
 
 void StatusBar::onLblEoLClickLong(Qt::MouseButton button)
