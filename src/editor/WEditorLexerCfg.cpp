@@ -141,7 +141,46 @@ void createLexCPP(EditorLexerCfg *eLexer, QSettings *qset)
     eLexer->styles << QsciLexerCPP::Default
                    << QsciLexerCPP::Comment
                    << QsciLexerCPP::CommentLine
-                   << QsciLexerCPP::CommentDoc ;
+                   << QsciLexerCPP::CommentDoc
+                   << QsciLexerCPP::Number
+                   << QsciLexerCPP::Keyword
+                   << QsciLexerCPP::DoubleQuotedString
+                   << QsciLexerCPP::SingleQuotedString
+                   << QsciLexerCPP::UUID
+                   << QsciLexerCPP::PreProcessor
+                   << QsciLexerCPP::Operator
+                   << QsciLexerCPP::Identifier
+                   << QsciLexerCPP::UnclosedString
+                   << QsciLexerCPP::VerbatimString
+                   << QsciLexerCPP::Regex
+                   << QsciLexerCPP::CommentLineDoc
+                   << QsciLexerCPP::KeywordSet2
+                   << QsciLexerCPP::CommentDocKeyword
+                   << QsciLexerCPP::CommentDocKeywordError
+                   << QsciLexerCPP::GlobalClass
+                   << QsciLexerCPP::RawString
+
+                   << QsciLexerCPP::InactiveDefault
+                   << QsciLexerCPP::InactiveComment
+                   << QsciLexerCPP::InactiveCommentLine
+                   << QsciLexerCPP::InactiveCommentDoc
+                   << QsciLexerCPP::InactiveNumber
+                   << QsciLexerCPP::InactiveKeyword
+                   << QsciLexerCPP::InactiveDoubleQuotedString
+                   << QsciLexerCPP::InactiveSingleQuotedString
+                   << QsciLexerCPP::InactiveUUID
+                   << QsciLexerCPP::InactivePreProcessor
+                   << QsciLexerCPP::InactiveOperator
+                   << QsciLexerCPP::InactiveIdentifier
+                   << QsciLexerCPP::InactiveUnclosedString
+                   << QsciLexerCPP::InactiveVerbatimString
+                   << QsciLexerCPP::InactiveRegex
+                   << QsciLexerCPP::InactiveCommentLineDoc
+                   << QsciLexerCPP::InactiveKeywordSet2
+                   << QsciLexerCPP::InactiveCommentDocKeyword
+                   << QsciLexerCPP::InactiveCommentDocKeywordError
+                   << QsciLexerCPP::InactiveGlobalClass
+                   << QsciLexerCPP::InactiveRawString ;
 
     readCommonSettings(eLexer, qset);
 }
@@ -165,7 +204,46 @@ void createLexJava(EditorLexerCfg *eLexer, QSettings *qset)
     eLexer->styles << QsciLexerJava::Default
                    << QsciLexerJava::Comment
                    << QsciLexerJava::CommentLine
-                   << QsciLexerJava::CommentDoc ;
+                   << QsciLexerJava::CommentDoc
+                   << QsciLexerJava::Number
+                   << QsciLexerJava::Keyword
+                   << QsciLexerJava::DoubleQuotedString
+                   << QsciLexerJava::SingleQuotedString
+                   << QsciLexerJava::UUID
+                   << QsciLexerJava::PreProcessor
+                   << QsciLexerJava::Operator
+                   << QsciLexerJava::Identifier
+                   << QsciLexerJava::UnclosedString
+                   << QsciLexerJava::VerbatimString
+                   << QsciLexerJava::Regex
+                   << QsciLexerJava::CommentLineDoc
+                   << QsciLexerJava::KeywordSet2
+                   << QsciLexerJava::CommentDocKeyword
+                   << QsciLexerJava::CommentDocKeywordError
+                   << QsciLexerJava::GlobalClass
+                   << QsciLexerJava::RawString
+
+                   << QsciLexerJava::InactiveDefault
+                   << QsciLexerJava::InactiveComment
+                   << QsciLexerJava::InactiveCommentLine
+                   << QsciLexerJava::InactiveCommentDoc
+                   << QsciLexerJava::InactiveNumber
+                   << QsciLexerJava::InactiveKeyword
+                   << QsciLexerJava::InactiveDoubleQuotedString
+                   << QsciLexerJava::InactiveSingleQuotedString
+                   << QsciLexerJava::InactiveUUID
+                   << QsciLexerJava::InactivePreProcessor
+                   << QsciLexerJava::InactiveOperator
+                   << QsciLexerJava::InactiveIdentifier
+                   << QsciLexerJava::InactiveUnclosedString
+                   << QsciLexerJava::InactiveVerbatimString
+                   << QsciLexerJava::InactiveRegex
+                   << QsciLexerJava::InactiveCommentLineDoc
+                   << QsciLexerJava::InactiveKeywordSet2
+                   << QsciLexerJava::InactiveCommentDocKeyword
+                   << QsciLexerJava::InactiveCommentDocKeywordError
+                   << QsciLexerJava::InactiveGlobalClass
+                   << QsciLexerJava::InactiveRawString ;
 
     readCommonSettings(eLexer, qset);
 }

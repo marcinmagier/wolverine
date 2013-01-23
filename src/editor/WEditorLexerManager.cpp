@@ -230,7 +230,7 @@ void EditorLexerManager::initializeLexers()
     eLexer = new EditorLexerCfg(&createLexCPP, &saveLexCPP, &copyLexCPP);
     mLexerMap->insert("C++", eLexer);
 
-    eLexer = new EditorLexerCfg(&createLexJava, &createLexJava, &copyLexJava);
+    eLexer = new EditorLexerCfg(&createLexJava, &saveLexJava, &copyLexJava);
     mLexerMap->insert("Java", eLexer);
 
     eLexer = new EditorLexerCfg(&createLexPython, &saveLexPython, &copyLexPython);

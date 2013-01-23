@@ -86,6 +86,8 @@ void Editor::initialize()
 
     connect( mSettings, SIGNAL(showLineNumbersEnabledChanged(bool)),
                   this, SLOT(onShowLineNumbersEnabledChanged(bool)), Qt::DirectConnection );
+
+    updateLineNoMargin(true);
 }
 
 Editor* Editor::getLinkedCopy()
