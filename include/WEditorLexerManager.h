@@ -38,6 +38,7 @@ namespace Wolverine
 {
 
 class EditorLexerCfg;
+typedef QMap<QString, EditorLexerCfg*> EditorLexerCfgMap;
 
 
 class EditorLexerManager : public QObject
@@ -67,8 +68,8 @@ private:
 
 
 
-    QMap<QString, EditorLexerCfg*> *mLexerMap;
-
+    EditorLexerCfgMap *mLexerMap;
+    EditorLexerCfgMap *mLexerMapBackup;
 };
 
 

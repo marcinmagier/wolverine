@@ -27,6 +27,7 @@
 
 #include "Qsci/qscilexer.h"
 #include "Qsci/qscilexercpp.h"
+#include "Qsci/qscilexerjava.h"
 #include "Qsci/qscilexerpython.h"
 
 #include <QString>
@@ -46,10 +47,11 @@ static void saveCommonSettings(EditorLexerCfg *eLexer, QSettings *qset);
 
 
 
-EditorLexerCfg::EditorLexerCfg(pfCreateLexer createFunct, pfSaveLexer saveFunct, bool available) :
+EditorLexerCfg::EditorLexerCfg(pfCreateLexer createFunct, pfSaveLexer saveFunct, pfCopyLexer copyFunct, bool available) :
     lexer(0),
     createFunction(createFunct),
     saveFunction(saveFunct),
+    copyFunction(copyFunct),
     isAvailable(available)
 {
 
@@ -111,6 +113,22 @@ void saveCommonSettings(EditorLexerCfg *eLexer, QSettings *qset)
 
 }
 
+void copyCommonSettings(EditorLexerCfg *from, EditorLexerCfg *to)
+{
+    to->styles = from->styles;
+
+    to->lexer->setDefaultFont(from->lexer->defaultFont());
+    to->lexer->setDefaultColor(from->lexer->defaultColor());
+    to->lexer->setDefaultPaper(from->lexer->defaultPaper());
+
+    foreach(int style, from->styles) {
+        to->lexer->setFont(from->lexer->font(style), style);
+        to->lexer->setColor(from->lexer->color(style), style);
+        to->lexer->setPaper(from->lexer->paper(style), style);
+        to->lexer->setEolFill(from->lexer->eolFill(style), style);
+    }
+
+}
 
 
 
@@ -131,7 +149,37 @@ void saveLexCPP(Wolverine::EditorLexerCfg *eLexer, QSettings *qset)
 {
     saveCommonSettings(eLexer, qset);
 }
+void copyLexCPP(EditorLexerCfg *from, EditorLexerCfg *to)
+{
+    if((from->lexer) && (to->lexer == 0)) {
+        to->lexer = new QsciLexerCPP();
+    }
+    copyCommonSettings(from, to);
+}
 
+
+void createLexJava(EditorLexerCfg *eLexer, QSettings *qset)
+{
+    QsciLexerJava *lexer = new QsciLexerJava();
+    eLexer->lexer = lexer;
+    eLexer->styles << QsciLexerJava::Default
+                   << QsciLexerJava::Comment
+                   << QsciLexerJava::CommentLine
+                   << QsciLexerJava::CommentDoc ;
+
+    readCommonSettings(eLexer, qset);
+}
+void saveLexJava(Wolverine::EditorLexerCfg *eLexer, QSettings *qset)
+{
+    saveCommonSettings(eLexer, qset);
+}
+void copyLexJava(EditorLexerCfg *from, EditorLexerCfg *to)
+{
+    if((from->lexer) && (to->lexer == 0)) {
+        to->lexer = new QsciLexerJava();
+    }
+    copyCommonSettings(from, to);
+}
 
 
 void createLexPython(EditorLexerCfg *eLexer, QSettings *qset)
@@ -160,4 +208,11 @@ void createLexPython(EditorLexerCfg *eLexer, QSettings *qset)
 void saveLexPython(Wolverine::EditorLexerCfg *eLexer, QSettings *qset)
 {
     saveCommonSettings(eLexer, qset);
+}
+void copyLexPython(EditorLexerCfg *from, EditorLexerCfg *to)
+{
+    if((from->lexer) && (to->lexer == 0)) {
+        to->lexer = new QsciLexerPython();
+    }
+    copyCommonSettings(from, to);
 }

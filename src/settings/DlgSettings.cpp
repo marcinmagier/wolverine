@@ -46,6 +46,7 @@ void DlgSettings::showDialog()
     if(QtDialogSettings::exec()) {
         mSettings->saveConfiguration();
         mActionManager->saveConfig();
+        mLexerManager->saveConfig();
     }
 
     // There is no need to keep these variables in memory.
@@ -63,6 +64,7 @@ void DlgSettings::informToDropBackup()
     //Inform all external settings managers to throw backup.
     //Every internal pages works on AppSettings that does it automatically.
     mActionManager->dropConfigurationBackup();
+    mLexerManager->dropConfigurationBackup();
 }
 
 void DlgSettings::informToCreateNewBackup()
@@ -70,6 +72,7 @@ void DlgSettings::informToCreateNewBackup()
     //Inform all external settings managers to create fresh backup (drop the previous one).
     //Every internal pages works on AppSettings that does it automatically.
     mActionManager->createConfigurationBackup();
+    mLexerManager->createConfigurationBackup();
 }
 
 void DlgSettings::informToRestoreBackup()
@@ -77,6 +80,7 @@ void DlgSettings::informToRestoreBackup()
     //Inform all external settings managers to apply configuration backup.
     //Every internal pages works on AppSettings that does it automatically.
     mActionManager->restoreConfigurationBackup();
+    mLexerManager->restoreConfigurationBackup();
 }
 
 
