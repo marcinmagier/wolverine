@@ -112,14 +112,19 @@ Editor* EditorBinder::getLinkedEditor(Editor *editor)
     Editor *newEditor = new Editor(this);
     mEditors.append(newEditor);
     newEditor->setDocument(editor->document());
+    newEditor->setLexer(editor->getLexerName());
     return newEditor;
 }
 
 
 void EditorBinder::removeEditor(Editor *editor)
 {
+    QString lexName = editor->getLexerName();
     mEditors.removeAll(editor);
     delete editor;
+    foreach(Editor *editor, mEditors) {
+        editor->setLexer(lexName);
+    }
 }
 
 

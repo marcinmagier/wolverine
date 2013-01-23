@@ -45,8 +45,7 @@ Editor::Editor(QWidget *parent) :
     mBinder(0)
 {
     initialize();
-    mLexerName = QString("Normal Text");
-    QtScintilla::setLexer(mLexerManager->getLexer(mLexerName));
+    this->setLexer(QString("Normal Text"));
 }
 
 
@@ -55,8 +54,7 @@ Editor::Editor(EditorBinder *doc, QWidget *parent) :
     mBinder(doc)
 {
     initialize();
-    mLexerName = mLexerManager->getLexerName(mBinder);
-    QtScintilla::setLexer(mLexerManager->getLexer(mLexerName));
+    this->setLexer(mLexerManager->getLexerName(mBinder));
 
 }
 
@@ -133,6 +131,8 @@ QString Editor::getFilePath()
 void Editor::setLexer(const QString &name)
 {
     mLexerName = name;
+    QtScintilla::setLexer(mLexerManager->getLexer(name));
+    // BUG: set lexer twice to workaround problem with final lexer style
     QtScintilla::setLexer(mLexerManager->getLexer(name));
 }
 
