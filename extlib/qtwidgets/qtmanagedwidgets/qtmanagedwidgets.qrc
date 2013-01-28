@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/qtmanagedwidgets">
-        <file alias="customize.png">images/customize.png</file>
-        <file alias="widget.png">images/widget.png</file>
-    </qresource>
-</RCC>
