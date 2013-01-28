@@ -1,0 +1,15 @@
+[submodule "extlib/qtscintilla"]
+	path = extlib/qtscintilla
+	url = git@192.168.7.7:qt/qtscintilla.git
+[submodule "extlib/qtlogger"]
+	path = extlib/qtlogger
+	url = git@192.168.7.7:qt/qtlogger.git
+[submodule "extlib/qtsingleapplication"]
+	path = extlib/qtsingleapplication
+	url = git@192.168.7.7:qt/qtsingleapplication.git
+[submodule "extlib/qtmisclib"]
+	path = extlib/qtmisclib
+	url = git@192.168.7.7:qt/qtmisclib.git
+[submodule "extlib/qtwidgets"]
+	path = extlib/qtwidgets
+	url = git@192.168.7.7:qt/qtwidgets.git
