@@ -26,7 +26,7 @@
  #define __QT_SCINTILLA_H_
 
 
-#include "Qsci/qsciscintilla.h"
+#include "qsciscintilla.h"
 
 
 class QtScintilla : public QsciScintilla

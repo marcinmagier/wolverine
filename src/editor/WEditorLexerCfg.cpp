@@ -25,10 +25,10 @@
 
 #include "WEditorLexerCfg.h"
 
-#include "Qsci/qscilexer.h"
-#include "Qsci/qscilexercpp.h"
-#include "Qsci/qscilexerjava.h"
-#include "Qsci/qscilexerpython.h"
+#include "qscilexer.h"
+#include "qscilexercpp.h"
+#include "qscilexerjava.h"
+#include "qscilexerpython.h"
 
 #include <QString>
 #include <QSettings>

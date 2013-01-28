@@ -28,7 +28,7 @@
 
 #include "qtcolorbutton.h"
 #include "qtfontbutton.h"
-#include "Qsci/qscilexer.h"
+#include "qscilexer.h"
 #include "Logger.h"
 
 #include <QScrollArea>

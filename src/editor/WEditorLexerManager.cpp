@@ -29,9 +29,9 @@
 
 #include "Logger.h"
 
-#include "Qsci/qscilexer.h"
-#include "Qsci/qscilexercpp.h"
-#include "Qsci/qscilexerpython.h"
+#include "qscilexer.h"
+#include "qscilexercpp.h"
+#include "qscilexerpython.h"
 
 #include <QWidget>
 #include <QStringList>
