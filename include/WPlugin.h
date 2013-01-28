@@ -12,11 +12,11 @@ class QString;
 class WPlugin
 {
 public:
-	virtual ~WPlugin() {}
-	
-	virtual void init() {}
-	
-	virtual QString name() const = 0;
+    virtual ~WPlugin() {}
+    
+    virtual void init() {}
+    
+    virtual QString name() const = 0;
 
 };
 
