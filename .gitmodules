@@ -4,3 +4,6 @@
 [submodule "extlib/qtlogger"]
 	path = extlib/qtlogger
 	url = git@192.168.7.7:qt/qtlogger.git
+[submodule "extlib/qtsingleapplication"]
+	path = extlib/qtsingleapplication
+	url = git@192.168.7.7:qt/qtsingleapplication.git
