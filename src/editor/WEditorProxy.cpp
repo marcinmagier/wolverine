@@ -46,6 +46,7 @@ using namespace Wolverine;
 
 EditorProxy::EditorProxy()
 {
+    mCurrentEditor = 0;
     setupContextMenu();
 }
 
