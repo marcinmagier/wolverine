@@ -7,3 +7,6 @@
 [submodule "extlib/qtsingleapplication"]
 	path = extlib/qtsingleapplication
 	url = git@192.168.7.7:qt/qtsingleapplication.git
+[submodule "extlib/qtmisclib"]
+	path = extlib/qtmisclib
+	url = git@192.168.7.7:qt/qtmisclib.git
