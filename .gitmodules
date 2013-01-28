@@ -10,3 +10,6 @@
 [submodule "extlib/qtmisclib"]
 	path = extlib/qtmisclib
 	url = git@192.168.7.7:qt/qtmisclib.git
+[submodule "extlib/qtwidgets"]
+	path = extlib/qtwidgets
+	url = git@192.168.7.7:qt/qtwidgets.git
