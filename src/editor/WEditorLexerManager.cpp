@@ -71,7 +71,7 @@ EditorLexerManager::EditorLexerManager() :
 EditorLexerManager::~EditorLexerManager()
 {
     dropConfigurationBackup();
-
+    saveConfig();
     foreach(EditorLexerCfg *eLexer, mLexerMap->values()) {
         delete eLexer;
     }
@@ -122,10 +122,9 @@ QsciLexer* EditorLexerManager::getLexer(const QString &lexName)
     if(eLexer->lexer)
         return eLexer->lexer;
 
+    eLexer->createFunction(eLexer);
     QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "lexers");
-    qset.beginGroup(lexName);
-    eLexer->createFunction(eLexer, &qset);
-    qset.endGroup();
+    eLexer->lexer->readSettings(qset);
     return eLexer->lexer;
 }
 
@@ -140,12 +139,11 @@ void EditorLexerManager::saveConfig()
         return;
 
     foreach(const QString &lexName, mLexerMap->keys()) {
-        qset.beginGroup(lexName);
         EditorLexerCfg *eLexer = mLexerMap->value(lexName);
+        qset.beginGroup(lexName);
         qset.setValue( "available", QVariant::fromValue( eLexer->isAvailable) );
-        if(eLexer->lexer && eLexer->saveFunction) {
-            eLexer->saveFunction(eLexer, &qset);
-        }
+        if(eLexer->lexer)
+            eLexer->lexer->writeSettings(qset);
         qset.endGroup();
     }
 }
@@ -158,8 +156,7 @@ void EditorLexerManager::restoreBasicConfig()
     foreach(const QString &lexName, mLexerMap->keys()) {
         qset.beginGroup(lexName);
         EditorLexerCfg *eLexer = mLexerMap->value(lexName);
-        if(qset.contains("available"))
-            eLexer->isAvailable = qset.value("available").toBool();
+        eLexer->isAvailable = qset.value("available", false).toBool();
         qset.endGroup();
     }
 }
@@ -172,11 +169,12 @@ void EditorLexerManager::createConfigurationBackup()
     dropConfigurationBackup();
     mLexerMapBackup = new EditorLexerCfgMap();
     foreach(const QString &lexName, mLexerMap->keys()) {
-        this->getLexer(lexName);    //We have to create all lexers to have backup
-        EditorLexerCfg *old = mLexerMap->value(lexName);
-        EditorLexerCfg *eLexer = new EditorLexerCfg(old->createFunction, old->saveFunction, old->copyFunction, old->isAvailable);
-        old->copyFunction(old, eLexer);
-        mLexerMapBackup->insert(lexName, eLexer);
+        //this->getLexer(lexName);    //We have to create all lexers to have backup
+        EditorLexerCfg *origin = mLexerMap->value(lexName);
+        EditorLexerCfg *backup = new EditorLexerCfg(origin->createFunction, origin->isAvailable);
+        backup->createFunction(backup);
+        backup->lexer->copyFrom(origin->lexer);
+        mLexerMapBackup->insert(lexName, backup);
     }
 }
 
@@ -185,7 +183,8 @@ void EditorLexerManager::restoreConfigurationBackup()
     foreach(const QString &lexName, mLexerMap->keys()) {
         EditorLexerCfg *origin = mLexerMap->value(lexName);
         EditorLexerCfg *backup = mLexerMapBackup->value(lexName);
-        origin->copyFunction(backup, origin);
+        origin->isAvailable = backup->isAvailable;
+        origin->lexer->copyFrom(backup->lexer);
     }
 }
 
@@ -202,6 +201,9 @@ void EditorLexerManager::dropConfigurationBackup()
 
 QWidget* EditorLexerManager::getLexerManagerWidget(QWidget *parent)
 {
+    foreach(const QString &lexName, mLexerMap->keys()) {
+        this->getLexer(lexName);    //We have to create all lexers
+    }
     return new EditorLexerManagerWidget(mLexerMap, parent);
 }
 
@@ -224,21 +226,16 @@ void EditorLexerManager::initializeLexers()
 {
     EditorLexerCfg *eLexer;
 
-    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "lexerstest");
-    QsciLexer *lex = new QsciLexerPython();
-    lex->readSettings(qset);
-    lex->writeSettings(qset);
-
-    eLexer = new EditorLexerCfg(&createLexPython, &saveLexPython, &copyLexPython, true);
+    eLexer = new EditorLexerCfg(&createLexPython, true);
     mLexerMap->insert("Normal Text", eLexer);
 
-    eLexer = new EditorLexerCfg(&createLexCPP, &saveLexCPP, &copyLexCPP);
+    eLexer = new EditorLexerCfg(&createLexCPP);
     mLexerMap->insert("C++", eLexer);
 
-    eLexer = new EditorLexerCfg(&createLexJava, &saveLexJava, &copyLexJava);
+    eLexer = new EditorLexerCfg(&createLexJava);
     mLexerMap->insert("Java", eLexer);
 
-    eLexer = new EditorLexerCfg(&createLexPython, &saveLexPython, &copyLexPython);
+    eLexer = new EditorLexerCfg(&createLexPython);
     mLexerMap->insert("Python", eLexer);
 
     restoreBasicConfig();

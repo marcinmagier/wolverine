@@ -30,7 +30,6 @@
 #include <QList>
 
 class QString;
-class QSettings;
 class QsciLexer;
 
 namespace Wolverine
@@ -38,9 +37,7 @@ namespace Wolverine
 class EditorLexerCfg;
 }
 
-typedef void (*pfCreateLexer)(Wolverine::EditorLexerCfg*, QSettings*);
-typedef void (*pfSaveLexer)(Wolverine::EditorLexerCfg*, QSettings*);
-typedef void (*pfCopyLexer)(Wolverine::EditorLexerCfg*, Wolverine::EditorLexerCfg*);
+typedef void (*pfCreateLexer)(Wolverine::EditorLexerCfg*);
 
 
 
@@ -53,14 +50,12 @@ class EditorLexerCfg
 {
 public:
 
-    explicit EditorLexerCfg(pfCreateLexer createFunct, pfSaveLexer saveFunct, pfCopyLexer copyFunct, bool available = false);
+    explicit EditorLexerCfg(pfCreateLexer createFunct, bool available = false);
 
     ~EditorLexerCfg();
 
     QsciLexer *lexer;
     pfCreateLexer createFunction;
-    pfSaveLexer saveFunction;
-    pfCopyLexer copyFunction;
     QList<int> styles;
     bool isAvailable;
 
@@ -70,17 +65,11 @@ public:
 
 
 
-void createLexCPP(Wolverine::EditorLexerCfg *eLexer, QSettings *qset);
-void saveLexCPP(Wolverine::EditorLexerCfg *eLexer, QSettings *qset);
-void copyLexCPP(Wolverine::EditorLexerCfg *from, Wolverine::EditorLexerCfg *to);
+void createLexCPP(Wolverine::EditorLexerCfg *eLexer);
 
-void createLexJava(Wolverine::EditorLexerCfg *eLexer, QSettings *qset);
-void saveLexJava(Wolverine::EditorLexerCfg *eLexer, QSettings *qset);
-void copyLexJava(Wolverine::EditorLexerCfg *from, Wolverine::EditorLexerCfg *to);
+void createLexJava(Wolverine::EditorLexerCfg *eLexer);
 
-void createLexPython(Wolverine::EditorLexerCfg *eLexer, QSettings *qset);
-void saveLexPython(Wolverine::EditorLexerCfg *eLexer, QSettings *qset);
-void copyLexPython(Wolverine::EditorLexerCfg *from, Wolverine::EditorLexerCfg *to);
+void createLexPython(Wolverine::EditorLexerCfg *eLexer);
 
 
 #endif // __W_EDITOR_LEXER_CFG_H_

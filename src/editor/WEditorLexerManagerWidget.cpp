@@ -118,10 +118,7 @@ QWidget* EditorLexerManagerWidget::getLexerStyles(const QString &name, EditorLex
 
 
     if(!eLexer->lexer) {
-        QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "lexers");
-        qset.beginGroup(name);
-        eLexer->createFunction(eLexer, &qset);
-        qset.endGroup();
+        LOG_ERROR("Lexer is not available");
     }
 
     QLabel *lblDefault = new QLabel("default");
