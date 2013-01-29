@@ -71,7 +71,6 @@ EditorLexerManager::EditorLexerManager() :
 EditorLexerManager::~EditorLexerManager()
 {
     dropConfigurationBackup();
-    saveConfig();
     foreach(EditorLexerCfg *eLexer, mLexerMap->values()) {
         delete eLexer;
     }
@@ -156,7 +155,8 @@ void EditorLexerManager::restoreBasicConfig()
     foreach(const QString &lexName, mLexerMap->keys()) {
         qset.beginGroup(lexName);
         EditorLexerCfg *eLexer = mLexerMap->value(lexName);
-        eLexer->isAvailable = qset.value("available", false).toBool();
+        if(qset.contains("available"))
+            eLexer->isAvailable = qset.value("available").toBool();
         qset.endGroup();
     }
 }
