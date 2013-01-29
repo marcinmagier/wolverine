@@ -224,6 +224,11 @@ void EditorLexerManager::initializeLexers()
 {
     EditorLexerCfg *eLexer;
 
+    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "lexerstest");
+    QsciLexer *lex = new QsciLexerPython();
+    lex->readSettings(qset);
+    lex->writeSettings(qset);
+
     eLexer = new EditorLexerCfg(&createLexPython, &saveLexPython, &copyLexPython, true);
     mLexerMap->insert("Normal Text", eLexer);
 
