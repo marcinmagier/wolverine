@@ -57,6 +57,8 @@ public:
     QsciLexer *lexer;
     pfCreateLexer createFunction;
     QList<int> styles;
+    QList<QString> fileNamesPatterns;
+    QList<QString> fileFirstLinePatterns;
     bool isAvailable;
 
 };

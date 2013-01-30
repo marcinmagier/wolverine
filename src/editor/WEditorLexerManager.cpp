@@ -39,6 +39,7 @@
 #include <QApplication>
 #include <QSettings>
 #include <QFileInfo>
+#include <QRegExp>
 
 
 #include <QDebug>
@@ -108,7 +109,23 @@ QString EditorLexerManager::getLexerName(QFileInfo *fileInfo)
     if(!fileInfo->exists())
         return QString("Normal Text");
 
-    return QString("C++");
+    QString fileName = fileInfo->fileName();
+    foreach(const QString &lexName, mLexerMap->keys()) {
+        EditorLexerCfg *eLexer = mLexerMap->value(lexName);
+        foreach(QString fileNamePattern, eLexer->fileNamesPatterns) {
+            QRegExp re(fileNamePattern);
+            re.setPatternSyntax(QRegExp::Wildcard);
+            re.setCaseSensitivity(Qt::CaseInsensitive);
+            if( re.exactMatch(fileName))
+                return lexName;
+        }
+    }
+
+
+
+
+
+    return QString("Normal Text");
 }
 
 
@@ -174,6 +191,8 @@ void EditorLexerManager::createConfigurationBackup()
         EditorLexerCfg *backup = new EditorLexerCfg(origin->createFunction, origin->isAvailable);
         backup->createFunction(backup);
         backup->lexer->copyFrom(origin->lexer);
+        backup->fileNamesPatterns = origin->fileNamesPatterns;
+        backup->fileFirstLinePatterns = origin->fileFirstLinePatterns;
         mLexerMapBackup->insert(lexName, backup);
     }
 }
@@ -227,15 +246,21 @@ void EditorLexerManager::initializeLexers()
     EditorLexerCfg *eLexer;
 
     eLexer = new EditorLexerCfg(&createLexPython, true);
+    eLexer->fileNamesPatterns << "*.txt";
     mLexerMap->insert("Normal Text", eLexer);
 
     eLexer = new EditorLexerCfg(&createLexCPP);
+    eLexer->fileNamesPatterns << "*.c" << "*.cc" << "*.cpp" << "*.cxx" << "*.c++"
+                              << "*.h" << "*.hh" << "*.hpp" << "*.hxx";
     mLexerMap->insert("C++", eLexer);
 
     eLexer = new EditorLexerCfg(&createLexJava);
+    eLexer->fileNamesPatterns << "*.java";
     mLexerMap->insert("Java", eLexer);
 
     eLexer = new EditorLexerCfg(&createLexPython);
+    eLexer->fileNamesPatterns << "*.py";
+    eLexer->fileFirstLinePatterns << "*python*";
     mLexerMap->insert("Python", eLexer);
 
     restoreBasicConfig();
