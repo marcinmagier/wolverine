@@ -38,6 +38,7 @@
 #include <QAction>
 #include <QApplication>
 #include <QSettings>
+#include <QFile>
 #include <QFileInfo>
 #include <QRegExp>
 
@@ -112,7 +113,7 @@ QString EditorLexerManager::getLexerName(QFileInfo *fileInfo)
     QString fileName = fileInfo->fileName();
     foreach(const QString &lexName, mLexerMap->keys()) {
         EditorLexerCfg *eLexer = mLexerMap->value(lexName);
-        foreach(QString fileNamePattern, eLexer->fileNamesPatterns) {
+        foreach(const QString &fileNamePattern, eLexer->fileNamesPatterns) {
             QRegExp re(fileNamePattern);
             re.setPatternSyntax(QRegExp::Wildcard);
             re.setCaseSensitivity(Qt::CaseInsensitive);
@@ -121,9 +122,26 @@ QString EditorLexerManager::getLexerName(QFileInfo *fileInfo)
         }
     }
 
+    QFile file(fileInfo->canonicalFilePath());
+    if( file.open(QIODevice::ReadOnly) ) {
+        QString firstTextLine;
+        while(!file.atEnd() && firstTextLine.isEmpty())
+            firstTextLine = QString::fromLatin1(file.readLine().constData()).simplified();
 
-
-
+        if(!file.atEnd()) {
+            foreach(const QString &lexName, mLexerMap->keys()) {
+                EditorLexerCfg *eLexer = mLexerMap->value(lexName);
+                foreach(const QString &fileFirstLinePattern, eLexer->fileFirstLinePatterns) {
+                    QRegExp re(fileFirstLinePattern);
+                    re.setPatternSyntax(QRegExp::Wildcard);
+                    re.setCaseSensitivity(Qt::CaseInsensitive);
+                    if( re.exactMatch(firstTextLine))
+                        return lexName;
+                }
+            }
+        }
+        file.close();
+    }
 
     return QString("Normal Text");
 }
@@ -141,6 +159,7 @@ QsciLexer* EditorLexerManager::getLexer(const QString &lexName)
     eLexer->createFunction(eLexer);
     QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "lexers");
     eLexer->lexer->readSettings(qset);
+    eLexer->isAvailable = true;
     return eLexer->lexer;
 }
 
