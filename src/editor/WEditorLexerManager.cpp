@@ -47,6 +47,8 @@
 
 
 
+#define LEX_INI_FILE "lexers"
+
 
 using namespace Wolverine;
 
@@ -157,8 +159,6 @@ QsciLexer* EditorLexerManager::getLexer(const QString &lexName)
         return eLexer->lexer;
 
     eLexer->createFunction(eLexer);
-    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "lexers");
-    eLexer->lexer->readSettings(qset);
     eLexer->isAvailable = true;
     return eLexer->lexer;
 }
@@ -168,7 +168,7 @@ QsciLexer* EditorLexerManager::getLexer(const QString &lexName)
 
 void EditorLexerManager::saveConfig()
 {
-    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "lexers");
+    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), LEX_INI_FILE);
 
     if(!qset.isWritable())
         return;
@@ -176,7 +176,9 @@ void EditorLexerManager::saveConfig()
     foreach(const QString &lexName, mLexerMap->keys()) {
         EditorLexerCfg *eLexer = mLexerMap->value(lexName);
         qset.beginGroup(lexName);
-        qset.setValue( "available", QVariant::fromValue( eLexer->isAvailable) );
+        qset.setValue( "available", QVariant(eLexer->isAvailable) );
+        qset.setValue("file_name_patterns", QVariant(eLexer->fileNamesPatterns) );
+        qset.setValue("file_first_line_patterns", QVariant(eLexer->fileFirstLinePatterns) );
         if(eLexer->lexer)
             eLexer->lexer->writeSettings(qset);
         qset.endGroup();
@@ -184,15 +186,26 @@ void EditorLexerManager::saveConfig()
 }
 
 
+void EditorLexerManager::loadConfig(EditorLexerCfg *eLexer)
+{
+    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), LEX_INI_FILE);
+
+    eLexer->lexer->readSettings(qset);
+}
+
 void EditorLexerManager::restoreBasicConfig()
 {
-    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), "lexers");
+    QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), LEX_INI_FILE);
 
     foreach(const QString &lexName, mLexerMap->keys()) {
         qset.beginGroup(lexName);
         EditorLexerCfg *eLexer = mLexerMap->value(lexName);
         if(qset.contains("available"))
             eLexer->isAvailable = qset.value("available").toBool();
+        if(qset.contains("file_name_patterns"))
+            eLexer->fileNamesPatterns = qset.value("file_name_patterns").toStringList();
+        if(qset.contains("file_first_line_patterns"))
+            eLexer->fileFirstLinePatterns = qset.value("file_first_line_patterns").toStringList();
         qset.endGroup();
     }
 }
@@ -222,6 +235,8 @@ void EditorLexerManager::restoreConfigurationBackup()
         EditorLexerCfg *origin = mLexerMap->value(lexName);
         EditorLexerCfg *backup = mLexerMapBackup->value(lexName);
         origin->isAvailable = backup->isAvailable;
+        origin->fileNamesPatterns = backup->fileNamesPatterns;
+        origin->fileFirstLinePatterns = backup->fileFirstLinePatterns;
         origin->lexer->copyFrom(backup->lexer);
     }
 }

@@ -34,10 +34,10 @@ void DlgSettings::showDialog()
     addSettingsPage(tr("View"), view);
 
     Settings::PageScintilla *scintilla = new Settings::PageScintilla(mSettings, this);
-    addSettingsPage(tr("Scintilla"), scintilla);
+    addSettingsPage(tr("Editor"), scintilla);
 
     QWidget *lexerManagerWidget = mLexerManager->getLexerManagerWidget(this);
-    addSettingsPage(tr("Lexers"), tr("Scintilla"), lexerManagerWidget);
+    addSettingsPage(tr("Lexers"), tr("Editor"), lexerManagerWidget);
 
     QWidget *actionManagerWidget = mActionManager->getActionManagerWidget(this);
     addSettingsPage(tr("Key Binding"), actionManagerWidget);

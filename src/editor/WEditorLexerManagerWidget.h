@@ -54,15 +54,25 @@ public:
     
 private slots:
     void onLexerChanged(const QString &name);
+    void onShowInMenuChanged(bool checked);
+
     void onLexerFontChanged(const QFont &font);
     void onLexerFgColorChanged(const QColor &color);
     void onLexerBgColorChanged(const QColor &color);
     void onLexerFillEoLChanged(bool checked);
-    void onShowInMenuChanged(bool checked);
+
+    void onAddFileNamePatternClicked();
+    void onDelFileNamePatternClicked();
+    void onAddFirstLinePatternClicked();
+    void onDelFirstLinePatternClicked();
+
 
 private:
     QWidget* getLexerStyles(const QString &name, EditorLexerCfg *eLexer);
-    void setupLexerStyles(const QString &name, EditorLexerCfg *eLexer);
+
+    void updateLexerFileTypes(const QString &name, EditorLexerCfg *eLexer);
+
+
 
     Ui::EditorLexerManagerWidget *ui;
 

@@ -34,6 +34,7 @@
 #include <QScrollArea>
 #include <QGridLayout>
 #include <QSettings>
+#include <QInputDialog>
 
 
 #include <QDebug>
@@ -91,8 +92,15 @@ EditorLexerManagerWidget::EditorLexerManagerWidget(QMap<QString, EditorLexerCfg 
     ui->tabWidget->setCurrentIndex(0);
 
 
-
-
+    updateLexerFileTypes(lexName, mLexerMap->value(lexName));
+    connect(ui->btnAddFileName, SIGNAL(clicked()),
+                          this, SLOT(onAddFileNamePatternClicked()) );
+    connect(ui->btnDelFileName, SIGNAL(clicked()),
+                          this, SLOT(onDelFileNamePatternClicked()) );
+    connect(ui->btnAddFirstLine, SIGNAL(clicked()),
+                           this, SLOT(onAddFirstLinePatternClicked()) );
+    connect(ui->btnDelFirstLine, SIGNAL(clicked()),
+                           this, SLOT(onDelFirstLinePatternClicked()) );
 
 }
 
@@ -105,6 +113,27 @@ EditorLexerManagerWidget::~EditorLexerManagerWidget()
 
 }
 
+
+void EditorLexerManagerWidget::onLexerChanged(const QString &name)
+{
+    QWidget *widget = mScrollArea->widget();
+    delete widget;
+    mScrollArea->setWidget(getLexerStyles(name, mLexerMap->value(name)));
+    ui->checkShowInMenu->setChecked(mLexerMap->value(name)->isAvailable);
+
+    updateLexerFileTypes(name, mLexerMap->value(name));
+}
+
+
+void EditorLexerManagerWidget::onShowInMenuChanged(bool checked)
+{
+    QString lexName = ui->cmbLexer->currentText();
+    mLexerMap->value(lexName)->isAvailable = checked;
+}
+
+
+
+//========================== Styles ========================================//
 
 QWidget* EditorLexerManagerWidget::getLexerStyles(const QString &name, EditorLexerCfg *eLexer)
 {
@@ -206,15 +235,6 @@ QWidget* EditorLexerManagerWidget::getLexerStyles(const QString &name, EditorLex
 }
 
 
-
-void EditorLexerManagerWidget::onLexerChanged(const QString &name)
-{
-    QWidget *widget = mScrollArea->widget();
-    delete widget;
-    mScrollArea->setWidget(getLexerStyles(name, mLexerMap->value(name)));
-    ui->checkShowInMenu->setChecked(mLexerMap->value(name)->isAvailable);
-}
-
 void EditorLexerManagerWidget::onLexerFontChanged(const QFont &font)
 {
     FontButton *button = dynamic_cast<FontButton*>(sender());
@@ -256,8 +276,66 @@ void EditorLexerManagerWidget::onLexerFillEoLChanged(bool checked)
     mLexerMap->value(lexName)->lexer->setEolFill(checked, button->index);
 }
 
-void EditorLexerManagerWidget::onShowInMenuChanged(bool checked)
+
+
+
+//========================== File types ====================================//
+
+void EditorLexerManagerWidget::updateLexerFileTypes(const QString &name, EditorLexerCfg *eLexer)
+{
+    ui->listFileName->clear();
+    ui->listFileName->addItems(eLexer->fileNamesPatterns);
+    ui->listFirstLine->clear();
+    ui->listFirstLine->addItems(eLexer->fileFirstLinePatterns);
+}
+
+void EditorLexerManagerWidget::onAddFileNamePatternClicked()
 {
     QString lexName = ui->cmbLexer->currentText();
-    mLexerMap->value(lexName)->isAvailable = checked;
+    QString pattern = QInputDialog::getText(this, lexName, tr("New file name pattern:"));
+    if(!pattern.isEmpty()) {
+        EditorLexerCfg *eLexer = mLexerMap->value(lexName);
+        if(!eLexer->fileNamesPatterns.contains(pattern)) {
+            eLexer->fileNamesPatterns.append(pattern);
+            ui->listFileName->addItem(pattern);
+        }
+    }
+}
+
+void EditorLexerManagerWidget::onDelFileNamePatternClicked()
+{
+    int row = ui->listFileName->currentRow();
+    if(row >= 0) {
+        QListWidgetItem *item = ui->listFileName->takeItem(row);
+        QString lexName = ui->cmbLexer->currentText();
+        EditorLexerCfg *eLexer = mLexerMap->value(lexName);
+        eLexer->fileNamesPatterns.removeAll(item->text());
+        delete item;
+    }
+}
+
+void EditorLexerManagerWidget::onAddFirstLinePatternClicked()
+{
+    QString lexName = ui->cmbLexer->currentText();
+    QString pattern = QInputDialog::getText(this, lexName, tr("New first line pattern:"));
+    if(!pattern.isEmpty()) {
+        QString lexName = ui->cmbLexer->currentText();
+        EditorLexerCfg *eLexer = mLexerMap->value(lexName);
+        if(!eLexer->fileFirstLinePatterns.contains(pattern)) {
+            eLexer->fileFirstLinePatterns.append(pattern);
+            ui->listFirstLine->addItem(pattern);
+        }
+    }
+}
+
+void EditorLexerManagerWidget::onDelFirstLinePatternClicked()
+{
+    int row = ui->listFirstLine->currentRow();
+    if(row >= 0) {
+        QListWidgetItem *item = ui->listFirstLine->takeItem(row);
+        QString lexName = ui->cmbLexer->currentText();
+        EditorLexerCfg *eLexer = mLexerMap->value(lexName);
+        eLexer->fileFirstLinePatterns.removeAll(item->text());
+        delete item;
+    }
 }

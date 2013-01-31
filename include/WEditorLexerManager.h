@@ -64,6 +64,9 @@ public:
 
     QList<QString> getLexerNames();
 
+protected:
+    void loadConfig(EditorLexerCfg *eLexer);
+
 
 private:
     void initializeLexers();
