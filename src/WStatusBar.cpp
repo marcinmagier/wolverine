@@ -16,6 +16,7 @@
 #include "WEditorProxy.h"
 #include "WEditorLexerManager.h"
 #include "CfgAppSettings.h"
+#include "CfgScintillaSettings.h"
 
 #include "qtlabel.h"
 #include "Logger.h"
@@ -65,11 +66,6 @@ StatusBar::StatusBar(EditorProxy *currentEditor, QWidget *parent) :
     QStatusBar(parent),
     mEditorProxy(currentEditor)
 {
-    mLblPosition = new QtLabel();
-    mLblPosition->setStyleSheet(QString(STATUS_LABEL_STYLE));
-    mLblPosition->setMinimumWidth(180);
-    this->addPermanentWidget(mLblPosition);
-
     mLblFilePath = new QtLabel("/test/file/path");
     mLblFilePath->setStyleSheet(QString(STATUS_LABEL_STYLE));
     this->addPermanentWidget(mLblFilePath, 2);
@@ -79,8 +75,16 @@ StatusBar::StatusBar(EditorProxy *currentEditor, QWidget *parent) :
     mLblFileStatistics->setMinimumWidth(160);
     this->addPermanentWidget(mLblFileStatistics);
 
-    mLblCodec = new QtLabel("ANSI");
+    mLblPosition = new QtLabel();
+    mLblPosition->setStyleSheet(QString(STATUS_LABEL_STYLE));
+    mLblPosition->setMinimumWidth(180);
+    this->addPermanentWidget(mLblPosition);
+
+    mLblCodec = new QtLabel();
     mLblCodec->setStyleSheet(QString(STATUS_LABEL_STYLE));
+    mLblCodec->setMinimumWidth(110);
+    connect(mLblCodec, SIGNAL(clickedLong(Qt::MouseButton)),
+                 this, SLOT(onLblCodecClickLong(Qt::MouseButton)) );
     this->addPermanentWidget(mLblCodec);
 
     mLblLexer = new QtLabel();
@@ -100,7 +104,7 @@ StatusBar::StatusBar(EditorProxy *currentEditor, QWidget *parent) :
 
     mLblInsOvr = new QtLabel("INS");
     mLblInsOvr->setStyleSheet(QString(STATUS_LABEL_STYLE));
-    mLblInsOvr->setMinimumWidth(36);
+    mLblInsOvr->setMinimumWidth(40);
     connect(mLblInsOvr, SIGNAL(doubleClicked(Qt::MouseButton)),
                   this, SLOT(onLblInsOvrDoubleClick(Qt::MouseButton)) );
     this->addPermanentWidget(mLblInsOvr);
@@ -122,6 +126,7 @@ void StatusBar::onCurrentEditorChanged(Editor *editor)
     else
         mLblFilePath->setText(tr("New"));
 
+    mLblCodec->setText(editor->getCodecName());
     mLblLexer->setText(editor->getLexerName());
 
     connect(editor, SIGNAL(cursorPositionChanged(int,int)),
@@ -157,7 +162,34 @@ void StatusBar::onCurrentEditorSelectionChanged()
 
 
 
-void StatusBar::onLblLexerClickLong(Qt::MouseButton button)
+
+
+void StatusBar::onLblCodecClickLong(Qt::MouseButton /*button*/)
+{
+    Editor *editor = mEditorProxy->getCurrentEditor();
+    QString currCodec = editor->getCodecName();
+    QMenu menu(this);
+
+    QAction *action;
+    foreach(const QString &name, AppSettings::instance()->scintilla->getCodecAvailable()) {
+        action = menu.addAction(name);
+        action->setCheckable(true);
+        if(name == currCodec)
+            action->setChecked(true);
+    }
+
+    action = menu.exec(QCursor::pos());
+    if(action == 0)
+        return;
+
+    action->setChecked(true);
+    currCodec = action->text();
+    mLblCodec->setText(currCodec);
+    editor->setCodec(currCodec);
+}
+
+
+void StatusBar::onLblLexerClickLong(Qt::MouseButton /*button*/)
 {
     Editor *editor = mEditorProxy->getCurrentEditor();
     QList<QString> lexNames = EditorLexerManager::instance()->getLexerNames();

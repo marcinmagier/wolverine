@@ -34,6 +34,7 @@
 
 
 
+class QTextCodec;
 
 namespace Wolverine
 {
@@ -65,9 +66,17 @@ public:
     QIcon getIcon() const;
 
 
+    QString getCodecName();
+    void setCodecName(const QString &name);
+
+
 
 private:
+    void loadFile(Editor *editor);
+
+
     EditorList mEditors;
+    QTextCodec *mCodec;
 
     static int sNewFileNo;
 };

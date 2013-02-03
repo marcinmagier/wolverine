@@ -70,6 +70,7 @@ private slots:
 private:
     QWidget* getLexerStyles(const QString &name, EditorLexerCfg *eLexer);
 
+    void updateLexerConfig(const QString &name, EditorLexerCfg *eLexer);
     void updateLexerFileTypes(const QString &name, EditorLexerCfg *eLexer);
 
 

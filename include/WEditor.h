@@ -57,7 +57,10 @@ public:
     QString getFilePath();
 
     void setLexer(const QString &name);
-    QString getLexerName();
+    const QString& getLexerName();
+
+    void setCodec(const QString &name);
+    QString getCodecName();
 
 signals:
     void focusReceived();

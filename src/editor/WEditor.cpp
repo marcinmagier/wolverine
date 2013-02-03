@@ -42,7 +42,7 @@ using namespace Wolverine;
 
 Editor::Editor(QWidget *parent) :
     QtScintilla(parent),
-    mBinder(0)
+    mBinder(new EditorBinder())
 {
     initialize();
     this->setLexer(QString("Normal Text"));
@@ -134,13 +134,22 @@ void Editor::setLexer(const QString &name)
 {
     mLexerName = name;
     QtScintilla::setLexer(mLexerManager->getLexer(name));
-    // BUG: set lexer twice to workaround problem with final lexer style
-    QtScintilla::setLexer(mLexerManager->getLexer(name));
 }
 
-QString Editor::getLexerName()
+const QString& Editor::getLexerName()
 {
     return mLexerName;
+}
+
+
+void Editor::setCodec(const QString &name)
+{
+    mBinder->setCodecName(name);
+}
+
+QString Editor::getCodecName()
+{
+    return mBinder->getCodecName();
 }
 
 

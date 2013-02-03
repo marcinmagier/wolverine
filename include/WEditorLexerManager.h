@@ -65,7 +65,7 @@ public:
     QList<QString> getLexerNames();
 
 protected:
-    void loadConfig(EditorLexerCfg *eLexer);
+    void loadConfig(const QString &lexName, EditorLexerCfg *eLexer);
 
 
 private:

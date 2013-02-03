@@ -160,6 +160,7 @@ QsciLexer* EditorLexerManager::getLexer(const QString &lexName)
 
     eLexer->createFunction(eLexer);
     eLexer->isAvailable = true;
+    loadConfig(lexName, eLexer);
     return eLexer->lexer;
 }
 
@@ -186,11 +187,12 @@ void EditorLexerManager::saveConfig()
 }
 
 
-void EditorLexerManager::loadConfig(EditorLexerCfg *eLexer)
+void EditorLexerManager::loadConfig(const QString &lexName, EditorLexerCfg *eLexer)
 {
     QSettings qset(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), LEX_INI_FILE);
-
+    qset.beginGroup(lexName);
     eLexer->lexer->readSettings(qset);
+    qset.endGroup();
 }
 
 void EditorLexerManager::restoreBasicConfig()

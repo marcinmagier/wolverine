@@ -83,31 +83,7 @@ void createLexCPP(EditorLexerCfg *eLexer)
                    << QsciLexerCPP::CommentDocKeyword
                    << QsciLexerCPP::CommentDocKeywordError
                    << QsciLexerCPP::GlobalClass
-                   << QsciLexerCPP::RawString
-
-                   << QsciLexerCPP::InactiveDefault
-                   << QsciLexerCPP::InactiveComment
-                   << QsciLexerCPP::InactiveCommentLine
-                   << QsciLexerCPP::InactiveCommentDoc
-                   << QsciLexerCPP::InactiveNumber
-                   << QsciLexerCPP::InactiveKeyword
-                   << QsciLexerCPP::InactiveDoubleQuotedString
-                   << QsciLexerCPP::InactiveSingleQuotedString
-                   << QsciLexerCPP::InactiveUUID
-                   << QsciLexerCPP::InactivePreProcessor
-                   << QsciLexerCPP::InactiveOperator
-                   << QsciLexerCPP::InactiveIdentifier
-                   << QsciLexerCPP::InactiveUnclosedString
-                   << QsciLexerCPP::InactiveVerbatimString
-                   << QsciLexerCPP::InactiveRegex
-                   << QsciLexerCPP::InactiveCommentLineDoc
-                   << QsciLexerCPP::InactiveKeywordSet2
-                   << QsciLexerCPP::InactiveCommentDocKeyword
-                   << QsciLexerCPP::InactiveCommentDocKeywordError
-                   << QsciLexerCPP::InactiveGlobalClass
-                   << QsciLexerCPP::InactiveRawString ;
-
-
+                   << QsciLexerCPP::RawString ;
 }
 
 
@@ -135,29 +111,7 @@ void createLexJava(EditorLexerCfg *eLexer)
                    << QsciLexerJava::CommentDocKeyword
                    << QsciLexerJava::CommentDocKeywordError
                    << QsciLexerJava::GlobalClass
-                   << QsciLexerJava::RawString
-
-                   << QsciLexerJava::InactiveDefault
-                   << QsciLexerJava::InactiveComment
-                   << QsciLexerJava::InactiveCommentLine
-                   << QsciLexerJava::InactiveCommentDoc
-                   << QsciLexerJava::InactiveNumber
-                   << QsciLexerJava::InactiveKeyword
-                   << QsciLexerJava::InactiveDoubleQuotedString
-                   << QsciLexerJava::InactiveSingleQuotedString
-                   << QsciLexerJava::InactiveUUID
-                   << QsciLexerJava::InactivePreProcessor
-                   << QsciLexerJava::InactiveOperator
-                   << QsciLexerJava::InactiveIdentifier
-                   << QsciLexerJava::InactiveUnclosedString
-                   << QsciLexerJava::InactiveVerbatimString
-                   << QsciLexerJava::InactiveRegex
-                   << QsciLexerJava::InactiveCommentLineDoc
-                   << QsciLexerJava::InactiveKeywordSet2
-                   << QsciLexerJava::InactiveCommentDocKeyword
-                   << QsciLexerJava::InactiveCommentDocKeywordError
-                   << QsciLexerJava::InactiveGlobalClass
-                   << QsciLexerJava::InactiveRawString ;
+                   << QsciLexerJava::RawString ;
 }
 
 

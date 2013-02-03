@@ -47,6 +47,7 @@ EditorBinder::EditorBinder() :
     QObject(),
     QFileInfo( QString(tr("New %1").arg(sNewFileNo++)) )
 {
+    mCodec = QTextCodec::codecForLocale();
     mEditors.clear();
 }
 
@@ -55,7 +56,18 @@ EditorBinder::EditorBinder(const QString &path) :
     QObject(),
     QFileInfo(path)
 {
+    mCodec = QTextCodec::codecForLocale();
     mEditors.clear();
+
+    if(exists()) {
+        QString fileName(this->canonicalFilePath());
+        QFile file(fileName);
+        if(!file.open(QIODevice::ReadOnly))
+            LOG_ERROR("Cannot open the file %s", fileName.constData());
+
+        mCodec = QTextCodec::codecForUtfText(file.readLine(16), mCodec);
+        file.close();
+    }
 }
 
 
@@ -64,6 +76,7 @@ EditorBinder::~EditorBinder()
     foreach(Editor *editor, mEditors) {
         delete editor;
     }
+
 }
 
 
@@ -93,16 +106,8 @@ Editor* EditorBinder::getNewEditor()
     Editor *newEditor = new Editor(this);
     mEditors.append(newEditor);
 
-    if(exists()) {
-        QString fileName(this->canonicalFilePath());
-        QFile file(fileName);
-        if(!file.open(QIODevice::ReadOnly))
-            LOG_ERROR("Cannot open the file %s", fileName.constData());
+    loadFile(newEditor);
 
-        QTextStream in(&file);
-        in.setCodec(QTextCodec::codecForLocale());
-        newEditor->setText(in.readAll());
-    }
     return newEditor;
 }
 
@@ -138,3 +143,40 @@ QIcon EditorBinder::getIcon() const
 
     return QIcon(":/save_blue.png");
 }
+
+
+QString EditorBinder::getCodecName()
+{
+    return QString(mCodec->name());
+}
+
+void EditorBinder::setCodecName(const QString &name)
+{
+    QTextCodec *tmp = QTextCodec::codecForName(name.toAscii());
+    if(tmp)
+        mCodec = tmp;
+    else
+        LOG_WARNING("Codec %s not known", name.constData());
+}
+
+
+
+
+
+
+
+void EditorBinder::loadFile(Editor *editor)
+{
+    if(exists()) {
+        QString fileName(this->canonicalFilePath());
+        QFile file(fileName);
+        if(!file.open(QIODevice::ReadOnly))
+            LOG_ERROR("Cannot open the file %s", fileName.constData());
+
+        QTextStream in(&file);
+        in.setCodec(mCodec);
+        editor->setText(in.readAll());
+        file.close();
+    }
+}
+

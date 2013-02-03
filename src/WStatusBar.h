@@ -42,6 +42,7 @@ private slots:
     void onCurrentEditorTextChanged();
     void onCurrentEditorSelectionChanged();
 
+    void onLblCodecClickLong(Qt::MouseButton button);
     void onLblLexerClickLong(Qt::MouseButton button);
     void onLblEoLClickLong(Qt::MouseButton button);
     void onLblInsOvrDoubleClick(Qt::MouseButton button);

@@ -67,6 +67,7 @@ public:
 
 
 
+
 EditorLexerManagerWidget::EditorLexerManagerWidget(QMap<QString, EditorLexerCfg *> *lexerMap, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::EditorLexerManagerWidget),
@@ -88,10 +89,9 @@ EditorLexerManagerWidget::EditorLexerManagerWidget(QMap<QString, EditorLexerCfg 
     mScrollArea->setFrameShape(QFrame::NoFrame);
     mScrollArea->setWidgetResizable(true);
     mScrollArea->setWidget(getLexerStyles(lexName, mLexerMap->value(lexName)));
-    ui->tabWidget->insertTab(0, mScrollArea, "Styles");
-    ui->tabWidget->setCurrentIndex(0);
+    ui->tabWidget->addTab(mScrollArea, tr("Styles"));
 
-
+    updateLexerConfig(lexName, mLexerMap->value(lexName));
     updateLexerFileTypes(lexName, mLexerMap->value(lexName));
     connect(ui->btnAddFileName, SIGNAL(clicked()),
                           this, SLOT(onAddFileNamePatternClicked()) );
@@ -102,15 +102,22 @@ EditorLexerManagerWidget::EditorLexerManagerWidget(QMap<QString, EditorLexerCfg 
     connect(ui->btnDelFirstLine, SIGNAL(clicked()),
                            this, SLOT(onDelFirstLinePatternClicked()) );
 
+    ui->tabWidget->setCurrentIndex(0);
 }
 
 EditorLexerManagerWidget::~EditorLexerManagerWidget()
 {
-    delete ui;
-    QWidget *widget = mScrollArea->widget();
+    QWidget *widget;
+    if(ui->tabWidget->tabText(0) == QString(tr("Config"))) {
+        widget = ui->tabWidget->widget(0);
+        if(widget)
+            delete widget;
+    }
+
+    widget = mScrollArea->widget();
     delete widget;
     delete mScrollArea;
-
+    delete ui;
 }
 
 
@@ -121,6 +128,7 @@ void EditorLexerManagerWidget::onLexerChanged(const QString &name)
     mScrollArea->setWidget(getLexerStyles(name, mLexerMap->value(name)));
     ui->checkShowInMenu->setChecked(mLexerMap->value(name)->isAvailable);
 
+    updateLexerConfig(name, mLexerMap->value(name));
     updateLexerFileTypes(name, mLexerMap->value(name));
 }
 
@@ -129,6 +137,26 @@ void EditorLexerManagerWidget::onShowInMenuChanged(bool checked)
 {
     QString lexName = ui->cmbLexer->currentText();
     mLexerMap->value(lexName)->isAvailable = checked;
+}
+
+
+
+//=========================== Config =======================================//
+
+void EditorLexerManagerWidget::updateLexerConfig(const QString &name, EditorLexerCfg *eLexer)
+{
+    int idx = ui->tabWidget->currentIndex();
+    QWidget *widget;
+    if(ui->tabWidget->tabText(0) == QString(tr("Config"))) {
+        widget = ui->tabWidget->widget(0);
+        if(widget)
+            delete widget;
+    }
+    widget = eLexer->lexer->getConfigWidget(this);
+    if(widget) {
+        ui->tabWidget->insertTab(0, widget, tr("Config"));
+        ui->tabWidget->setCurrentIndex(idx);
+    }
 }
 
 
