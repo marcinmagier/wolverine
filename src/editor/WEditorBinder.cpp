@@ -26,6 +26,9 @@
 #include "WEditorBinder.h"
 #include "WEditor.h"
 
+#include "CfgAppSettings.h"
+#include "CfgScintillaSettings.h"
+
 #include "Logger.h"
 
 
@@ -47,8 +50,7 @@ EditorBinder::EditorBinder() :
     QObject(),
     QFileInfo( QString(tr("New %1").arg(sNewFileNo++)) )
 {
-    mCodec = QTextCodec::codecForLocale();
-    mEditors.clear();
+    initialize();
 }
 
 
@@ -56,8 +58,7 @@ EditorBinder::EditorBinder(const QString &path) :
     QObject(),
     QFileInfo(path)
 {
-    mCodec = QTextCodec::codecForLocale();
-    mEditors.clear();
+    initialize();
 
     if(exists()) {
         QString fileName(this->canonicalFilePath());
@@ -77,6 +78,14 @@ EditorBinder::~EditorBinder()
         delete editor;
     }
 
+}
+
+
+void EditorBinder::initialize()
+{
+    mCodec = QTextCodec::codecForLocale();
+    mEditors.clear();
+    AppSettings::instance()->scintilla->addCodecAvailable(mCodec->name());
 }
 
 

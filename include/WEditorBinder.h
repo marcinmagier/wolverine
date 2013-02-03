@@ -72,6 +72,7 @@ public:
 
 
 private:
+    void initialize();
     void loadFile(Editor *editor);
 
 
