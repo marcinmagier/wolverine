@@ -67,13 +67,13 @@ public:
 
 
     QString getCodecName();
-    void setCodecName(const QString &name);
+    void setCodecName(const QString &name, bool reload = false);
 
 
 
 private:
     void initialize();
-    void loadFile(Editor *editor);
+    void loadFile();
 
 
     EditorList mEditors;

@@ -115,7 +115,7 @@ Editor* EditorBinder::getNewEditor()
     Editor *newEditor = new Editor(this);
     mEditors.append(newEditor);
 
-    loadFile(newEditor);
+    loadFile();
 
     return newEditor;
 }
@@ -159,13 +159,16 @@ QString EditorBinder::getCodecName()
     return QString(mCodec->name());
 }
 
-void EditorBinder::setCodecName(const QString &name)
+void EditorBinder::setCodecName(const QString &name, bool reload)
 {
     QTextCodec *tmp = QTextCodec::codecForName(name.toAscii());
     if(tmp)
         mCodec = tmp;
     else
         LOG_WARNING("Codec %s not known", name.constData());
+
+    if(reload)
+        loadFile();
 }
 
 
@@ -174,8 +177,11 @@ void EditorBinder::setCodecName(const QString &name)
 
 
 
-void EditorBinder::loadFile(Editor *editor)
+void EditorBinder::loadFile()
 {
+    if(mEditors.length() == 0)
+        LOG_WARNING("Editor doesn't exist");
+
     if(exists()) {
         QString fileName(this->canonicalFilePath());
         QFile file(fileName);
@@ -184,7 +190,7 @@ void EditorBinder::loadFile(Editor *editor)
 
         QTextStream in(&file);
         in.setCodec(mCodec);
-        editor->setText(in.readAll());
+        mEditors[0]->setText(in.readAll());
         file.close();
     }
 }
