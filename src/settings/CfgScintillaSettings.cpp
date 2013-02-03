@@ -8,8 +8,7 @@ ScintillaSettings::ScintillaSettings()
 {
     mShowLineNumbersEnabled = true;
 
-    QList<QByteArray> codecs = QTextCodec::availableCodecs();
-    foreach(QByteArray name, codecs) {
+    foreach(const QByteArray &name, QTextCodec::availableCodecs()) {
         mCodecAvailable.append(QString(name));
     }
 }
@@ -44,4 +43,9 @@ void ScintillaSettings::addCodecAvailable(const QString &codec)
 {
     mCodecAvailable.append(codec);
     mCodecAvailable.removeDuplicates();
+    mCodecAvailable.sort();
+}
+void ScintillaSettings::delCodecAvailable(const QString &codec)
+{
+    mCodecAvailable.removeAll(codec);
 }

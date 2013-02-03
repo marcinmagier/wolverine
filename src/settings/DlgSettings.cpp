@@ -6,7 +6,8 @@
 #include "WEditorLexerManager.h"
 
 #include "PageGeneral.h"
-#include "PageScintilla.h"
+#include "PageEditor.h"
+#include "PageEditorCodec.h"
 #include "PageView.h"
 
 #include <QIcon>
@@ -33,8 +34,11 @@ void DlgSettings::showDialog()
     Settings::PageView *view = new Settings::PageView(mSettings, this);
     addSettingsPage(tr("View"), view);
 
-    Settings::PageScintilla *scintilla = new Settings::PageScintilla(mSettings, this);
-    addSettingsPage(tr("Editor"), scintilla);
+    Settings::PageEditor *editor = new Settings::PageEditor(mSettings, this);
+    addSettingsPage(tr("Editor"), editor);
+
+    Settings::PageEditorCodec *editorCodecs = new Settings::PageEditorCodec(mSettings, this);
+    addSettingsPage(tr("Codecs"), tr("Editor"), editorCodecs);
 
     QWidget *lexerManagerWidget = mLexerManager->getLexerManagerWidget(this);
     addSettingsPage(tr("Lexers"), tr("Editor"), lexerManagerWidget);
@@ -52,7 +56,8 @@ void DlgSettings::showDialog()
     // There is no need to keep these variables in memory.
     clearPages();
     delete general;
-    delete scintilla;
+    delete editor;
+    delete editorCodecs;
     delete view;
     delete actionManagerWidget;
     delete lexerManagerWidget;

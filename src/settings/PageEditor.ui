@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PageScintilla</class>
- <widget class="QWidget" name="PageScintilla">
+ <class>PageEditor</class>
+ <widget class="QWidget" name="PageEditor">
   <property name="geometry">
    <rect>
     <x>0</x>

@@ -60,7 +60,9 @@ public:
     const QString& getLexerName();
 
     void setCodec(const QString &name);
-    QString getCodecName();
+    QString getCode();
+    void convertToCodec(const QString &name);
+
 
 signals:
     void focusReceived();

@@ -147,10 +147,16 @@ void Editor::setCodec(const QString &name)
     mBinder->setCodecName(name);
 }
 
-QString Editor::getCodecName()
+QString Editor::getCode()
 {
     return mBinder->getCodecName();
 }
+
+void Editor::convertToCodec(const QString &name)
+{
+
+}
+
 
 
 

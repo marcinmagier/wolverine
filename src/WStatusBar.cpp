@@ -126,7 +126,7 @@ void StatusBar::onCurrentEditorChanged(Editor *editor)
     else
         mLblFilePath->setText(tr("New"));
 
-    mLblCodec->setText(editor->getCodecName());
+    mLblCodec->setText(editor->getCode());
     mLblLexer->setText(editor->getLexerName());
 
     connect(editor, SIGNAL(cursorPositionChanged(int,int)),
@@ -167,7 +167,7 @@ void StatusBar::onCurrentEditorSelectionChanged()
 void StatusBar::onLblCodecClickLong(Qt::MouseButton /*button*/)
 {
     Editor *editor = mEditorProxy->getCurrentEditor();
-    QString currCodec = editor->getCodecName();
+    QString currCodec = editor->getCode();
     QMenu menu(this);
 
     QAction *action;

@@ -25,6 +25,7 @@ public:
 
     const QStringList& getCodecAvailable();
     void addCodecAvailable(const QString &codec);
+    void delCodecAvailable(const QString &codec);
 
 
 signals:

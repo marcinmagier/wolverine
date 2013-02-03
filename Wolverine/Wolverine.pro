@@ -31,8 +31,9 @@ SOURCES      += \
                 ../src/editor/qtscintilla.cpp \
                 ../src/settings/DlgSettings.cpp \
                 ../src/settings/PageGeneral.cpp \
-                ../src/settings/PageScintilla.cpp \
                 ../src/settings/PageView.cpp \
+                ../src/settings/PageEditor.cpp \
+                ../src/settings/PageEditorCodec.cpp \
                 ../src/settings/CfgAppSettings.cpp \
                 ../src/settings/CfgDynamicSettings.cpp \
                 ../src/settings/CfgGeneralSettings.cpp \
@@ -62,8 +63,9 @@ HEADERS      += \
                 ../src/editor/WEditorLexerManagerWidget.h \
                 ../src/settings/DlgSettings.h \
                 ../src/settings/PageGeneral.h \
-                ../src/settings/PageScintilla.h \
                 ../src/settings/PageView.h \
+                ../src/settings/PageEditor.h \
+                ../src/settings/PageEditorCodec.h \
                 ../include/CfgAppSettings.h \
                 ../include/CfgDynamicSettings.h \
                 ../include/CfgGeneralSettings.h \
@@ -96,8 +98,9 @@ RESOURCES    += \
 FORMS        += \
                 ../src/editor/WEditorLexerManagerWidget.ui \
                 ../src/settings/PageGeneral.ui \
-                ../src/settings/PageScintilla.ui \
-                ../src/settings/PageView.ui
+                ../src/settings/PageView.ui \
+                ../src/settings/PageEditor.ui \
+                ../src/settings/PageEditorCodec.ui
 
 
 TRANSLATIONS += \
