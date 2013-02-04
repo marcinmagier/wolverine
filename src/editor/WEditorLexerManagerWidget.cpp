@@ -268,6 +268,13 @@ void EditorLexerManagerWidget::onLexerFontChanged(const QFont &font)
     FontButton *button = dynamic_cast<FontButton*>(sender());
     QString lexName = ui->cmbLexer->currentText();
 
+    if(lexName == "Normal Text") {
+        // Normal Text has only one font type.
+        mLexerMap->value(lexName)->lexer->setDefaultFont(font);
+        mLexerMap->value(lexName)->lexer->setFont(font, -1);
+        return;
+    }
+
     if(button->index == -1)
         mLexerMap->value(lexName)->lexer->setDefaultFont(font);
     else
@@ -279,6 +286,13 @@ void EditorLexerManagerWidget::onLexerFgColorChanged(const QColor &color)
     ColorButton *button = dynamic_cast<ColorButton*>(sender());
     QString lexName = ui->cmbLexer->currentText();
 
+    if(lexName == "Normal Text") {
+        // Normal Text has only one fg color.
+        mLexerMap->value(lexName)->lexer->setDefaultColor(color);
+        mLexerMap->value(lexName)->lexer->setColor(color, -1);
+        return;
+    }
+
     if(button->index == -1)
         mLexerMap->value(lexName)->lexer->setDefaultColor(color);
     else
@@ -289,6 +303,13 @@ void EditorLexerManagerWidget::onLexerBgColorChanged(const QColor &color)
 {
     ColorButton *button = dynamic_cast<ColorButton*>(sender());
     QString lexName = ui->cmbLexer->currentText();
+
+    if(lexName == "Normal Text") {
+        // Normal Text has only one bg color.
+        mLexerMap->value(lexName)->lexer->setDefaultPaper(color);
+        mLexerMap->value(lexName)->lexer->setPaper(color, -1);
+        return;
+    }
 
     if(button->index == -1)
         mLexerMap->value(lexName)->lexer->setDefaultPaper(color);

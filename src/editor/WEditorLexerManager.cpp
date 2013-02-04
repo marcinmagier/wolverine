@@ -281,9 +281,14 @@ void EditorLexerManager::initializeLexers()
 {
     EditorLexerCfg *eLexer;
 
-    eLexer = new EditorLexerCfg(&createLexPython, true);
+    eLexer = new EditorLexerCfg(&createLexNormalText, true);
     eLexer->fileNamesPatterns << "*.txt";
     mLexerMap->insert("Normal Text", eLexer);
+
+    eLexer = new EditorLexerCfg(&createLexBash);
+    eLexer->fileNamesPatterns << "*.sh" << "*.run";
+    eLexer->fileFirstLinePatterns << "*bash*" << "*/sh*";
+    mLexerMap->insert("Bash", eLexer);
 
     eLexer = new EditorLexerCfg(&createLexCPP);
     eLexer->fileNamesPatterns << "*.c" << "*.cc" << "*.cpp" << "*.cxx" << "*.c++"

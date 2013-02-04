@@ -66,6 +66,9 @@ public:
 }
 
 
+void createLexNormalText(Wolverine::EditorLexerCfg *eLexer);
+
+void createLexBash(Wolverine::EditorLexerCfg *eLexer);
 
 void createLexCPP(Wolverine::EditorLexerCfg *eLexer);
 

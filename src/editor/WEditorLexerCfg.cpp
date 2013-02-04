@@ -26,6 +26,7 @@
 #include "WEditorLexerCfg.h"
 
 #include "qscilexer.h"
+#include "qscilexerbash.h"
 #include "qscilexercpp.h"
 #include "qscilexerjava.h"
 #include "qscilexerpython.h"
@@ -57,6 +58,33 @@ EditorLexerCfg::~EditorLexerCfg()
 
 
 
+void createLexNormalText(EditorLexerCfg *eLexer)
+{
+    QsciLexerPython *lexer = new QsciLexerPython();
+    eLexer->lexer = lexer;
+}
+
+
+
+void createLexBash(EditorLexerCfg *eLexer)
+{
+    QsciLexerBash *lexer = new QsciLexerBash();
+    eLexer->lexer = lexer;
+    eLexer->styles << QsciLexerBash::Default
+                   << QsciLexerBash::Error
+                   << QsciLexerBash::Comment
+                   << QsciLexerBash::Number
+                   << QsciLexerBash::Keyword
+                   << QsciLexerBash::DoubleQuotedString
+                   << QsciLexerBash::SingleQuotedString
+                   << QsciLexerBash::Operator
+                   << QsciLexerBash::Identifier
+                   << QsciLexerBash::Scalar
+                   << QsciLexerBash::ParameterExpansion
+                   << QsciLexerBash::Backticks
+                   << QsciLexerBash::HereDocumentDelimiter
+                   << QsciLexerBash::SingleQuotedHereDocument ;
+}
 
 
 void createLexCPP(EditorLexerCfg *eLexer)
