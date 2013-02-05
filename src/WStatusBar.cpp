@@ -68,6 +68,8 @@ StatusBar::StatusBar(EditorProxy *currentEditor, QWidget *parent) :
 {
     mLblFilePath = new QtLabel("/test/file/path");
     mLblFilePath->setStyleSheet(QString(STATUS_LABEL_STYLE));
+    mLblFilePath->setMinimumWidth(50);
+    mLblFilePath->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
     this->addPermanentWidget(mLblFilePath, 2);
 
     mLblFileStatistics = new QtLabel();
