@@ -39,6 +39,7 @@ class Editor;
 class EditorProxy;
 class PanelTabContent;
 class PanelTabBar;
+class EditorBinder;
 
 
 
@@ -72,8 +73,11 @@ private slots:
     void onInternalWidgetFocusReceived();
     void onCurrentTabChanged(int idx);
     void onTabNewRequested();
+    void onEditorStatusChanged(int status);
 
 private:
+
+
     PanelTabContent* getTabContent(int idx);
 
     PanelTabBar *mTabBar;

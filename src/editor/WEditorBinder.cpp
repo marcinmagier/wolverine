@@ -51,6 +51,7 @@ EditorBinder::EditorBinder() :
     QFileInfo( QString(tr("New %1").arg(sNewFileNo++)) )
 {
     initialize();
+    mStatus = Modified;
 }
 
 
@@ -69,6 +70,14 @@ EditorBinder::EditorBinder(const QString &path) :
         mCodec = QTextCodec::codecForUtfText(file.readLine(16), mCodec);
         file.close();
     }
+
+    if(!exists())
+        mStatus = Modified;
+    else if(!isWritable())
+        mStatus = ReadOnly;
+    else
+        mStatus = Unmodified;
+
 }
 
 
@@ -114,6 +123,8 @@ Editor* EditorBinder::getNewEditor()
 {
     Editor *newEditor = new Editor(this);
     mEditors.append(newEditor);
+    connect( newEditor, SIGNAL(modificationChanged(bool)),
+                  this, SLOT(onEditorModificationChanged(bool)) );
 
     loadFile();
 
@@ -127,6 +138,8 @@ Editor* EditorBinder::getLinkedEditor(Editor *editor)
     mEditors.append(newEditor);
     newEditor->setDocument(editor->document());
     newEditor->setLexer(editor->getLexerName());
+    connect( newEditor, SIGNAL(modificationChanged(bool)),
+                  this, SLOT(onEditorModificationChanged(bool)) );
     return newEditor;
 }
 
@@ -142,15 +155,9 @@ void EditorBinder::removeEditor(Editor *editor)
 }
 
 
-QIcon EditorBinder::getIcon() const
+EditorBinder::Status EditorBinder::getStatus() const
 {
-    if(!exists())
-        return QIcon(":/save_red.png");
-
-    if(!isWritable())
-        return QIcon(":/save_grey.png");
-
-    return QIcon(":/save_blue.png");
+    return mStatus;
 }
 
 
@@ -173,8 +180,23 @@ void EditorBinder::setCodecName(const QString &name, bool reload)
 
 
 
+void EditorBinder::onEditorModificationChanged(bool modified)
+{
+    Status stat = modified ? Modified : Unmodified;
+    setStatus(stat);
+}
 
 
+void EditorBinder::setStatus(EditorBinder::Status stat)
+{
+    if(mStatus == ReadOnly)
+        return;
+
+    if(mStatus != stat) {
+        mStatus = stat;
+        emit statusChanged(static_cast<int>(mStatus));
+    }
+}
 
 
 void EditorBinder::loadFile()
@@ -192,6 +214,8 @@ void EditorBinder::loadFile()
         in.setCodec(mCodec);
         mEditors[0]->setText(in.readAll());
         file.close();
+
+        setStatus(Unmodified);
     }
 }
 

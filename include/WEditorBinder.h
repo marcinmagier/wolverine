@@ -51,6 +51,13 @@ class EditorBinder : public QObject, public QFileInfo
     Q_OBJECT
 
 public:
+    enum Status
+    {
+        Unmodified = 0,
+        Modified,
+        ReadOnly
+    };
+
     explicit EditorBinder();
     explicit EditorBinder(const QString &path);
     virtual ~EditorBinder();
@@ -63,20 +70,29 @@ public:
     Editor* getLinkedEditor(Editor *editor);
     void removeEditor(Editor *editor);
 
-    QIcon getIcon() const;
+    Status getStatus() const;
 
 
     QString getCodecName();
     void setCodecName(const QString &name, bool reload = false);
 
 
+signals:
+    void statusChanged(int);
+
+
+private slots:
+    void onEditorModificationChanged(bool modified);
+
 
 private:
     void initialize();
     void loadFile();
+    void setStatus(Status stat);
 
 
     EditorList mEditors;
+    Status mStatus;
     QTextCodec *mCodec;
 
     static int sNewFileNo;
