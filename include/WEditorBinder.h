@@ -35,6 +35,7 @@
 
 
 class QTextCodec;
+class QFileSystemWatcher;
 
 namespace Wolverine
 {
@@ -83,17 +84,18 @@ signals:
 
 private slots:
     void onEditorModificationChanged(bool modified);
+    void onFileChanged(const QString&);
 
 
 private:
-    void initialize();
     void loadFile();
-    void setStatus(Status stat);
+    void setStatus(Status stat, bool force = false);
 
 
     EditorList mEditors;
     Status mStatus;
     QTextCodec *mCodec;
+    QFileSystemWatcher *mWatcher;
 
     static int sNewFileNo;
 };

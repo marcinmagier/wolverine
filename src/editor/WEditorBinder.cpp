@@ -34,6 +34,7 @@
 
 #include <QFile>
 #include <QFileInfo>
+#include <QFileSystemWatcher>
 #include <QTextStream>
 #include <QTextCodec>
 
@@ -50,8 +51,13 @@ EditorBinder::EditorBinder() :
     QObject(),
     QFileInfo( QString(tr("New %1").arg(sNewFileNo++)) )
 {
-    initialize();
+    mCodec = QTextCodec::codecForLocale();
+    AppSettings::instance()->scintilla->addCodecAvailable(mCodec->name());
+    mEditors.clear();
     mStatus = Modified;
+    mWatcher = new QFileSystemWatcher();
+    connect( mWatcher, SIGNAL(fileChanged(QString)),
+                 this, SLOT(onFileChanged(QString)) );
 }
 
 
@@ -59,7 +65,8 @@ EditorBinder::EditorBinder(const QString &path) :
     QObject(),
     QFileInfo(path)
 {
-    initialize();
+    mCodec = QTextCodec::codecForLocale();
+    mEditors.clear();
 
     if(exists()) {
         QString fileName(this->canonicalFilePath());
@@ -71,12 +78,19 @@ EditorBinder::EditorBinder(const QString &path) :
         file.close();
     }
 
+    AppSettings::instance()->scintilla->addCodecAvailable(mCodec->name());
+
     if(!exists())
         mStatus = Modified;
     else if(!isWritable())
         mStatus = ReadOnly;
     else
         mStatus = Unmodified;
+
+    mWatcher = new QFileSystemWatcher();
+    mWatcher->addPath(canonicalFilePath());
+    connect( mWatcher, SIGNAL(fileChanged(QString)),
+                 this, SLOT(onFileChanged(QString)) );
 
 }
 
@@ -87,14 +101,7 @@ EditorBinder::~EditorBinder()
         delete editor;
     }
 
-}
-
-
-void EditorBinder::initialize()
-{
-    mCodec = QTextCodec::codecForLocale();
-    mEditors.clear();
-    AppSettings::instance()->scintilla->addCodecAvailable(mCodec->name());
+    delete mWatcher;
 }
 
 
@@ -155,11 +162,6 @@ void EditorBinder::removeEditor(Editor *editor)
 }
 
 
-EditorBinder::Status EditorBinder::getStatus() const
-{
-    return mStatus;
-}
-
 
 QString EditorBinder::getCodecName()
 {
@@ -187,11 +189,28 @@ void EditorBinder::onEditorModificationChanged(bool modified)
 }
 
 
-void EditorBinder::setStatus(EditorBinder::Status stat)
+void EditorBinder::onFileChanged(const QString &)
 {
-    if(mStatus == ReadOnly)
+    refresh();
+
+    if(!isWritable())
+        setStatus(ReadOnly, true);
+    else
+        setStatus(Modified, true);
+}
+
+
+EditorBinder::Status EditorBinder::getStatus() const
+{
+    return mStatus;
+}
+
+void EditorBinder::setStatus(EditorBinder::Status stat, bool force)
+{
+    if( (mStatus == ReadOnly) && !force)
         return;
 
+    qDebug() << stat;
     if(mStatus != stat) {
         mStatus = stat;
         emit statusChanged(static_cast<int>(mStatus));
