@@ -29,6 +29,7 @@
 #include "qtmanagedmenu.h"
 #include "qttabwidget.h"
 
+#include "WEditorBinder.h"
 
 
 
@@ -39,7 +40,6 @@ class Editor;
 class EditorProxy;
 class PanelTabContent;
 class PanelTabBar;
-class EditorBinder;
 
 
 
@@ -60,6 +60,8 @@ public:
     void splitTab(int index);
     void removeTab(int index);
 
+    void setStatusIcon(int idx, EditorBinder::StatusInt statInt, EditorBinder::StatusExt statExt);
+
 public slots:
 
 
@@ -73,7 +75,6 @@ private slots:
     void onInternalWidgetFocusReceived();
     void onCurrentTabChanged(int idx);
     void onTabNewRequested();
-    void onEditorStatusChanged(int status);
 
 private:
 

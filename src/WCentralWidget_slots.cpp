@@ -52,6 +52,11 @@ void CentralWidget::onNew()
     int idx = mPanelCurrent->addTab(edit);
     mPanelCurrent->setCurrentIndex(idx);
     //currentEditor is updated via slot
+
+    connect( binder, SIGNAL(statusIntChanged(int)),
+               this, SLOT(onEditorStatusIntChanged(int)) );
+    connect( binder, SIGNAL(statusExtChanged(int)),
+               this, SLOT(onEditorStatusExtChanged(int)) );
 }
 
 void CentralWidget::onNewIdx(int index)
@@ -66,6 +71,11 @@ void CentralWidget::onOpen(const QString &path)
 
     int idx = mPanelCurrent->addTab(edit);
     mPanelCurrent->setCurrentIndex(idx);
+
+    connect( binder, SIGNAL(statusIntChanged(int)),
+               this, SLOT(onEditorStatusIntChanged(int)) );
+    connect( binder, SIGNAL(statusExtChanged(int)),
+               this, SLOT(onEditorStatusExtChanged(int)) );
 }
 
 void CentralWidget::onOpenForm()
@@ -167,6 +177,47 @@ void CentralWidget::onCopyToOtherIdx(int index)
         mPanelRight->setVisible(true);
     }
 }
+
+
+
+void CentralWidget::onEditorStatusIntChanged(int stat)
+{
+    EditorBinder *binder = dynamic_cast<EditorBinder*>(sender());
+    EditorBinder::StatusInt statusInt = static_cast<EditorBinder::StatusInt>(stat);
+    EditorBinder::StatusExt statusExt = binder->getStatusExt();
+
+    const EditorList &editors = binder->getEditors();
+    foreach(Editor *edit, editors) {
+        int idx = mPanelLeft->indexOf(edit);
+        if(idx >= 0)
+            mPanelLeft->setStatusIcon(idx, statusInt, statusExt);
+
+        idx = mPanelRight->indexOf(edit);
+        if(idx >= 0)
+            mPanelRight->setStatusIcon(idx, statusInt, statusExt);
+    }
+}
+
+void CentralWidget::onEditorStatusExtChanged(int stat)
+{
+    EditorBinder *binder = dynamic_cast<EditorBinder*>(sender());
+    EditorBinder::StatusExt statusExt = static_cast<EditorBinder::StatusExt>(stat);
+    EditorBinder::StatusExt statusExtOld = binder->getStatusExt();
+    EditorBinder::StatusInt statusInt = binder->getStatusInt();
+
+    const EditorList &editors = binder->getEditors();
+    foreach(Editor *edit, editors) {
+        int idx = mPanelLeft->indexOf(edit);
+        if(idx >= 0)
+            mPanelLeft->setStatusIcon(idx, statusInt, statusExt);
+
+        idx = mPanelRight->indexOf(edit);
+        if(idx >= 0)
+            mPanelRight->setStatusIcon(idx, statusInt, statusExt);
+    }
+    statusExt = statusExtOld;
+}
+
 
 
 

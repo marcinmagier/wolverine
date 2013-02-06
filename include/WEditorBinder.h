@@ -52,10 +52,16 @@ class EditorBinder : public QObject, public QFileInfo
     Q_OBJECT
 
 public:
-    enum Status
+    enum StatusInt
     {
-        Unmodified = 0,
-        Modified,
+        Unmodified,
+        Modified
+    };
+
+    enum StatusExt
+    {
+        Normal,
+        NotExists,
         ReadOnly
     };
 
@@ -71,7 +77,8 @@ public:
     Editor* getLinkedEditor(Editor *editor);
     void removeEditor(Editor *editor);
 
-    Status getStatus() const;
+    StatusInt getStatusInt() const;
+    StatusExt getStatusExt() const;
 
 
     QString getCodecName();
@@ -79,7 +86,8 @@ public:
 
 
 signals:
-    void statusChanged(int);
+    void statusIntChanged(int);
+    void statusExtChanged(int);
 
 
 private slots:
@@ -89,11 +97,13 @@ private slots:
 
 private:
     void loadFile();
-    void setStatus(Status stat, bool force = false);
+    void setStatusInt(StatusInt stat, bool force = false);
+    void setStatusExt(StatusExt stat, bool force = false);
 
 
     EditorList mEditors;
-    Status mStatus;
+    StatusInt mStatusInt;
+    StatusExt mStatusExt;
     QTextCodec *mCodec;
     QFileSystemWatcher *mWatcher;
 

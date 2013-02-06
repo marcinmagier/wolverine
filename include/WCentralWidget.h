@@ -77,9 +77,12 @@ private slots:
     void onMoveToOtherIdx(int index);
     void onCopyToOtherIdx(int index);
 
+    void onEditorStatusIntChanged(int stat);
+    void onEditorStatusExtChanged(int stat);
 
     void onInternalWidgetFocusReceived();
     void onCustomContextMenuRequested(QPoint pos);
+
 
 
 private:

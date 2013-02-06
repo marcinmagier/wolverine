@@ -21,7 +21,6 @@
  */
 
 #include "WEditor.h"
-#include "WEditorBinder.h"
 #include "WEditorProxy.h"
 #include "WPanel.h"
 #include "WPanelTabBar.h"
@@ -34,16 +33,6 @@
 using namespace Wolverine;
 
 
-QIcon statusIcon(EditorBinder::Status status)
-{
-    if(status == EditorBinder::Unmodified)
-        return QIcon(":/save_blue.png");
-
-    if(status == EditorBinder::ReadOnly)
-        return QIcon(":/save_grey.png");
-
-    return QIcon(":/save_red.png");
-}
 
 
 
@@ -103,11 +92,11 @@ int Panel::addTab(Editor *editor)
     PanelTabContent *tabContent = new PanelTabContent(this);
     connect( tabContent, SIGNAL(focusReceived()),
                  this, SLOT(onInternalWidgetFocusReceived()), Qt::UniqueConnection );
-    connect( binder, SIGNAL(statusChanged(int)),
-               this, SLOT(onEditorStatusChanged(int)) );
     tabContent->addWidget(editor);
 
-    return QtTabWidget::addTab(tabContent, statusIcon(binder->getStatus()), binder->fileName());
+    int idx = QtTabWidget::addTab(tabContent, binder->fileName());
+    setStatusIcon(idx, binder->getStatusInt(), binder->getStatusExt());
+    return idx;
 }
 
 
@@ -196,6 +185,21 @@ void Panel::removeTab(int index)
 
 
 
+void Panel::setStatusIcon(int idx, EditorBinder::StatusInt statInt, EditorBinder::StatusExt statExt)
+{
+    if(statExt == EditorBinder::ReadOnly) {
+        QtTabWidget::setTabIcon(idx, QIcon(":/save_grey.png"));
+        return;
+    }
+
+    if( (statExt == EditorBinder::Normal) && (statInt == EditorBinder::Unmodified) ) {
+        QtTabWidget::setTabIcon(idx, QIcon(":/save_blue.png"));
+        return;
+    }
+
+    QtTabWidget::setTabIcon(idx, QIcon(":/save_red.png"));
+}
+
 
 /**
  *  TabBar's customContextMenuRequested() signal handler.
@@ -247,20 +251,6 @@ void Panel::onCurrentTabChanged(int idx)
 void Panel::onTabNewRequested()
 {
     emit tabNewRequested();
-}
-
-
-void Panel::onEditorStatusChanged(int status)
-{
-    EditorBinder::Status stat = static_cast<EditorBinder::Status>(status);
-    EditorBinder *binder = dynamic_cast<EditorBinder*>(sender());
-    const EditorList &editors = binder->getEditors();
-
-    foreach(Editor *edit, editors) {
-        int idx = indexOf(edit);
-        if(idx >= 0)
-            QtTabWidget::setTabIcon(idx, statusIcon(stat));
-    }
 }
 
 

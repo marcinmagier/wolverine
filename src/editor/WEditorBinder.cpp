@@ -54,7 +54,8 @@ EditorBinder::EditorBinder() :
     mCodec = QTextCodec::codecForLocale();
     AppSettings::instance()->scintilla->addCodecAvailable(mCodec->name());
     mEditors.clear();
-    mStatus = Modified;
+    mStatusInt = Modified;
+    mStatusExt = NotExists;
     mWatcher = new QFileSystemWatcher();
     connect( mWatcher, SIGNAL(fileChanged(QString)),
                  this, SLOT(onFileChanged(QString)) );
@@ -80,12 +81,16 @@ EditorBinder::EditorBinder(const QString &path) :
 
     AppSettings::instance()->scintilla->addCodecAvailable(mCodec->name());
 
-    if(!exists())
-        mStatus = Modified;
-    else if(!isWritable())
-        mStatus = ReadOnly;
-    else
-        mStatus = Unmodified;
+    if(!exists()) {
+        mStatusInt = Modified;
+        mStatusExt = NotExists;
+    } else if(!isWritable()) {
+        mStatusInt = Unmodified;
+        mStatusExt = ReadOnly;
+    } else {
+        mStatusInt = Unmodified;
+        mStatusExt = Normal;
+    }
 
     mWatcher = new QFileSystemWatcher();
     mWatcher->addPath(canonicalFilePath());
@@ -184,39 +189,55 @@ void EditorBinder::setCodecName(const QString &name, bool reload)
 
 void EditorBinder::onEditorModificationChanged(bool modified)
 {
-    Status stat = modified ? Modified : Unmodified;
-    setStatus(stat);
+    StatusInt stat = modified ? Modified : Unmodified;
+    setStatusInt(stat);
 }
 
 
 void EditorBinder::onFileChanged(const QString &)
 {
-    refresh();
+    QFileInfo::refresh();
 
-    if(!isWritable())
-        setStatus(ReadOnly, true);
-    else
-        setStatus(Modified, true);
-}
-
-
-EditorBinder::Status EditorBinder::getStatus() const
-{
-    return mStatus;
-}
-
-void EditorBinder::setStatus(EditorBinder::Status stat, bool force)
-{
-    if( (mStatus == ReadOnly) && !force)
-        return;
-
-    qDebug() << stat;
-    if(mStatus != stat) {
-        mStatus = stat;
-        emit statusChanged(static_cast<int>(mStatus));
+    if(!exists()) {
+        setStatusExt(NotExists);
+        mStatusInt = Modified;
+    } else if(!isWritable()) {
+        setStatusExt(ReadOnly);
+        mStatusInt = Unmodified;
+    } else {
+        setStatusExt(Normal, true);
     }
 }
 
+
+EditorBinder::StatusInt EditorBinder::getStatusInt() const
+{
+    return mStatusInt;
+}
+
+EditorBinder::StatusExt EditorBinder::getStatusExt() const
+{
+    return mStatusExt;
+}
+
+void EditorBinder::setStatusInt(EditorBinder::StatusInt stat, bool force)
+{
+    if(mStatusExt == ReadOnly)
+        return;
+
+    if( (mStatusInt != stat) || force) {
+        emit statusIntChanged(static_cast<int>(stat));
+        mStatusInt = stat;
+    }
+}
+
+void EditorBinder::setStatusExt(StatusExt stat, bool force)
+{
+    if( (mStatusExt != stat) || force) {
+        emit statusExtChanged(static_cast<int>(stat));
+        mStatusExt = stat;
+    }
+}
 
 void EditorBinder::loadFile()
 {
@@ -234,7 +255,7 @@ void EditorBinder::loadFile()
         mEditors[0]->setText(in.readAll());
         file.close();
 
-        setStatus(Unmodified);
+        setStatusInt(Unmodified);
     }
 }
 
