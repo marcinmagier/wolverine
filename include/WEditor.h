@@ -56,7 +56,7 @@ public:
     QString getFileName();
     QString getFilePath();
 
-    void setLexer(const QString &name);
+    void setLexer(const QString &name, bool forAllLiked=true);
     const QString& getLexerName();
 
     void setCodec(const QString &name);
