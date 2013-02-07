@@ -51,7 +51,18 @@ PageGeneral::PageGeneral(AppSettings *settings, QWidget *parent) :
              settings->startup, SLOT(setLogFileEnabled(bool)), Qt::DirectConnection );
 
     ui->editLogFilePath->setText(settings->startup->getLogFilePath());
-    //ui->editLogFilePath is connected automatically
+    ui->editLogFilePath->setEnabled(settings->startup->isLogFileEnabled());
+    connect(    ui->chboxFileLog, SIGNAL(toggled(bool)),
+             ui->editLogFilePath, SLOT(setEnabled(bool)) );
+
+    //ui->btnLogFilePathDlg is connected automatically
+    ui->btnLogFilePathDlg->setEnabled(settings->startup->isLogFileEnabled());
+    connect(      ui->chboxFileLog, SIGNAL(toggled(bool)),
+             ui->btnLogFilePathDlg, SLOT(setEnabled(bool)) );
+
+    ui->lblLogFilePath->setEnabled(settings->startup->isLogFileEnabled());
+    connect(   ui->chboxFileLog, SIGNAL(toggled(bool)),
+             ui->lblLogFilePath, SLOT(setEnabled(bool)) );
 
 }
 
