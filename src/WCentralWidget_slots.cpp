@@ -99,6 +99,21 @@ void CentralWidget::onOpenForm()
     }
 }
 
+void CentralWidget::onSave()
+{
+
+}
+
+void CentralWidget::onSaveForm()
+{
+
+}
+
+void CentralWidget::onSaveAll()
+{
+
+}
+
 void CentralWidget::onClose()
 {
     this->onCloseIdx(mPanelCurrent->currentIndex());

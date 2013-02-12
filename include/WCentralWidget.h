@@ -59,9 +59,14 @@ public slots:
     void onOpen(const QString &path);
     void onOpenForm();
 
+    void onSave();
+    void onSaveForm();
+    void onSaveAll();
+
     void onClose();
     void onCloseOthers();
     void onCloseAll();
+
 
     void onSplit();
     void onMoveToOther();

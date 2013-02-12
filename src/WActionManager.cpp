@@ -155,6 +155,20 @@ void initializeActions()
     action->setStatusTip(QObject::tr("Open existing file"));
     sInstance->addAction(W_ACTION_GROUP_FILE, W_ACTION_OPEN, action);
 
+    action = new QAction(QObject::tr("Save"), 0);
+    action->setShortcut(QObject::tr("Ctrl+S"));
+    action->setStatusTip(QObject::tr("Save file"));
+    sInstance->addAction(W_ACTION_GROUP_FILE, W_ACTION_SAVE, action);
+
+    action = new QAction(QObject::tr("Save As..."), 0);
+    action->setShortcut(QObject::tr("Ctrl+Alt+S"));
+    action->setStatusTip(QObject::tr("Save file as ..."));
+    sInstance->addAction(W_ACTION_GROUP_FILE, W_ACTION_SAVE_AS, action);
+
+    action = new QAction(QObject::tr("Save All"), 0);
+    action->setShortcut(QObject::tr("Ctrl+Shift+S"));
+    action->setStatusTip(QObject::tr("Save all files"));
+    sInstance->addAction(W_ACTION_GROUP_FILE, W_ACTION_SAVE_ALL, action);
 
     action = new QAction(QObject::tr("Close"), 0);
     action->setShortcut(QObject::tr("Ctrl+W"));
@@ -173,11 +187,31 @@ void initializeActions()
 
 
 
-
     action = new QAction(QObject::tr("Undo"), 0);
     action->setShortcut(QObject::tr("Ctrl+Z"));
     action->setStatusTip(QObject::tr("Undo action"));
     sInstance->addAction(W_ACTION_GROUP_EDIT, W_ACTION_UNDO, action);
+
+    action = new QAction(QObject::tr("Redo"), 0);
+    action->setShortcut(QObject::tr("Ctrl+Y"));
+    action->setStatusTip(QObject::tr("Redo action"));
+    sInstance->addAction(W_ACTION_GROUP_EDIT, W_ACTION_REDO, action);
+
+    action = new QAction(QObject::tr("Cut"), 0);
+    action->setShortcut(QObject::tr("Ctrl+X"));
+    action->setStatusTip(QObject::tr("Cut selection"));
+    sInstance->addAction(W_ACTION_GROUP_EDIT, W_ACTION_CUT, action);
+
+    action = new QAction(QObject::tr("Copy"), 0);
+    action->setShortcut(QObject::tr("Ctrl+C"));
+    action->setStatusTip(QObject::tr("Copy selection"));
+    sInstance->addAction(W_ACTION_GROUP_EDIT, W_ACTION_COPY, action);
+
+    action = new QAction(QObject::tr("Paste"), 0);
+    action->setShortcut(QObject::tr("Ctrl+V"));
+    action->setStatusTip(QObject::tr("Paste"));
+    sInstance->addAction(W_ACTION_GROUP_EDIT, W_ACTION_PASTE, action);
+
 
 
     action = new QAction(QObject::tr("Customize"), 0);
@@ -207,9 +241,9 @@ void initializeActions()
 
 
 
-    sInstance->addScheme("VimCommand");
-    sInstance->addScheme("VimInput");
-    sInstance->addScheme("VimVisible");
+   // sInstance->addScheme("VimCommand");
+ //   sInstance->addScheme("VimInput");
+  //  sInstance->addScheme("VimVisible");
 
     sInstance->setScheme("Default");
 

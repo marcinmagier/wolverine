@@ -58,6 +58,16 @@ void EditorProxy::setCurrentEditorLexer(const QString &name)
 }
 
 
+void EditorProxy::onUndo()
+{
+
+}
+
+void EditorProxy::onRedo()
+{
+
+}
+
 void EditorProxy::onCut()
 {
 

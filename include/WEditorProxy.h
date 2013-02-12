@@ -57,6 +57,9 @@ public slots:
     void setCurrentEditor(Editor *editor);
     void setCurrentEditorLexer(const QString &name);
 
+    void onUndo();
+    void onRedo();
+
     void onCut();
     void onCopy();
     void onPaste();
