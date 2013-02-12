@@ -60,28 +60,28 @@ void EditorProxy::setCurrentEditorLexer(const QString &name)
 
 void EditorProxy::onUndo()
 {
-
+    mCurrentEditor->undo();
 }
 
 void EditorProxy::onRedo()
 {
-
+    mCurrentEditor->redo();
 }
 
 void EditorProxy::onCut()
 {
-
+    mCurrentEditor->cut();
 }
 
 void EditorProxy::onCopy()
 {
-
+    mCurrentEditor->copy();
 }
 
 
 void EditorProxy::onPaste()
 {
-
+    mCurrentEditor->paste();
 }
 
 
