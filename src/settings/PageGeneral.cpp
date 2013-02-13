@@ -7,6 +7,7 @@
 #include "CfgAppSettings.h"
 #include "CfgStartupSettings.h"
 #include "CfgDynamicSettings.h"
+#include "CfgGeneralSettings.h"
 
 #include <QFileInfo>
 #include <QFileDialog>
@@ -24,6 +25,18 @@ PageGeneral::PageGeneral(AppSettings *settings, QWidget *parent) :
     ui->chboxSingleInstance->setChecked(settings->startup->isAlwaysNewInstance());
     connect( ui->chboxSingleInstance, SIGNAL(toggled(bool)),
                    settings->startup, SLOT(setAlwaysNewInstance(bool)), Qt::DirectConnection );
+
+    ui->checkOpenFromCurrent->setChecked( settings->general->isAppOpenFromCurrentEnabled() );
+    connect (ui->checkOpenFromCurrent, SIGNAL(toggled(bool)),
+                    settings->general, SLOT(setAppOpenFromCurrentEnabled(bool)), Qt::DirectConnection );
+
+    ui->checkBackupVer->setChecked( settings->general->isAppBackupCopyEnabled() );
+    connect( ui->checkBackupVer, SIGNAL(toggled(bool)),
+              settings->general, SLOT(setAppBackupCopyEnabled(bool)), Qt::DirectConnection );
+
+    ui->checkCloseWhenLastClosed->setChecked( settings->general->isAppCloseWhenLastTabClosed() );
+    connect( ui->checkCloseWhenLastClosed, SIGNAL(toggled(bool)),
+                        settings->general, SLOT(setAppCloseWhenLastTabClosed(bool)), Qt::DirectConnection );
 
 
     mTranslations = settings->dynamic->getTranslations();
