@@ -38,9 +38,9 @@ PageView::PageView(AppSettings *settings, QWidget *parent) :
              settings->view, SLOT(setPopupFgColor(QColor)), Qt::DirectConnection );
 
 
-    ui->checkTabsMovable->setChecked( settings->view->isTabBarLocked() );
+    ui->checkTabsMovable->setChecked( settings->view->isTabBarMovable() );
     connect( ui->checkTabsMovable, SIGNAL(toggled(bool)),
-                    settings->view, SLOT(setTabBarLocked(bool)), Qt::DirectConnection );
+                    settings->view, SLOT(setTabBarMovable(bool)), Qt::DirectConnection );
 
     ui->checkCloseBtnVisible->setChecked( settings->view->isTabBarCloseVisible() );
     connect( ui->checkCloseBtnVisible, SIGNAL(toggled(bool)),

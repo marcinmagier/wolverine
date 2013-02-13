@@ -46,7 +46,7 @@ PanelTabBar::PanelTabBar(QWidget *parent) :
 
     AppSettings *settings = AppSettings::instance();
 
-    this->setMovable(settings->view->isTabBarLocked());
+    this->setMovable(settings->view->isTabBarMovable());
     this->setTabsClosable(settings->view->isTabBarCloseVisible());
     this->enableModernStyle( settings->view->isTabBarModernStyleEnabled());
 
@@ -59,8 +59,8 @@ PanelTabBar::PanelTabBar(QWidget *parent) :
                        this, SLOT(enableModernStyle(bool)), Qt::DirectConnection );
     connect( settings->view, SIGNAL(tabBarCloseVisibleChanged(bool)),
                        this, SLOT(onTabBarCloseVisibleChanged(bool)), Qt::DirectConnection );
-    connect( settings->view, SIGNAL(tabBarLockedChanged(bool)),
-                       this, SLOT(onTabBarLockedChanged(bool)), Qt::DirectConnection );
+    connect( settings->view, SIGNAL(tabBarMovableChanged(bool)),
+                       this, SLOT(onTabBarMovableChanged(bool)), Qt::DirectConnection );
 
 }
 
@@ -129,7 +129,7 @@ void PanelTabBar::mouseDoubleClickEvent(QMouseEvent *event)
  *
  * @param val
  */
-void PanelTabBar::onTabBarLockedChanged(bool val)
+void PanelTabBar::onTabBarMovableChanged(bool val)
 {
     this->setMovable(val);
 }

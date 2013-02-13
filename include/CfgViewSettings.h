@@ -15,7 +15,7 @@ class ViewSettings : public QObject
     Q_PROPERTY(QColor   popupBgColor                READ getPopupBgColor                WRITE setPopupBgColor               )
     Q_PROPERTY(QColor   popupFgColor                READ getPopupFgColor                WRITE setPopupFgColor               )
 
-    Q_PROPERTY(bool     tabBarLocked                READ isTabBarLocked                 WRITE setTabBarLocked               )
+    Q_PROPERTY(bool     tabBarMovable               READ isTabBarMovable                WRITE setTabBarMovable              )
     Q_PROPERTY(bool     tabBarCloseVisible          READ isTabBarCloseVisible           WRITE setTabBarCloseVisible         )
     Q_PROPERTY(bool     tabBarDoubleClkClose        READ isTabBarDoubleClkClose         WRITE setTabBarDoubleClkClose       )
     Q_PROPERTY(bool     tabBarDoubleClkNew          READ isTabBarDoubleClkNew           WRITE setTabBarDoubleClkNew         )
@@ -33,7 +33,7 @@ public:
     QColor getPopupBgColor();
     QColor getPopupFgColor();
 
-    bool isTabBarLocked();
+    bool isTabBarMovable();
     bool isTabBarCloseVisible();
     bool isTabBarDoubleClkClose();
     bool isTabBarDoubleClkNew();
@@ -49,7 +49,7 @@ signals:
     void popupBgColorChanged(QColor val);
     void popupFgColorChanged(QColor val);
 
-    void tabBarLockedChanged(bool val);
+    void tabBarMovableChanged(bool val);
     void tabBarCloseVisibleChanged(bool val);
     void tabBarDoubleClkCloseChanged(bool val);
     void tabBarDoubleClkCloseNew(bool val);
@@ -65,7 +65,7 @@ public slots:
     void setPopupBgColor(QColor val);
     void setPopupFgColor(QColor val);
 
-    void setTabBarLocked(bool val);
+    void setTabBarMovable(bool val);
     void setTabBarCloseVisible(bool val);
     void setTabBarDoubleClkClose(bool val);
     void setTabBarDoubleClkNew(bool val);
@@ -81,7 +81,7 @@ private:
     QColor mPopupBgColor;
     QColor mPopupFgColor;
 
-    bool mTabBarLocked;
+    bool mTabBarMovable;
     bool mTabBarCloseVisible;
     bool mTabBarDoubleClkClose;
     bool mTabBarDoubleClkNew;

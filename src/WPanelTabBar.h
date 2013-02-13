@@ -43,7 +43,7 @@ public:
     
 
 private slots:
-    void onTabBarLockedChanged(bool val);
+    void onTabBarMovableChanged(bool val);
     void onTabBarCloseVisibleChanged(bool val);
 
 signals:

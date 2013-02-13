@@ -13,7 +13,7 @@ ViewSettings::ViewSettings()
     mPopupFgColor = QApplication::palette().color(QPalette::ToolTipText);
 
 
-    mTabBarLocked = false;
+    mTabBarMovable = true;
     mTabBarCloseVisible = true;
     mTabBarDoubleClkClose = true;
     mTabBarDoubleClkNew = true;
@@ -84,16 +84,16 @@ QColor ViewSettings::getPopupFgColor()
 
 //=======================  TabBar  ==========================================//
 
-void ViewSettings::setTabBarLocked(bool val)
+void ViewSettings::setTabBarMovable(bool val)
 {
-    if(mTabBarLocked != val) {
-        mTabBarLocked = val;
-        emit tabBarLockedChanged(mTabBarLocked);
+    if(mTabBarMovable != val) {
+        mTabBarMovable = val;
+        emit tabBarMovableChanged(mTabBarMovable);
     }
 }
-bool ViewSettings::isTabBarLocked()
+bool ViewSettings::isTabBarMovable()
 {
-    return mTabBarLocked;
+    return mTabBarMovable;
 }
 
 void ViewSettings::setTabBarCloseVisible(bool val)
