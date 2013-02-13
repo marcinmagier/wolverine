@@ -57,6 +57,8 @@ void CentralWidget::onNew()
                this, SLOT(onEditorStatusIntChanged(int)) );
     connect( binder, SIGNAL(statusExtChanged(int)),
                this, SLOT(onEditorStatusExtChanged(int)) );
+    connect( binder, SIGNAL(fileInfoChanged(QFileInfo*)),
+               this, SLOT(onEditorFileInfoChanged(QFileInfo*)) );
 }
 
 void CentralWidget::onNewIdx(int index)
@@ -76,6 +78,8 @@ void CentralWidget::onOpen(const QString &path)
                this, SLOT(onEditorStatusIntChanged(int)) );
     connect( binder, SIGNAL(statusExtChanged(int)),
                this, SLOT(onEditorStatusExtChanged(int)) );
+    connect( binder, SIGNAL(fileInfoChanged(QFileInfo*)),
+               this, SLOT(onEditorFileInfoChanged(QFileInfo*)) );
 }
 
 void CentralWidget::onOpenForm()
@@ -233,6 +237,12 @@ void CentralWidget::onEditorStatusExtChanged(int stat)
     EditorBinder::StatusExt statusExtOld = binder->getStatusExt();
     EditorBinder::StatusInt statusInt = binder->getStatusInt();
 
+    //TODO: Show message window to inform user about change.
+    // statusExt == Normal && statusExt == Normal
+        //&& statusInt == Unmodified ==> Ask if file should be reloaded?
+        //&& statusInt == Modified ==> Ask if file should be reloaded or saved as new file?
+
+
     const EditorList &editors = binder->getEditors();
     foreach(Editor *edit, editors) {
         int idx = mPanelLeft->indexOf(edit);
@@ -246,6 +256,21 @@ void CentralWidget::onEditorStatusExtChanged(int stat)
     statusExt = statusExtOld;
 }
 
+void CentralWidget::onEditorFileInfoChanged(QFileInfo *fileinfo)
+{
+    EditorBinder *binder = dynamic_cast<EditorBinder*>(sender());
+
+    const EditorList &editors = binder->getEditors();
+    foreach(Editor *edit, editors) {
+        int idx = mPanelLeft->indexOf(edit);
+        if(idx >= 0)
+            mPanelLeft->setTabText(idx, fileinfo->fileName());
+
+        idx = mPanelRight->indexOf(edit);
+        if(idx >= 0)
+            mPanelRight->setTabText(idx, fileinfo->fileName());
+    }
+}
 
 
 

@@ -25,6 +25,7 @@
  #define __W_CENTRAL_WIDGET_H_
 
 
+class QFileInfo;
 class QHBoxLayout;
 class QSplitter;
 class QtManagedMenu;
@@ -84,6 +85,7 @@ private slots:
 
     void onEditorStatusIntChanged(int stat);
     void onEditorStatusExtChanged(int stat);
+    void onEditorFileInfoChanged(QFileInfo *fileinfo);
 
     void onInternalWidgetFocusReceived();
     void onCustomContextMenuRequested(QPoint pos);

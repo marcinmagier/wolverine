@@ -49,6 +49,9 @@ using namespace Wolverine;
 int EditorBinder::sNewFileNo = 1;
 
 
+/**
+ *  Constructor.
+ */
 EditorBinder::EditorBinder() :
     QObject(),
     QFileInfo( QString(tr("New %1").arg(sNewFileNo++)) )
@@ -56,6 +59,7 @@ EditorBinder::EditorBinder() :
     mCodec = QTextCodec::codecForLocale();
     AppSettings::instance()->scintilla->addCodecAvailable(mCodec->name());
     mEditors.clear();
+
     mStatusInt = Modified;
     mStatusExt = New;
     mWatcher = new QFileSystemWatcher();
@@ -64,6 +68,11 @@ EditorBinder::EditorBinder() :
 }
 
 
+/**
+ *  Constructor.
+ *
+ * @param path
+ */
 EditorBinder::EditorBinder(const QString &path) :
     QObject(),
     QFileInfo(path)
@@ -77,7 +86,8 @@ EditorBinder::EditorBinder(const QString &path) :
         if(!file.open(QIODevice::ReadOnly))
             LOG_ERROR("Cannot open the file %s", fileName.constData());
 
-        mCodec = QTextCodec::codecForUtfText(file.readLine(16), mCodec);
+        #define MAX_CHARS_READ 16
+        mCodec = QTextCodec::codecForUtfText(file.readLine(MAX_CHARS_READ), mCodec);
         file.close();
     }
 
@@ -95,13 +105,15 @@ EditorBinder::EditorBinder(const QString &path) :
     }
 
     mWatcher = new QFileSystemWatcher();
-    mWatcher->addPath(canonicalFilePath());
+    mWatcher->addPath(absoluteFilePath());
     connect( mWatcher, SIGNAL(fileChanged(QString)),
                  this, SLOT(onFileChanged(QString)) );
-
 }
 
 
+/**
+ *  Destructor.
+ */
 EditorBinder::~EditorBinder()
 {
     foreach(Editor *editor, mEditors) {
@@ -112,13 +124,22 @@ EditorBinder::~EditorBinder()
 }
 
 
-
+/**
+ *  Checks if has any editor.
+ *
+ * @return
+ */
 bool EditorBinder::hasEditors() const
 {
     return !mEditors.empty();
 }
 
 
+/**
+ *  Returns editor. New editor is created if there is no editors.
+ *
+ * @return
+ */
 Editor* EditorBinder::getEditor()
 {
     if(mEditors.empty())
@@ -127,12 +148,23 @@ Editor* EditorBinder::getEditor()
     return mEditors[0];
 }
 
+
+/**
+ *  Returns list of editors associated with binder.
+ *
+ * @return
+ */
 EditorList& EditorBinder::getEditors()
 {
    return mEditors;
 }
 
 
+/**
+ *  Creates and returns new editor.
+ *
+ * @return
+ */
 Editor* EditorBinder::getNewEditor()
 {
     Editor *newEditor = new Editor(this);
@@ -140,12 +172,20 @@ Editor* EditorBinder::getNewEditor()
     connect( newEditor, SIGNAL(modificationChanged(bool)),
                   this, SLOT(onEditorModificationChanged(bool)) );
 
-    reloadFile();
+    loadFile();
 
     return newEditor;
 }
 
 
+/**
+ *  Creates and returns linked editor.
+ *
+ * Linked editors share the same qsci document.
+ *
+ * @param editor
+ * @return
+ */
 Editor* EditorBinder::getLinkedEditor(Editor *editor)
 {
     Editor *newEditor = new Editor(this);
@@ -158,11 +198,18 @@ Editor* EditorBinder::getLinkedEditor(Editor *editor)
 }
 
 
+/**
+ *  Removes editor.
+ *
+ * @param editor
+ */
 void EditorBinder::removeEditor(Editor *editor)
 {
     QString lexName = editor->getLexerName();
     mEditors.removeAll(editor);
     delete editor;
+
+    // Update lexer for linked editors.
     foreach(Editor *editor, mEditors) {
         editor->setLexer(lexName);
     }
@@ -170,11 +217,23 @@ void EditorBinder::removeEditor(Editor *editor)
 
 
 
+/**
+ *  Returns current codec name.
+ *
+ * @return
+ */
 QString EditorBinder::getCodecName()
 {
     return QString(mCodec->name());
 }
 
+
+/**
+ *  Update codec.
+ *
+ * @param name
+ * @param reload    - if true file will be reloaded with new codec.
+ */
 void EditorBinder::setCodecName(const QString &name, bool reload)
 {
     QTextCodec *tmp = QTextCodec::codecForName(name.toAscii());
@@ -184,11 +243,16 @@ void EditorBinder::setCodecName(const QString &name, bool reload)
         LOG_WARNING("Codec %s not known", name.constData());
 
     if(reload)
-        reloadFile();
+        loadFile();
 }
 
 
 
+/**
+ *  Slot is called when editor's modification flag changed.
+ *
+ * @param modified
+ */
 void EditorBinder::onEditorModificationChanged(bool modified)
 {
     StatusInt stat = modified ? Modified : Unmodified;
@@ -196,6 +260,10 @@ void EditorBinder::onEditorModificationChanged(bool modified)
 }
 
 
+/**
+ *  Slot is called when file changeg externally.
+ *
+ */
 void EditorBinder::onFileChanged(const QString &)
 {
     QFileInfo::refresh();
@@ -212,36 +280,74 @@ void EditorBinder::onFileChanged(const QString &)
 }
 
 
+/**
+ *  Returns binder's StatusInt.
+ *
+ * EditorBinder::StatusInt says if editor is modified or not.
+ *
+ * @return
+ */
 EditorBinder::StatusInt EditorBinder::getStatusInt() const
 {
     return mStatusInt;
 }
 
+
+/**
+ *  Returns binder's StatusExt.
+ *
+ * EditorBinder::StatusExt says if file exists or not, is writable etc.
+ *
+ * @return
+ */
 EditorBinder::StatusExt EditorBinder::getStatusExt() const
 {
     return mStatusExt;
 }
 
+
+/**
+ *  Updates binder's StatusInt
+ *
+ * @param stat
+ * @param force
+ */
 void EditorBinder::setStatusInt(EditorBinder::StatusInt stat, bool force)
 {
     if(mStatusExt == ReadOnly)
         return;
 
     if( (mStatusInt != stat) || force) {
+        // Emit signal with new status before changing internal variable
+        // so that receiver can check old status with getStatus().
         emit statusIntChanged(static_cast<int>(stat));
         mStatusInt = stat;
     }
 }
 
+
+/**
+ *  Updates binder's StatusExt
+ *
+ * @param stat
+ * @param force
+ */
 void EditorBinder::setStatusExt(StatusExt stat, bool force)
 {
     if( (mStatusExt != stat) || force) {
+        // Emit signal with new status before changing internal variable
+        // so that receiver can check old status with getStatus().
         emit statusExtChanged(static_cast<int>(stat));
         mStatusExt = stat;
     }
 }
 
 
+/**
+ *  Saves file.
+ *
+ * Other module that calls this function should check if StatusExt is not New.
+ */
 void EditorBinder::saveFile()
 {
     if(mStatusInt == Unmodified)
@@ -250,19 +356,20 @@ void EditorBinder::saveFile()
     if(mStatusExt == New)
         LOG_ERROR("Binder shouldn't be New here");
 
-    QString fileName = this->absoluteFilePath();
-    if(QFile::exists(fileName) && AppSettings::instance()->general->isAppBackupCopyEnabled()) {
-        QString backupName = QFileInfo(absoluteDir(), baseName().append(".bak")).absoluteFilePath();
+    QString fname = this->absoluteFilePath();
+    if(QFile::exists(fname) && AppSettings::instance()->general->isAppBackupCopyEnabled()) {
+        QString backupName = QString("~").append(fileName());
+        backupName = QFileInfo(absoluteDir(), backupName).absoluteFilePath();
         if(QFile::exists(backupName))
             QFile::remove(backupName);
-        QFile::copy(fileName, backupName);
+        QFile::copy(fname, backupName);
     }
 
-    mWatcher->removePath(fileName);
+    mWatcher->removePath(fname);
 
-    QFile file(fileName);
+    QFile file(fname);
     if(!file.open(QIODevice::WriteOnly))
-        LOG_ERROR("Cannot open file %s", fileName.constData());
+        LOG_ERROR("Cannot open file %s", fname.constData());
 
     Editor *edit = mEditors[0];
     file.write(mCodec->fromUnicode(edit->text()));
@@ -272,17 +379,29 @@ void EditorBinder::saveFile()
     setStatusInt(Unmodified, true);
     setStatusExt(Normal);
 
-    mWatcher->addPath(fileName);
+    mWatcher->addPath(fname);
 }
 
+
+/**
+ *  Save file on the given path. Binder's file info part is updated.
+ * @param path
+ */
 void EditorBinder::saveFile(const QString &path)
 {
-    this->setFile(path);
-    onFileChanged(path);
-    this->saveFile();
+    if(path != absoluteFilePath()) {
+        setFile(path);
+        onFileChanged(path);    // Refresh SatusInt and StatusExt
+        emit fileInfoChanged(this);
+    }
+    saveFile();
 }
 
-void EditorBinder::reloadFile()
+
+/**
+ *  Loads file.
+ */
+void EditorBinder::loadFile()
 {
     if(mEditors.length() == 0)
         LOG_WARNING("Editor doesn't exist");

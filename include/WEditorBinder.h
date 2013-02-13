@@ -87,11 +87,12 @@ public:
 
     void saveFile();
     void saveFile(const QString &path);
-    void reloadFile();
+    void loadFile();
 
 signals:
     void statusIntChanged(int);
     void statusExtChanged(int);
+    void fileInfoChanged(QFileInfo *fileinfo);
 
 
 private slots:
