@@ -27,6 +27,7 @@
 #include "WEditor.h"
 
 #include "CfgAppSettings.h"
+#include "CfgGeneralSettings.h"
 #include "CfgScintillaSettings.h"
 
 #include "Logger.h"
@@ -35,6 +36,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QFileSystemWatcher>
+#include <QDir>
 #include <QTextStream>
 #include <QTextCodec>
 
@@ -55,7 +57,7 @@ EditorBinder::EditorBinder() :
     AppSettings::instance()->scintilla->addCodecAvailable(mCodec->name());
     mEditors.clear();
     mStatusInt = Modified;
-    mStatusExt = NotExists;
+    mStatusExt = New;
     mWatcher = new QFileSystemWatcher();
     connect( mWatcher, SIGNAL(fileChanged(QString)),
                  this, SLOT(onFileChanged(QString)) );
@@ -138,7 +140,7 @@ Editor* EditorBinder::getNewEditor()
     connect( newEditor, SIGNAL(modificationChanged(bool)),
                   this, SLOT(onEditorModificationChanged(bool)) );
 
-    loadFile();
+    reloadFile();
 
     return newEditor;
 }
@@ -182,7 +184,7 @@ void EditorBinder::setCodecName(const QString &name, bool reload)
         LOG_WARNING("Codec %s not known", name.constData());
 
     if(reload)
-        loadFile();
+        reloadFile();
 }
 
 
@@ -239,7 +241,48 @@ void EditorBinder::setStatusExt(StatusExt stat, bool force)
     }
 }
 
-void EditorBinder::loadFile()
+
+void EditorBinder::saveFile()
+{
+    if(mStatusInt == Unmodified)
+        return;
+
+    if(mStatusExt == New)
+        LOG_ERROR("Binder shouldn't be New here");
+
+    QString fileName = this->absoluteFilePath();
+    if(QFile::exists(fileName) && AppSettings::instance()->general->isAppBackupCopyEnabled()) {
+        QString backupName = QFileInfo(absoluteDir(), baseName().append(".bak")).absoluteFilePath();
+        if(QFile::exists(backupName))
+            QFile::remove(backupName);
+        QFile::copy(fileName, backupName);
+    }
+
+    mWatcher->removePath(fileName);
+
+    QFile file(fileName);
+    if(!file.open(QIODevice::WriteOnly))
+        LOG_ERROR("Cannot open file %s", fileName.constData());
+
+    Editor *edit = mEditors[0];
+    file.write(mCodec->fromUnicode(edit->text()));
+    file.close();
+
+    edit->setModified(false);
+    setStatusInt(Unmodified, true);
+    setStatusExt(Normal);
+
+    mWatcher->addPath(fileName);
+}
+
+void EditorBinder::saveFile(const QString &path)
+{
+    this->setFile(path);
+    onFileChanged(path);
+    this->saveFile();
+}
+
+void EditorBinder::reloadFile()
 {
     if(mEditors.length() == 0)
         LOG_WARNING("Editor doesn't exist");
@@ -248,7 +291,7 @@ void EditorBinder::loadFile()
         QString fileName(this->canonicalFilePath());
         QFile file(fileName);
         if(!file.open(QIODevice::ReadOnly))
-            LOG_ERROR("Cannot open the file %s", fileName.constData());
+            LOG_ERROR("Cannot open file %s", fileName.constData());
 
         QTextStream in(&file);
         in.setCodec(mCodec);

@@ -16,6 +16,7 @@ class GeneralSettings : public QObject
     Q_PROPERTY(bool     appCustomizeEnabled         READ isAppCustomizeEnabled          WRITE setAppCustomizeEnabled        )
     Q_PROPERTY(bool     appOpenFromCurrent          READ isAppOpenFromCurrentEnabled    WRITE setAppOpenFromCurrentEnabled  )
     Q_PROPERTY(QString  appLastOpenedDir            READ getAppLastOpenedDir            WRITE setAppLastOpenedDir           )
+    Q_PROPERTY(bool     appBackupCopyEnabled        READ isAppBackupCopyEnabled         WRITE setAppBackupCopyEnabled       )
 
 
     Q_PROPERTY(bool     tabBarLocked                READ isTabBarLocked                 WRITE setTabBarLocked               )
@@ -35,6 +36,7 @@ public:
     bool isAppCustomizeEnabled();
     bool isAppOpenFromCurrentEnabled();
     QString getAppLastOpenedDir();
+    bool isAppBackupCopyEnabled();
 
     bool isTabBarLocked();
     bool isTabBarCloseVisible();
@@ -51,6 +53,7 @@ signals:
     void appCustomizeEnabledChanged(bool val);
     void appOpenFromCurrentChanged(bool val);
     void appLastOpenedDirChanged(QString val);
+    void appBackupCopyEnabledChanged(bool val);
 
     void tabBarLockedChanged(bool val);
     void tabBarCloseVisibleChanged(bool val);
@@ -67,6 +70,7 @@ public slots:
     void setAppCustomizeEnabled(bool val);
     void setAppOpenFromCurrentEnabled(bool val);
     void setAppLastOpenedDir(const QString &val);
+    void setAppBackupCopyEnabled(bool val);
 
     void setTabBarLocked(bool val);
     void setTabBarCloseVisible(bool val);
@@ -83,6 +87,7 @@ private:
     bool mAppCustomizeEnabled;
     bool mAppOpenFromCurrentEnabled;
     QString mAppLastOpenedDir;
+    bool mAppBackupCopyEnabled;
 
     bool mTabBarLocked;
     bool mTabBarCloseVisible;

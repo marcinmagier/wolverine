@@ -60,6 +60,7 @@ public:
 
     enum StatusExt
     {
+        New,
         Normal,
         NotExists,
         ReadOnly
@@ -84,6 +85,9 @@ public:
     QString getCodecName();
     void setCodecName(const QString &name, bool reload = false);
 
+    void saveFile();
+    void saveFile(const QString &path);
+    void reloadFile();
 
 signals:
     void statusIntChanged(int);
@@ -96,7 +100,6 @@ private slots:
 
 
 private:
-    void loadFile();
     void setStatusInt(StatusInt stat, bool force = false);
     void setStatusExt(StatusExt stat, bool force = false);
 

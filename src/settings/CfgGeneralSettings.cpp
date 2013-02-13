@@ -11,6 +11,7 @@ GeneralSettings::GeneralSettings()
     mAppCustomizeEnabled = false;
     mAppOpenFromCurrentEnabled = false;
     mAppLastOpenedDir = ".";
+    mAppBackupCopyEnabled = true;
 
     mTabBarLocked = false;
     mTabBarCloseVisible = true;
@@ -72,6 +73,18 @@ void GeneralSettings::setAppLastOpenedDir(const QString &val)
 QString GeneralSettings::getAppLastOpenedDir()
 {
     return mAppLastOpenedDir;
+}
+
+void GeneralSettings::setAppBackupCopyEnabled(bool val)
+{
+    if(mAppBackupCopyEnabled != val) {
+        mAppBackupCopyEnabled = val;
+        emit appBackupCopyEnabledChanged(mAppBackupCopyEnabled);
+    }
+}
+bool GeneralSettings::isAppBackupCopyEnabled()
+{
+    return mAppBackupCopyEnabled;
 }
 
 

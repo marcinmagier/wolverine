@@ -101,12 +101,25 @@ void CentralWidget::onOpenForm()
 
 void CentralWidget::onSave()
 {
+    EditorBinder *binder = mCurrentEditor->getCurrentEditor()->getBinder();
+    if(binder->getStatusExt() == EditorBinder::New)
+        onSaveForm();
 
+    binder->saveFile();
 }
 
 void CentralWidget::onSaveForm()
 {
+    QString initialPath;
+    if(mSettings->general->isAppOpenFromCurrentEnabled()) {
+        initialPath = mCurrentEditor->getCurrentEditorDir();
+    } else {
+        initialPath = mSettings->general->getAppLastOpenedDir();
+    }
 
+    QString newFile = QFileDialog::getSaveFileName(this, tr("Save file"), initialPath);
+    EditorBinder *binder = mCurrentEditor->getCurrentEditor()->getBinder();
+    binder->saveFile(newFile);
 }
 
 void CentralWidget::onSaveAll()
