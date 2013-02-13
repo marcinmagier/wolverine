@@ -20,6 +20,7 @@
 class QLabel;
 class QtLabel;
 class QMouseEvent;
+class QFileInfo;
 
 namespace Wolverine
 {
@@ -41,6 +42,7 @@ private slots:
     void onCurrentEditorPosChanged(int line, int column);
     void onCurrentEditorTextChanged();
     void onCurrentEditorSelectionChanged();
+    void onCurrentEditorFileInfoChanged(QFileInfo *fileinfo);
 
     void onLblCodecClickLong(Qt::MouseButton button);
     void onLblLexerClickLong(Qt::MouseButton button);

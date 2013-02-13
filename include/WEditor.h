@@ -53,9 +53,6 @@ public:
     void setBinder(EditorBinder* doc);
     EditorBinder* getBinder();
 
-    QString getFileName();
-    QString getFilePath();
-
     void setLexer(const QString &name, bool forAllLiked=true);
     const QString& getLexerName();
 

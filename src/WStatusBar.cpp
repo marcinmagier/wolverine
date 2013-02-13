@@ -14,6 +14,7 @@
 #include "WStatusBar.h"
 #include "WEditor.h"
 #include "WEditorProxy.h"
+#include "WEditorBinder.h"
 #include "WEditorLexerManager.h"
 #include "CfgAppSettings.h"
 #include "CfgScintillaSettings.h"
@@ -66,7 +67,7 @@ StatusBar::StatusBar(EditorProxy *currentEditor, QWidget *parent) :
     QStatusBar(parent),
     mEditorProxy(currentEditor)
 {
-    mLblFilePath = new QtLabel("/test/file/path");
+    mLblFilePath = new QtLabel("");
     mLblFilePath->setStyleSheet(QString(STATUS_LABEL_STYLE));
     mLblFilePath->setMinimumWidth(50);
     mLblFilePath->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
@@ -122,11 +123,12 @@ StatusBar::StatusBar(EditorProxy *currentEditor, QWidget *parent) :
 
 void StatusBar::onCurrentEditorChanged(Editor *editor)
 {
-    QString filePath = editor->getFilePath();
+    EditorBinder *binder = editor->getBinder();
+    QString filePath = binder->canonicalFilePath();
     if(filePath.length() > 0)
-        mLblFilePath->setText(editor->getFilePath());
+        mLblFilePath->setText(filePath);
     else
-        mLblFilePath->setText(tr("New"));
+        mLblFilePath->setText(binder->fileName());
 
     mLblCodec->setText(editor->getCode());
     mLblLexer->setText(editor->getLexerName());
@@ -136,7 +138,9 @@ void StatusBar::onCurrentEditorChanged(Editor *editor)
     connect(editor, SIGNAL(textChanged()),
               this, SLOT(onCurrentEditorTextChanged()), Qt::UniqueConnection );
     connect(editor, SIGNAL(selectionChanged()),
-            this, SLOT(onCurrentEditorSelectionChanged()), Qt::UniqueConnection );
+              this, SLOT(onCurrentEditorSelectionChanged()), Qt::UniqueConnection );
+    connect(binder, SIGNAL(fileInfoChanged(QFileInfo*)),
+              this, SLOT(onCurrentEditorFileInfoChanged(QFileInfo*)), Qt::UniqueConnection );
 
     QPoint pos = editor->pos();
     onCurrentEditorPosChanged(pos.x(), pos.y());
@@ -162,6 +166,14 @@ void StatusBar::onCurrentEditorSelectionChanged()
    // qDebug() << "Selection changed";
 }
 
+void StatusBar::onCurrentEditorFileInfoChanged(QFileInfo *fileinfo)
+{
+    QString filePath = fileinfo->canonicalFilePath();
+    if(filePath.length() > 0)
+        mLblFilePath->setText(filePath);
+    else
+        mLblFilePath->setText(fileinfo->fileName());
+}
 
 
 

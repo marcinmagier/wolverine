@@ -385,16 +385,18 @@ void EditorBinder::saveFile()
 
 /**
  *  Save file on the given path. Binder's file info part is updated.
+ *
  * @param path
  */
 void EditorBinder::saveFile(const QString &path)
 {
-    if(path != absoluteFilePath()) {
-        setFile(path);
-        onFileChanged(path);    // Refresh SatusInt and StatusExt
-        emit fileInfoChanged(this);
-    }
+    setFile(path);
+    onFileChanged(path);    // Refresh SatusInt and StatusExt
+
     saveFile();
+
+    refresh();              // Refresh QFileInfo after file was saved
+    emit fileInfoChanged(this);
 }
 
 
