@@ -42,7 +42,9 @@ public:
     explicit PanelTabBar(QWidget *parent = 0);
     
 
-public slots:
+private slots:
+    void onTabBarLockedChanged(bool val);
+    void onTabBarCloseVisibleChanged(bool val);
 
 signals:
     void focusReceived();

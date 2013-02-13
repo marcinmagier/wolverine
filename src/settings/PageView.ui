@@ -20,6 +20,9 @@
    <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <property name="spacing">
+    <number>20</number>
+   </property>
    <item>
     <widget class="QGroupBox" name="boxPopups">
      <property name="title">
@@ -140,6 +143,64 @@
          </size>
         </property>
        </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="boxTabBar">
+     <property name="title">
+      <string>TabBar</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QCheckBox" name="checkTabsMovable">
+        <property name="text">
+         <string>Tabs movable</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkCloseBtnVisible">
+        <property name="text">
+         <string>Close button visible</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkDoubleClkClose">
+        <property name="text">
+         <string>Close tab with double click</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkMiddleBtnClose">
+        <property name="text">
+         <string>Close tab with middle button click</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkDoubleClkNew">
+        <property name="text">
+         <string>New tab with double click</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkMiddleBtnNew">
+        <property name="text">
+         <string>New tab with middle button click</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkModernStyle">
+        <property name="text">
+         <string>Modern style enabled</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

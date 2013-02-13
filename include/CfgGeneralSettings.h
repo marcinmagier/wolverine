@@ -19,15 +19,6 @@ class GeneralSettings : public QObject
     Q_PROPERTY(bool     appBackupCopyEnabled        READ isAppBackupCopyEnabled         WRITE setAppBackupCopyEnabled       )
 
 
-    Q_PROPERTY(bool     tabBarLocked                READ isTabBarLocked                 WRITE setTabBarLocked               )
-    Q_PROPERTY(bool     tabBarCloseVisible          READ isTabBarCloseVisible           WRITE setTabBarCloseVisible         )
-    Q_PROPERTY(bool     tabBarDoubleClkClose        READ isTabBarDoubleClkClose         WRITE setTabBarDoubleClkClose       )
-    Q_PROPERTY(bool     tabBarDoubleClkNew          READ isTabBarDoubleClkNew           WRITE setTabBarDoubleClkNew         )
-    Q_PROPERTY(bool     tabBarMiddleBtnClose        READ isTabBarMiddleBtnClose         WRITE setTabBarMiddleBtnClose       )
-    Q_PROPERTY(bool     tabBarMiddleBtnNew          READ isTabBarMiddleBtnNew           WRITE setTabBarMiddleBtnNew         )
-    Q_PROPERTY(bool     tabBarIconVisible           READ isTabBarIconVisible            WRITE setTabBarIconVisible          )
-    Q_PROPERTY(bool     tabBarModernStyleEnabled    READ isTabBarModernStyleEnabled     WRITE setTabBarModernStyleEnabled   )
-
 
 public:
     explicit GeneralSettings();
@@ -38,15 +29,6 @@ public:
     QString getAppLastOpenedDir();
     bool isAppBackupCopyEnabled();
 
-    bool isTabBarLocked();
-    bool isTabBarCloseVisible();
-    bool isTabBarDoubleClkClose();
-    bool isTabBarDoubleClkNew();
-    bool isTabBarMiddleBtnClose();
-    bool isTabBarMiddleBtnNew();
-    bool isTabBarIconVisible();
-    bool isTabBarModernStyleEnabled();
-
 
 signals:
     void appCloseWhenLastTabClosedChanged(bool val);
@@ -54,15 +36,6 @@ signals:
     void appOpenFromCurrentChanged(bool val);
     void appLastOpenedDirChanged(QString val);
     void appBackupCopyEnabledChanged(bool val);
-
-    void tabBarLockedChanged(bool val);
-    void tabBarCloseVisibleChanged(bool val);
-    void tabBarDoubleClkCloseChanged(bool val);
-    void tabBarDoubleClkCloseNew(bool val);
-    void tabBarMiddleBtnCloseChanged(bool val);
-    void tabBarMiddleBtnCloseNew(bool val);
-    void tabBarIconVisibleChanged(bool val);
-    void tabBarModernStyleEnabledChanged(bool val);
 
 
 public slots:
@@ -72,15 +45,6 @@ public slots:
     void setAppLastOpenedDir(const QString &val);
     void setAppBackupCopyEnabled(bool val);
 
-    void setTabBarLocked(bool val);
-    void setTabBarCloseVisible(bool val);
-    void setTabBarDoubleClkClose(bool val);
-    void setTabBarDoubleClkNew(bool val);
-    void setTabBarMiddleBtnClose(bool val);
-    void setTabBarMiddleBtnNew(bool val);
-    void setTabBarIconVisible(bool val);
-    void setTabBarModernStyleEnabled(bool val);
-
 
 private:
     bool mAppCloseWhenLastTabClosed;
@@ -88,15 +52,6 @@ private:
     bool mAppOpenFromCurrentEnabled;
     QString mAppLastOpenedDir;
     bool mAppBackupCopyEnabled;
-
-    bool mTabBarLocked;
-    bool mTabBarCloseVisible;
-    bool mTabBarDoubleClkClose;
-    bool mTabBarDoubleClkNew;
-    bool mTabBarMiddleBtnClose;
-    bool mTabBarMiddleBtnNew;
-    bool mTabBarIconVisible;
-    bool mTabBarModernStyleEnabled;
 
 };
 

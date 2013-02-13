@@ -3,6 +3,7 @@
 #include "ui_PageView.h"
 
 #include "CfgAppSettings.h"
+#include "CfgGeneralSettings.h"
 #include "CfgViewSettings.h"
 #include "qtcolorbutton.h"
 
@@ -36,6 +37,34 @@ PageView::PageView(AppSettings *settings, QWidget *parent) :
     connect(      ui->btnFg, SIGNAL(colorChanged(QColor)),
              settings->view, SLOT(setPopupFgColor(QColor)), Qt::DirectConnection );
 
+
+    ui->checkTabsMovable->setChecked( settings->view->isTabBarLocked() );
+    connect( ui->checkTabsMovable, SIGNAL(toggled(bool)),
+                    settings->view, SLOT(setTabBarLocked(bool)), Qt::DirectConnection );
+
+    ui->checkCloseBtnVisible->setChecked( settings->view->isTabBarCloseVisible() );
+    connect( ui->checkCloseBtnVisible, SIGNAL(toggled(bool)),
+                       settings->view, SLOT(setTabBarCloseVisible(bool)), Qt::DirectConnection );
+
+    ui->checkDoubleClkClose->setChecked( settings->view->isTabBarDoubleClkClose() );
+    connect( ui->checkDoubleClkClose, SIGNAL(toggled(bool)),
+                      settings->view, SLOT(setTabBarDoubleClkClose(bool)), Qt::DirectConnection );
+
+    ui->checkDoubleClkNew->setChecked( settings->view->isTabBarDoubleClkNew() );
+    connect( ui->checkDoubleClkNew, SIGNAL(toggled(bool)),
+                      settings->view, SLOT(setTabBarDoubleClkNew(bool)), Qt::DirectConnection );
+
+    ui->checkMiddleBtnClose->setChecked( settings->view->isTabBarMiddleBtnClose() );
+    connect( ui->checkMiddleBtnClose, SIGNAL(toggled(bool)),
+                      settings->view, SLOT(setTabBarMiddleBtnClose(bool)), Qt::DirectConnection );
+
+    ui->checkMiddleBtnNew->setChecked( settings->view->isTabBarMiddleBtnNew() );
+    connect( ui->checkMiddleBtnNew, SIGNAL(toggled(bool)),
+                      settings->view, SLOT(setTabBarMiddleBtnNew(bool)), Qt::DirectConnection );
+
+    ui->checkModernStyle->setChecked( settings->view->isTabBarModernStyleEnabled() );
+    connect( ui->checkModernStyle, SIGNAL(toggled(bool)),
+                      settings->view, SLOT(setTabBarModernStyleEnabled(bool)), Qt::DirectConnection );
 }
 
 PageView::~PageView()

@@ -12,8 +12,20 @@ ViewSettings::ViewSettings()
     mPopupBgColor = QApplication::palette().color(QPalette::ToolTipBase);
     mPopupFgColor = QApplication::palette().color(QPalette::ToolTipText);
 
+
+    mTabBarLocked = false;
+    mTabBarCloseVisible = true;
+    mTabBarDoubleClkClose = true;
+    mTabBarDoubleClkNew = true;
+    mTabBarMiddleBtnClose = true;
+    mTabBarMiddleBtnNew = true;
+    mTabBarModernStyleEnabled = true;
 }
 
+
+
+
+//=======================  Popup  ===========================================//
 
 void ViewSettings::setPopupTimeout(int val)
 {
@@ -67,3 +79,93 @@ QColor ViewSettings::getPopupFgColor()
 {
     return mPopupFgColor;
 }
+
+
+
+//=======================  TabBar  ==========================================//
+
+void ViewSettings::setTabBarLocked(bool val)
+{
+    if(mTabBarLocked != val) {
+        mTabBarLocked = val;
+        emit tabBarLockedChanged(mTabBarLocked);
+    }
+}
+bool ViewSettings::isTabBarLocked()
+{
+    return mTabBarLocked;
+}
+
+void ViewSettings::setTabBarCloseVisible(bool val)
+{
+    if(mTabBarCloseVisible != val) {
+        mTabBarCloseVisible = val;
+        emit tabBarCloseVisibleChanged(mTabBarCloseVisible);
+    }
+}
+bool ViewSettings::isTabBarCloseVisible()
+{
+    return mTabBarCloseVisible;
+}
+
+void ViewSettings::setTabBarDoubleClkClose(bool val)
+{
+    if(mTabBarDoubleClkClose != val) {
+        mTabBarDoubleClkClose = val;
+        emit tabBarDoubleClkCloseChanged(mTabBarDoubleClkClose);
+    }
+}
+bool ViewSettings::isTabBarDoubleClkClose()
+{
+    return mTabBarDoubleClkClose;
+}
+
+void ViewSettings::setTabBarDoubleClkNew(bool val)
+{
+    if(mTabBarDoubleClkNew != val) {
+        mTabBarDoubleClkNew = val;
+        emit tabBarDoubleClkCloseChanged(mTabBarDoubleClkNew);
+    }
+}
+bool ViewSettings::isTabBarDoubleClkNew()
+{
+    return mTabBarDoubleClkNew;
+}
+
+void ViewSettings::setTabBarMiddleBtnClose(bool val)
+{
+    if(mTabBarMiddleBtnClose != val) {
+        mTabBarMiddleBtnClose = val;
+        emit tabBarMiddleBtnCloseChanged(mTabBarMiddleBtnClose);
+    }
+}
+bool ViewSettings::isTabBarMiddleBtnClose()
+{
+    return mTabBarMiddleBtnClose;
+}
+
+void ViewSettings::setTabBarMiddleBtnNew(bool val)
+{
+    if(mTabBarMiddleBtnNew != val) {
+        mTabBarMiddleBtnNew = val;
+        emit tabBarMiddleBtnCloseChanged(mTabBarMiddleBtnNew);
+    }
+}
+bool ViewSettings::isTabBarMiddleBtnNew()
+{
+    return mTabBarMiddleBtnNew;
+}
+
+void ViewSettings::setTabBarModernStyleEnabled(bool val)
+{
+    if(mTabBarModernStyleEnabled != val) {
+        mTabBarModernStyleEnabled = val;
+        emit tabBarModernStyleEnabledChanged(mTabBarModernStyleEnabled);
+    }
+}
+bool ViewSettings::isTabBarModernStyleEnabled()
+{
+    return mTabBarModernStyleEnabled;
+}
+
+

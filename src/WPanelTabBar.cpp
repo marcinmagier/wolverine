@@ -24,6 +24,7 @@
 
 #include "CfgAppSettings.h"
 #include "CfgGeneralSettings.h"
+#include "CfgViewSettings.h"
 
 #include <QMouseEvent>
 
@@ -44,16 +45,22 @@ PanelTabBar::PanelTabBar(QWidget *parent) :
     this->setFocusPolicy(Qt::ClickFocus);
 
     AppSettings *settings = AppSettings::instance();
-    this->setMovable(!settings->general->isTabBarLocked());
 
-    this->setTabsClosable(settings->general->isTabBarCloseVisible());
+    this->setMovable(settings->view->isTabBarLocked());
+    this->setTabsClosable(settings->view->isTabBarCloseVisible());
+    this->enableModernStyle( settings->view->isTabBarModernStyleEnabled());
 
-    this->setMovable(true);
-    this->setTabsClosable(true);
     this->setDocumentMode(true);
     this->setExpanding(false);
     this->setIconSize(QSize(13, 13));
-    this->enableModernStyle(true);
+
+
+    connect( settings->view, SIGNAL(tabBarModernStyleEnabledChanged(bool)),
+                       this, SLOT(enableModernStyle(bool)), Qt::DirectConnection );
+    connect( settings->view, SIGNAL(tabBarCloseVisibleChanged(bool)),
+                       this, SLOT(onTabBarCloseVisibleChanged(bool)), Qt::DirectConnection );
+    connect( settings->view, SIGNAL(tabBarLockedChanged(bool)),
+                       this, SLOT(onTabBarLockedChanged(bool)), Qt::DirectConnection );
 
 }
 
@@ -83,10 +90,10 @@ void PanelTabBar::mouseReleaseEvent(QMouseEvent *event)
         int idx = this->tabAt(event->pos());
         AppSettings *settings = AppSettings::instance();
         if(idx < 0) {
-            if(settings->general->isTabBarMiddleBtnNew())
+            if(settings->view->isTabBarMiddleBtnNew())
                 emit tabNewRequested();
         } else {
-            if(settings->general->isTabBarMiddleBtnClose())
+            if(settings->view->isTabBarMiddleBtnClose())
                 emit tabCloseRequested(idx);
         }
     }
@@ -106,12 +113,34 @@ void PanelTabBar::mouseDoubleClickEvent(QMouseEvent *event)
         int idx = this->tabAt(event->pos());
         AppSettings *settings = AppSettings::instance();
         if(idx < 0) {
-            if(settings->general->isTabBarDoubleClkNew())
+            if(settings->view->isTabBarDoubleClkNew())
                 emit tabNewRequested();
         } else {
-            if(settings->general->isTabBarDoubleClkClose())
+            if(settings->view->isTabBarDoubleClkClose())
                 emit tabCloseRequested(idx);
         }
     }
     QtTabBar::mouseDoubleClickEvent(event);
+}
+
+
+/**
+ *  tabBarLockedChanged() handler
+ *
+ * @param val
+ */
+void PanelTabBar::onTabBarLockedChanged(bool val)
+{
+    this->setMovable(val);
+}
+
+
+/**
+ *  tabBarCloseVisibleChanged() handler
+ *
+ * @param val
+ */
+void PanelTabBar::onTabBarCloseVisibleChanged(bool val)
+{
+    this->setTabsClosable(val);
 }
