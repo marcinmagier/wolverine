@@ -65,6 +65,8 @@ private:
 #define W_ACTION_CLOSE_ALL      "Close_All"
 #define W_ACTION_CLOSE_OTHERS   "Close_Others"
 
+#define W_ACTION_EXIT           "Exit"
+
     //W_ACTION_GROUP_EDIT
 #define W_ACTION_UNDO           "Undo"
 #define W_ACTION_REDO           "Redo"

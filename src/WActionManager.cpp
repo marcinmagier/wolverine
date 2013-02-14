@@ -185,6 +185,11 @@ void initializeActions()
     action->setStatusTip(QObject::tr("Close all files"));
     sInstance->addAction(W_ACTION_GROUP_FILE, W_ACTION_CLOSE_ALL, action);
 
+    action = new QAction(QObject::tr("Exit"), 0);
+    action->setShortcut(QObject::tr("Alt+F4"));
+    action->setStatusTip(QObject::tr("Close application"));
+    sInstance->addAction(W_ACTION_GROUP_FILE, W_ACTION_EXIT, action);
+
 
 
     action = new QAction(QObject::tr("Undo"), 0);

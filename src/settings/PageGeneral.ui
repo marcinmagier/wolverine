@@ -32,7 +32,7 @@
       <item>
        <widget class="QCheckBox" name="chboxSingleInstance">
         <property name="text">
-         <string>Open files in existing instance</string>
+         <string>Always create new instance</string>
         </property>
        </widget>
       </item>

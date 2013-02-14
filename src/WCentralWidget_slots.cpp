@@ -30,6 +30,7 @@
 #include "CfgAppSettings.h"
 #include "CfgGeneralSettings.h"
 
+#include <QApplication>
 #include <QCursor>
 #include <QFileDialog>
 #include <QFileInfo>
@@ -146,6 +147,15 @@ void CentralWidget::onCloseIdx(int index)
         mPanelRight->setVisible(false);
         this->setCurrentPanel(mPanelLeft);
     }
+
+    if(mPanelLeft->count() == 0) {
+        if( mSettings->general->isAppCloseWhenLastTabClosed() ) {
+            qApp->quit();
+        } else {
+            mCurrentEditor->setCurrentEditor(0);
+            onNew();
+        }
+    }
 }
 
 void CentralWidget::onCloseOthers()
@@ -160,7 +170,19 @@ void CentralWidget::onCloseOthersIdx(int index)
 
 void CentralWidget::onCloseAll()
 {
+    while(mPanelRight->count() > 0) {
+        this->removeTab(mPanelRight, 0);
+    }
+    while(mPanelLeft->count() > 0) {
+        this->removeTab(mPanelLeft, 0);
+    }
 
+    if( mSettings->general->isAppCloseWhenLastTabClosed() ) {
+        qApp->quit();
+    } else {
+        mCurrentEditor->setCurrentEditor(0);
+        onNew();
+    }
 }
 
 void CentralWidget::onSplit()

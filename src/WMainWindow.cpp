@@ -125,6 +125,14 @@ void MainWindow::createMenusAndToolbars()
     menu->addAction(action);
     toolbar->addAction(W_ACTION_CLOSE_ALL, action);
 
+    menu->addSeparator();
+
+    action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_EXIT);
+    //action->setIcon(QIcon(":/close_all.png"));
+    connect(         action, SIGNAL(triggered()),
+             this, SLOT(close()) );
+    menu->addAction(action);
+    //toolbar->addAction(W_ACTION_EXIT, action);
 
     mMenus[W_ACTION_GROUP_FILE] = menu;
 
