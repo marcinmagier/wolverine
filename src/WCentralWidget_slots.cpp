@@ -107,8 +107,10 @@ void CentralWidget::onOpenForm()
 void CentralWidget::onSave()
 {
     EditorBinder *binder = mCurrentEditor->getCurrentEditor()->getBinder();
-    if(binder->getStatusExt() == EditorBinder::New)
+    if(binder->getStatusExt() == EditorBinder::New) {
         onSaveForm();
+        return;
+    }
 
     binder->saveFile();
 }
@@ -123,6 +125,8 @@ void CentralWidget::onSaveForm()
     }
 
     QString newFile = QFileDialog::getSaveFileName(this, tr("Save file"), initialPath);
+    if(newFile.isEmpty())
+        return;
     EditorBinder *binder = mCurrentEditor->getCurrentEditor()->getBinder();
     binder->saveFile(newFile);
 }
