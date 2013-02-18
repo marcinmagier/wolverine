@@ -91,7 +91,7 @@ void waitForEndOfInitialization()
 {
     if(!isInitializationDone) {
         sMutex.lock();
-        if(!isInitializationDone) {
+        if(!isInitializationDone && sThreadPool) {
             // Initialization pending, we have to wait
             sThreadPool->waitForDone();
         }
