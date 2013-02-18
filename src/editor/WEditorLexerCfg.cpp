@@ -111,7 +111,10 @@ void createLexCPP(EditorLexerCfg *eLexer)
                    << QsciLexerCPP::CommentDocKeyword
                    << QsciLexerCPP::CommentDocKeywordError
                    << QsciLexerCPP::GlobalClass
-                   << QsciLexerCPP::RawString ;
+                   << QsciLexerCPP::RawString
+                   << QsciLexerCPP::TripleQuotedVerbatimString
+                   << QsciLexerCPP::HashQuotedString
+                   << QsciLexerCPP::PreProcessorComment;
 }
 
 
@@ -139,7 +142,10 @@ void createLexJava(EditorLexerCfg *eLexer)
                    << QsciLexerJava::CommentDocKeyword
                    << QsciLexerJava::CommentDocKeywordError
                    << QsciLexerJava::GlobalClass
-                   << QsciLexerJava::RawString ;
+                   << QsciLexerJava::RawString
+                   << QsciLexerJava::TripleQuotedVerbatimString
+                   << QsciLexerJava::HashQuotedString
+                   << QsciLexerJava::PreProcessorComment;
 }
 
 
