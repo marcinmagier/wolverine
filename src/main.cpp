@@ -173,8 +173,12 @@ int runNevInstanceApp(int argc, char **argv)
     Wolverine::MainWindow mainWindow;
 
     QStringList files = Wolverine::Lib::createFileListFromArgs(argc, argv);
-    foreach(QString file, files) {
-        mainWindow.openFile(file);
+    if(files.count() > 0) {
+        foreach(QString file, files) {
+            mainWindow.openFile(file);
+        }
+    } else {
+        mainWindow.openNewFile();
     }
 
     mainWindow.show();
@@ -196,7 +200,7 @@ int runSingleInstanceApp(int argc, char **argv)
     QtSingleApplication app(argc, argv);
     QStringList files = Wolverine::Lib::createFileListFromArgs(argc, argv);
 
-    if(app.sendMessage("Test")) {
+    if(app.sendMessage("")) {
         LOG_INFO("Application is already started");
         foreach(QString file, files) {
             app.sendMessage(file);
@@ -209,8 +213,12 @@ int runSingleInstanceApp(int argc, char **argv)
     appInit(&app);
 
     Wolverine::MainWindow mainWindow;
-    foreach(QString file, files) {
-        mainWindow.openFile(file);
+    if(files.count() > 0) {
+        foreach(QString file, files) {
+            mainWindow.openFile(file);
+        }
+    } else {
+        mainWindow.openNewFile();
     }
     QObject::connect(&app, SIGNAL(messageReceived(const QString&)),
                      &mainWindow, SLOT(openFile(const QString&)));
@@ -249,6 +257,8 @@ int main(int argc, char **argv)
             continue;
         }
     }
+
+    Wolverine::Lib::setAppFile(QString(argv[0]));
 
     if(isNewInstance || settings->startup->isAlwaysNewInstance())
         return runNevInstanceApp(argc, argv);

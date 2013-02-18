@@ -13,15 +13,17 @@
 
 #include "WLib.h"
 
-#include <QString>
-#include <QStringList>
+#include <QApplication>
+#include <QProcess>
 #include <QFileInfo>
+#include <QStringList>
 
 
 #define W_FILE_LINE_SEP "@"
 
 using namespace Wolverine;
 
+QString Lib::sAppFile;
 
 Lib::Lib()
 {
@@ -30,7 +32,7 @@ Lib::Lib()
 
 
 /**
- *  Creates string formatted with <filepath>|<line> pattern from parametes.
+ *  Creates string formatted with <filepath>@<line> pattern from parametes.
  *
  * @param path
  * @param line
@@ -45,7 +47,7 @@ QString Lib::createFileName(const QString &path, const int line)
 
 
 /**
- *  Creates string formatted with <filepath>|<line> pattern from parametes.
+ *  Creates string formatted with <filepath>@<line> pattern from parametes.
  *
  * @param path
  * @param line
@@ -62,7 +64,7 @@ QString Lib::createFileName(const QString &path, const QString &line)
 
 
 /**
- *  Creates list of files formatted with <filepath>|<line> pattern from
+ *  Creates list of files formatted with <filepath>@<line> pattern from
  *  command line arguments.
  *
  * @param argc
@@ -102,7 +104,7 @@ QStringList Lib::createFileListFromArgs(int argc, char **argv)
 
 
 /**
- *  Retrieves file path from string formated with <filepath>|<line> pattern
+ *  Retrieves file path from string formated with <filepath>@<line> pattern
  *
  * @param file
  * @return
@@ -116,7 +118,7 @@ QString Lib::getPathFromFile(const QString &file)
 
 
 /**
- *  Retrieves line from string formated with <filepath>|<line> pattern
+ *  Retrieves line from string formated with <filepath>@<line> pattern
  *
  * @param file
  * @return
@@ -126,4 +128,20 @@ int Lib::getLineFromFile(const QString &file)
 {
     QStringList tmp = file.split(W_FILE_LINE_SEP);
     return tmp.value(1).toInt();
+}
+
+
+void Lib::setAppFile(const QString &appFile)
+{
+    sAppFile = appFile;
+}
+
+
+void Lib::openNewInstance(const QString &path)
+{
+    QStringList arguments;
+    arguments << "--new";
+
+    QProcess *newProc = new QProcess(qApp);
+    newProc->start(sAppFile, arguments);
 }

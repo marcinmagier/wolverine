@@ -26,6 +26,7 @@
 #include "WEditorBinder.h"
 #include "WEditorProxy.h"
 #include "WPanel.h"
+#include "WLib.h"
 
 #include "CfgAppSettings.h"
 #include "CfgGeneralSettings.h"
@@ -69,8 +70,12 @@ void CentralWidget::onNewIdx(int index)
 
 void CentralWidget::onOpen(const QString &path)
 {
-    EditorBinder *binder = new EditorBinder(path);
+    QString file = Lib::getPathFromFile(path);
+    int line = Lib::getLineFromFile(path) - 1; //Lines start with 0.
+
+    EditorBinder *binder = new EditorBinder(file);
     Editor *edit = binder->getEditor();
+    edit->setCursorPosition(line, 0);
 
     int idx = mPanelCurrent->addTab(edit);
     mPanelCurrent->setCurrentIndex(idx);

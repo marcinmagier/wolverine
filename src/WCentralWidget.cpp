@@ -91,7 +91,7 @@ CentralWidget::CentralWidget(QWidget *parent):
     mSettings = AppSettings::instance();
 
     mPanelCurrent = mPanelLeft;
-    onNew();
+
     setupContextMenu();
 }
 

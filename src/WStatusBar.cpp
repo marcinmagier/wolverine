@@ -99,7 +99,7 @@ StatusBar::StatusBar(EditorProxy *currentEditor, QWidget *parent) :
 
     mLblEoL = new QtLabel();
     mLblEoL->setStyleSheet(QString(STATUS_LABEL_STYLE));
-    Editor::EolMode eolMode = mEditorProxy->getCurrentEditor()->eolMode();
+    Editor::EolMode eolMode = Editor::EolUnix;
     mLblEoL->setPixmap(getEoLIcon(eolMode).pixmap(15, 15));
     connect(mLblEoL, SIGNAL(clickedLong(Qt::MouseButton)),
                this, SLOT(onLblEoLClickLong(Qt::MouseButton)) );
@@ -123,6 +123,9 @@ StatusBar::StatusBar(EditorProxy *currentEditor, QWidget *parent) :
 
 void StatusBar::onCurrentEditorChanged(Editor *editor)
 {
+    if(editor == 0)
+        return;
+
     EditorBinder *binder = editor->getBinder();
     QString filePath = binder->canonicalFilePath();
     if(filePath.length() > 0)

@@ -212,31 +212,14 @@ void MainWindow::createMenusAndToolbars()
 
 
 
+void MainWindow::openNewFile()
+{
+    mCentralWidget->onNew();
+}
+
 
 void MainWindow::openFile(const QString &file)
 {
-/*    if(!QFileInfo(str).exists()) {
-        LOG_DEBUG("File not found.");
-        continue;
-    }
-
-    files << QFileInfo(str).absoluteFilePath();
-  */
-    LOG_WARNING("file");
+    if(!file.isEmpty())
+        mCentralWidget->onOpen(file);
 }
-
-void MainWindow::onPopup1()
-{
-    Popup::popup("Test1", "Test very very very very very very long popup", this);
-}
-
-void MainWindow::onPopup2()
-{
-    Popup::popup("Test2", "Test cos tam cos tam long popup", this);
-}
-
-void MainWindow::onPopup3()
-{
-    Popup::popup("Test3", "Test very hello hello very long popup", this);
-}
-

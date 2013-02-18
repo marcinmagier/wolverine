@@ -15,8 +15,12 @@
 #ifndef __W_LIB_H_
  #define __W_LIB_H_
 
-class QString;
+
 class QStringList;
+
+#include <QString>
+
+
 
 
 namespace Wolverine
@@ -34,6 +38,12 @@ public:
     static QStringList createFileListFromArgs(int argc, char **argv);
     static QString getPathFromFile(const QString &file);
     static int getLineFromFile(const QString &file);
+
+    static void setAppFile(const QString &appFile);
+    static void openNewInstance(const QString &path);
+
+private:
+    static QString sAppFile;
 };
 
 
