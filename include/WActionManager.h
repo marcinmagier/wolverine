@@ -80,9 +80,6 @@ private:
 
 
 
-    //W_ACTION_GROUP_MISC
-#define W_ACTION_MOVE_LEFT      "Move_Left"
-#define W_ACTION_MOVE_RIGHT     "Move_Right"
 
 
 

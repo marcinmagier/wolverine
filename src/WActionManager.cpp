@@ -233,18 +233,6 @@ void initializeActions()
 
 
 
-    action = new QAction(QObject::tr("Move to Left"), 0);
-    //action->setShortcut(QObject::tr("Ctrl+Alt+S"));
-    action->setStatusTip(QObject::tr("Move tab to left panel"));
-    sInstance->addAction(W_ACTION_GROUP_MISC, W_ACTION_MOVE_LEFT, action);
-
-    action = new QAction(QObject::tr("Move to Right"), 0);
-    //action->setShortcut(QObject::tr("Ctrl+Alt+S"));
-    action->setStatusTip(QObject::tr("Move tab to right panel"));
-    sInstance->addAction(W_ACTION_GROUP_MISC, W_ACTION_MOVE_RIGHT, action);
-
-
-
 
    // sInstance->addScheme("VimCommand");
  //   sInstance->addScheme("VimInput");
