@@ -105,9 +105,11 @@ EditorBinder::EditorBinder(const QString &path) :
     }
 
     mWatcher = new QFileSystemWatcher();
-    mWatcher->addPath(absoluteFilePath());
     connect( mWatcher, SIGNAL(fileChanged(QString)),
                  this, SLOT(onFileChanged(QString)) );
+
+    if(exists())
+        mWatcher->addPath(absoluteFilePath());
 }
 
 
