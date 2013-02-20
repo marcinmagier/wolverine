@@ -93,11 +93,9 @@ QStringList Lib::createFileListFromArgs(int argc, char **argv)
         if(tmp.length() > 1)
             lineLocal = QString(tmp[1]).toInt(&isLocalLine);
 
-        if(file.exists()) {
-            // Local line has higher priorytet than global
-            int line = isLocalLine ? lineLocal : lineGlob;
-            files.append(createFileName(file.absoluteFilePath(), line));
-        }
+        // Local line has higher priorytet than global
+        int line = isLocalLine ? lineLocal : lineGlob;
+        files.append(createFileName(file.absoluteFilePath(), line));
     }
     return files;
 }

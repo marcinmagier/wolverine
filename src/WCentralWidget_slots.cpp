@@ -63,15 +63,17 @@ void CentralWidget::onNew()
                this, SLOT(onEditorFileInfoChanged(QFileInfo*)) );
 }
 
-void CentralWidget::onNewIdx(int index)
-{
-
-}
 
 void CentralWidget::onOpen(const QString &path)
 {
     QString file = Lib::getPathFromFile(path);
-    int line = Lib::getLineFromFile(path) - 1; //Lines start with 0.
+    int line = Lib::getLineFromFile(path) - 1; //Lines start from 0.
+
+    if(setCurrentIfExists(mPanelLeft, file))
+        return;
+
+    if(setCurrentIfExists(mPanelRight, file))
+        return;
 
     EditorBinder *binder = new EditorBinder(file);
     Editor *edit = binder->getEditor();

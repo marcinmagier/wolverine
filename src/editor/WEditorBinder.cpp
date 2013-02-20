@@ -348,7 +348,7 @@ void EditorBinder::setStatusExt(StatusExt stat, bool force)
  *
  * Other module that calls this function should check if StatusExt is not New.
  */
-void EditorBinder::saveFile()
+void EditorBinder::saveFile(bool force)
 {
     if(mStatusInt == Unmodified)
         return;
@@ -357,7 +357,8 @@ void EditorBinder::saveFile()
         LOG_ERROR("Binder shouldn't be New here");
 
     QString fname = this->absoluteFilePath();
-    if(QFile::exists(fname) && AppSettings::instance()->general->isAppBackupCopyEnabled()) {
+    bool wasExisted = QFile::exists(fname);
+    if(wasExisted && AppSettings::instance()->general->isAppBackupCopyEnabled()) {
         QString backupName = QString("~").append(fileName());
         backupName = QFileInfo(absoluteDir(), backupName).absoluteFilePath();
         if(QFile::exists(backupName))
@@ -380,6 +381,11 @@ void EditorBinder::saveFile()
     setStatusExt(Normal);
 
     mWatcher->addPath(fname);
+
+    if(!wasExisted || force) {
+        refresh();              // Refresh QFileInfo after file was saved
+        emit fileInfoChanged(this);
+    }
 }
 
 
@@ -393,10 +399,7 @@ void EditorBinder::saveFile(const QString &path)
     setFile(path);
     onFileChanged(path);    // Refresh SatusInt and StatusExt
 
-    saveFile();
-
-    refresh();              // Refresh QFileInfo after file was saved
-    emit fileInfoChanged(this);
+    saveFile(true);
 }
 
 

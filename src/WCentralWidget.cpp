@@ -200,7 +200,34 @@ void CentralWidget::setCurrentEditor(Editor *editor)
 }
 
 
+bool CentralWidget::setCurrentIfExists(Panel *panel, Editor *editor, int line)
+{
+    int idx = panel->indexOf(editor);
+    if(idx >= 0) {
+        mPanelCurrent = panel;
+        mPanelCurrent->setCurrentIndex(idx);
+        if(line >= 0)
+            mPanelCurrent->getEditor(idx)->setCursorPosition(line, 0);
+        return true;
+    }
 
+    return false;
+}
+
+
+bool CentralWidget::setCurrentIfExists(Panel *panel, const QString &path, int line)
+{
+    int idx = panel->indexOf(path);
+    if(idx >= 0) {
+        mPanelCurrent = panel;
+        mPanelCurrent->setCurrentIndex(idx);
+        if(line >= 0)
+            mPanelCurrent->getEditor(idx)->setCursorPosition(line, 0);
+        return true;
+    }
+
+    return false;
+}
 
 
 void CentralWidget::setupContextMenu()

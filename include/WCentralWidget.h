@@ -76,7 +76,6 @@ public slots:
 
 
 private slots:
-    void onNewIdx(int index);
     void onCloseIdx(int index);
     void onCloseOthersIdx(int index);
     void onSplitIdx(int index);
@@ -102,6 +101,9 @@ private:
     void setCurrentPanel(Panel *panel);
     void setCurrentEditor(Editor *editor);
     void removeEditor(Editor *editor);
+
+    bool setCurrentIfExists(Panel *panel, const QString &path, int line = -1);
+    bool setCurrentIfExists(Panel *panel, Editor *editor, int line = -1);
 
 
     QHBoxLayout *mLayout;

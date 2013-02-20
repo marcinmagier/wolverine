@@ -85,7 +85,7 @@ public:
     QString getCodecName();
     void setCodecName(const QString &name, bool reload = false);
 
-    void saveFile();
+    void saveFile(bool force = false);
     void saveFile(const QString &path);
     void loadFile();
 
@@ -101,6 +101,7 @@ private slots:
 
 
 private:
+
     void setStatusInt(StatusInt stat, bool force = false);
     void setStatusExt(StatusExt stat, bool force = false);
 
