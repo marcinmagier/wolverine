@@ -86,7 +86,11 @@ QStringList Lib::createFileListFromArgs(int argc, char **argv)
 
     // Omit first argument (application path)
     for(int i=1; i<noOfArgs; ++i) {
-        QStringList tmp = QString(argv[i]).split(W_FILE_LINE_SEP);
+        QString str(argv[i]);
+        if(str.compare("-n")==0 || str.compare("--new")==0)
+            continue;
+
+        QStringList tmp = str.split(W_FILE_LINE_SEP);
         QFileInfo file(tmp[0]);
         bool isLocalLine = false;
         int lineLocal = 0;
@@ -139,6 +143,7 @@ void Lib::openNewInstance(const QString &path)
 {
     QStringList arguments;
     arguments << "--new";
+    arguments << path;
 
     QProcess *newProc = new QProcess(qApp);
     newProc->start(sAppFile, arguments);

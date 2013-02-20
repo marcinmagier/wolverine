@@ -243,6 +243,55 @@ void CentralWidget::onCopyToOtherIdx(int index)
     }
 }
 
+void CentralWidget::onMoveToDock()
+{
+
+}
+
+void CentralWidget::onMoveToDockIdx(int index)
+{
+
+}
+
+void CentralWidget::onCopyToDock()
+{
+
+}
+
+void CentralWidget::onCopyToDockIdx(int index)
+{
+
+}
+
+void CentralWidget::onMoveToApp()
+{
+    this->onMoveToAppIdx(mPanelCurrent->currentIndex());
+}
+
+void CentralWidget::onMoveToAppIdx(int index)
+{
+    Editor *edit = mPanelCurrent->getEditor(index);
+    mPanelCurrent->removeTab(index);
+    if(mPanelCurrent == mPanelRight) {
+        if(mPanelRight->count() == 0) {
+            mPanelRight->setVisible(false);
+        }
+    }
+    Lib::openNewInstance(edit->getBinder()->absoluteFilePath());
+}
+
+void CentralWidget::onCopyToApp()
+{
+    this->onCopyToAppIdx(mPanelCurrent->currentIndex());
+}
+
+void CentralWidget::onCopyToAppIdx(int index)
+{
+    Editor *edit = mPanelCurrent->getEditor(index);
+    Lib::openNewInstance(edit->getBinder()->absoluteFilePath());
+}
+
+
 
 
 void CentralWidget::onEditorStatusIntChanged(int stat)
@@ -327,23 +376,39 @@ void CentralWidget::onCustomContextMenuRequested(QPoint pos)
 
     int idx = mPanelCurrent->tabAt(pos);
 
+    EditorBinder::StatusExt statExt = mPanelCurrent->getEditor(idx)->getBinder()->getStatusExt();
+    bool isNew = (statExt == EditorBinder::New || statExt == EditorBinder::NotExists) ? true : false;
+
     mMenuClose->setEnabled(false);
     mMenuCloseOthers->setEnabled(false);
     mMenuSplitTab->setEnabled(false);
     mMenuMoveTab->setEnabled(false);
     mMenuCopyTab->setEnabled(false);
+    mMenuMoveDock->setEnabled(false);
+    mMenuCopyDock->setEnabled(false);
+    mMenuMoveApp->setEnabled(false);
+    mMenuCopyApp->setEnabled(false);
 
     if(idx >= 0) {
         mMenuClose->setEnabled(true);
         mMenuCopyTab->setEnabled(true);
+        mMenuCopyDock->setEnabled(true);
+        if(!isNew)
+            mMenuCopyApp->setEnabled(true);
 
         if(mPanelCurrent->count() > 1) {
             mMenuCloseOthers->setEnabled(true);
             mMenuMoveTab->setEnabled(true);
+            mMenuMoveDock->setEnabled(true);
+            if(!isNew)
+                mMenuMoveApp->setEnabled(true);
         } else {
             // Only one tab
             if(mPanelCurrent == mPanelRight) {
                 mMenuMoveTab->setEnabled(true);
+                mMenuMoveDock->setEnabled(true);
+                if(!isNew)
+                    mMenuMoveApp->setEnabled(true);
             }
         }
 
@@ -364,6 +429,14 @@ void CentralWidget::onCustomContextMenuRequested(QPoint pos)
         onMoveToOtherIdx(idx);
     } else if(action == mMenuCopyTab) {
         onCopyToOtherIdx(idx);
+    } else if(action == mMenuMoveDock) {
+        onMoveToDockIdx(idx);
+    } else if(action == mMenuCopyDock) {
+        onCopyToDockIdx(idx);
+    } else if(action == mMenuMoveApp) {
+        onMoveToAppIdx(idx);
+    } else if(action == mMenuCopyApp) {
+        onCopyToAppIdx(idx);
     }
 }
 

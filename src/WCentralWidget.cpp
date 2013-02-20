@@ -46,6 +46,11 @@
 #define W_ACTION_SPLIT_TAB "SplitTab"
 #define W_ACTION_MOVE_TAB "MoveTab"
 #define W_ACTION_COPY_TAB "CopyTab"
+#define W_ACTION_MOVE_DOCK "MoveDock"
+#define W_ACTION_COPY_DOCK "CopyDock"
+#define W_ACTION_MOVE_APP "MoveApp"
+#define W_ACTION_COPY_APP "CopyApp"
+
 
 #define W_TABBAR_CONTEXT_MENU  "TabBarContextMenu"
 
@@ -280,6 +285,21 @@ void CentralWidget::setupContextMenu()
     mMenuCopyTab = action;
     mContextMenu->addAction(W_ACTION_COPY_TAB, action);
 
+    mMenuMoveDock = new QAction(tr("Move to dock"), mContextMenu);
+    //action is handled within menu hander
+    mContextMenu->addAction(W_ACTION_MOVE_DOCK, mMenuMoveDock);
+
+    mMenuCopyDock = new QAction(tr("Copy to dock"), mContextMenu);
+    //action is handled within menu hander
+    mContextMenu->addAction(W_ACTION_COPY_DOCK, mMenuCopyDock);
+
+    mMenuMoveApp = new QAction(tr("Move to new instance"), mContextMenu);
+    //action is handled within menu hander
+    mContextMenu->addAction(W_ACTION_MOVE_APP, mMenuMoveApp);
+
+    mMenuCopyApp = new QAction(tr("Copy to new instance"), mContextMenu);
+    //action is handled within menu hander
+    mContextMenu->addAction(W_ACTION_COPY_APP, mMenuCopyApp);
 
     mContextMenu->restoreConfig();
 }

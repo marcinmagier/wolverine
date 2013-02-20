@@ -72,6 +72,10 @@ public slots:
     void onSplit();
     void onMoveToOther();
     void onCopyToOther();
+    void onMoveToDock();
+    void onCopyToDock();
+    void onMoveToApp();
+    void onCopyToApp();
 
 
 
@@ -81,6 +85,10 @@ private slots:
     void onSplitIdx(int index);
     void onMoveToOtherIdx(int index);
     void onCopyToOtherIdx(int index);
+    void onMoveToDockIdx(int index);
+    void onCopyToDockIdx(int index);
+    void onMoveToAppIdx(int index);
+    void onCopyToAppIdx(int index);
 
     void onEditorStatusIntChanged(int stat);
     void onEditorStatusExtChanged(int stat);
@@ -121,6 +129,10 @@ private:
     QAction *mMenuSplitTab;
     QAction *mMenuMoveTab;
     QAction *mMenuCopyTab;
+    QAction *mMenuMoveDock;
+    QAction *mMenuCopyDock;
+    QAction *mMenuMoveApp;
+    QAction *mMenuCopyApp;
 
     AppSettings *mSettings;
 };
