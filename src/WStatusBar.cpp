@@ -34,6 +34,7 @@
 #define STATUS_LABEL_STYLE      "QLabel {"                  \
                                 "padding-left: 4px;"        \
                                 "padding-right: 4px;"       \
+                                "font-size: 9pt;"           \
                                 "}"
 
 #define FILE_STATISTICS_PATTERN     "length: %1     lines: %2"
