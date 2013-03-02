@@ -135,7 +135,7 @@ void StatusBar::onCurrentEditorChanged(Editor *editor)
         mLblFilePath->setText(binder->fileName());
 
     mLblCodec->setText(editor->getCode());
-    mLblLexer->setText(editor->getLexerName());
+    mLblLexer->setText(binder->getLexerName());
 
     connect(editor, SIGNAL(cursorPositionChanged(int,int)),
               this, SLOT(onCurrentEditorPosChanged(int,int)), Qt::UniqueConnection );
@@ -145,6 +145,8 @@ void StatusBar::onCurrentEditorChanged(Editor *editor)
               this, SLOT(onCurrentEditorSelectionChanged()), Qt::UniqueConnection );
     connect(binder, SIGNAL(fileInfoChanged(QFileInfo*)),
               this, SLOT(onCurrentEditorFileInfoChanged(QFileInfo*)), Qt::UniqueConnection );
+    connect(binder, SIGNAL(lexerChanged(QString)),
+              this, SLOT(onCurrentEditorLexerChanged(QString)), Qt::UniqueConnection );
 
     QPoint pos = editor->pos();
     onCurrentEditorPosChanged(pos.x(), pos.y());
@@ -179,6 +181,11 @@ void StatusBar::onCurrentEditorFileInfoChanged(QFileInfo *fileinfo)
         mLblFilePath->setText(fileinfo->fileName());
 }
 
+void StatusBar::onCurrentEditorLexerChanged(const QString &name)
+{
+    mLblLexer->setText(name);
+}
+
 
 
 
@@ -210,8 +217,9 @@ void StatusBar::onLblCodecClickLong(Qt::MouseButton /*button*/)
 void StatusBar::onLblLexerClickLong(Qt::MouseButton /*button*/)
 {
     Editor *editor = mEditorProxy->getCurrentEditor();
+    EditorBinder *binder = editor->getBinder();
     QList<QString> lexNames = EditorLexerManager::instance()->getLexerNames();
-    QString currLexName = editor->getLexerName();
+    QString currLexName = binder->getLexerName();
     QMenu menu(this);
 
     QAction *action;
@@ -229,7 +237,7 @@ void StatusBar::onLblLexerClickLong(Qt::MouseButton /*button*/)
     action->setChecked(true);
     currLexName = action->text();
     mLblLexer->setText(currLexName);
-    editor->setLexer(currLexName);
+    binder->setLexer(currLexName);
 }
 
 void StatusBar::onLblEoLClickLong(Qt::MouseButton button)

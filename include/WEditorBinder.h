@@ -41,6 +41,7 @@ namespace Wolverine
 {
 
 class Editor;
+class EditorLexerManager;
 
 typedef QList<Editor*> EditorList;
 
@@ -89,10 +90,14 @@ public:
     void saveFile(const QString &path);
     void loadFile();
 
+    void setLexer(const QString &name);
+    const QString& getLexerName();
+
 signals:
     void statusIntChanged(int);
     void statusExtChanged(int);
     void fileInfoChanged(QFileInfo *fileinfo);
+    void lexerChanged(const QString &name);
 
 
 private slots:
@@ -111,6 +116,9 @@ private:
     StatusExt mStatusExt;
     QTextCodec *mCodec;
     QFileSystemWatcher *mWatcher;
+
+    QString mLexerName;
+    EditorLexerManager *mLexerManager;
 
     static int sNewFileNo;
 };

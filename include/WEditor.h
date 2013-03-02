@@ -36,7 +36,6 @@ namespace Wolverine
 {
 
 class EditorBinder;
-class EditorLexerManager;
 
 class Editor: public QtScintilla
 {
@@ -52,9 +51,6 @@ public:
 
     void setBinder(EditorBinder* doc);
     EditorBinder* getBinder();
-
-    void setLexer(const QString &name, bool forAllLiked=true);
-    const QString& getLexerName();
 
     void setCodec(const QString &name);
     QString getCode();
@@ -78,8 +74,7 @@ private:
     void updateLineNoMargin(bool visible);
 
     EditorBinder *mBinder;
-    EditorLexerManager *mLexerManager;
-    QString mLexerName;
+
     ScintillaSettings *mSettings;
 
 };

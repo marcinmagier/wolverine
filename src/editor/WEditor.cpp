@@ -24,7 +24,6 @@
 
 #include "WEditor.h"
 #include "WEditorBinder.h"
-#include "WEditorLexerManager.h"
 
 #include "CfgAppSettings.h"
 #include "CfgScintillaSettings.h"
@@ -45,7 +44,6 @@ Editor::Editor(QWidget *parent) :
     mBinder(new EditorBinder())
 {
     initialize();
-    this->setLexer(QString("Normal Text"));
 }
 
 
@@ -54,8 +52,6 @@ Editor::Editor(EditorBinder *doc, QWidget *parent) :
     mBinder(doc)
 {
     initialize();
-    this->setLexer(mLexerManager->getLexerName(mBinder));
-
 }
 
 
@@ -67,7 +63,6 @@ Editor::~Editor()
 
 void Editor::initialize()
 {
-    mLexerManager = EditorLexerManager::instance();
     mSettings = AppSettings::instance()->scintilla;
 
     this->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -117,28 +112,6 @@ EditorBinder* Editor::getBinder()
         LOG_ERROR("There is no binder asociated with the editor");
 
     return mBinder;
-}
-
-
-void Editor::setLexer(const QString &name, bool forAllLiked)
-{
-    mLexerName = name;
-    QtScintilla::setLexer(mLexerManager->getLexer(name));
-
-    if(forAllLiked) {
-        // BUG Qt 4.8.1 liked editors change their styles accidentally
-        // We have to set the same lexer for all linked editors
-        const EditorList &editors = mBinder->getEditors();
-        foreach(Editor *edit, editors) {
-            if(edit != this)
-                edit->setLexer(name, false); // false to prevent recursive calls
-        }
-    }
-}
-
-const QString& Editor::getLexerName()
-{
-    return mLexerName;
 }
 
 

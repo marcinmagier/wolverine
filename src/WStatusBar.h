@@ -43,6 +43,7 @@ private slots:
     void onCurrentEditorTextChanged();
     void onCurrentEditorSelectionChanged();
     void onCurrentEditorFileInfoChanged(QFileInfo *fileinfo);
+    void onCurrentEditorLexerChanged(const QString &name);
 
     void onLblCodecClickLong(Qt::MouseButton button);
     void onLblLexerClickLong(Qt::MouseButton button);

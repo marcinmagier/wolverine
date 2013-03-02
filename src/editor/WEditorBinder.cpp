@@ -25,6 +25,7 @@
 
 #include "WEditorBinder.h"
 #include "WEditor.h"
+#include "WEditorLexerManager.h"
 
 #include "CfgAppSettings.h"
 #include "CfgGeneralSettings.h"
@@ -65,6 +66,9 @@ EditorBinder::EditorBinder() :
     mWatcher = new QFileSystemWatcher();
     connect( mWatcher, SIGNAL(fileChanged(QString)),
                  this, SLOT(onFileChanged(QString)) );
+
+    mLexerManager = EditorLexerManager::instance();
+    mLexerName = mLexerManager->getLexerName(this);
 }
 
 
@@ -110,6 +114,9 @@ EditorBinder::EditorBinder(const QString &path) :
 
     if(exists())
         mWatcher->addPath(absoluteFilePath());
+
+    mLexerManager = EditorLexerManager::instance();
+    mLexerName = mLexerManager->getLexerName(this);
 }
 
 
@@ -170,6 +177,7 @@ EditorList& EditorBinder::getEditors()
 Editor* EditorBinder::getNewEditor()
 {
     Editor *newEditor = new Editor(this);
+    newEditor->setLexer(mLexerManager->getLexer(mLexerName));
     mEditors.append(newEditor);
     connect( newEditor, SIGNAL(modificationChanged(bool)),
                   this, SLOT(onEditorModificationChanged(bool)) );
@@ -193,7 +201,7 @@ Editor* EditorBinder::getLinkedEditor(Editor *editor)
     Editor *newEditor = new Editor(this);
     mEditors.append(newEditor);
     newEditor->setDocument(editor->document());
-    newEditor->setLexer(editor->getLexerName());
+    newEditor->setLexer(mLexerManager->getLexer(mLexerName));
     connect( newEditor, SIGNAL(modificationChanged(bool)),
                   this, SLOT(onEditorModificationChanged(bool)) );
     return newEditor;
@@ -207,14 +215,11 @@ Editor* EditorBinder::getLinkedEditor(Editor *editor)
  */
 void EditorBinder::removeEditor(Editor *editor)
 {
-    QString lexName = editor->getLexerName();
     mEditors.removeAll(editor);
     delete editor;
 
     // Update lexer for linked editors.
-    foreach(Editor *editor, mEditors) {
-        editor->setLexer(lexName);
-    }
+    setLexer(mLexerManager->getLexerName(this));
 }
 
 
@@ -402,6 +407,7 @@ void EditorBinder::saveFile(const QString &path)
     onFileChanged(path);    // Refresh SatusInt and StatusExt
 
     saveFile(true);
+    setLexer(mLexerManager->getLexerName(this));
 }
 
 
@@ -426,5 +432,23 @@ void EditorBinder::loadFile()
 
         setStatusInt(Unmodified);
     }
+}
+
+
+void EditorBinder::setLexer(const QString &name)
+{
+    if(mLexerName != name) {
+        mLexerName = name;
+        QsciLexer *lex = mLexerManager->getLexer(mLexerName);
+        foreach(Editor *edit, mEditors) {
+            edit->setLexer(lex);
+        }
+        emit lexerChanged(mLexerName);
+    }
+}
+
+const QString& EditorBinder::getLexerName()
+{
+    return mLexerName;
 }
 
