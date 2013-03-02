@@ -75,6 +75,14 @@ void Editor::initialize()
     this->setMarginLineNumbers(1, true);
     this->setMarginSensitivity(0, true);
 
+    this->setEolVisibility(mSettings->isEolVisible());
+    connect(mSettings, SIGNAL(eolVisibleChanged(bool)),
+                 this, SLOT(setEolVisibility(bool)), Qt::DirectConnection );
+    //this->setWhitespaceVisibility( QsciScintilla::WsVisible);
+
+    this->setWrapMode(QsciScintilla::WrapCharacter);
+    //this->setWrapIndentMode();
+    //this->setWrapVisualFlags();
 
     connect( this, SIGNAL(cursorLineChanged(int)),
              this, SLOT(onCursorLineChanged(int)) );

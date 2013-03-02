@@ -219,6 +219,18 @@ void initializeActions()
 
 
 
+    action = new QAction(QObject::tr("Show White Chars"), 0);
+    //action->setShortcut(QObject::tr("Ctrl+C"));
+    action->setStatusTip(QObject::tr("Show White Chars"));
+    sInstance->addAction(W_ACTION_GROUP_VIEW, W_ACTION_WCHARS, action);
+
+    action = new QAction(QObject::tr("Wrap Lines"), 0);
+    //action->setShortcut(QObject::tr("Ctrl+V"));
+    action->setStatusTip(QObject::tr("Wrap Lines"));
+    sInstance->addAction(W_ACTION_GROUP_VIEW, W_ACTION_WRAP, action);
+
+
+
     action = new QAction(QObject::tr("Customize"), 0);
     //action->setShortcut(QObject::tr("Ctrl+Alt+S"));
     action->setStatusTip(QObject::tr("Enable/disable customization"));

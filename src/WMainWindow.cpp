@@ -9,6 +9,7 @@
 #include "CfgAppSettings.h"
 #include "CfgGeneralSettings.h"
 #include "CfgHiddenSettings.h"
+#include "CfgScintillaSettings.h"
 #include "DlgSettings.h"
 
 #include "Logger.h"
@@ -179,6 +180,46 @@ void MainWindow::createMenusAndToolbars()
     toolbar->addAction(W_ACTION_PASTE, action);
 
     mMenus[W_ACTION_GROUP_EDIT] = menu;
+
+
+
+
+    menu = menuBar()->addMenu(tr("View"));
+
+    action = mActionManager->getAction(W_ACTION_GROUP_VIEW, W_ACTION_WRAP);
+    action->setIcon(QIcon(":/wrap.png"));
+    action->setCheckable(true);
+    action->setChecked(mSettings->scintilla->isWrapModeEnabled());
+    menu->addAction(action);
+    toolbar->addAction(W_ACTION_WRAP, action);
+
+    action = mActionManager->getAction(W_ACTION_GROUP_VIEW, W_ACTION_WCHARS);
+    action->setIcon(QIcon(":/pilcrow.png"));
+    action->setCheckable(true);
+    action->setChecked(mSettings->scintilla->isShowWhiteCharsEnabled());
+    connect(               action, SIGNAL(toggled(bool)),
+             mSettings->scintilla, SLOT(setShowWhiteCharsEnabled(bool)), Qt::DirectConnection );
+    connect(mSettings->scintilla, SIGNAL(showWhiteCharsEnabledChanged(bool)),
+                          action, SLOT(setChecked(bool)), Qt::DirectConnection );
+    toolbar->addAction(W_ACTION_WCHARS, action);
+
+    QMenu *wsMenu = menu->addMenu(action->text());
+    wsMenu->setIcon(QIcon(":/pilcrow.png"));
+    action = wsMenu->addAction(tr("Show spaces and tabs"));
+    action->setCheckable(true);
+    action->setChecked(mSettings->scintilla->isWhiteSpaceVisible());
+    connect(               action, SIGNAL(toggled(bool)),
+             mSettings->scintilla, SLOT(setWhiteSpaceVisible(bool)), Qt::DirectConnection );
+    connect(mSettings->scintilla, SIGNAL(whiteSpaceVisibleChanged(bool)),
+                          action, SLOT(setChecked(bool)), Qt::DirectConnection );
+    action = wsMenu->addAction(tr("Show end of lines"));
+    action->setCheckable(true);
+    action->setChecked(mSettings->scintilla->isEolVisible());
+    connect(               action, SIGNAL(toggled(bool)),
+             mSettings->scintilla, SLOT(setEolVisible(bool)), Qt::DirectConnection );
+    connect(mSettings->scintilla, SIGNAL(eolVisibleChanged(bool)),
+                          action, SLOT(setChecked(bool)), Qt::DirectConnection );
+    mMenus[W_ACTION_GROUP_VIEW] = menu;
 
 
 

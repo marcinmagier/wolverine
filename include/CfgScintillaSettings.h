@@ -13,6 +13,14 @@ class ScintillaSettings : public QObject
 
     Q_PROPERTY(bool         showLineNumbersEnabled      READ isShowLineNumbersEnabled       WRITE setShowLineNumbersEnabled     )
 
+    Q_PROPERTY(bool         eolVisible                  READ isEolVisible                   WRITE setEolVisible                 )
+    Q_PROPERTY(bool         whiteSpaceVisible           READ isWhiteSpaceVisible            WRITE setWhiteSpaceVisible          )
+    Q_PROPERTY(int          whiteSpaceVisibleMode       READ getWhiteSpaceVisibleMode       WRITE setWhiteSpaceVisibleMode      )
+    Q_PROPERTY(bool         showWhiteCharsEnabled       READ isShowWhiteCharsEnabled        WRITE setShowWhiteCharsEnabled      )
+
+    Q_PROPERTY(bool         wrapModeEnabled             READ isWrapModeEnabled              WRITE setWrapModeEnabled            )
+    Q_PROPERTY(int          wrapMode                    READ getWrapMode                    WRITE setWrapMode                   )
+
 
     Q_PROPERTY(QStringList  codecAvailable              READ getCodecAvailable              WRITE setCodecAvailable             )
 
@@ -22,6 +30,13 @@ public:
     explicit ScintillaSettings();
 
     bool isShowLineNumbersEnabled();
+    bool isEolVisible();
+    bool isWhiteSpaceVisible();
+    int getWhiteSpaceVisibleMode();
+    bool isShowWhiteCharsEnabled();
+
+    bool isWrapModeEnabled();
+    int getWrapMode();
 
     const QStringList& getCodecAvailable();
     void addCodecAvailable(const QString &codec);
@@ -31,15 +46,44 @@ public:
 signals:
     void showLineNumbersEnabledChanged(bool val);
 
+    void eolVisibleChanged(bool val);
+    void whiteSpaceVisibleChanged(bool val);
+    void showWhiteCharsEnabledChanged(bool val);
+
+    void wrapModeEnabledChanged(bool val);
+
 
 public slots:
     void setShowLineNumbersEnabled(bool val);
+
+    void setEolVisible(bool val);
+    void setWhiteSpaceVisible(bool val);
+    void setWhiteSpaceVisibleMode(int val);
+    void setShowWhiteCharsEnabled(bool val);
+
+    void setWrapModeEnabled(bool val);
+    void setWrapMode(int val);
+
+
 
     void setCodecAvailable(const QStringList &codecs);
 
 
 private:
     bool mShowLineNumbersEnabled;
+
+    bool mEolVisible;
+    bool mEolVisiblePriv;
+    bool mWhiteSpaceVisible;
+    bool mWhiteSpaceVisiblePriv;
+    int  mWhiteSpaceVisibleMode;
+    bool mShowWhiteCharsEnabled;
+
+    bool mWrapModeEnabled;
+    int  mWrapMode;
+
+
+
     QStringList mCodecAvailable;
 
 
