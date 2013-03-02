@@ -27,6 +27,7 @@
 #include <QLabel>
 #include <QMenu>
 #include <QMouseEvent>
+#include <QMainWindow>
 
 #include <QDebug>
 
@@ -68,6 +69,8 @@ StatusBar::StatusBar(EditorProxy *currentEditor, QWidget *parent) :
     QStatusBar(parent),
     mEditorProxy(currentEditor)
 {
+    mMainWindow = dynamic_cast<QMainWindow*>(parent);
+
     mLblFilePath = new QtLabel("");
     mLblFilePath->setStyleSheet(QString(STATUS_LABEL_STYLE));
     mLblFilePath->setMinimumWidth(50);
@@ -128,11 +131,7 @@ void StatusBar::onCurrentEditorChanged(Editor *editor)
         return;
 
     EditorBinder *binder = editor->getBinder();
-    QString filePath = binder->canonicalFilePath();
-    if(filePath.length() > 0)
-        mLblFilePath->setText(filePath);
-    else
-        mLblFilePath->setText(binder->fileName());
+    onCurrentEditorFileInfoChanged(binder);
 
     mLblCodec->setText(editor->getCode());
     mLblLexer->setText(binder->getLexerName());
@@ -179,6 +178,7 @@ void StatusBar::onCurrentEditorFileInfoChanged(QFileInfo *fileinfo)
         mLblFilePath->setText(filePath);
     else
         mLblFilePath->setText(fileinfo->fileName());
+    mMainWindow->setWindowTitle(fileinfo->fileName());
 }
 
 void StatusBar::onCurrentEditorLexerChanged(const QString &name)

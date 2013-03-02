@@ -21,6 +21,7 @@ class QLabel;
 class QtLabel;
 class QMouseEvent;
 class QFileInfo;
+class QMainWindow;
 
 namespace Wolverine
 {
@@ -34,7 +35,7 @@ class StatusBar : public QStatusBar
     Q_OBJECT
 
 public:
-    StatusBar(EditorProxy *currentEditor, QWidget *parent=0);
+    StatusBar(EditorProxy *currentEditor, QWidget *parent);
 
 
 private slots:
@@ -56,6 +57,7 @@ private:
 
     EditorProxy *mEditorProxy;
 
+    QMainWindow *mMainWindow;
     QtLabel *mLblFilePath;
     QtLabel *mLblFileStatistics;
     QtLabel *mLblPosition;
