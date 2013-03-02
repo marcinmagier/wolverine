@@ -192,6 +192,8 @@ void CentralWidget::onCloseAll()
         qApp->quit();
     } else {
         mCurrentEditor->setCurrentEditor(0);
+        mPanelCurrent = mPanelLeft;
+        mPanelRight->hide();
         onNew();
     }
 }
