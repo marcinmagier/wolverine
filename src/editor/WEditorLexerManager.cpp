@@ -313,6 +313,11 @@ void EditorLexerManager::initializeLexers()
     eLexer->fileFirstLinePatterns << "*python*";
     mLexerMap->insert("Python", eLexer);
 
+    eLexer = new EditorLexerCfg(&createLexXML);
+    eLexer->fileNamesPatterns << "*.xml";
+    eLexer->fileFirstLinePatterns << "*xml*";
+    mLexerMap->insert("XML", eLexer);
+
     restoreBasicConfig();
 }
 

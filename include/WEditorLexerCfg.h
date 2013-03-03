@@ -80,5 +80,6 @@ void createLexJavaScript(Wolverine::EditorLexerCfg *eLexer);
 
 void createLexPython(Wolverine::EditorLexerCfg *eLexer);
 
+void createLexXML(Wolverine::EditorLexerCfg *eLexer);
 
 #endif // __W_EDITOR_LEXER_CFG_H_
