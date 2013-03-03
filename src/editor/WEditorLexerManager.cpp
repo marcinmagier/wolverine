@@ -295,6 +295,11 @@ void EditorLexerManager::initializeLexers()
                               << "*.h" << "*.hh" << "*.hpp" << "*.hxx";
     mLexerMap->insert("C++", eLexer);
 
+    eLexer = new EditorLexerCfg(&createLexHTML);
+    eLexer->fileNamesPatterns << "*.htm*" << "*.[xd]htm*";
+    eLexer->fileFirstLinePatterns << "*html*";
+    mLexerMap->insert("HTML", eLexer);
+
     eLexer = new EditorLexerCfg(&createLexJava);
     eLexer->fileNamesPatterns << "*.java";
     mLexerMap->insert("Java", eLexer);

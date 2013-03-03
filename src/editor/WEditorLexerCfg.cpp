@@ -28,6 +28,7 @@
 #include "qscilexer.h"
 #include "qscilexerbash.h"
 #include "qscilexercpp.h"
+#include "qscilexerhtml.h"
 #include "qscilexerjava.h"
 #include "qscilexerpython.h"
 
@@ -116,6 +117,132 @@ void createLexCPP(EditorLexerCfg *eLexer)
                    << QsciLexerCPP::HashQuotedString
                    << QsciLexerCPP::PreProcessorComment;
 }
+
+
+void createLexHTML(EditorLexerCfg *eLexer)
+{
+    QsciLexerHTML *lexer = new QsciLexerHTML();
+    eLexer->lexer = lexer;
+    eLexer->styles << QsciLexerHTML::Default
+                   << QsciLexerHTML::Tag
+                   << QsciLexerHTML::UnknownTag
+                   << QsciLexerHTML::Attribute
+                   << QsciLexerHTML::UnknownAttribute
+                   << QsciLexerHTML::HTMLNumber
+                   << QsciLexerHTML::HTMLDoubleQuotedString
+                   << QsciLexerHTML::HTMLSingleQuotedString
+                   << QsciLexerHTML::OtherInTag
+                   << QsciLexerHTML::HTMLComment
+                   << QsciLexerHTML::Entity
+                   << QsciLexerHTML::XMLTagEnd
+                   << QsciLexerHTML::XMLStart
+                   << QsciLexerHTML::XMLEnd
+                   << QsciLexerHTML::Script
+                   << QsciLexerHTML::ASPAtStart
+                   << QsciLexerHTML::ASPStart
+                   << QsciLexerHTML::CDATA
+                   << QsciLexerHTML::PHPStart
+                   << QsciLexerHTML::HTMLValue
+                   << QsciLexerHTML::ASPXCComment
+
+                   << QsciLexerHTML::SGMLDefault
+                   << QsciLexerHTML::SGMLCommand
+                   << QsciLexerHTML::SGMLParameter
+                   << QsciLexerHTML::SGMLDoubleQuotedString
+                   << QsciLexerHTML::SGMLSingleQuotedString
+                   << QsciLexerHTML::SGMLError
+                   << QsciLexerHTML::SGMLSpecial
+                   << QsciLexerHTML::SGMLEntity
+                   << QsciLexerHTML::SGMLComment
+                   << QsciLexerHTML::SGMLParameterComment
+                   << QsciLexerHTML::SGMLBlockDefault
+
+                   << QsciLexerHTML::JavaScriptStart
+                   << QsciLexerHTML::JavaScriptDefault
+                   << QsciLexerHTML::JavaScriptComment
+                   << QsciLexerHTML::JavaScriptCommentLine
+                   << QsciLexerHTML::JavaScriptCommentDoc
+                   << QsciLexerHTML::JavaScriptNumber
+                   << QsciLexerHTML::JavaScriptWord
+                   << QsciLexerHTML::JavaScriptKeyword
+                   << QsciLexerHTML::JavaScriptDoubleQuotedString
+                   << QsciLexerHTML::JavaScriptSingleQuotedString
+                   << QsciLexerHTML::JavaScriptSymbol
+                   << QsciLexerHTML::JavaScriptUnclosedString
+                   << QsciLexerHTML::JavaScriptRegex
+
+                   << QsciLexerHTML::ASPJavaScriptStart
+                   << QsciLexerHTML::ASPJavaScriptDefault
+                   << QsciLexerHTML::ASPJavaScriptComment
+                   << QsciLexerHTML::ASPJavaScriptCommentLine
+                   << QsciLexerHTML::ASPJavaScriptCommentDoc
+                   << QsciLexerHTML::ASPJavaScriptNumber
+                   << QsciLexerHTML::ASPJavaScriptWord
+                   << QsciLexerHTML::ASPJavaScriptKeyword
+                   << QsciLexerHTML::ASPJavaScriptDoubleQuotedString
+                   << QsciLexerHTML::ASPJavaScriptSingleQuotedString
+                   << QsciLexerHTML::ASPJavaScriptSymbol
+                   << QsciLexerHTML::ASPJavaScriptUnclosedString
+                   << QsciLexerHTML::ASPJavaScriptRegex
+
+                   << QsciLexerHTML::VBScriptStart
+                   << QsciLexerHTML::VBScriptDefault
+                   << QsciLexerHTML::VBScriptComment
+                   << QsciLexerHTML::VBScriptNumber
+                   << QsciLexerHTML::VBScriptKeyword
+                   << QsciLexerHTML::VBScriptString
+                   << QsciLexerHTML::VBScriptIdentifier
+                   << QsciLexerHTML::VBScriptUnclosedString
+
+                   << QsciLexerHTML::ASPVBScriptStart
+                   << QsciLexerHTML::ASPVBScriptDefault
+                   << QsciLexerHTML::ASPVBScriptComment
+                   << QsciLexerHTML::ASPVBScriptNumber
+                   << QsciLexerHTML::ASPVBScriptKeyword
+                   << QsciLexerHTML::ASPVBScriptString
+                   << QsciLexerHTML::ASPVBScriptIdentifier
+                   << QsciLexerHTML::ASPVBScriptUnclosedString
+
+                   << QsciLexerHTML::PythonStart
+                   << QsciLexerHTML::PythonDefault
+                   << QsciLexerHTML::PythonComment
+                   << QsciLexerHTML::PythonNumber
+                   << QsciLexerHTML::PythonDoubleQuotedString
+                   << QsciLexerHTML::PythonSingleQuotedString
+                   << QsciLexerHTML::PythonKeyword
+                   << QsciLexerHTML::PythonTripleSingleQuotedString
+                   << QsciLexerHTML::PythonTripleDoubleQuotedString
+                   << QsciLexerHTML::PythonClassName
+                   << QsciLexerHTML::PythonFunctionMethodName
+                   << QsciLexerHTML::PythonOperator
+                   << QsciLexerHTML::PythonIdentifier
+
+                   << QsciLexerHTML::ASPPythonStart
+                   << QsciLexerHTML::ASPPythonDefault
+                   << QsciLexerHTML::ASPPythonComment
+                   << QsciLexerHTML::ASPPythonNumber
+                   << QsciLexerHTML::ASPPythonDoubleQuotedString
+                   << QsciLexerHTML::ASPPythonSingleQuotedString
+                   << QsciLexerHTML::ASPPythonKeyword
+                   << QsciLexerHTML::ASPPythonTripleSingleQuotedString
+                   << QsciLexerHTML::ASPPythonTripleDoubleQuotedString
+                   << QsciLexerHTML::ASPPythonClassName
+                   << QsciLexerHTML::ASPPythonFunctionMethodName
+                   << QsciLexerHTML::ASPPythonOperator
+                   << QsciLexerHTML::ASPPythonIdentifier
+
+                   << QsciLexerHTML::PHPDefault
+                   << QsciLexerHTML::PHPDoubleQuotedString
+                   << QsciLexerHTML::PHPSingleQuotedString
+                   << QsciLexerHTML::PHPKeyword
+                   << QsciLexerHTML::PHPNumber
+                   << QsciLexerHTML::PHPVariable
+                   << QsciLexerHTML::PHPComment
+                   << QsciLexerHTML::PHPCommentLine
+                   << QsciLexerHTML::PHPDoubleQuotedVariable
+                   << QsciLexerHTML::PHPOperator;
+}
+
 
 
 void createLexJava(EditorLexerCfg *eLexer)

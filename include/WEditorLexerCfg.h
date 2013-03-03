@@ -72,6 +72,8 @@ void createLexBash(Wolverine::EditorLexerCfg *eLexer);
 
 void createLexCPP(Wolverine::EditorLexerCfg *eLexer);
 
+void createLexHTML(Wolverine::EditorLexerCfg *eLexer);
+
 void createLexJava(Wolverine::EditorLexerCfg *eLexer);
 
 void createLexPython(Wolverine::EditorLexerCfg *eLexer);
