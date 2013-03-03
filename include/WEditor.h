@@ -67,6 +67,8 @@ protected:
 private slots:
     void onCursorLineChanged(int line);
     void onShowLineNumbersEnabledChanged(bool val);
+    void onWhiteSpaceVisibilityChanged(bool val);
+    void onWrapModeEnabledChanged(bool val);
 
 
 private:

@@ -190,6 +190,8 @@ void MainWindow::createMenusAndToolbars()
     action->setIcon(QIcon(":/wrap.png"));
     action->setCheckable(true);
     action->setChecked(mSettings->scintilla->isWrapModeEnabled());
+    connect(               action, SIGNAL(toggled(bool)),
+             mSettings->scintilla, SLOT(setWrapModeEnabled(bool)), Qt::DirectConnection );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_WRAP, action);
 

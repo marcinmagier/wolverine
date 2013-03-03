@@ -45,3 +45,21 @@ void Editor::onCursorLineChanged(int line)
 {
     this->updateLineNoMargin(mSettings->isShowLineNumbersEnabled());
 }
+
+void Editor::onWhiteSpaceVisibilityChanged(bool val)
+{
+    if(val) {
+        this->setWhitespaceVisibility( static_cast<QsciScintilla::WhitespaceVisibility>(mSettings->getWhiteSpaceVisibleMode()) );
+    } else {
+        this->setWhitespaceVisibility( QsciScintilla::WsInvisible);
+    }
+}
+
+void Editor::onWrapModeEnabledChanged(bool val)
+{
+    if(val) {
+        this->setWrapMode( static_cast<QsciScintilla::WrapMode>(mSettings->getWrapMode()));
+    } else {
+        this->setWrapMode(QsciScintilla::WrapNone);
+    }
+}

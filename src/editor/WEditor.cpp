@@ -76,11 +76,17 @@ void Editor::initialize()
     this->setMarginSensitivity(0, true);
 
     this->setEolVisibility(mSettings->isEolVisible());
-    connect(mSettings, SIGNAL(eolVisibleChanged(bool)),
-                 this, SLOT(setEolVisibility(bool)), Qt::DirectConnection );
-    //this->setWhitespaceVisibility( QsciScintilla::WsVisible);
+    connect( mSettings, SIGNAL(eolVisibleChanged(bool)),
+                  this, SLOT(setEolVisibility(bool)), Qt::DirectConnection );
 
-    this->setWrapMode(QsciScintilla::WrapCharacter);
+    onWhiteSpaceVisibilityChanged(mSettings->isWhiteSpaceVisible());
+    connect( mSettings, SIGNAL(whiteSpaceVisibleChanged(bool)),
+                  this, SLOT(onWhiteSpaceVisibilityChanged(bool)), Qt::DirectConnection );
+
+    onWrapModeEnabledChanged(mSettings->isWrapModeEnabled());
+    connect( mSettings, SIGNAL(wrapModeEnabledChanged(bool)),
+                  this, SLOT(onWrapModeEnabledChanged(bool)), Qt::DirectConnection );
+
     //this->setWrapIndentMode();
     //this->setWrapVisualFlags();
 
