@@ -23,10 +23,11 @@ class QMouseEvent;
 class QFileInfo;
 class QMainWindow;
 
+#include "WEditor.h"
+
 namespace Wolverine
 {
 
-class Editor;
 class EditorProxy;
 
 
@@ -45,6 +46,7 @@ private slots:
     void onCurrentEditorSelectionChanged();
     void onCurrentEditorFileInfoChanged(QFileInfo *fileinfo);
     void onCurrentEditorLexerChanged(const QString &name);
+    void onCurrentEditorEolChanged(Editor::EolMode eolMode);
 
     void onLblCodecClickLong(Qt::MouseButton button);
     void onLblLexerClickLong(Qt::MouseButton button);

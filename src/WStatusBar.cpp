@@ -103,8 +103,7 @@ StatusBar::StatusBar(EditorProxy *currentEditor, QWidget *parent) :
 
     mLblEoL = new QtLabel();
     mLblEoL->setStyleSheet(QString(STATUS_LABEL_STYLE));
-    Editor::EolMode eolMode = Editor::EolUnix;
-    mLblEoL->setPixmap(getEoLIcon(eolMode).pixmap(15, 15));
+    mLblEoL->setPixmap(getEoLIcon(Editor::EolUnix).pixmap(15, 15));
     connect(mLblEoL, SIGNAL(clickedLong(Qt::MouseButton)),
                this, SLOT(onLblEoLClickLong(Qt::MouseButton)) );
     this->addPermanentWidget(mLblEoL);
@@ -146,10 +145,13 @@ void StatusBar::onCurrentEditorChanged(Editor *editor)
               this, SLOT(onCurrentEditorFileInfoChanged(QFileInfo*)), Qt::UniqueConnection );
     connect(binder, SIGNAL(lexerChanged(QString)),
               this, SLOT(onCurrentEditorLexerChanged(QString)), Qt::UniqueConnection );
+    connect(binder, SIGNAL(eolChanged(Editor::EolMode)),
+              this, SLOT(onCurrentEditorEolChanged(Editor::EolMode)), Qt::UniqueConnection );
 
     QPoint pos = editor->pos();
     onCurrentEditorPosChanged(pos.x(), pos.y());
     onCurrentEditorTextChanged();
+    onCurrentEditorEolChanged(binder->getEolMode());
 }
 
 
@@ -186,6 +188,10 @@ void StatusBar::onCurrentEditorLexerChanged(const QString &name)
     mLblLexer->setText(name);
 }
 
+void StatusBar::onCurrentEditorEolChanged(QsciScintilla::EolMode eolMode)
+{
+    mLblEoL->setPixmap(getEoLIcon(eolMode).pixmap(15, 15));
+}
 
 
 
@@ -273,8 +279,8 @@ void StatusBar::onLblEoLClickLong(Qt::MouseButton button)
 
     Editor::EolMode newEolMode = static_cast<Editor::EolMode>(action->data().toInt());
     if(oldEolMode != newEolMode) {
-        mLblEoL->setPixmap(action->icon().pixmap(15, 15));
-        mEditorProxy->getCurrentEditor()->setEolMode(newEolMode);
+        //mLblEoL->setPixmap(action->icon().pixmap(15, 15));
+        mEditorProxy->getCurrentEditor()->getBinder()->setEolMode(newEolMode);
     }
 }
 

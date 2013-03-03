@@ -69,6 +69,8 @@ EditorBinder::EditorBinder() :
 
     mLexerManager = EditorLexerManager::instance();
     mLexerName = mLexerManager->getLexerName(this);
+
+    mEolMode = guessEol();
 }
 
 
@@ -117,6 +119,8 @@ EditorBinder::EditorBinder(const QString &path) :
 
     mLexerManager = EditorLexerManager::instance();
     mLexerName = mLexerManager->getLexerName(this);
+
+    mEolMode = guessEol();
 }
 
 
@@ -178,6 +182,7 @@ Editor* EditorBinder::getNewEditor()
 {
     Editor *newEditor = new Editor(this);
     newEditor->setLexer(mLexerManager->getLexer(mLexerName));
+    newEditor->setEolMode(mEolMode);
     mEditors.append(newEditor);
     connect( newEditor, SIGNAL(modificationChanged(bool)),
                   this, SLOT(onEditorModificationChanged(bool)) );
@@ -202,6 +207,7 @@ Editor* EditorBinder::getLinkedEditor(Editor *editor)
     mEditors.append(newEditor);
     newEditor->setDocument(editor->document());
     newEditor->setLexer(mLexerManager->getLexer(mLexerName));
+    newEditor->setEolMode(mEolMode);
     connect( newEditor, SIGNAL(modificationChanged(bool)),
                   this, SLOT(onEditorModificationChanged(bool)) );
     return newEditor;
@@ -452,3 +458,52 @@ const QString& EditorBinder::getLexerName()
     return mLexerName;
 }
 
+
+void EditorBinder::setEolMode(Editor::EolMode eolMode)
+{
+    if(mEolMode != eolMode) {
+        mEolMode = eolMode;
+        mEditors[0]->convertEols(mEolMode);
+        foreach(Editor *edit, mEditors) {
+            edit->setEolMode(mEolMode);
+        }
+        emit eolChanged(mEolMode);
+    }
+}
+
+Editor::EolMode EditorBinder::getEolMode()
+{
+    return mEolMode;
+}
+
+
+Editor::EolMode EditorBinder::guessEol()
+{
+    Editor::EolMode ret = Editor::EolUnix;
+    if(exists()) {
+        QString fileName(this->canonicalFilePath());
+        QFile file(fileName);
+        if(!file.open(QIODevice::ReadOnly))
+            LOG_ERROR("Cannot open file %s", fileName.constData());
+
+        QString line = QString::fromLocal8Bit(file.readLine().constData());
+        if( line.endsWith("\r\n"))
+            ret = Editor::EolWindows;
+        else if( line.endsWith("\r") )
+            ret = Editor::EolMac;
+
+        file.close();
+    } else {
+
+#if defined(Q_OS_WIN)
+        return Editor::EolWindows;
+#elif defined(Q_OS_MAC)
+        return Editor::EolMac;
+#else
+        return Editor::EolUnix;
+#endif
+
+    }
+
+    return ret;
+}

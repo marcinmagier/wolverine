@@ -32,6 +32,8 @@
 #include <QFileInfo>
 #include <QIcon>
 
+#include "WEditor.h"
+
 
 
 class QTextCodec;
@@ -40,7 +42,6 @@ class QFileSystemWatcher;
 namespace Wolverine
 {
 
-class Editor;
 class EditorLexerManager;
 
 typedef QList<Editor*> EditorList;
@@ -93,11 +94,15 @@ public:
     void setLexer(const QString &name);
     const QString& getLexerName();
 
+    void setEolMode(Editor::EolMode eolMode);
+    Editor::EolMode getEolMode();
+
 signals:
     void statusIntChanged(int);
     void statusExtChanged(int);
     void fileInfoChanged(QFileInfo *fileinfo);
     void lexerChanged(const QString &name);
+    void eolChanged(Editor::EolMode eolMode);
 
 
 private slots:
@@ -107,6 +112,7 @@ private slots:
 
 private:
 
+    Editor::EolMode guessEol();
     void setStatusInt(StatusInt stat, bool force = false);
     void setStatusExt(StatusExt stat, bool force = false);
 
@@ -120,6 +126,7 @@ private:
     QString mLexerName;
     EditorLexerManager *mLexerManager;
 
+    Editor::EolMode mEolMode;
     static int sNewFileNo;
 };
 
