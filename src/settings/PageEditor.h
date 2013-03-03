@@ -25,8 +25,18 @@ public:
     explicit PageEditor(AppSettings *settings, QWidget *parent = 0);
     ~PageEditor();
     
+
+private slots:
+    void onRadioVisibleAfterIndentClicked();
+    void onRadioVisibleAlwaysClicked();
+    void onRadioWrapCharBoundClicked();
+    void onRadioWrapWordBoundClicked();
+
 private:
     Ui::PageEditor *ui;
+
+    AppSettings *mSettings;
+
 };
 
 }

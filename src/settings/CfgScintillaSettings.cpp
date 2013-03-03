@@ -82,13 +82,17 @@ void ScintillaSettings::setShowWhiteCharsEnabled(bool val)
     if(mShowWhiteCharsEnabled != val) {
         mShowWhiteCharsEnabled = val;
         if(val) {
-            if(mEolVisiblePriv) {
-                setEolVisible(true);
-            }
-            if(mWhiteSpaceVisiblePriv) {
-                setWhiteSpaceVisible(true);
+            if(!(mEolVisible || mWhiteSpaceVisible)) {
+                //Neither eol nor ws are visible, check previous values.
+                if(mEolVisiblePriv) {
+                    setEolVisible(true);
+                }
+                if(mWhiteSpaceVisiblePriv) {
+                    setWhiteSpaceVisible(true);
+                }
             }
             if(!(mEolVisible || mWhiteSpaceVisible)) {
+                //Eol and ws are still not visible, show both.
                 setEolVisible(true);
                 setWhiteSpaceVisible(true);
             }
