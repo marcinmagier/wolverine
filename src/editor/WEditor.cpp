@@ -63,7 +63,7 @@ Editor::~Editor()
 
 void Editor::initialize()
 {
-    mSettings = AppSettings::instance()->scintilla;
+    mSciSettings = AppSettings::instance()->scintilla;
 
     this->setContextMenuPolicy(Qt::CustomContextMenu);
     this->setFocusPolicy(Qt::ClickFocus);
@@ -75,16 +75,16 @@ void Editor::initialize()
     this->setMarginLineNumbers(1, true);
     this->setMarginSensitivity(0, true);
 
-    this->setEolVisibility(mSettings->isEolVisible());
-    connect( mSettings, SIGNAL(eolVisibleChanged(bool)),
+    this->setEolVisibility(mSciSettings->isEolVisible());
+    connect( mSciSettings, SIGNAL(eolVisibleChanged(bool)),
                   this, SLOT(setEolVisibility(bool)), Qt::DirectConnection );
 
-    onWhiteSpaceVisibilityChanged(mSettings->isWhiteSpaceVisible());
-    connect( mSettings, SIGNAL(whiteSpaceVisibleChanged(bool)),
+    onWhiteSpaceVisibilityChanged(mSciSettings->isWhiteSpaceVisible());
+    connect( mSciSettings, SIGNAL(whiteSpaceVisibleChanged(bool)),
                   this, SLOT(onWhiteSpaceVisibilityChanged(bool)), Qt::DirectConnection );
 
-    onWrapModeEnabledChanged(mSettings->isWrapModeEnabled());
-    connect( mSettings, SIGNAL(wrapModeEnabledChanged(bool)),
+    onWrapModeEnabledChanged(mSciSettings->isWrapModeEnabled());
+    connect( mSciSettings, SIGNAL(wrapModeEnabledChanged(bool)),
                   this, SLOT(onWrapModeEnabledChanged(bool)), Qt::DirectConnection );
 
     //this->setWrapIndentMode();
@@ -93,7 +93,7 @@ void Editor::initialize()
     connect( this, SIGNAL(cursorLineChanged(int)),
              this, SLOT(onCursorLineChanged(int)) );
 
-    connect( mSettings, SIGNAL(showLineNumbersEnabledChanged(bool)),
+    connect( mSciSettings, SIGNAL(showLineNumbersEnabledChanged(bool)),
                   this, SLOT(onShowLineNumbersEnabledChanged(bool)), Qt::DirectConnection );
 
     updateLineNoMargin(true);

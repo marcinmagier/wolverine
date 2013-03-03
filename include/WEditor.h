@@ -77,7 +77,7 @@ private:
 
     EditorBinder *mBinder;
 
-    ScintillaSettings *mSettings;
+    ScintillaSettings *mSciSettings;
 
 };
 
