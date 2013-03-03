@@ -30,6 +30,7 @@
 #include "qscilexercpp.h"
 #include "qscilexerhtml.h"
 #include "qscilexerjava.h"
+#include "qscilexerjavascript.h"
 #include "qscilexerpython.h"
 
 #include <QString>
@@ -275,6 +276,36 @@ void createLexJava(EditorLexerCfg *eLexer)
                    << QsciLexerJava::PreProcessorComment;
 }
 
+
+void createLexJavaScript(EditorLexerCfg *eLexer)
+{
+    QsciLexerJavaScript *lexer = new QsciLexerJavaScript();
+    eLexer->lexer = lexer;
+    eLexer->styles << QsciLexerJavaScript::Default
+                   << QsciLexerJavaScript::Comment
+                   << QsciLexerJavaScript::CommentLine
+                   << QsciLexerJavaScript::CommentDoc
+                   << QsciLexerJavaScript::Number
+                   << QsciLexerJavaScript::Keyword
+                   << QsciLexerJavaScript::DoubleQuotedString
+                   << QsciLexerJavaScript::SingleQuotedString
+                   << QsciLexerJavaScript::UUID
+                   << QsciLexerJavaScript::PreProcessor
+                   << QsciLexerJavaScript::Operator
+                   << QsciLexerJavaScript::Identifier
+                   << QsciLexerJavaScript::UnclosedString
+                   << QsciLexerJavaScript::VerbatimString
+                   << QsciLexerJavaScript::Regex
+                   << QsciLexerJavaScript::CommentLineDoc
+                   << QsciLexerJavaScript::KeywordSet2
+                   << QsciLexerJavaScript::CommentDocKeyword
+                   << QsciLexerJavaScript::CommentDocKeywordError
+                   << QsciLexerJavaScript::GlobalClass
+                   << QsciLexerJavaScript::RawString
+                   << QsciLexerJavaScript::TripleQuotedVerbatimString
+                   << QsciLexerJavaScript::HashQuotedString
+                   << QsciLexerJavaScript::PreProcessorComment;
+}
 
 
 void createLexPython(EditorLexerCfg *eLexer)

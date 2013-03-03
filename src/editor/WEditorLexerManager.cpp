@@ -304,6 +304,10 @@ void EditorLexerManager::initializeLexers()
     eLexer->fileNamesPatterns << "*.java";
     mLexerMap->insert("Java", eLexer);
 
+    eLexer = new EditorLexerCfg(&createLexJavaScript);
+    eLexer->fileNamesPatterns << "*.js";
+    mLexerMap->insert("JavaScript", eLexer);
+
     eLexer = new EditorLexerCfg(&createLexPython);
     eLexer->fileNamesPatterns << "*.py";
     eLexer->fileFirstLinePatterns << "*python*";

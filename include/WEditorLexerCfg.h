@@ -76,6 +76,8 @@ void createLexHTML(Wolverine::EditorLexerCfg *eLexer);
 
 void createLexJava(Wolverine::EditorLexerCfg *eLexer);
 
+void createLexJavaScript(Wolverine::EditorLexerCfg *eLexer);
+
 void createLexPython(Wolverine::EditorLexerCfg *eLexer);
 
 
