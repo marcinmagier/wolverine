@@ -35,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->resize(mSettings->hidden->getMWSize());
     this->move(mSettings->hidden->getMWPosition());
+    this->setWindowIcon(QIcon(":/wolverine.png"));
 
     createMenusAndToolbars();
 

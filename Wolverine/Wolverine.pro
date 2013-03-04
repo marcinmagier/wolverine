@@ -92,7 +92,11 @@ INCLUDEPATH  += \
 
 
 RESOURCES    += \
-                ../resources/images.qrc 
+                ../resources/images.qrc
+
+
+RC_FILE      += \
+                ../resources/appicon/wolverine.rc
 
 
 FORMS        += \

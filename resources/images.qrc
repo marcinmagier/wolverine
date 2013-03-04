@@ -22,5 +22,6 @@
         <file alias="eol_win.png">images/eol_win.png</file>
         <file alias="pilcrow.png">images/pilcrow.png</file>
         <file alias="wrap.png">images/wrap.png</file>
+        <file alias="wolverine.png">appicon/wolverine-16.png</file>
     </qresource>
 </RCC>

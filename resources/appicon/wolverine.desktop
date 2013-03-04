@@ -1,0 +1,14 @@
+
+[Desktop Entry]
+Name=Wolverine
+Comment=Advanced text editor
+Comment[pl]=Zaawansowany edytor tekstu
+Exec=wolverine %F
+Terminal=false
+Type=Application
+StartupNotify=false
+MimeType=text/plain;
+Icon=wolverine
+Categories=Qt;Utility;TextEditor;
+GenericName=Text editor
+GenericName[pl]=Edytor tekstu
