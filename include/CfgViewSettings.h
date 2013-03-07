@@ -23,7 +23,7 @@ class ViewSettings : public QObject
     Q_PROPERTY(bool     tabBarMiddleBtnNew          READ isTabBarMiddleBtnNew           WRITE setTabBarMiddleBtnNew         )
     Q_PROPERTY(bool     tabBarModernStyleEnabled    READ isTabBarModernStyleEnabled     WRITE setTabBarModernStyleEnabled   )
     Q_PROPERTY(QColor   tabBarActiveBgColor         READ getTabBarActiveBgColor         WRITE setTabBarActiveBgColor        )
-
+    Q_PROPERTY(int		tabBarStyle                 READ getTabBarStyle                 WRITE setTabBarStyle                )
 
 
 public:
@@ -42,6 +42,7 @@ public:
     bool isTabBarMiddleBtnNew();
     bool isTabBarModernStyleEnabled();
     QColor getTabBarActiveBgColor();
+    int getTabBarStyle();
 
 
 
@@ -76,6 +77,7 @@ public slots:
     void setTabBarMiddleBtnNew(bool val);
     void setTabBarModernStyleEnabled(bool val);
     void setTabBarActiveBgColor(const QColor &val);
+    void setTabBarStyle(int val);
 
 
 private:
@@ -92,6 +94,7 @@ private:
     bool mTabBarMiddleBtnNew;
     bool mTabBarModernStyleEnabled;
     QColor mTabBarActiveBgColor;
+    int mTabBarStyle;
 };
 
 

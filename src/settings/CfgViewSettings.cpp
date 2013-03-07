@@ -21,6 +21,7 @@ ViewSettings::ViewSettings()
     mTabBarMiddleBtnNew = true;
     mTabBarModernStyleEnabled = true;
     mTabBarActiveBgColor = QApplication::palette().color(QPalette::AlternateBase);
+    mTabBarStyle = 2; // QtTabBar::MODERN_HI_SELECTED
 }
 
 
@@ -179,5 +180,14 @@ void ViewSettings::setTabBarActiveBgColor(const QColor &val)
 QColor ViewSettings::getTabBarActiveBgColor()
 {
     return mTabBarActiveBgColor;
+}
+
+void ViewSettings::setTabBarStyle(int val)
+{
+    mTabBarStyle = val;
+}
+int ViewSettings::getTabBarStyle()
+{
+    return mTabBarStyle;
 }
 

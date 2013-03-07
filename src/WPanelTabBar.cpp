@@ -49,8 +49,8 @@ PanelTabBar::PanelTabBar(QWidget *parent) :
 
     this->setMovable(settings->view->isTabBarMovable());
     this->setTabsClosable(settings->view->isTabBarCloseVisible());
-    this->setBgColor(settings->view->getTabBarActiveBgColor());
-    this->enableModernStyle( settings->view->isTabBarModernStyleEnabled());
+    this->setHighlightColor(settings->view->getTabBarActiveBgColor());
+    this->onTabBarModernStyleEnabledChanged(settings->view->isTabBarModernStyleEnabled());
 
     this->setDocumentMode(true);
     this->setExpanding(false);
@@ -58,7 +58,7 @@ PanelTabBar::PanelTabBar(QWidget *parent) :
 
 
     connect( settings->view, SIGNAL(tabBarModernStyleEnabledChanged(bool)),
-                       this, SLOT(enableModernStyle(bool)), Qt::DirectConnection );
+                       this, SLOT(onTabBarModernStyleEnabledChanged(bool)), Qt::DirectConnection );
     connect( settings->view, SIGNAL(tabBarCloseVisibleChanged(bool)),
                        this, SLOT(onTabBarCloseVisibleChanged(bool)), Qt::DirectConnection );
     connect( settings->view, SIGNAL(tabBarMovableChanged(bool)),
@@ -135,8 +135,8 @@ void PanelTabBar::mouseDoubleClickEvent(QMouseEvent *event)
  */
 void PanelTabBar::onTabBarBgColorChanged(const QColor &color)
 {
-    if(getBgColor().isValid())
-        setBgColor(color);
+    if(getHighlightColor().isValid())
+        setHighlightColor(color);
 }
 
 /**
@@ -158,4 +158,18 @@ void PanelTabBar::onTabBarMovableChanged(bool val)
 void PanelTabBar::onTabBarCloseVisibleChanged(bool val)
 {
     this->setTabsClosable(val);
+}
+
+
+/**
+ *  tabBarModernStyleEnabledChanged() handler
+ *
+ * @param val
+ */
+void PanelTabBar::onTabBarModernStyleEnabledChanged(bool val)
+{
+    if(val)
+        this->setStyle( static_cast<QtTabBar::HiStyle>(AppSettings::instance()->view->getTabBarStyle()) );
+    else
+        this->setStyle( QtTabBar::CLASSIC );
 }

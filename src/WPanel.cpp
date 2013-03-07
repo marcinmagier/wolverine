@@ -193,9 +193,9 @@ void Panel::removeTab(int index)
 void Panel::setActive(bool active)
 {
     if(active)
-        mTabBar->setBgColor(AppSettings::instance()->view->getTabBarActiveBgColor());
+        mTabBar->setHighlightColor(AppSettings::instance()->view->getTabBarActiveBgColor());
     else
-        mTabBar->setBgColor(QColor());
+        mTabBar->setHighlightColor(QColor());
 }
 
 void Panel::setStatusIcon(int idx, EditorBinder::StatusInt statInt, EditorBinder::StatusExt statExt)
