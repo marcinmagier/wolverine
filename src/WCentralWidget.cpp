@@ -57,6 +57,9 @@
 #define W_TABBAR_CONTEXT_MENU  "TabBarContextMenu"
 
 
+
+
+
 using namespace Wolverine;
 
 
@@ -196,7 +199,15 @@ void CentralWidget::setCurrentPanel(Panel *panel)
 {
     if(mPanelCurrent != panel) {
         mPanelCurrent = panel;
+        if(panel == mPanelLeft) {
+            mPanelLeft->setActive(true);
+            mPanelRight->setActive(false);
+        } else {
+            mPanelLeft->setActive(false);
+            mPanelRight->setActive(true);
+        }
         this->setCurrentEditor(mPanelCurrent->getEditor(mPanelCurrent->currentIndex()));
+
     }
 }
 

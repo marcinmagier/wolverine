@@ -60,6 +60,7 @@ public:
     void splitTab(int index);
     void removeTab(int index);
 
+    void setActive(bool active = false);
     void setStatusIcon(int idx, EditorBinder::StatusInt statInt, EditorBinder::StatusExt statExt);
 
 public slots:

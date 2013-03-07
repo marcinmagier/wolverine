@@ -27,6 +27,7 @@
 #include "CfgViewSettings.h"
 
 #include <QMouseEvent>
+#include <QColor>
 
 
 
@@ -48,6 +49,7 @@ PanelTabBar::PanelTabBar(QWidget *parent) :
 
     this->setMovable(settings->view->isTabBarMovable());
     this->setTabsClosable(settings->view->isTabBarCloseVisible());
+    this->setBgColor(settings->view->getTabBarActiveBgColor());
     this->enableModernStyle( settings->view->isTabBarModernStyleEnabled());
 
     this->setDocumentMode(true);
@@ -61,6 +63,8 @@ PanelTabBar::PanelTabBar(QWidget *parent) :
                        this, SLOT(onTabBarCloseVisibleChanged(bool)), Qt::DirectConnection );
     connect( settings->view, SIGNAL(tabBarMovableChanged(bool)),
                        this, SLOT(onTabBarMovableChanged(bool)), Qt::DirectConnection );
+    connect( settings->view, SIGNAL(tabBarActiveBgColorChanged(QColor)),
+                       this, SLOT(onTabBarBgColorChanged(QColor)), Qt::DirectConnection );
 
 }
 
@@ -123,6 +127,17 @@ void PanelTabBar::mouseDoubleClickEvent(QMouseEvent *event)
     QtTabBar::mouseDoubleClickEvent(event);
 }
 
+
+/**
+ *  tabBarActiveBgColorChanged() handler
+ *
+ * @param color
+ */
+void PanelTabBar::onTabBarBgColorChanged(const QColor &color)
+{
+    if(getBgColor().isValid())
+        setBgColor(color);
+}
 
 /**
  *  tabBarLockedChanged() handler

@@ -22,6 +22,7 @@ class ViewSettings : public QObject
     Q_PROPERTY(bool     tabBarMiddleBtnClose        READ isTabBarMiddleBtnClose         WRITE setTabBarMiddleBtnClose       )
     Q_PROPERTY(bool     tabBarMiddleBtnNew          READ isTabBarMiddleBtnNew           WRITE setTabBarMiddleBtnNew         )
     Q_PROPERTY(bool     tabBarModernStyleEnabled    READ isTabBarModernStyleEnabled     WRITE setTabBarModernStyleEnabled   )
+    Q_PROPERTY(QColor   tabBarActiveBgColor         READ getTabBarActiveBgColor         WRITE setTabBarActiveBgColor        )
 
 
 
@@ -40,6 +41,7 @@ public:
     bool isTabBarMiddleBtnClose();
     bool isTabBarMiddleBtnNew();
     bool isTabBarModernStyleEnabled();
+    QColor getTabBarActiveBgColor();
 
 
 
@@ -56,6 +58,7 @@ signals:
     void tabBarMiddleBtnCloseChanged(bool val);
     void tabBarMiddleBtnCloseNew(bool val);
     void tabBarModernStyleEnabledChanged(bool val);
+    void tabBarActiveBgColorChanged(const QColor &color);
 
 
 
@@ -72,7 +75,7 @@ public slots:
     void setTabBarMiddleBtnClose(bool val);
     void setTabBarMiddleBtnNew(bool val);
     void setTabBarModernStyleEnabled(bool val);
-
+    void setTabBarActiveBgColor(const QColor &val);
 
 
 private:
@@ -88,6 +91,7 @@ private:
     bool mTabBarMiddleBtnClose;
     bool mTabBarMiddleBtnNew;
     bool mTabBarModernStyleEnabled;
+    QColor mTabBarActiveBgColor;
 };
 
 
