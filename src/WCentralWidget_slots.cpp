@@ -66,28 +66,7 @@ void CentralWidget::onNew()
 
 void CentralWidget::onOpen(const QString &path)
 {
-    QString file = Lib::getPathFromFile(path);
-    int line = Lib::getLineFromFile(path) - 1; //Lines start from 0.
-
-    if(setCurrentIfExists(mPanelLeft, file))
-        return;
-
-    if(setCurrentIfExists(mPanelRight, file))
-        return;
-
-    EditorBinder *binder = new EditorBinder(file);
-    Editor *edit = binder->getEditor();
-    edit->setCursorPosition(line, 0);
-
-    int idx = mPanelCurrent->addTab(edit);
-    mPanelCurrent->setCurrentIndex(idx);
-
-    connect( binder, SIGNAL(statusIntChanged(int)),
-               this, SLOT(onEditorStatusIntChanged(int)) );
-    connect( binder, SIGNAL(statusExtChanged(int)),
-               this, SLOT(onEditorStatusExtChanged(int)) );
-    connect( binder, SIGNAL(fileInfoChanged(QFileInfo*)),
-               this, SLOT(onEditorFileInfoChanged(QFileInfo*)) );
+    openFile(mPanelCurrent, path);
 }
 
 void CentralWidget::onOpenForm()

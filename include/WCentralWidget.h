@@ -76,6 +76,10 @@ public slots:
     void onCopyToApp();
 
 
+protected:
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dropEvent(QDropEvent *event);
+
 
 private slots:
     void onCloseIdx(int index);
@@ -105,6 +109,8 @@ private:
     void setCurrentPanel(Panel *panel);
     void setCurrentEditor(Editor *editor);
     void removeEditor(Editor *editor);
+
+    void openFile(Panel *panel, const QString &path);
 
     bool setCurrentIfExists(Panel *panel, const QString &path, int line = -1);
     bool setCurrentIfExists(Panel *panel, Editor *editor, int line = -1);
