@@ -155,8 +155,9 @@ void CentralWidget::moveAll(Panel *from, Panel *to)
     int fromLength = from->count();
     for(int i=0; i<fromLength; i++) {
         Editor *edit = from->getEditor(0);
+        EditorBinder *binder = edit->getBinder();
         from->removeTab(0);
-        to->addTab(edit);
+        to->addTab(edit, guesEditorStatusIcon(binder->getStatusInt(), binder->getStatusExt()));
     }
     mPanelCurrent = to;
     to->setCurrentIndex(idx);
@@ -170,7 +171,8 @@ void CentralWidget::moveTab(Panel *from, int fromIdx, Panel *to)
     mPanelCurrent = to;
     int idx = to->indexOf(edit);
     if(idx<0) {
-        to->addTab(edit);
+        EditorBinder *binder = edit->getBinder();
+        to->addTab(edit, guesEditorStatusIcon(binder->getStatusInt(), binder->getStatusExt()));
         to->setCurrentWidget(edit);
     } else {
         // There is already a copy of the editor on the other panel
@@ -187,7 +189,8 @@ void CentralWidget::copyTab(Panel *from, int fromIdx, Panel *to)
     int idx = to->indexOf(edit);
     if(idx<0) {
         Editor *copy = edit->getLinkedCopy();
-        to->addTab(copy);
+        EditorBinder *binder = copy->getBinder();
+        to->addTab(copy, guesEditorStatusIcon(binder->getStatusInt(), binder->getStatusExt()));
         to->setCurrentWidget(copy);
     } else {
         // There is already a copy of the editor - select it
@@ -195,21 +198,6 @@ void CentralWidget::copyTab(Panel *from, int fromIdx, Panel *to)
     }
 }
 
-
-void CentralWidget::setTabIcon(Panel *panel, int idx, EditorBinder::StatusInt statInt, EditorBinder::StatusExt statExt)
-{
-    if(statExt == EditorBinder::ReadOnly) {
-        panel->setTabIcon(idx, QIcon(":/save_grey.png"));
-        return;
-    }
-
-    if( (statExt == EditorBinder::Normal) && (statInt == EditorBinder::Unmodified) ) {
-         panel->setTabIcon(idx, QIcon(":/save_blue.png"));
-        return;
-    }
-
-     panel->setTabIcon(idx, QIcon(":/save_red.png"));
-}
 
 void CentralWidget::setCurrentPanel(Panel *panel)
 {
@@ -265,6 +253,20 @@ bool CentralWidget::setCurrentIfExists(Panel *panel, const QString &path, int li
 }
 
 
+QIcon CentralWidget::guesEditorStatusIcon(EditorBinder::StatusInt statInt, EditorBinder::StatusExt statExt)
+{
+    if(statExt == EditorBinder::ReadOnly)
+        return QIcon(":/save_grey.png");
+
+
+    if( (statExt == EditorBinder::Normal) && (statInt == EditorBinder::Unmodified) )
+        return QIcon(":/save_blue.png");
+
+    return QIcon(":/save_red.png");
+}
+
+
+
 void CentralWidget::openFile(Panel *panel, const QString &path)
 {
     QString file = Lib::getPathFromFile(path);
@@ -283,7 +285,7 @@ void CentralWidget::openFile(Panel *panel, const QString &path)
     edit->setCursorPosition(line, 0);
 
     mPanelCurrent = panel;
-    int idx = mPanelCurrent->addTab(edit);
+    int idx = mPanelCurrent->addTab(edit, guesEditorStatusIcon(binder->getStatusInt(), binder->getStatusExt()));
     mPanelCurrent->setCurrentIndex(idx);
 
     connect( binder, SIGNAL(statusIntChanged(int)),

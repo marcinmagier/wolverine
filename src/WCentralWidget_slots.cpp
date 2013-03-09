@@ -51,7 +51,7 @@ void CentralWidget::onNew()
     Editor *edit = binder->getEditor();
 
 
-    int idx = mPanelCurrent->addTab(edit, QIcon(":/save_grey.png"));
+    int idx = mPanelCurrent->addTab(edit, guesEditorStatusIcon(binder->getStatusInt(), binder->getStatusExt()));
     mPanelCurrent->setCurrentIndex(idx);
     //currentEditor is updated via slot
 
@@ -265,11 +265,11 @@ void CentralWidget::onEditorStatusIntChanged(int stat)
     foreach(Editor *edit, editors) {
         int idx = mPanelLeft->indexOf(edit);
         if(idx >= 0)
-            setTabIcon(mPanelLeft,idx, statusInt, statusExt);
+            mPanelLeft->setTabIcon(idx, guesEditorStatusIcon(statusInt, statusExt));
 
         idx = mPanelRight->indexOf(edit);
         if(idx >= 0)
-            setTabIcon(mPanelRight, idx, statusInt, statusExt);
+            mPanelRight->setTabIcon(idx, guesEditorStatusIcon(statusInt, statusExt));
     }
 }
 
@@ -290,11 +290,11 @@ void CentralWidget::onEditorStatusExtChanged(int stat)
     foreach(Editor *edit, editors) {
         int idx = mPanelLeft->indexOf(edit);
         if(idx >= 0)
-            setTabIcon(mPanelLeft, idx, statusInt, statusExt);
+            mPanelLeft->setTabIcon(idx, guesEditorStatusIcon(statusInt, statusExt));
 
         idx = mPanelRight->indexOf(edit);
         if(idx >= 0)
-            setTabIcon(mPanelRight, idx, statusInt, statusExt);
+            mPanelRight->setTabIcon(idx, guesEditorStatusIcon(statusInt, statusExt));
     }
     statusExt = statusExtOld;
 }
