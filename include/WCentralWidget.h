@@ -32,6 +32,7 @@ class QtManagedMenu;
 
 class AppSettings;
 
+#include "WEditorBinder.h"
 
 #include <QWidget>
 
@@ -106,6 +107,7 @@ private:
     void moveAll(Panel *from, Panel *to);
     void moveTab(Panel *from, int fromIdx, Panel *to);
     void copyTab(Panel *from, int fromIdx, Panel *to);
+    void setTabIcon(Panel *panel, int idx, EditorBinder::StatusInt statInt, EditorBinder::StatusExt statExt);
     void setCurrentPanel(Panel *panel);
     void setCurrentEditor(Editor *editor);
     void removeEditor(Editor *editor);

@@ -91,17 +91,15 @@ Panel::~Panel()
  * @param editor
  * @return
  */
-int Panel::addTab(Editor *editor)
+int Panel::addTab(Editor *editor, const QIcon &icon)
 {
-    EditorBinder *binder = editor->getBinder();
     PanelTabContent *tabContent = new PanelTabContent(this);
     connect( tabContent, SIGNAL(focusReceived()),
                  this, SLOT(onInternalWidgetFocusReceived()), Qt::UniqueConnection );
     tabContent->addWidget(editor);
 
-    int idx = QtTabWidget::addTab(tabContent, binder->fileName());
-    setStatusIcon(idx, binder->getStatusInt(), binder->getStatusExt());
-    return idx;
+    EditorBinder *binder = editor->getBinder();
+    return QtTabWidget::addTab(tabContent, icon, binder->fileName());
 }
 
 
@@ -189,28 +187,17 @@ void Panel::removeTab(int index)
 }
 
 
-
+/**
+ *  Activates or deactivates panel.
+ *
+ * @param active
+ */
 void Panel::setActive(bool active)
 {
     if(active)
         mTabBar->setHighlightColor(AppSettings::instance()->view->getTabBarActiveBgColor());
     else
         mTabBar->setHighlightColor(QColor());
-}
-
-void Panel::setStatusIcon(int idx, EditorBinder::StatusInt statInt, EditorBinder::StatusExt statExt)
-{
-    if(statExt == EditorBinder::ReadOnly) {
-        QtTabWidget::setTabIcon(idx, QIcon(":/save_grey.png"));
-        return;
-    }
-
-    if( (statExt == EditorBinder::Normal) && (statInt == EditorBinder::Unmodified) ) {
-        QtTabWidget::setTabIcon(idx, QIcon(":/save_blue.png"));
-        return;
-    }
-
-    QtTabWidget::setTabIcon(idx, QIcon(":/save_red.png"));
 }
 
 

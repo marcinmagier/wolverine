@@ -195,6 +195,21 @@ void CentralWidget::copyTab(Panel *from, int fromIdx, Panel *to)
 }
 
 
+void CentralWidget::setTabIcon(Panel *panel, int idx, EditorBinder::StatusInt statInt, EditorBinder::StatusExt statExt)
+{
+    if(statExt == EditorBinder::ReadOnly) {
+        panel->setTabIcon(idx, QIcon(":/save_grey.png"));
+        return;
+    }
+
+    if( (statExt == EditorBinder::Normal) && (statInt == EditorBinder::Unmodified) ) {
+         panel->setTabIcon(idx, QIcon(":/save_blue.png"));
+        return;
+    }
+
+     panel->setTabIcon(idx, QIcon(":/save_red.png"));
+}
+
 void CentralWidget::setCurrentPanel(Panel *panel)
 {
     if(mPanelCurrent != panel) {
