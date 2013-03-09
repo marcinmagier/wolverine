@@ -19,7 +19,7 @@
 #include <QStringList>
 
 
-#define W_FILE_LINE_SEP "@"
+#define W_FILE_LINE_SEP ":"
 
 using namespace Wolverine;
 

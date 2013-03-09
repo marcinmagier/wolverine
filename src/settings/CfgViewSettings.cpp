@@ -6,7 +6,7 @@
 #include <QPalette>
 
 ViewSettings::ViewSettings()
-{
+{   
     mPopupTimeout = 5;
     mPopupAnimationType = QString(POPUP_ANIMATION_TYPES).split(" ")[0];
     mPopupBgColor = QApplication::palette().color(QPalette::ToolTipBase);
@@ -20,6 +20,8 @@ ViewSettings::ViewSettings()
     mTabBarMiddleBtnClose = true;
     mTabBarMiddleBtnNew = true;
     mTabBarModernStyleEnabled = true;
+    mTabBarActiveBgColor = QApplication::palette().color(QPalette::AlternateBase);
+    mTabBarStyle = 2; // QtTabBar::MODERN_HI_SELECTED
 }
 
 
@@ -168,4 +170,24 @@ bool ViewSettings::isTabBarModernStyleEnabled()
     return mTabBarModernStyleEnabled;
 }
 
+void ViewSettings::setTabBarActiveBgColor(const QColor &val)
+{
+    if(mTabBarActiveBgColor != val) {
+        mTabBarActiveBgColor = val;
+        emit tabBarActiveBgColorChanged(mTabBarActiveBgColor);
+    }
+}
+QColor ViewSettings::getTabBarActiveBgColor()
+{
+    return mTabBarActiveBgColor;
+}
+
+void ViewSettings::setTabBarStyle(int val)
+{
+    mTabBarStyle = val;
+}
+int ViewSettings::getTabBarStyle()
+{
+    return mTabBarStyle;
+}
 

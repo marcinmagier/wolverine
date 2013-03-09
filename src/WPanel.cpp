@@ -26,6 +26,11 @@
 #include "WPanelTabBar.h"
 #include "WPanelTabContent.h"
 
+#include "CfgAppSettings.h"
+#include "CfgGeneralSettings.h"
+#include "CfgViewSettings.h"
+
+
 #include <QContextMenuEvent>
 
 
@@ -184,6 +189,14 @@ void Panel::removeTab(int index)
 }
 
 
+
+void Panel::setActive(bool active)
+{
+    if(active)
+        mTabBar->setHighlightColor(AppSettings::instance()->view->getTabBarActiveBgColor());
+    else
+        mTabBar->setHighlightColor(QColor());
+}
 
 void Panel::setStatusIcon(int idx, EditorBinder::StatusInt statInt, EditorBinder::StatusExt statExt)
 {

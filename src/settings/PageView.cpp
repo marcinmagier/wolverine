@@ -65,6 +65,10 @@ PageView::PageView(AppSettings *settings, QWidget *parent) :
     ui->checkModernStyle->setChecked( settings->view->isTabBarModernStyleEnabled() );
     connect( ui->checkModernStyle, SIGNAL(toggled(bool)),
                       settings->view, SLOT(setTabBarModernStyleEnabled(bool)), Qt::DirectConnection );
+
+    ui->btnActiveBgColor->setColor( settings->view->getTabBarActiveBgColor());
+    connect( ui->btnActiveBgColor, SIGNAL(colorChanged(QColor)),
+                      settings->view, SLOT(setTabBarActiveBgColor(QColor)), Qt::DirectConnection );
 }
 
 PageView::~PageView()

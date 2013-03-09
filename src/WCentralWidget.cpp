@@ -26,6 +26,7 @@
 #include "WEditorBinder.h"
 #include "WEditorProxy.h"
 #include "WPanel.h"
+#include "WLib.h"
 
 #include "CfgAppSettings.h"
 #include "CfgGeneralSettings.h"
@@ -35,6 +36,10 @@
 #include <QHBoxLayout>
 #include <QSplitter>
 #include <QIcon>
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QUrl>
+#include <QMimeData>
 
 #include <QDebug>
 
@@ -53,12 +58,16 @@
 #define W_TABBAR_CONTEXT_MENU  "TabBarContextMenu"
 
 
+
+
+
 using namespace Wolverine;
 
 
 CentralWidget::CentralWidget(QWidget *parent):
     QWidget(parent)
 {
+    setAcceptDrops(true);
     mCurrentEditor = new EditorProxy();
 
     mLayout = new QHBoxLayout(this);
@@ -191,7 +200,15 @@ void CentralWidget::setCurrentPanel(Panel *panel)
 {
     if(mPanelCurrent != panel) {
         mPanelCurrent = panel;
+        if(panel == mPanelLeft) {
+            mPanelLeft->setActive(true);
+            mPanelRight->setActive(false);
+        } else {
+            mPanelLeft->setActive(false);
+            mPanelRight->setActive(true);
+        }
         this->setCurrentEditor(mPanelCurrent->getEditor(mPanelCurrent->currentIndex()));
+
     }
 }
 
@@ -230,6 +247,64 @@ bool CentralWidget::setCurrentIfExists(Panel *panel, const QString &path, int li
     }
 
     return false;
+}
+
+
+void CentralWidget::openFile(Panel *panel, const QString &path)
+{
+    QString file = Lib::getPathFromFile(path);
+    int line = Lib::getLineFromFile(path);
+    if(line>0)
+        line--; //Lines start from 0.
+
+    if(setCurrentIfExists(mPanelLeft, file))
+        return;
+
+    if(setCurrentIfExists(mPanelRight, file))
+        return;
+
+    EditorBinder *binder = new EditorBinder(file);
+    Editor *edit = binder->getEditor();
+    edit->setCursorPosition(line, 0);
+
+    mPanelCurrent = panel;
+    int idx = mPanelCurrent->addTab(edit);
+    mPanelCurrent->setCurrentIndex(idx);
+
+    connect( binder, SIGNAL(statusIntChanged(int)),
+               this, SLOT(onEditorStatusIntChanged(int)) );
+    connect( binder, SIGNAL(statusExtChanged(int)),
+               this, SLOT(onEditorStatusExtChanged(int)) );
+    connect( binder, SIGNAL(fileInfoChanged(QFileInfo*)),
+               this, SLOT(onEditorFileInfoChanged(QFileInfo*)) );
+}
+
+
+void CentralWidget::dragEnterEvent(QDragEnterEvent *event)
+{
+    if(event->mimeData()->hasUrls()) {
+        event->acceptProposedAction();
+    }
+}
+
+void CentralWidget::dropEvent(QDropEvent *event)
+{
+    if(event->mimeData()->hasUrls()) {
+        foreach(QUrl url, event->mimeData()->urls()) {
+            QString path = url.path();
+#ifdef Q_OS_WIN
+            // file name start with "/" on windows
+            if(path.startsWith('/'))
+                path.remove(0, 1);
+#endif
+            if(!path.isEmpty()) {
+                if(mPanelRight->underMouse())
+                    openFile(mPanelRight, path);
+                else
+                    openFile(mPanelLeft, path);
+            }
+        }
+    }
 }
 
 

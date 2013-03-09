@@ -29,6 +29,7 @@
 #include "qttabbar.h"
 
 class QMouseEvent;
+class QColor;
 
 
 namespace Wolverine
@@ -43,8 +44,10 @@ public:
     
 
 private slots:
+    void onTabBarBgColorChanged(const QColor &color);
     void onTabBarMovableChanged(bool val);
     void onTabBarCloseVisibleChanged(bool val);
+    void onTabBarModernStyleEnabledChanged(bool val);
 
 signals:
     void focusReceived();
