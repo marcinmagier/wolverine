@@ -1,5 +1,5 @@
 
-QT       *= core gui
+QT       *= core gui widgets
 
 
 # uncomment if you want to build project with libraries - see ../wolverine_build.pro

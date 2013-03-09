@@ -249,7 +249,7 @@ QString EditorBinder::getCodecName()
  */
 void EditorBinder::setCodecName(const QString &name, bool reload)
 {
-    QTextCodec *tmp = QTextCodec::codecForName(name.toAscii());
+    QTextCodec *tmp = QTextCodec::codecForName(name.toLatin1());
     if(tmp)
         mCodec = tmp;
     else
