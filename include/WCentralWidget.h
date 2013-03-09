@@ -29,6 +29,7 @@ class QFileInfo;
 class QHBoxLayout;
 class QSplitter;
 class QtManagedMenu;
+class QIcon;
 
 class AppSettings;
 
@@ -116,6 +117,8 @@ private:
 
     bool setCurrentIfExists(Panel *panel, const QString &path, int line = -1);
     bool setCurrentIfExists(Panel *panel, Editor *editor, int line = -1);
+
+    QIcon guesEditorStatusIcon(EditorBinder::StatusInt statInt, EditorBinder::StatusExt statExt);
 
 
     QHBoxLayout *mLayout;
