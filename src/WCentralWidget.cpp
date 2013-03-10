@@ -102,8 +102,7 @@ CentralWidget::CentralWidget(QWidget *parent):
 
     mSettings = AppSettings::instance();
 
-    mPanelCurrent = mPanelLeft;
-
+    setCurrentPanel(mPanelLeft);
     setupContextMenu();
 }
 
@@ -159,7 +158,7 @@ void CentralWidget::moveAll(Panel *from, Panel *to)
         from->removeTab(0);
         to->addTab(edit, guesEditorStatusIcon(binder->getStatusInt(), binder->getStatusExt()));
     }
-    mPanelCurrent = to;
+    setCurrentPanel(to);
     to->setCurrentIndex(idx);
 }
 
@@ -168,7 +167,7 @@ void CentralWidget::moveTab(Panel *from, int fromIdx, Panel *to)
 {
     Editor *edit = from->getEditor(fromIdx);
     from->removeTab(fromIdx);
-    mPanelCurrent = to;
+    setCurrentPanel(to);
     int idx = to->indexOf(edit);
     if(idx<0) {
         EditorBinder *binder = edit->getBinder();
@@ -185,7 +184,7 @@ void CentralWidget::moveTab(Panel *from, int fromIdx, Panel *to)
 void CentralWidget::copyTab(Panel *from, int fromIdx, Panel *to)
 {
     Editor *edit = from->getEditor(fromIdx);
-    mPanelCurrent = to;
+    setCurrentPanel(to);
     int idx = to->indexOf(edit);
     if(idx<0) {
         Editor *copy = edit->getLinkedCopy();
@@ -199,7 +198,7 @@ void CentralWidget::copyTab(Panel *from, int fromIdx, Panel *to)
 }
 
 
-void CentralWidget::setCurrentPanel(Panel *panel)
+void CentralWidget::setCurrentPanel(Panel *panel, bool updateEditor)
 {
     if(mPanelCurrent != panel) {
         mPanelCurrent = panel;
@@ -210,8 +209,9 @@ void CentralWidget::setCurrentPanel(Panel *panel)
             mPanelLeft->setActive(false);
             mPanelRight->setActive(true);
         }
-        this->setCurrentEditor(mPanelCurrent->getEditor(mPanelCurrent->currentIndex()));
 
+        if(updateEditor)
+            this->setCurrentEditor(mPanelCurrent->getEditor(mPanelCurrent->currentIndex()));
     }
 }
 
@@ -227,7 +227,7 @@ bool CentralWidget::setCurrentIfExists(Panel *panel, Editor *editor, int line)
 {
     int idx = panel->indexOf(editor);
     if(idx >= 0) {
-        mPanelCurrent = panel;
+        setCurrentPanel(panel);
         mPanelCurrent->setCurrentIndex(idx);
         if(line >= 0)
             mPanelCurrent->getEditor(idx)->setCursorPosition(line, 0);
@@ -242,7 +242,7 @@ bool CentralWidget::setCurrentIfExists(Panel *panel, const QString &path, int li
 {
     int idx = panel->indexOf(path);
     if(idx >= 0) {
-        mPanelCurrent = panel;
+        setCurrentPanel(panel);
         mPanelCurrent->setCurrentIndex(idx);
         if(line >= 0)
             mPanelCurrent->getEditor(idx)->setCursorPosition(line, 0);
@@ -284,7 +284,7 @@ void CentralWidget::openFile(Panel *panel, const QString &path)
     Editor *edit = binder->getEditor();
     edit->setCursorPosition(line, 0);
 
-    mPanelCurrent = panel;
+    setCurrentPanel(panel);
     int idx = mPanelCurrent->addTab(edit, guesEditorStatusIcon(binder->getStatusInt(), binder->getStatusExt()));
     mPanelCurrent->setCurrentIndex(idx);
 

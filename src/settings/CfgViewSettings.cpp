@@ -20,7 +20,7 @@ ViewSettings::ViewSettings()
     mTabBarMiddleBtnClose = true;
     mTabBarMiddleBtnNew = true;
     mTabBarModernStyleEnabled = true;
-    mTabBarActiveBgColor = QApplication::palette().color(QPalette::AlternateBase);
+    mTabBarActiveBgColor = QColor("#B0000C");
     mTabBarStyle = 2; // QtTabBar::MODERN_HI_SELECTED
 }
 

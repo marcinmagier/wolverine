@@ -135,7 +135,7 @@ void CentralWidget::onCloseIdx(int index)
         if(mPanelCurrent == mPanelLeft)
             this->moveAll(mPanelRight, mPanelLeft);
         mPanelRight->setVisible(false);
-        this->setCurrentPanel(mPanelLeft);
+        this->setCurrentPanel(mPanelLeft, true);
     }
 
     if(mPanelLeft->count() == 0) {
@@ -171,7 +171,7 @@ void CentralWidget::onCloseAll()
         qApp->quit();
     } else {
         mCurrentEditor->setCurrentEditor(0);
-        mPanelCurrent = mPanelLeft;
+        setCurrentPanel(mPanelLeft);
         mPanelRight->hide();
         onNew();
     }
@@ -214,11 +214,11 @@ void CentralWidget::onCopyToOtherIdx(int index)
 {
     if(mPanelCurrent == mPanelRight) {
         // Copy to the left panel
-        mPanelCurrent = mPanelLeft;
+        setCurrentPanel(mPanelLeft);
         this->copyTab(mPanelRight, index, mPanelLeft);
     } else {
         // Copy to the right panel
-        mPanelCurrent = mPanelRight;
+        setCurrentPanel(mPanelRight);
         this->copyTab(mPanelLeft, index, mPanelRight);
         mPanelRight->setVisible(true);
     }
@@ -320,9 +320,9 @@ void CentralWidget::onEditorFileInfoChanged(QFileInfo *fileinfo)
 void CentralWidget::onInternalWidgetFocusReceived()
 {
     if(sender() == mPanelRight)
-        this->setCurrentPanel(mPanelRight);
+        this->setCurrentPanel(mPanelRight, true);
     else
-        this->setCurrentPanel(mPanelLeft);
+        this->setCurrentPanel(mPanelLeft, true);
 }
 
 void CentralWidget::onCustomContextMenuRequested(QPoint pos)
