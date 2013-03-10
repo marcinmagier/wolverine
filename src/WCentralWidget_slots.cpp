@@ -44,6 +44,7 @@ using namespace Wolverine;
 
 
 #define STATUS_NOTEXISTS_MSG_PATTERN "The file %1 doesn't exist anymore.\nKeep this file in editor?"
+#define STATUS_MODIFIED_MSG_PATTERN "The file %1 has been modified by another program.\nDo you want to reload it?"
 
 
 
@@ -150,7 +151,7 @@ void CentralWidget::onEditorStatusExtChanged(int stat)
     EditorBinder::StatusExt statusExtOld = binder->getStatusExt();
     EditorBinder::StatusInt statusInt = binder->getStatusInt();
 
-    if(statusExt == EditorBinder::NotExists && statusExtOld != EditorBinder::New) {
+    if((statusExt == EditorBinder::NotExists) && (statusExtOld != EditorBinder::New)) {
         QString message = tr(STATUS_NOTEXISTS_MSG_PATTERN).arg(binder->absoluteFilePath());
         QMessageBox::StandardButton ret = QMessageBox::warning(this, tr("Keep non existing file"), message,
                                                                QMessageBox::Yes | QMessageBox::No,
@@ -165,6 +166,17 @@ void CentralWidget::onEditorStatusExtChanged(int stat)
             }
             this->updatePanels();
             return;
+        }
+    } else if( (statusExt == statusExtOld) && statusExt == EditorBinder::Normal) {
+        if(statusInt == EditorBinder::Unmodified) {
+            QString message = tr(STATUS_MODIFIED_MSG_PATTERN).arg(binder->absoluteFilePath());
+            QMessageBox::StandardButton ret = QMessageBox::warning(this, tr("Reload"), message,
+                                                                   QMessageBox::Yes | QMessageBox::No,
+                                                                   QMessageBox::Yes
+                                                                   );
+            if(ret == QMessageBox::Yes) {
+                binder->loadFile();
+            }
         }
     }
 

@@ -427,6 +427,7 @@ void EditorBinder::loadFile()
 
     if(exists()) {
         QString fileName(this->canonicalFilePath());
+        mWatcher->removePath(fileName);
         QFile file(fileName);
         if(!file.open(QIODevice::ReadOnly))
             LOG_ERROR("Cannot open file %s", fileName.constData());
@@ -436,6 +437,7 @@ void EditorBinder::loadFile()
         mEditors[0]->setText(in.readAll());
         file.close();
 
+        mWatcher->addPath(fileName);
         setStatusInt(Unmodified);
     }
 }
