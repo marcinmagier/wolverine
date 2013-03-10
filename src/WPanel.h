@@ -53,6 +53,7 @@ public:
 
 
     int addTab(Editor *editor, const QIcon &icon = QIcon());
+    int insertTab(int index, Editor *editor, const QIcon &icon = QIcon());
     int indexOf(Editor *editor);
     int indexOf(const QString &filePath);
     int tabAt(const QPoint &pos);

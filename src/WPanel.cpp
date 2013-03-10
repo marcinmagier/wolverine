@@ -104,6 +104,26 @@ int Panel::addTab(Editor *editor, const QIcon &icon)
 
 
 /**
+ *  Inserts new tab
+ *
+ * @param index
+ * @param editor
+ * @param icon
+ * @return
+ */
+int Panel::insertTab(int index, Editor *editor, const QIcon &icon)
+{
+    PanelTabContent *tabContent = new PanelTabContent(this);
+    connect( tabContent, SIGNAL(focusReceived()),
+                 this, SLOT(onInternalWidgetFocusReceived()), Qt::UniqueConnection );
+    tabContent->addWidget(editor);
+
+    EditorBinder *binder = editor->getBinder();
+    return QtTabWidget::insertTab(index, tabContent, icon, binder->fileName());
+}
+
+
+/**
  *  Checks if given editor is already opened in panel.
  *
  * @param editor
