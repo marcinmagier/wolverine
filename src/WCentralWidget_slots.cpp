@@ -47,26 +47,18 @@ using namespace Wolverine;
 
 void CentralWidget::onNew()
 {
-    EditorBinder *binder = new EditorBinder();
-    Editor *edit = binder->getEditor();
+    this->newTab(mPanelCurrent, mPanelCurrent->count());
+}
 
-
-    int idx = mPanelCurrent->addTab(edit, guesEditorStatusIcon(binder->getStatusInt(), binder->getStatusExt()));
-    mPanelCurrent->setCurrentIndex(idx);
-    //currentEditor is updated via slot
-
-    connect( binder, SIGNAL(statusIntChanged(int)),
-               this, SLOT(onEditorStatusIntChanged(int)) );
-    connect( binder, SIGNAL(statusExtChanged(int)),
-               this, SLOT(onEditorStatusExtChanged(int)) );
-    connect( binder, SIGNAL(fileInfoChanged(QFileInfo*)),
-               this, SLOT(onEditorFileInfoChanged(QFileInfo*)) );
+void CentralWidget::onNewIdx(int index)
+{
+    this->newTab(mPanelCurrent, index);
 }
 
 
 void CentralWidget::onOpen(const QString &path)
 {
-    openFile(mPanelCurrent, path);
+    this->openFile(mPanelCurrent, path);
 }
 
 void CentralWidget::onOpenForm()
@@ -90,35 +82,38 @@ void CentralWidget::onOpenForm()
     }
 }
 
+
 void CentralWidget::onSave()
 {
-    EditorBinder *binder = mCurrentEditor->getCurrentEditor()->getBinder();
-    if(binder->getStatusExt() == EditorBinder::New) {
-        onSaveForm();
-        return;
-    }
+    this->saveFile(mPanelCurrent, mPanelCurrent->currentIndex());
+}
 
-    binder->saveFile();
+void CentralWidget::onSaveIdx(int index)
+{
+    this->saveFile(mPanelCurrent, index);
 }
 
 void CentralWidget::onSaveForm()
 {
-    QString initialPath;
-    if(mSettings->general->isAppOpenFromCurrentEnabled()) {
-        initialPath = mCurrentEditor->getCurrentEditorDir();
-    } else {
-        initialPath = mSettings->general->getAppLastOpenedDir();
-    }
+    this->saveFileForm(mPanelCurrent, mPanelCurrent->currentIndex());
+}
 
-    QString newFile = QFileDialog::getSaveFileName(this, tr("Save file"), initialPath);
-    if(newFile.isEmpty())
-        return;
-    EditorBinder *binder = mCurrentEditor->getCurrentEditor()->getBinder();
-    binder->saveFile(newFile);
+void CentralWidget::onSaveFormIdx(int index)
+{
+    this->saveFileForm(mPanelCurrent, index);
 }
 
 void CentralWidget::onSaveAll()
 {
+    int len = mPanelLeft->count();
+    for(int i=0; i<len; i++) {
+        this->saveFile(mPanelLeft, i);
+    }
+
+    len = mPanelRight->count();
+    for(int i=0; i<len; i++) {
+        this->saveFile(mPanelRight, i);
+    }
 
 }
 

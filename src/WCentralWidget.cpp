@@ -40,6 +40,7 @@
 #include <QDropEvent>
 #include <QUrl>
 #include <QMimeData>
+#include <QFileDialog>
 
 #include <QDebug>
 
@@ -117,6 +118,25 @@ CentralWidget::~CentralWidget()
 EditorProxy* CentralWidget::getCurrentEditor()
 {
     return mCurrentEditor;
+}
+
+
+void CentralWidget::newTab(Panel *panel, int index)
+{
+    EditorBinder *binder = new EditorBinder();
+    Editor *edit = binder->getEditor();
+
+
+    int idx = panel->insertTab(index, edit, guesEditorStatusIcon(binder->getStatusInt(), binder->getStatusExt()));
+    panel->setCurrentIndex(idx);
+    //currentEditor is updated via slot
+
+    connect( binder, SIGNAL(statusIntChanged(int)),
+               this, SLOT(onEditorStatusIntChanged(int)) );
+    connect( binder, SIGNAL(statusExtChanged(int)),
+               this, SLOT(onEditorStatusExtChanged(int)) );
+    connect( binder, SIGNAL(fileInfoChanged(QFileInfo*)),
+               this, SLOT(onEditorFileInfoChanged(QFileInfo*)) );
 }
 
 
@@ -294,6 +314,35 @@ void CentralWidget::openFile(Panel *panel, const QString &path)
                this, SLOT(onEditorStatusExtChanged(int)) );
     connect( binder, SIGNAL(fileInfoChanged(QFileInfo*)),
                this, SLOT(onEditorFileInfoChanged(QFileInfo*)) );
+}
+
+void CentralWidget::saveFile(Panel *panel, int index)
+{
+    EditorBinder *binder = panel->getEditor(index)->getBinder();
+    if(binder->getStatusExt() == EditorBinder::New) {
+        saveFileForm(panel, index);
+        return;
+    }
+
+    binder->saveFile();
+}
+
+void CentralWidget::saveFileForm(Panel *panel, int index)
+{
+    EditorBinder *binder = panel->getEditor(index)->getBinder();
+
+    QString initialPath;
+    if(mSettings->general->isAppOpenFromCurrentEnabled()) {
+        initialPath = binder->absolutePath();
+    } else {
+        initialPath = mSettings->general->getAppLastOpenedDir();
+    }
+
+    QString newFile = QFileDialog::getSaveFileName(this, tr("Save file"), initialPath);
+    if(newFile.isEmpty())
+        return;
+
+    binder->saveFile(newFile);
 }
 
 

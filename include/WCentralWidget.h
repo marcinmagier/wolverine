@@ -58,24 +58,35 @@ public:
 
 public slots:
     void onNew();
+    void onNewIdx(int index);
 
     void onOpen(const QString &path);
     void onOpenForm();
 
     void onSave();
+    void onSaveIdx(int index);
     void onSaveForm();
+    void onSaveFormIdx(int index);
     void onSaveAll();
 
     void onClose();
+    void onCloseIdx(int index);
     void onCloseOthers();
+    void onCloseOthersIdx(int index);
     void onCloseAll();
 
 
     void onSplit();
+    void onSplitIdx(int index);
+
     void onMoveToOther();
+    void onMoveToOtherIdx(int index);
     void onCopyToOther();
+    void onCopyToOtherIdx(int index);
     void onMoveToApp();
+    void onMoveToAppIdx(int index);
     void onCopyToApp();
+    void onCopyToAppIdx(int index);
 
 
 protected:
@@ -84,14 +95,6 @@ protected:
 
 
 private slots:
-    void onCloseIdx(int index);
-    void onCloseOthersIdx(int index);
-    void onSplitIdx(int index);
-    void onMoveToOtherIdx(int index);
-    void onCopyToOtherIdx(int index);
-    void onMoveToAppIdx(int index);
-    void onCopyToAppIdx(int index);
-
     void onEditorStatusIntChanged(int stat);
     void onEditorStatusExtChanged(int stat);
     void onEditorFileInfoChanged(QFileInfo *fileinfo);
@@ -102,6 +105,8 @@ private slots:
 
 
 private:
+    void newTab(Panel *panel, int index);
+
     void setupContextMenu();
     void removeTab(Panel *panel, int index);
     void removeOthers(Panel *panel, int index);
@@ -113,6 +118,8 @@ private:
     void removeEditor(Editor *editor);
 
     void openFile(Panel *panel, const QString &path);
+    void saveFile(Panel *panel, int index);
+    void saveFileForm(Panel *panel, int index);
 
     bool setCurrentIfExists(Panel *panel, const QString &path, int line = -1);
     bool setCurrentIfExists(Panel *panel, Editor *editor, int line = -1);
