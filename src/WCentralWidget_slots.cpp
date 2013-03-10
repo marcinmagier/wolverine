@@ -48,31 +48,7 @@ using namespace Wolverine;
 
 
 
-void CentralWidget::onOpen(const QString &path)
-{
-    this->openFile(mPanelCurrent, path);
-}
 
-void CentralWidget::onOpenForm()
-{
-    QString initialPath;
-    if(mSettings->general->isAppOpenFromCurrentEnabled()) {
-        initialPath = mCurrentEditor->getCurrentEditorDir();
-    } else {
-        initialPath = mSettings->general->getAppLastOpenedDir();
-    }
-
-    QStringList files = QFileDialog::getOpenFileNames(this, tr("Open files"), initialPath);
-    if(files.count() == 0)
-        return;
-
-    QFileInfo fileInfo = QFileInfo(files[0]);
-    mSettings->general->setAppLastOpenedDir(fileInfo.canonicalPath());
-
-    foreach(QString file, files) {
-        this->onOpen(file);
-    }
-}
 
 
 void CentralWidget::onSave()

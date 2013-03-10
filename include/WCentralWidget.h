@@ -59,8 +59,9 @@ public slots:
     void newTab();
     void newTab(int index);
 
-    void onOpen(const QString &path);
-    void onOpenForm();
+
+    void openTab(const QString &path);
+    void openTabForm();
 
     void onSave();
     void onSaveIdx(int index);

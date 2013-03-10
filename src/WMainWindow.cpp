@@ -87,7 +87,7 @@ void MainWindow::createMenusAndToolbars()
     action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_OPEN);
     action->setIcon(QIcon(":/open.png"));
     connect(         action, SIGNAL(triggered()),
-             mCentralWidget, SLOT(onOpenForm()) );
+             mCentralWidget, SLOT(openTabForm()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_OPEN, action);
 
@@ -271,5 +271,5 @@ void MainWindow::openNewFile()
 void MainWindow::openFile(const QString &file)
 {
     if(!file.isEmpty())
-        mCentralWidget->onOpen(file);
+        mCentralWidget->openTab(file);
 }

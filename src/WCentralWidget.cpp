@@ -67,7 +67,7 @@ using namespace Wolverine;
 
 
 /**
- *  Constructor
+ *  Constructor.
  *
  * @param parent
  */
@@ -114,7 +114,7 @@ CentralWidget::CentralWidget(QWidget *parent):
 }
 
 /**
- *  Destructor
+ *  Destructor.
  */
 CentralWidget::~CentralWidget()
 {
@@ -126,7 +126,7 @@ CentralWidget::~CentralWidget()
 
 
 /**
- *  Creates new tab
+ *  Creates new tab.
  */
 //slot
 void CentralWidget::newTab()
@@ -136,7 +136,7 @@ void CentralWidget::newTab()
 
 
 /**
- *  Creates new tab
+ *  Creates new tab.
  *
  * @param index
  */
@@ -146,8 +146,9 @@ void CentralWidget::newTab(int index)
     this->newTab(mPanelCurrent, index);
 }
 
+
 /**
- *  Creates new tab
+ *  Creates new tab.
  *
  * @param panel
  * @param index
@@ -171,7 +172,41 @@ void CentralWidget::newTab(Panel *panel, int index)
 }
 
 
+/**
+ *  Opens given file in new tab.
+ *
+ * @param path
+ */
+//slot
+void CentralWidget::openTab(const QString &path)
+{
+    this->openFile(mPanelCurrent, path);
+}
 
+
+/**
+ *  Shows file dialog and opens selected file in new tab.
+ */
+void CentralWidget::openTabForm()
+{
+    QString initialPath;
+    if(mSettings->general->isAppOpenFromCurrentEnabled()) {
+        initialPath = mCurrentEditor->getCurrentEditorDir();
+    } else {
+        initialPath = mSettings->general->getAppLastOpenedDir();
+    }
+
+    QStringList files = QFileDialog::getOpenFileNames(this, tr("Open files"), initialPath);
+    if(files.count() == 0)
+        return;
+
+    QFileInfo fileInfo = QFileInfo(files[0]);
+    mSettings->general->setAppLastOpenedDir(fileInfo.canonicalPath());
+
+    foreach(QString file, files) {
+        this->openTab(file);
+    }
+}
 
 
 
