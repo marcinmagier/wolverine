@@ -130,6 +130,7 @@ private:
     void removeEditor(Editor *editor);
 
 
+    void updatePanels();
 
 
     bool setCurrentIfExists(Panel *panel, const QString &path, int line = -1);

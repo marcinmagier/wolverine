@@ -60,7 +60,7 @@
 
 #define W_TABBAR_CONTEXT_MENU  "TabBarContextMenu"
 
-
+#define CLOSE_MESSAGE_PATTERN "The document %1 has been modified.\nDo you want to save changes?"
 
 
 
@@ -382,6 +382,7 @@ void CentralWidget::saveAllTabs(Panel *panel)
 void CentralWidget::closeTab()
 {
     this->closeTab(mPanelCurrent, mPanelCurrent->currentIndex());
+    this->updatePanels();
 }
 
 
@@ -393,22 +394,7 @@ void CentralWidget::closeTab()
 void CentralWidget::closeTab(int index)
 {
     this->closeTab(mPanelCurrent, index);
-
-    if(mPanelCurrent->count() == 0) {
-        if(mPanelCurrent == mPanelLeft)
-            this->moveAll(mPanelRight, mPanelLeft);
-        mPanelRight->setVisible(false);
-        this->setCurrentPanel(mPanelLeft, true);
-    }
-
-    if(mPanelLeft->count() == 0) {
-        if( mSettings->general->isAppCloseWhenLastTabClosed() ) {
-            qApp->quit();
-        } else {
-            mCurrentEditor->setCurrentEditor(0);
-            newTab();
-        }
-    }
+    this->updatePanels();
 }
 
 
@@ -424,25 +410,22 @@ void CentralWidget::closeTab(Panel *panel, int index)
     EditorBinder *binder = edit->getBinder();
 
     if(binder->getStatusInt() == EditorBinder::Modified) {
-        #define MESSAGE_PATTERN "The document %1 has been modified.\nDo you want to save changes?"
-        QString message = tr(MESSAGE_PATTERN).arg(binder->canonicalFilePath());
-        QMessageBox::StandardButton ret = QMessageBox::warning(this, tr("Save file"), message,
+        if( !((binder->getStatusExt() == EditorBinder::New) && (edit->length() == 0)) )
+        {
+            QString message = tr(CLOSE_MESSAGE_PATTERN).arg(binder->canonicalFilePath());
+            QMessageBox::StandardButton ret = QMessageBox::warning(this, tr("Save file"), message,
                                                     QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel,
                                                     QMessageBox::Save);
-        if(ret == QMessageBox::Cancel)
-            return;
-        if(ret == QMessageBox::Save) {
-            if(binder->getStatusExt() == EditorBinder::New) {
-                if(edit->length() > 0)
+            if(ret == QMessageBox::Cancel)
+                return;
+            if(ret == QMessageBox::Save) {
+                if(binder->getStatusExt() == EditorBinder::New)
                     this->saveTabForm(panel, index);
-            } else {
-                binder->saveFile();
+                else
+                    binder->saveFile();
             }
         }
-
-        #undef MESSAGE_PATTERN
     }
-
     panel->removeTab(index);
     Editor::removeEditor(edit);
 }
@@ -489,6 +472,7 @@ void CentralWidget::closeOtherTabs(Panel *panel, int index)
             idxToRemove = 1;    // Remove second widget for i > index
             continue;
         }
+        panel->setCurrentIndex(idxToRemove);
         this->closeTab(panel, idxToRemove);
     }
 }
@@ -518,6 +502,7 @@ void CentralWidget::closeAllTabs(bool closeApp)
         qApp->quit();
     } else {
         mCurrentEditor->setCurrentEditor(0);
+        mPanelRight->hide();
         setCurrentPanel(mPanelLeft);
         newTab();
     }
@@ -532,11 +517,8 @@ void CentralWidget::closeAllTabs(bool closeApp)
 void CentralWidget::closeAllTabs(Panel *panel)
 {
     while(panel->count() > 0) {
+        panel->setCurrentIndex(0);
         this->closeTab(panel, 0);
-    }
-    if(panel == mPanelRight) {
-        mPanelRight->hide();
-        setCurrentPanel(mPanelLeft);
     }
 }
 
@@ -621,6 +603,26 @@ void CentralWidget::setCurrentEditor(Editor *editor)
     mCurrentEditor->setCurrentEditor(editor);
     editor->setFocus();
 
+}
+
+
+void CentralWidget::updatePanels()
+{
+    if(mPanelCurrent->count() == 0) {
+        if(mPanelCurrent == mPanelLeft)
+            this->moveAll(mPanelRight, mPanelLeft);
+        mPanelRight->setVisible(false);
+        this->setCurrentPanel(mPanelLeft, true);
+    }
+
+    if(mPanelLeft->count() == 0) {
+        if( mSettings->general->isAppCloseWhenLastTabClosed() ) {
+            qApp->quit();
+        } else {
+            mCurrentEditor->setCurrentEditor(0);
+            newTab();
+        }
+    }
 }
 
 
