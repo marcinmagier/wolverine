@@ -59,15 +59,14 @@ public slots:
     void newTab();
     void newTab(int index);
 
-
     void openTab(const QString &path);
     void openTabForm();
 
-    void onSave();
-    void onSaveIdx(int index);
-    void onSaveForm();
-    void onSaveFormIdx(int index);
-    void onSaveAll();
+    void saveTab();
+    void saveTab(int index);
+    void saveTabForm();
+    void saveTabForm(int index);
+    void saveAllTabs();
 
     void onClose();
     void onCloseIdx(int index);
@@ -107,6 +106,12 @@ private slots:
 private:
     void newTab(Panel *panel, int index);
 
+    void openTab(Panel *panel, const QString &path);
+
+
+    void saveTab(Panel *panel, int index);
+    void saveTabForm(Panel *panel, int index);
+
     void setupContextMenu();
     void removeTab(Panel *panel, int index);
     void removeOthers(Panel *panel, int index);
@@ -121,9 +126,6 @@ private:
 
 
 
-    void openFile(Panel *panel, const QString &path);
-    void saveFile(Panel *panel, int index);
-    void saveFileForm(Panel *panel, int index);
 
     bool setCurrentIfExists(Panel *panel, const QString &path, int line = -1);
     bool setCurrentIfExists(Panel *panel, Editor *editor, int line = -1);

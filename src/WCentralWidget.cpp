@@ -172,6 +172,8 @@ void CentralWidget::newTab(Panel *panel, int index)
 }
 
 
+
+
 /**
  *  Opens given file in new tab.
  *
@@ -180,13 +182,50 @@ void CentralWidget::newTab(Panel *panel, int index)
 //slot
 void CentralWidget::openTab(const QString &path)
 {
-    this->openFile(mPanelCurrent, path);
+    this->openTab(mPanelCurrent, path);
+}
+
+
+/**
+ *  Opens given file in new tab
+ *
+ * @param panel
+ * @param path
+ */
+void CentralWidget::openTab(Panel *panel, const QString &path)
+{
+    QString file = Lib::getPathFromFile(path);
+    int line = Lib::getLineFromFile(path);
+    if(line>0)
+        line--; //Lines start from 0.
+
+    if(setCurrentIfExists(mPanelLeft, file))
+        return;
+
+    if(setCurrentIfExists(mPanelRight, file))
+        return;
+
+    EditorBinder *binder = new EditorBinder(file);
+    Editor *edit = binder->getEditor();
+    edit->setCursorPosition(line, 0);
+
+    setCurrentPanel(panel);
+    int idx = mPanelCurrent->addTab(edit, guesEditorStatusIcon(binder->getStatusInt(), binder->getStatusExt()));
+    mPanelCurrent->setCurrentIndex(idx);
+
+    connect( binder, SIGNAL(statusIntChanged(int)),
+               this, SLOT(onEditorStatusIntChanged(int)) );
+    connect( binder, SIGNAL(statusExtChanged(int)),
+               this, SLOT(onEditorStatusExtChanged(int)) );
+    connect( binder, SIGNAL(fileInfoChanged(QFileInfo*)),
+               this, SLOT(onEditorFileInfoChanged(QFileInfo*)) );
 }
 
 
 /**
  *  Shows file dialog and opens selected file in new tab.
  */
+//slot
 void CentralWidget::openTabForm()
 {
     QString initialPath;
@@ -207,6 +246,116 @@ void CentralWidget::openTabForm()
         this->openTab(file);
     }
 }
+
+
+
+
+/**
+ *  Saves current tab.
+ */
+//slot
+void CentralWidget::saveTab()
+{
+    this->saveTab(mPanelCurrent, mPanelCurrent->currentIndex());
+}
+
+
+/**
+ *  Saves given tab.
+ *
+ * @param index
+ */
+//slot
+void CentralWidget::saveTab(int index)
+{
+    this->saveTab(mPanelCurrent, index);
+}
+
+
+/**
+ *  Saves given tab.
+ *
+ * @param panel
+ * @param index
+ */
+void CentralWidget::saveTab(Panel *panel, int index)
+{
+    EditorBinder *binder = panel->getEditor(index)->getBinder();
+    if(binder->getStatusExt() == EditorBinder::New) {
+        saveTabForm(panel, index);
+        return;
+    }
+
+    binder->saveFile();
+}
+
+
+/**
+ *  Shows save file dialog and saves current editor to the chosen file.
+ */
+//slot
+void CentralWidget::saveTabForm()
+{
+    this->saveTabForm(mPanelCurrent, mPanelCurrent->currentIndex());
+}
+
+
+/**
+ *  Shows save file dialog and saves given editor to the chosen file.
+ *
+ * @param index
+ */
+//slot
+void CentralWidget::saveTabForm(int index)
+{
+    this->saveTabForm(mPanelCurrent, index);
+}
+
+
+/**
+ *  Shows save file dialog and saves given editor to the chosen file.
+ *
+ * @param panel
+ * @param index
+ */
+void CentralWidget::saveTabForm(Panel *panel, int index)
+{
+    EditorBinder *binder = panel->getEditor(index)->getBinder();
+
+    QString initialPath;
+    if(mSettings->general->isAppOpenFromCurrentEnabled()) {
+        initialPath = binder->absolutePath();
+    } else {
+        initialPath = mSettings->general->getAppLastOpenedDir();
+    }
+
+    QString newFile = QFileDialog::getSaveFileName(this, tr("Save file"), initialPath);
+    if(newFile.isEmpty())
+        return;
+
+    binder->saveFile(newFile);
+}
+
+
+/**
+ *  Saves all tabs.
+ */
+void CentralWidget::saveAllTabs()
+{
+    int len = mPanelLeft->count();
+    for(int i=0; i<len; i++) {
+        this->saveTab(mPanelLeft, i);
+    }
+
+    len = mPanelRight->count();
+    for(int i=0; i<len; i++) {
+        this->saveTab(mPanelRight, i);
+    }
+
+}
+
+
+
 
 
 
@@ -383,63 +532,9 @@ QIcon CentralWidget::guesEditorStatusIcon(EditorBinder::StatusInt statInt, Edito
 
 
 
-void CentralWidget::openFile(Panel *panel, const QString &path)
-{
-    QString file = Lib::getPathFromFile(path);
-    int line = Lib::getLineFromFile(path);
-    if(line>0)
-        line--; //Lines start from 0.
 
-    if(setCurrentIfExists(mPanelLeft, file))
-        return;
 
-    if(setCurrentIfExists(mPanelRight, file))
-        return;
 
-    EditorBinder *binder = new EditorBinder(file);
-    Editor *edit = binder->getEditor();
-    edit->setCursorPosition(line, 0);
-
-    setCurrentPanel(panel);
-    int idx = mPanelCurrent->addTab(edit, guesEditorStatusIcon(binder->getStatusInt(), binder->getStatusExt()));
-    mPanelCurrent->setCurrentIndex(idx);
-
-    connect( binder, SIGNAL(statusIntChanged(int)),
-               this, SLOT(onEditorStatusIntChanged(int)) );
-    connect( binder, SIGNAL(statusExtChanged(int)),
-               this, SLOT(onEditorStatusExtChanged(int)) );
-    connect( binder, SIGNAL(fileInfoChanged(QFileInfo*)),
-               this, SLOT(onEditorFileInfoChanged(QFileInfo*)) );
-}
-
-void CentralWidget::saveFile(Panel *panel, int index)
-{
-    EditorBinder *binder = panel->getEditor(index)->getBinder();
-    if(binder->getStatusExt() == EditorBinder::New) {
-        saveFileForm(panel, index);
-        return;
-    }
-
-    binder->saveFile();
-}
-
-void CentralWidget::saveFileForm(Panel *panel, int index)
-{
-    EditorBinder *binder = panel->getEditor(index)->getBinder();
-
-    QString initialPath;
-    if(mSettings->general->isAppOpenFromCurrentEnabled()) {
-        initialPath = binder->absolutePath();
-    } else {
-        initialPath = mSettings->general->getAppLastOpenedDir();
-    }
-
-    QString newFile = QFileDialog::getSaveFileName(this, tr("Save file"), initialPath);
-    if(newFile.isEmpty())
-        return;
-
-    binder->saveFile(newFile);
-}
 
 
 void CentralWidget::dragEnterEvent(QDragEnterEvent *event)
@@ -461,9 +556,9 @@ void CentralWidget::dropEvent(QDropEvent *event)
 #endif
             if(!path.isEmpty()) {
                 if(mPanelRight->underMouse())
-                    openFile(mPanelRight, path);
+                    openTab(mPanelRight, path);
                 else
-                    openFile(mPanelLeft, path);
+                    openTab(mPanelLeft, path);
             }
         }
     }

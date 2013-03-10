@@ -94,21 +94,21 @@ void MainWindow::createMenusAndToolbars()
     action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_SAVE);
     action->setIcon(QIcon(":/save_blue.png"));
     connect(         action, SIGNAL(triggered()),
-             mCentralWidget, SLOT(onSave()) );
+             mCentralWidget, SLOT(saveTab()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_SAVE, action);
 
     action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_SAVE_AS);
     //action->setIcon(QIcon(":/save_blue.png"));
     connect(         action, SIGNAL(triggered()),
-             mCentralWidget, SLOT(onSaveForm()) );
+             mCentralWidget, SLOT(saveTabForm()) );
     menu->addAction(action);
     //toolbar->addAction(W_ACTION_SAVE_AS, action);
 
     action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_SAVE_ALL);
     action->setIcon(QIcon(":/save_all.png"));
     connect(         action, SIGNAL(triggered()),
-             mCentralWidget, SLOT(onSaveAll()) );
+             mCentralWidget, SLOT(saveAllTabs()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_SAVE_ALL, action);
 

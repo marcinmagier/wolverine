@@ -51,39 +51,7 @@ using namespace Wolverine;
 
 
 
-void CentralWidget::onSave()
-{
-    this->saveFile(mPanelCurrent, mPanelCurrent->currentIndex());
-}
 
-void CentralWidget::onSaveIdx(int index)
-{
-    this->saveFile(mPanelCurrent, index);
-}
-
-void CentralWidget::onSaveForm()
-{
-    this->saveFileForm(mPanelCurrent, mPanelCurrent->currentIndex());
-}
-
-void CentralWidget::onSaveFormIdx(int index)
-{
-    this->saveFileForm(mPanelCurrent, index);
-}
-
-void CentralWidget::onSaveAll()
-{
-    int len = mPanelLeft->count();
-    for(int i=0; i<len; i++) {
-        this->saveFile(mPanelLeft, i);
-    }
-
-    len = mPanelRight->count();
-    for(int i=0; i<len; i++) {
-        this->saveFile(mPanelRight, i);
-    }
-
-}
 
 void CentralWidget::onClose()
 {
