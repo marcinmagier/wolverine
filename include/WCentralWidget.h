@@ -108,9 +108,9 @@ private:
 
     void openTab(Panel *panel, const QString &path);
 
-
     void saveTab(Panel *panel, int index);
     void saveTabForm(Panel *panel, int index);
+    void saveAllTabs(Panel *panel);
 
     void setupContextMenu();
     void removeTab(Panel *panel, int index);

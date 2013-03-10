@@ -342,18 +342,33 @@ void CentralWidget::saveTabForm(Panel *panel, int index)
  */
 void CentralWidget::saveAllTabs()
 {
-    int len = mPanelLeft->count();
-    for(int i=0; i<len; i++) {
-        this->saveTab(mPanelLeft, i);
-    }
+    Panel *prevPanel = mPanelCurrent;
+    int prevIdx = mPanelCurrent->currentIndex();
 
-    len = mPanelRight->count();
-    for(int i=0; i<len; i++) {
-        this->saveTab(mPanelRight, i);
-    }
+    saveAllTabs(mPanelLeft);
+    saveAllTabs(mPanelRight);
 
+    setCurrentPanel(prevPanel, true);
+    prevPanel->setCurrentIndex(prevIdx);
 }
 
+
+/**
+ *  Saves all tabs on a given panel.
+ *
+ * @param panel
+ */
+void CentralWidget::saveAllTabs(Panel *panel)
+{
+    int len = panel->count();
+    if(len > 0) {
+        setCurrentPanel(panel);
+        for(int i=0; i<len; i++) {
+            panel->setCurrentIndex(i);
+            this->saveTab(panel, i);
+        }
+    }
+}
 
 
 
