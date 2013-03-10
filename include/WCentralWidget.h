@@ -127,6 +127,7 @@ private:
     void copyTab(Panel *from, int fromIdx, Panel *to);
     void setCurrentPanel(Panel *panel, bool updateEditor = false);
     void setCurrentEditor(Editor *editor);
+    Panel* findEditor(Editor *editor, int *retIdx);
     void removeEditor(Editor *editor);
 
 

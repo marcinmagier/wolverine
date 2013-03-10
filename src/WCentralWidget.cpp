@@ -605,6 +605,24 @@ void CentralWidget::setCurrentEditor(Editor *editor)
 
 }
 
+Panel* CentralWidget::findEditor(Editor *editor, int *retIdx)
+{
+    int idx = mPanelLeft->indexOf(editor);
+    if(idx >= 0) {
+        *retIdx = idx;
+        return mPanelLeft;
+    }
+
+    idx = mPanelRight->indexOf(editor);
+    if(idx >= 0) {
+        *retIdx = idx;
+        return mPanelRight;
+    }
+
+    *retIdx = -1;
+    return mPanelCurrent;
+}
+
 
 void CentralWidget::updatePanels()
 {

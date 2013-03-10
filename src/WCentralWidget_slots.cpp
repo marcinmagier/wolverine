@@ -35,12 +35,15 @@
 #include <QCursor>
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QMessageBox>
+
 #include <QDebug>
 
 
 using namespace Wolverine;
 
 
+#define STATUS_NOTEXISTS_MSG_PATTERN "The file %1 doesn't exist anymore.\nKeep this file in editor?"
 
 
 
@@ -146,6 +149,24 @@ void CentralWidget::onEditorStatusExtChanged(int stat)
     EditorBinder::StatusExt statusExt = static_cast<EditorBinder::StatusExt>(stat);
     EditorBinder::StatusExt statusExtOld = binder->getStatusExt();
     EditorBinder::StatusInt statusInt = binder->getStatusInt();
+
+    if(statusExt == EditorBinder::NotExists && statusExtOld != EditorBinder::New) {
+        QString message = tr(STATUS_NOTEXISTS_MSG_PATTERN).arg(binder->absoluteFilePath());
+        QMessageBox::StandardButton ret = QMessageBox::warning(this, tr("Keep non existing file"), message,
+                                                               QMessageBox::Yes | QMessageBox::No,
+                                                               QMessageBox::Yes
+                                                               );
+        if(ret == QMessageBox::No) {
+            foreach(Editor *edit, binder->getEditors()) {
+                int idx;
+                Panel *panel = this->findEditor(edit, &idx);
+                if(idx >= 0)
+                    this->closeTab(panel, idx);
+            }
+            this->updatePanels();
+            return;
+        }
+    }
 
     //TODO: Show message window to inform user about change.
     // statusExt == Normal && statusExt == Normal
