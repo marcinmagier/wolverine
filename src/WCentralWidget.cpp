@@ -41,6 +41,7 @@
 #include <QUrl>
 #include <QMimeData>
 #include <QFileDialog>
+#include <QApplication>
 
 #include <QDebug>
 
@@ -156,6 +157,31 @@ void CentralWidget::removeOthers(Panel *panel, int index)
             continue;
         }
         this->removeTab(panel, idxToRemove);
+    }
+}
+
+void CentralWidget::removeAll(Panel *panel)
+{
+    while(panel->count() > 0) {
+        this->removeTab(panel, 0);
+    }
+    if(panel == mPanelRight) {
+        mPanelRight->hide();
+        setCurrentPanel(mPanelLeft);
+    }
+}
+
+void CentralWidget::removeAll(bool closeApp)
+{
+    removeAll(mPanelRight);
+    removeAll(mPanelLeft);
+
+    if(closeApp) {
+        qApp->quit();
+    } else {
+        mCurrentEditor->setCurrentEditor(0);
+        setCurrentPanel(mPanelLeft);
+        onNew();
     }
 }
 

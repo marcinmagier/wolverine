@@ -37,6 +37,8 @@ public:
 public slots:
     void openFile(const QString &file);
 
+protected:
+    virtual void closeEvent(QCloseEvent *event);
 
 private:
     void createMenusAndToolbars();

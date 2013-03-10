@@ -109,12 +109,16 @@ private:
     void setupContextMenu();
     void removeTab(Panel *panel, int index);
     void removeOthers(Panel *panel, int index);
+    void removeAll(Panel *panel);
+    void removeAll(bool closeApp);
     void moveAll(Panel *from, Panel *to);
     void moveTab(Panel *from, int fromIdx, Panel *to);
     void copyTab(Panel *from, int fromIdx, Panel *to);
     void setCurrentPanel(Panel *panel, bool updateEditor = false);
     void setCurrentEditor(Editor *editor);
     void removeEditor(Editor *editor);
+
+
 
     void openFile(Panel *panel, const QString &path);
     void saveFile(Panel *panel, int index);

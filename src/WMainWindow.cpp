@@ -59,6 +59,12 @@ MainWindow::~MainWindow()
     //ActionManager
 }
 
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+
+}
+
+
 void MainWindow::createMenusAndToolbars()
 {
     QtManagedToolBar *toolbar = new QtManagedToolBar(this, W_ACTION_GROUP_GENERAL);

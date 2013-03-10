@@ -155,21 +155,7 @@ void CentralWidget::onCloseOthersIdx(int index)
 
 void CentralWidget::onCloseAll()
 {
-    while(mPanelRight->count() > 0) {
-        this->removeTab(mPanelRight, 0);
-    }
-    while(mPanelLeft->count() > 0) {
-        this->removeTab(mPanelLeft, 0);
-    }
-
-    if( mSettings->general->isAppCloseWhenLastTabClosed() ) {
-        qApp->quit();
-    } else {
-        mCurrentEditor->setCurrentEditor(0);
-        setCurrentPanel(mPanelLeft);
-        mPanelRight->hide();
-        onNew();
-    }
+    this->removeAll( mSettings->general->isAppCloseWhenLastTabClosed() );
 }
 
 void CentralWidget::onSplit()
