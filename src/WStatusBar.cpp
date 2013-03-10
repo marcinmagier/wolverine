@@ -32,6 +32,8 @@
 #include <QDebug>
 
 
+#define WINDOW_TITLE_PATTERN    "%1 - Wolverine"
+
 #define STATUS_LABEL_STYLE      "QLabel {"                  \
                                 "padding-left: 4px;"        \
                                 "padding-right: 4px;"       \
@@ -180,7 +182,7 @@ void StatusBar::onCurrentEditorFileInfoChanged(QFileInfo *fileinfo)
         mLblFilePath->setText(filePath);
     else
         mLblFilePath->setText(fileinfo->fileName());
-    mMainWindow->setWindowTitle(fileinfo->fileName());
+    mMainWindow->setWindowTitle( QString(WINDOW_TITLE_PATTERN).arg(fileinfo->fileName()) );
 }
 
 void StatusBar::onCurrentEditorLexerChanged(const QString &name)
