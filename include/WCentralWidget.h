@@ -137,6 +137,7 @@ private:
     EditorProxy *mCurrentEditor;
 
     QtManagedMenu *mContextMenu;
+    QAction *mMenuNew;
     QAction *mMenuClose;
     QAction *mMenuCloseOthers;
     QAction *mMenuSplitTab;

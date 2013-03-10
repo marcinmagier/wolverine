@@ -370,7 +370,9 @@ void CentralWidget::onCustomContextMenuRequested(QPoint pos)
 
     QAction *action = mContextMenu->exec(QCursor::pos());
 
-    if(action == mMenuClose) {
+    if(action == mMenuNew) {
+        onNewIdx(idx+1);
+    } else if(action == mMenuClose) {
         onCloseIdx(idx);
     } else if(action == mMenuCloseOthers) {
         onCloseOthersIdx(idx);

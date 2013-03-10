@@ -385,8 +385,8 @@ void CentralWidget::setupContextMenu()
 
     action = new QAction(tr("New"), mContextMenu);
     action->setIcon(QIcon(":/new.png"));
-    connect( action, SIGNAL(triggered()),
-               this, SLOT(onNew()) );
+    //action is handled within context menu hander
+    mMenuNew = action;
     mContextMenu->addAction(W_ACTION_NEW, action);
 
     action = new QAction(tr("Close"), mContextMenu);
