@@ -44,56 +44,6 @@ using namespace Wolverine;
 
 
 
-
-
-
-
-
-
-
-
-
-void CentralWidget::onClose()
-{
-    this->onCloseIdx(mPanelCurrent->currentIndex());
-}
-
-void CentralWidget::onCloseIdx(int index)
-{
-    this->removeTab(mPanelCurrent, index);
-
-    if(mPanelCurrent->count() == 0) {
-        if(mPanelCurrent == mPanelLeft)
-            this->moveAll(mPanelRight, mPanelLeft);
-        mPanelRight->setVisible(false);
-        this->setCurrentPanel(mPanelLeft, true);
-    }
-
-    if(mPanelLeft->count() == 0) {
-        if( mSettings->general->isAppCloseWhenLastTabClosed() ) {
-            qApp->quit();
-        } else {
-            mCurrentEditor->setCurrentEditor(0);
-            newTab();
-        }
-    }
-}
-
-void CentralWidget::onCloseOthers()
-{
-    this->onCloseOthersIdx(mPanelCurrent->currentIndex());
-}
-
-void CentralWidget::onCloseOthersIdx(int index)
-{
-    this->removeOthers(mPanelCurrent, index);
-}
-
-void CentralWidget::onCloseAll()
-{
-    this->removeAll( mSettings->general->isAppCloseWhenLastTabClosed() );
-}
-
 void CentralWidget::onSplit()
 {
     this->onSplitIdx(mPanelCurrent->currentIndex());
@@ -295,9 +245,9 @@ void CentralWidget::onCustomContextMenuRequested(QPoint pos)
     if(action == mMenuNew) {
         newTab(idx+1);
     } else if(action == mMenuClose) {
-        onCloseIdx(idx);
+        closeTab(idx);
     } else if(action == mMenuCloseOthers) {
-        onCloseOthersIdx(idx);
+        closeOtherTabs(idx);
     } else if(action == mMenuSplitTab) {
         onSplitIdx(idx);
     } else if(action == mMenuMoveTab) {

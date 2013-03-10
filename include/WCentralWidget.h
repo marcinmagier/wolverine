@@ -55,6 +55,9 @@ public:
     virtual ~CentralWidget();
 
 
+    void closeAllTabs(bool closeApp);
+
+
 public slots:
     void newTab();
     void newTab(int index);
@@ -68,11 +71,11 @@ public slots:
     void saveTabForm(int index);
     void saveAllTabs();
 
-    void onClose();
-    void onCloseIdx(int index);
-    void onCloseOthers();
-    void onCloseOthersIdx(int index);
-    void onCloseAll();
+    void closeTab();
+    void closeTab(int index);
+    void closeOtherTabs();
+    void closeOtherTabs(int index);
+    void closeAllTabs();
 
 
     void onSplit();
@@ -112,11 +115,13 @@ private:
     void saveTabForm(Panel *panel, int index);
     void saveAllTabs(Panel *panel);
 
+    void closeTab(Panel *panel, int index);
+    void closeOtherTabs(Panel *panel, int index);
+    void closeAllTabs(Panel *panel);
+
+
     void setupContextMenu();
-    void removeTab(Panel *panel, int index);
-    void removeOthers(Panel *panel, int index);
-    void removeAll(Panel *panel);
-    void removeAll(bool closeApp);
+
     void moveAll(Panel *from, Panel *to);
     void moveTab(Panel *from, int fromIdx, Panel *to);
     void copyTab(Panel *from, int fromIdx, Panel *to);

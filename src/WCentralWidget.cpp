@@ -90,7 +90,7 @@ CentralWidget::CentralWidget(QWidget *parent):
 
 
     connect( mPanelLeft, SIGNAL(tabCloseRequested(int)),
-                  this, SLOT(onCloseIdx(int)) );
+                  this, SLOT(closeTab(int)) );
     connect( mPanelLeft, SIGNAL(customContextMenuRequested(QPoint)),
                   this, SLOT(onCustomContextMenuRequested(QPoint)) );
     connect( mPanelLeft, SIGNAL(focusReceived()),
@@ -99,7 +99,7 @@ CentralWidget::CentralWidget(QWidget *parent):
                    this, SLOT(newTab()) );
 
     connect( mPanelRight, SIGNAL(tabCloseRequested(int)),
-                   this, SLOT(onCloseIdx(int)) );
+                   this, SLOT(closeTab(int)) );
     connect( mPanelRight, SIGNAL(customContextMenuRequested(QPoint)),
                    this, SLOT(onCustomContextMenuRequested(QPoint)) );
     connect( mPanelRight, SIGNAL(focusReceived()),
@@ -340,6 +340,7 @@ void CentralWidget::saveTabForm(Panel *panel, int index)
 /**
  *  Saves all tabs.
  */
+//slot
 void CentralWidget::saveAllTabs()
 {
     Panel *prevPanel = mPanelCurrent;
@@ -373,9 +374,50 @@ void CentralWidget::saveAllTabs(Panel *panel)
 
 
 
+/**
+ *  Closes current tab.
+ */
+//slot
+void CentralWidget::closeTab()
+{
+    this->closeTab(mPanelCurrent, mPanelCurrent->currentIndex());
+}
 
 
-void CentralWidget::removeTab(Panel *panel, int index)
+/**
+ *  Closes given tab.
+ * @param index
+ */
+//slot
+void CentralWidget::closeTab(int index)
+{
+    this->closeTab(mPanelCurrent, index);
+
+    if(mPanelCurrent->count() == 0) {
+        if(mPanelCurrent == mPanelLeft)
+            this->moveAll(mPanelRight, mPanelLeft);
+        mPanelRight->setVisible(false);
+        this->setCurrentPanel(mPanelLeft, true);
+    }
+
+    if(mPanelLeft->count() == 0) {
+        if( mSettings->general->isAppCloseWhenLastTabClosed() ) {
+            qApp->quit();
+        } else {
+            mCurrentEditor->setCurrentEditor(0);
+            newTab();
+        }
+    }
+}
+
+
+/**
+ *  Closes given tab on a given panel.
+ *
+ * @param panel
+ * @param index
+ */
+void CentralWidget::closeTab(Panel *panel, int index)
 {
     Editor *edit = panel->getEditor(index);
     panel->removeTab(index);
@@ -383,7 +425,35 @@ void CentralWidget::removeTab(Panel *panel, int index)
 }
 
 
-void CentralWidget::removeOthers(Panel *panel, int index)
+/**
+ *  Closes all but current tab.
+ */
+//slot
+void CentralWidget::closeOtherTabs()
+{
+    this->closeOtherTabs(mPanelCurrent, mPanelCurrent->currentIndex());
+}
+
+
+/**
+ *  Closes all but given tab
+ *
+ * @param index
+ */
+//slot
+void CentralWidget::closeOtherTabs(int index)
+{
+    this->closeOtherTabs(mPanelCurrent, index);
+}
+
+
+/**
+ *  Closes all but given tab on a given panel.
+ *
+ * @param panel
+ * @param index
+ */
+void CentralWidget::closeOtherTabs(Panel *panel, int index)
 {
     if(panel->count() < 2)
         return;
@@ -396,25 +466,30 @@ void CentralWidget::removeOthers(Panel *panel, int index)
             idxToRemove = 1;    // Remove second widget for i > index
             continue;
         }
-        this->removeTab(panel, idxToRemove);
+        this->closeTab(panel, idxToRemove);
     }
 }
 
-void CentralWidget::removeAll(Panel *panel)
+
+/**
+ *  Closes all tabs.
+ */
+//slot
+void CentralWidget::closeAllTabs()
 {
-    while(panel->count() > 0) {
-        this->removeTab(panel, 0);
-    }
-    if(panel == mPanelRight) {
-        mPanelRight->hide();
-        setCurrentPanel(mPanelLeft);
-    }
+    this->closeAllTabs( mSettings->general->isAppCloseWhenLastTabClosed() );
 }
 
-void CentralWidget::removeAll(bool closeApp)
+
+/**
+ *  Closes all tabs
+ *
+ * @param closeApp
+ */
+void CentralWidget::closeAllTabs(bool closeApp)
 {
-    removeAll(mPanelRight);
-    removeAll(mPanelLeft);
+    closeAllTabs(mPanelRight);
+    closeAllTabs(mPanelLeft);
 
     if(closeApp) {
         qApp->quit();
@@ -424,6 +499,29 @@ void CentralWidget::removeAll(bool closeApp)
         newTab();
     }
 }
+
+
+/**
+ *  Closes all tabs on a given panel.
+ *
+ * @param panel
+ */
+void CentralWidget::closeAllTabs(Panel *panel)
+{
+    while(panel->count() > 0) {
+        this->closeTab(panel, 0);
+    }
+    if(panel == mPanelRight) {
+        mPanelRight->hide();
+        setCurrentPanel(mPanelLeft);
+    }
+}
+
+
+
+
+
+
 
 void CentralWidget::moveAll(Panel *from, Panel *to)
 {
@@ -610,7 +708,7 @@ void CentralWidget::setupContextMenu()
     action = new QAction(tr("Close All"), mContextMenu);
     action->setIcon(QIcon(":/close_all.png"));
     connect( action, SIGNAL(triggered()),
-               this, SLOT(onCloseAll()) );
+               this, SLOT(closeAllTabs()) );
     mContextMenu->addAction(W_ACTION_CLOSE_ALL, action);
 
     action = new QAction(tr("Split"), mContextMenu);

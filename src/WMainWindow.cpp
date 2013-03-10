@@ -59,9 +59,9 @@ MainWindow::~MainWindow()
     //ActionManager
 }
 
-void MainWindow::closeEvent(QCloseEvent *event)
+void MainWindow::closeEvent(QCloseEvent *)
 {
-
+    mCentralWidget->closeAllTabs(true);
 }
 
 
@@ -115,21 +115,21 @@ void MainWindow::createMenusAndToolbars()
     action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_CLOSE);
     action->setIcon(QIcon(":/close.png"));
     connect(         action, SIGNAL(triggered()),
-             mCentralWidget, SLOT(onClose()) );
+             mCentralWidget, SLOT(closeTab()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_CLOSE, action);
 
     action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_CLOSE_OTHERS);
     //action->setIcon(QIcon(":/close.png"));
     connect(         action, SIGNAL(triggered()),
-             mCentralWidget, SLOT(onCloseOthers()) );
+             mCentralWidget, SLOT(closeOtherTabs()) );
     menu->addAction(action);
     //toolbar->addAction(W_ACTION_CLOSE_OTHERS, action);
 
     action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_CLOSE_ALL);
     action->setIcon(QIcon(":/close_all.png"));
     connect(         action, SIGNAL(triggered()),
-             mCentralWidget, SLOT(onCloseAll()) );
+             mCentralWidget, SLOT(closeAllTabs()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_CLOSE_ALL, action);
 
@@ -137,8 +137,8 @@ void MainWindow::createMenusAndToolbars()
 
     action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_EXIT);
     //action->setIcon(QIcon(":/close_all.png"));
-    connect(         action, SIGNAL(triggered()),
-             this, SLOT(close()) );
+    connect( action, SIGNAL(triggered()),
+               this, SLOT(close()) );
     menu->addAction(action);
     //toolbar->addAction(W_ACTION_EXIT, action);
 
