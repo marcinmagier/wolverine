@@ -80,7 +80,7 @@ void MainWindow::createMenusAndToolbars()
     action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_NEW);
     action->setIcon(QIcon(":/new.png"));
     connect(        action, SIGNAL(triggered()),
-            mCentralWidget, SLOT(onNew()) );
+            mCentralWidget, SLOT(newTab()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_NEW, action);
 
@@ -264,7 +264,7 @@ void MainWindow::createMenusAndToolbars()
 
 void MainWindow::openNewFile()
 {
-    mCentralWidget->onNew();
+    mCentralWidget->newTab();
 }
 
 

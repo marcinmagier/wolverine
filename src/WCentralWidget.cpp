@@ -66,6 +66,11 @@
 using namespace Wolverine;
 
 
+/**
+ *  Constructor
+ *
+ * @param parent
+ */
 CentralWidget::CentralWidget(QWidget *parent):
     QWidget(parent)
 {
@@ -91,7 +96,7 @@ CentralWidget::CentralWidget(QWidget *parent):
     connect( mPanelLeft, SIGNAL(focusReceived()),
                    this, SLOT(onInternalWidgetFocusReceived()) );
     connect( mPanelLeft, SIGNAL(tabNewRequested()),
-                   this, SLOT(onNew()) );
+                   this, SLOT(newTab()) );
 
     connect( mPanelRight, SIGNAL(tabCloseRequested(int)),
                    this, SLOT(onCloseIdx(int)) );
@@ -100,7 +105,7 @@ CentralWidget::CentralWidget(QWidget *parent):
     connect( mPanelRight, SIGNAL(focusReceived()),
                    this, SLOT(onInternalWidgetFocusReceived()) );
     connect( mPanelRight, SIGNAL(tabNewRequested()),
-                    this, SLOT(onNew()) );
+                    this, SLOT(newTab()) );
 
     mSettings = AppSettings::instance();
 
@@ -108,6 +113,9 @@ CentralWidget::CentralWidget(QWidget *parent):
     setupContextMenu();
 }
 
+/**
+ *  Destructor
+ */
 CentralWidget::~CentralWidget()
 {
     delete mContextMenu;
@@ -116,6 +124,34 @@ CentralWidget::~CentralWidget()
 
 
 
+
+/**
+ *  Creates new tab
+ */
+//slot
+void CentralWidget::newTab()
+{
+    this->newTab(mPanelCurrent, mPanelCurrent->count());
+}
+
+
+/**
+ *  Creates new tab
+ *
+ * @param index
+ */
+//slot
+void CentralWidget::newTab(int index)
+{
+    this->newTab(mPanelCurrent, index);
+}
+
+/**
+ *  Creates new tab
+ *
+ * @param panel
+ * @param index
+ */
 void CentralWidget::newTab(Panel *panel, int index)
 {
     EditorBinder *binder = new EditorBinder();
@@ -133,6 +169,11 @@ void CentralWidget::newTab(Panel *panel, int index)
     connect( binder, SIGNAL(fileInfoChanged(QFileInfo*)),
                this, SLOT(onEditorFileInfoChanged(QFileInfo*)) );
 }
+
+
+
+
+
 
 
 void CentralWidget::removeTab(Panel *panel, int index)
@@ -181,7 +222,7 @@ void CentralWidget::removeAll(bool closeApp)
     } else {
         mCurrentEditor->setCurrentEditor(0);
         setCurrentPanel(mPanelLeft);
-        onNew();
+        newTab();
     }
 }
 

@@ -45,15 +45,7 @@ using namespace Wolverine;
 
 
 
-void CentralWidget::onNew()
-{
-    this->newTab(mPanelCurrent, mPanelCurrent->count());
-}
 
-void CentralWidget::onNewIdx(int index)
-{
-    this->newTab(mPanelCurrent, index);
-}
 
 
 void CentralWidget::onOpen(const QString &path)
@@ -138,7 +130,7 @@ void CentralWidget::onCloseIdx(int index)
             qApp->quit();
         } else {
             mCurrentEditor->setCurrentEditor(0);
-            onNew();
+            newTab();
         }
     }
 }
@@ -357,7 +349,7 @@ void CentralWidget::onCustomContextMenuRequested(QPoint pos)
     QAction *action = mContextMenu->exec(QCursor::pos());
 
     if(action == mMenuNew) {
-        onNewIdx(idx+1);
+        newTab(idx+1);
     } else if(action == mMenuClose) {
         onCloseIdx(idx);
     } else if(action == mMenuCloseOthers) {
