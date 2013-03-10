@@ -42,6 +42,7 @@
 #include <QMimeData>
 #include <QFileDialog>
 #include <QApplication>
+#include <QMessageBox>
 
 #include <QDebug>
 
@@ -420,6 +421,28 @@ void CentralWidget::closeTab(int index)
 void CentralWidget::closeTab(Panel *panel, int index)
 {
     Editor *edit = panel->getEditor(index);
+    EditorBinder *binder = edit->getBinder();
+
+    if(binder->getStatusInt() == EditorBinder::Modified) {
+        #define MESSAGE_PATTERN "The document %1 has been modified.\nDo you want to save changes?"
+        QString message = tr(MESSAGE_PATTERN).arg(binder->canonicalFilePath());
+        QMessageBox::StandardButton ret = QMessageBox::warning(this, tr("Save file"), message,
+                                                    QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel,
+                                                    QMessageBox::Save);
+        if(ret == QMessageBox::Cancel)
+            return;
+        if(ret == QMessageBox::Save) {
+            if(binder->getStatusExt() == EditorBinder::New) {
+                if(edit->length() > 0)
+                    this->saveTabForm(panel, index);
+            } else {
+                binder->saveFile();
+            }
+        }
+
+        #undef MESSAGE_PATTERN
+    }
+
     panel->removeTab(index);
     Editor::removeEditor(edit);
 }

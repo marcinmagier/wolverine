@@ -61,7 +61,7 @@ EditorBinder::EditorBinder() :
     AppSettings::instance()->scintilla->addCodecAvailable(mCodec->name());
     mEditors.clear();
 
-    mStatusInt = Modified;
+    mStatusInt = Unmodified;
     mStatusExt = New;
     mWatcher = new QFileSystemWatcher();
     connect( mWatcher, SIGNAL(fileChanged(QString)),
