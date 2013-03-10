@@ -21,6 +21,7 @@
  */
 
 #include "WEditor.h"
+#include "WEditorBinder.h"
 #include "WEditorProxy.h"
 #include "WPanel.h"
 #include "WPanelTabBar.h"
@@ -46,10 +47,10 @@ using namespace Wolverine;
  *
  * @param parent
  */
-Panel::Panel(EditorProxy *editorProxy, QWidget *parent) :
-    QtTabWidget(parent),
-    mEditorProxy(editorProxy)
+Panel::Panel(QWidget *parent) :
+    QtTabWidget(parent)
 {
+    mEditorProxy = EditorProxy::instance();
     mTabBar = new PanelTabBar(this);
     this->setTabBar(mTabBar);
 

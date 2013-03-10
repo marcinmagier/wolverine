@@ -29,7 +29,6 @@
 #include "qtmanagedmenu.h"
 #include "qttabwidget.h"
 
-#include "WEditorBinder.h"
 
 
 
@@ -48,7 +47,7 @@ class Panel : public QtTabWidget
     Q_OBJECT
 
 public:
-    explicit Panel(EditorProxy *editorProxy, QWidget *parent = 0);
+    explicit Panel(QWidget *parent = 0);
     virtual ~Panel();
 
 

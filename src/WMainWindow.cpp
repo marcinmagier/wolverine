@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     setCentralWidget(mCentralWidget);
-    setStatusBar(new StatusBar(mCentralWidget->getCurrentEditor(), this));
+    setStatusBar(new StatusBar(this));
 
     Popup::initialize();
 
@@ -66,7 +66,7 @@ void MainWindow::createMenusAndToolbars()
     connect( mSettings->general, SIGNAL(appCustomizeEnabledChanged(bool)),
                         toolbar, SLOT(setManagerEnabled(bool)), Qt::DirectConnection );
 
-    EditorProxy *editProxy = mCentralWidget->getCurrentEditor();
+    EditorProxy *editProxy = EditorProxy::instance();
 
     QAction *action;
     QMenu *menu = menuBar()->addMenu(tr("File"));

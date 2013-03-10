@@ -32,6 +32,7 @@
 
 #include "qtmanagedmenu.h"
 
+#include <QApplication>
 
 
 #define W_ACTION_CUT "Cut"
@@ -44,16 +45,38 @@
 using namespace Wolverine;
 
 
+EditorProxy *EditorProxy::sInstance = 0;
+
+
 EditorProxy::EditorProxy()
 {
     mCurrentEditor = 0;
     setupContextMenu();
+    qAddPostRoutine(deleteInstance);
 }
 
 EditorProxy::~EditorProxy()
 {
     delete mContextMenu;
 }
+
+//static
+EditorProxy* EditorProxy::instance()
+{
+    if(sInstance == 0) {
+        sInstance = new EditorProxy();
+    }
+    return sInstance;
+}
+
+void EditorProxy::deleteInstance()
+{
+    if(sInstance) {
+        delete sInstance;
+        sInstance = 0;
+    }
+}
+
 
 
 Editor *EditorProxy::getCurrentEditor()

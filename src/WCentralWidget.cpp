@@ -69,14 +69,14 @@ CentralWidget::CentralWidget(QWidget *parent):
     QWidget(parent)
 {
     setAcceptDrops(true);
-    mCurrentEditor = new EditorProxy();
+    mCurrentEditor = EditorProxy::instance();
 
     mLayout = new QHBoxLayout(this);
     mLayout->setContentsMargins(0, 0, 0, 0);
     mSplitter = new QSplitter(this);
     mSplitter->setOrientation(Qt::Horizontal);
-    mPanelLeft = new Panel(mCurrentEditor, mSplitter);
-    mPanelRight = new Panel(mCurrentEditor, mSplitter);
+    mPanelLeft = new Panel(mSplitter);
+    mPanelRight = new Panel(mSplitter);
     mPanelRight->hide();
     mSplitter->addWidget(mPanelLeft);
     mSplitter->addWidget(mPanelRight);
@@ -109,16 +109,10 @@ CentralWidget::CentralWidget(QWidget *parent):
 
 CentralWidget::~CentralWidget()
 {
-    delete mCurrentEditor;
     delete mContextMenu;
     //layout, spliter and panels are deleted automatically
 }
 
-
-EditorProxy* CentralWidget::getCurrentEditor()
-{
-    return mCurrentEditor;
-}
 
 
 void CentralWidget::newTab(Panel *panel, int index)

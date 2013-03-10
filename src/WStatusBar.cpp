@@ -67,11 +67,11 @@ QIcon getEoLIcon(Editor::EolMode eol)
 
 
 
-StatusBar::StatusBar(EditorProxy *currentEditor, QWidget *parent) :
-    QStatusBar(parent),
-    mEditorProxy(currentEditor)
+StatusBar::StatusBar(QWidget *parent) :
+    QStatusBar(parent)
 {
     mMainWindow = dynamic_cast<QMainWindow*>(parent);
+    mEditorProxy = EditorProxy::instance();
 
     mLblFilePath = new QtLabel("");
     mLblFilePath->setStyleSheet(QString(STATUS_LABEL_STYLE));

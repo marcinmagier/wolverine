@@ -45,9 +45,13 @@ class EditorProxy: public QObject
 {
     Q_OBJECT
 
-public:
     explicit EditorProxy();
     virtual ~EditorProxy();
+
+public:
+    static EditorProxy* instance();
+    static void deleteInstance();
+
 
     Editor* getCurrentEditor();
     QString getCurrentEditorDir();
@@ -76,10 +80,12 @@ private slots:
 private:
     void setupContextMenu();
 
+
     Editor *mCurrentEditor;
 
     QtManagedMenu *mContextMenu;
 
+    static EditorProxy *sInstance;
 };
 
 

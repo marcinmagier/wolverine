@@ -36,7 +36,7 @@ class StatusBar : public QStatusBar
     Q_OBJECT
 
 public:
-    StatusBar(EditorProxy *currentEditor, QWidget *parent);
+    StatusBar(QWidget *parent);
 
 
 private slots:

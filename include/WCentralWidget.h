@@ -54,7 +54,6 @@ public:
     explicit CentralWidget(QWidget *parent = 0);
     virtual ~CentralWidget();
 
-    EditorProxy* getCurrentEditor();
 
 public slots:
     void onNew();
