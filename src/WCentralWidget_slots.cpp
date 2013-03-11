@@ -48,15 +48,7 @@ using namespace Wolverine;
 
 
 
-void CentralWidget::onSplit()
-{
-    this->onSplitIdx(mPanelCurrent->currentIndex());
-}
 
-void CentralWidget::onSplitIdx(int index)
-{
-    mPanelCurrent->splitTab(index);
-}
 
 void CentralWidget::onMoveToOther()
 {
@@ -282,7 +274,7 @@ void CentralWidget::onCustomContextMenuRequested(QPoint pos)
     } else if(action == mMenuCloseOthers) {
         closeOtherTabs(idx);
     } else if(action == mMenuSplitTab) {
-        onSplitIdx(idx);
+        splitTab(idx);
     } else if(action == mMenuMoveTab) {
         onMoveToOtherIdx(idx);
     } else if(action == mMenuCopyTab) {

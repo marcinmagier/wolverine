@@ -77,9 +77,8 @@ public slots:
     void closeOtherTabs(int index);
     void closeAllTabs();
 
-
-    void onSplit();
-    void onSplitIdx(int index);
+    void splitTab();
+    void splitTab(int index);
 
     void onMoveToOther();
     void onMoveToOtherIdx(int index);

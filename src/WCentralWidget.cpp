@@ -525,6 +525,28 @@ void CentralWidget::closeAllTabs(Panel *panel)
 
 
 
+/**
+ *  Splits current tab.
+ */
+//slot
+void CentralWidget::splitTab()
+{
+    this->splitTab(mPanelCurrent->currentIndex());
+}
+
+
+/**
+ *  Splits given tab.
+ *
+ * @param index
+ */
+void CentralWidget::splitTab(int index)
+{
+    mPanelCurrent->splitTab(index);
+}
+
+
+
 
 
 
