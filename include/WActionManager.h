@@ -78,6 +78,7 @@ private:
 //W_ACTION_GROUP_VIEW
 #define W_ACTION_WCHARS         "WChars"
 #define W_ACTION_WRAP           "Wrap"
+#define W_ACTION_MONITOR_MODE   "MonitorMode"
 
     //W_ACTION_GROUP_TOOLS
 #define W_ACTION_CUSTOMIZE      "Customize"

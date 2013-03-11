@@ -22,6 +22,8 @@ class ActionManager;
 class DlgSettings;
 class StatusBar;
 class CentralWidget;
+class Editor;
+class EditorProxy;
 
 
 class MainWindow : public QMainWindow
@@ -40,6 +42,9 @@ public slots:
 protected:
     virtual void closeEvent(QCloseEvent *);
 
+private slots:
+    void onCurrentEditorChanged(Editor *editor);
+
 private:
     void createMenusAndToolbars();
 
@@ -51,6 +56,7 @@ private:
     QHash<QString, QtManagedToolBar* > mToolbars;
 
     CentralWidget *mCentralWidget;
+    EditorProxy *mEditorProxy;
 
 };
 

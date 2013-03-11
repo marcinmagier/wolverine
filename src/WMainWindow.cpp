@@ -3,6 +3,7 @@
 #include "WMainWindow.h"
 #include "WCentralWidget.h"
 #include "WStatusBar.h"
+#include "WEditor.h"
 #include "WEditorProxy.h"
 
 #include "qtmanagedtoolbar.h"
@@ -32,6 +33,9 @@ MainWindow::MainWindow(QWidget *parent) :
     mSettingsDialog = new DlgSettings(this);
 
     mCentralWidget = new CentralWidget(this);
+    mEditorProxy = EditorProxy::instance();
+    connect(mEditorProxy, SIGNAL(currentEditorChanged(Editor*)),
+                    this, SLOT(onCurrentEditorChanged(Editor*)) );
 
     this->resize(mSettings->hidden->getMWSize());
     this->move(mSettings->hidden->getMWPosition());
@@ -228,6 +232,15 @@ void MainWindow::createMenusAndToolbars()
              mSettings->scintilla, SLOT(setEolVisible(bool)), Qt::DirectConnection );
     connect(mSettings->scintilla, SIGNAL(eolVisibleChanged(bool)),
                           action, SLOT(setChecked(bool)), Qt::DirectConnection );
+
+    action = mActionManager->getAction(W_ACTION_GROUP_VIEW, W_ACTION_MONITOR_MODE);
+    action->setIcon(QIcon(":/monitor.png"));
+    action->setCheckable(true);
+    action->setChecked(false);
+    // action is connected when current editor changed
+    menu->addAction(action);
+    toolbar->addAction(W_ACTION_MONITOR_MODE, action);
+
     mMenus[W_ACTION_GROUP_VIEW] = menu;
 
 
@@ -272,4 +285,15 @@ void MainWindow::openFile(const QString &file)
 {
     if(!file.isEmpty())
         mCentralWidget->openTab(file);
+}
+
+
+void MainWindow::onCurrentEditorChanged(Editor *editor)
+{
+    EditorBinder *binder = editor->getBinder();
+    QAction *action = mActionManager->getAction(W_ACTION_GROUP_VIEW, W_ACTION_MONITOR_MODE);
+    disconnect(action, SIGNAL(toggled(bool)), 0, 0);
+    action->setChecked(binder->isMonitorModeEnabled());
+    connect( action, SIGNAL(toggled(bool)),
+             binder, SLOT(enableMonitorMode(bool)) );
 }

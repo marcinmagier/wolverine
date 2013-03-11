@@ -97,6 +97,12 @@ public:
     void setEolMode(Editor::EolMode eolMode);
     Editor::EolMode getEolMode();
 
+    bool isMonitorModeEnabled();
+
+public slots:
+    void enableMonitorMode(bool enable);
+
+
 signals:
     void statusIntChanged(int);
     void statusExtChanged(int);
@@ -117,6 +123,7 @@ private:
     void setStatusExt(StatusExt stat, bool force = false);
 
 
+    bool mMonitorMode;
     EditorList mEditors;
     StatusInt mStatusInt;
     StatusExt mStatusExt;

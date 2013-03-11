@@ -71,6 +71,7 @@ EditorBinder::EditorBinder() :
     mLexerName = mLexerManager->getLexerName(this);
 
     mEolMode = guessEol();
+    mMonitorMode = false;
 }
 
 
@@ -121,6 +122,7 @@ EditorBinder::EditorBinder(const QString &path) :
     mLexerName = mLexerManager->getLexerName(this);
 
     mEolMode = guessEol();
+    mMonitorMode = false;
 }
 
 
@@ -288,7 +290,10 @@ void EditorBinder::onFileChanged(const QString &)
         setStatusExt(ReadOnly);
         mStatusInt = Unmodified;
     } else {
-        setStatusExt(Normal, true);
+        if(mMonitorMode && mStatusInt == Unmodified)
+            this->loadFile();
+        else
+            setStatusExt(Normal, true);
     }
 }
 
@@ -508,4 +513,14 @@ Editor::EolMode EditorBinder::guessEol()
     }
 
     return ret;
+}
+
+void EditorBinder::enableMonitorMode(bool enable)
+{
+    mMonitorMode = enable;
+}
+
+bool EditorBinder::isMonitorModeEnabled()
+{
+    return mMonitorMode;
 }
