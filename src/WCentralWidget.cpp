@@ -61,6 +61,11 @@
 #define W_TABBAR_CONTEXT_MENU  "TabBarContextMenu"
 
 #define CLOSE_MESSAGE_PATTERN "The document %1 has been modified.\nDo you want to save changes?"
+#define STATUS_NOTEXISTS_MSG_PATTERN "The file %1 doesn't exist anymore.\nKeep this file in editor?"
+#define STATUS_MODIFIED_MSG_PATTERN "The file %1 has been modified by another program.\nDo you want to reload it?"
+
+
+
 
 
 
@@ -737,58 +742,9 @@ void CentralWidget::moveTabToApp(int index)
 
 
 
-
-
-
-
-
-
-
-
-
-void CentralWidget::setCurrentPanel(Panel *panel, bool updateEditor)
-{
-    if(mPanelCurrent != panel) {
-        mPanelCurrent = panel;
-        if(panel == mPanelLeft) {
-            mPanelLeft->setActive(true);
-            mPanelRight->setActive(false);
-        } else {
-            mPanelLeft->setActive(false);
-            mPanelRight->setActive(true);
-        }
-
-        if(updateEditor)
-            this->setCurrentEditor(mPanelCurrent->getEditor(mPanelCurrent->currentIndex()));
-    }
-}
-
-void CentralWidget::setCurrentEditor(Editor *editor)
-{
-    mCurrentEditor->setCurrentEditor(editor);
-    editor->setFocus();
-
-}
-
-Panel* CentralWidget::findEditor(Editor *editor, int *retIdx)
-{
-    int idx = mPanelLeft->indexOf(editor);
-    if(idx >= 0) {
-        *retIdx = idx;
-        return mPanelLeft;
-    }
-
-    idx = mPanelRight->indexOf(editor);
-    if(idx >= 0) {
-        *retIdx = idx;
-        return mPanelRight;
-    }
-
-    *retIdx = -1;
-    return mPanelCurrent;
-}
-
-
+/**
+ *  Update panel layout.
+ */
 void CentralWidget::updatePanels()
 {
     if(mPanelCurrent->count() == 0) {
@@ -809,6 +765,77 @@ void CentralWidget::updatePanels()
 }
 
 
+/**
+ *  Sets current panel.
+ *
+ * @param panel
+ * @param updateEditor
+ */
+void CentralWidget::setCurrentPanel(Panel *panel, bool updateEditor)
+{
+    if(mPanelCurrent != panel) {
+        mPanelCurrent = panel;
+        if(panel == mPanelLeft) {
+            mPanelLeft->setActive(true);
+            mPanelRight->setActive(false);
+        } else {
+            mPanelLeft->setActive(false);
+            mPanelRight->setActive(true);
+        }
+
+        if(updateEditor)
+            this->setCurrentEditor(mPanelCurrent->getEditor(mPanelCurrent->currentIndex()));
+    }
+}
+
+
+/**
+ *  Sets current editor.
+ *
+ * @param editor
+ */
+void CentralWidget::setCurrentEditor(Editor *editor)
+{
+    mCurrentEditor->setCurrentEditor(editor);
+    editor->setFocus();
+
+}
+
+
+/**
+ *  Finds given editor.
+ *
+ * @param editor
+ * @param retIdx
+ * @return
+ */
+Panel* CentralWidget::findEditor(Editor *editor, int *retIdx)
+{
+    int idx = mPanelLeft->indexOf(editor);
+    if(idx >= 0) {
+        *retIdx = idx;
+        return mPanelLeft;
+    }
+
+    idx = mPanelRight->indexOf(editor);
+    if(idx >= 0) {
+        *retIdx = idx;
+        return mPanelRight;
+    }
+
+    *retIdx = -1;
+    return mPanelCurrent;
+}
+
+
+/**
+ *  Activate given editor if it already exists.
+ *
+ * @param panel
+ * @param editor
+ * @param line
+ * @return
+ */
 bool CentralWidget::setCurrentIfExists(Panel *panel, Editor *editor, int line)
 {
     int idx = panel->indexOf(editor);
@@ -824,6 +851,14 @@ bool CentralWidget::setCurrentIfExists(Panel *panel, Editor *editor, int line)
 }
 
 
+/**
+ *  Activate given editor if it already exists.
+ *
+ * @param panel
+ * @param editor
+ * @param line
+ * @return
+ */
 bool CentralWidget::setCurrentIfExists(Panel *panel, const QString &path, int line)
 {
     int idx = panel->indexOf(path);
@@ -837,6 +872,8 @@ bool CentralWidget::setCurrentIfExists(Panel *panel, const QString &path, int li
 
     return false;
 }
+
+
 
 
 QIcon CentralWidget::guesEditorStatusIcon(EditorBinder::StatusInt statInt, EditorBinder::StatusExt statExt)
@@ -884,6 +921,179 @@ void CentralWidget::dropEvent(QDropEvent *event)
         }
     }
 }
+
+
+
+
+void CentralWidget::onEditorStatusIntChanged(int stat)
+{
+    EditorBinder *binder = dynamic_cast<EditorBinder*>(sender());
+    EditorBinder::StatusInt statusInt = static_cast<EditorBinder::StatusInt>(stat);
+    EditorBinder::StatusExt statusExt = binder->getStatusExt();
+
+    const EditorList &editors = binder->getEditors();
+    foreach(Editor *edit, editors) {
+        int idx = mPanelLeft->indexOf(edit);
+        if(idx >= 0)
+            mPanelLeft->setTabIcon(idx, guesEditorStatusIcon(statusInt, statusExt));
+
+        idx = mPanelRight->indexOf(edit);
+        if(idx >= 0)
+            mPanelRight->setTabIcon(idx, guesEditorStatusIcon(statusInt, statusExt));
+    }
+}
+
+void CentralWidget::onEditorStatusExtChanged(int stat)
+{
+    EditorBinder *binder = dynamic_cast<EditorBinder*>(sender());
+    EditorBinder::StatusExt statusExt = static_cast<EditorBinder::StatusExt>(stat);
+    EditorBinder::StatusExt statusExtOld = binder->getStatusExt();
+    EditorBinder::StatusInt statusInt = binder->getStatusInt();
+
+    if((statusExt == EditorBinder::NotExists) && (statusExtOld != EditorBinder::New)) {
+        QString message = tr(STATUS_NOTEXISTS_MSG_PATTERN).arg(binder->absoluteFilePath());
+        QMessageBox::StandardButton ret = QMessageBox::warning(this, tr("Keep non existing file"), message,
+                                                               QMessageBox::Yes | QMessageBox::No,
+                                                               QMessageBox::Yes
+                                                               );
+        if(ret == QMessageBox::No) {
+            foreach(Editor *edit, binder->getEditors()) {
+                int idx;
+                Panel *panel = this->findEditor(edit, &idx);
+                if(idx >= 0)
+                    this->closeTab(panel, idx);
+            }
+            this->updatePanels();
+            return;
+        }
+    } else if( (statusExt == statusExtOld) && statusExt == EditorBinder::Normal) {
+        if(statusInt == EditorBinder::Unmodified) {
+            QString message = tr(STATUS_MODIFIED_MSG_PATTERN).arg(binder->absoluteFilePath());
+            QMessageBox::StandardButton ret = QMessageBox::warning(this, tr("Reload"), message,
+                                                                   QMessageBox::Yes | QMessageBox::No,
+                                                                   QMessageBox::Yes
+                                                                   );
+            if(ret == QMessageBox::Yes) {
+                binder->loadFile();
+            }
+        }
+    }
+
+    //TODO: Show message window to inform user about change.
+    // statusExt == Normal && statusExt == Normal
+        //&& statusInt == Unmodified ==> Ask if file should be reloaded?
+        //&& statusInt == Modified ==> Ask if file should be reloaded or saved as new file?
+
+
+    const EditorList &editors = binder->getEditors();
+    foreach(Editor *edit, editors) {
+        int idx = mPanelLeft->indexOf(edit);
+        if(idx >= 0)
+            mPanelLeft->setTabIcon(idx, guesEditorStatusIcon(statusInt, statusExt));
+
+        idx = mPanelRight->indexOf(edit);
+        if(idx >= 0)
+            mPanelRight->setTabIcon(idx, guesEditorStatusIcon(statusInt, statusExt));
+    }
+    statusExt = statusExtOld;
+}
+
+void CentralWidget::onEditorFileInfoChanged(QFileInfo *fileinfo)
+{
+    EditorBinder *binder = dynamic_cast<EditorBinder*>(sender());
+
+    const EditorList &editors = binder->getEditors();
+    foreach(Editor *edit, editors) {
+        int idx = mPanelLeft->indexOf(edit);
+        if(idx >= 0)
+            mPanelLeft->setTabText(idx, fileinfo->fileName());
+
+        idx = mPanelRight->indexOf(edit);
+        if(idx >= 0)
+            mPanelRight->setTabText(idx, fileinfo->fileName());
+    }
+}
+
+
+
+void CentralWidget::onInternalWidgetFocusReceived()
+{
+    if(sender() == mPanelRight)
+        this->setCurrentPanel(mPanelRight, true);
+    else
+        this->setCurrentPanel(mPanelLeft, true);
+}
+
+void CentralWidget::onCustomContextMenuRequested(QPoint pos)
+{
+    if(mPanelCurrent == mPanelRight) {
+        mMenuMoveTab->setText(tr("Move to left"));
+        mMenuCopyTab->setText(tr("Copy to left"));
+    } else {
+        mMenuMoveTab->setText(tr("Move to right"));
+        mMenuCopyTab->setText(tr("Copy to right"));
+    }
+
+    int idx = mPanelCurrent->tabAt(pos);
+
+    EditorBinder::StatusExt statExt = mPanelCurrent->getEditor(idx)->getBinder()->getStatusExt();
+    bool isNew = (statExt == EditorBinder::New || statExt == EditorBinder::NotExists) ? true : false;
+
+    mMenuClose->setEnabled(false);
+    mMenuCloseOthers->setEnabled(false);
+    mMenuSplitTab->setEnabled(false);
+    mMenuMoveTab->setEnabled(false);
+    mMenuCopyTab->setEnabled(false);
+    mMenuMoveApp->setEnabled(false);
+    mMenuCopyApp->setEnabled(false);
+
+    if(idx >= 0) {
+        mMenuClose->setEnabled(true);
+        mMenuCopyTab->setEnabled(true);
+        if(!isNew)
+            mMenuCopyApp->setEnabled(true);
+
+        if(mPanelCurrent->count() > 1) {
+            mMenuCloseOthers->setEnabled(true);
+            mMenuMoveTab->setEnabled(true);
+            if(!isNew)
+                mMenuMoveApp->setEnabled(true);
+        } else {
+            // Only one tab
+            if(mPanelCurrent == mPanelRight) {
+                mMenuMoveTab->setEnabled(true);
+                if(!isNew)
+                    mMenuMoveApp->setEnabled(true);
+            }
+        }
+
+        if(mPanelCurrent->currentIndex() == idx) {
+            mMenuSplitTab->setEnabled(true);
+        }
+    }
+
+    QAction *action = mContextMenu->exec(QCursor::pos());
+
+    if(action == mMenuNew) {
+        newTab(idx+1);
+    } else if(action == mMenuClose) {
+        closeTab(idx);
+    } else if(action == mMenuCloseOthers) {
+        closeOtherTabs(idx);
+    } else if(action == mMenuSplitTab) {
+        splitTab(idx);
+    } else if(action == mMenuMoveTab) {
+        moveTabToOther(idx);
+    } else if(action == mMenuCopyTab) {
+        copyTabToOther(idx);
+    } else if(action == mMenuMoveApp) {
+        moveTabToApp(idx);
+    } else if(action == mMenuCopyApp) {
+        copyTabToApp(idx);
+    }
+}
+
+
 
 
 void CentralWidget::setupContextMenu()

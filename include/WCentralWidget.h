@@ -122,21 +122,16 @@ private:
     void moveTab(Panel *from, int fromIdx, Panel *to);
     void moveAllTabs(Panel *from, Panel *to);
 
-
-    void setupContextMenu();
-
-
+    void updatePanels();
     void setCurrentPanel(Panel *panel, bool updateEditor = false);
     void setCurrentEditor(Editor *editor);
     Panel* findEditor(Editor *editor, int *retIdx);
-    void removeEditor(Editor *editor);
-
-
-    void updatePanels();
-
-
     bool setCurrentIfExists(Panel *panel, const QString &path, int line = -1);
     bool setCurrentIfExists(Panel *panel, Editor *editor, int line = -1);
+
+
+    void setupContextMenu();
+
 
     QIcon guesEditorStatusIcon(EditorBinder::StatusInt statInt, EditorBinder::StatusExt statExt);
 

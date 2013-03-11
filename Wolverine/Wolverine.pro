@@ -43,7 +43,6 @@ SOURCES      += \
                 ../src/settings/CfgViewSettings.cpp \
                 ../src/WActionManager.cpp \
                 ../src/WCentralWidget.cpp \
-                ../src/WCentralWidget_slots.cpp \
                 ../src/WLib.cpp \
                 ../src/WMainWindow.cpp \
                 ../src/WPanel.cpp \
