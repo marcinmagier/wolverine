@@ -60,7 +60,7 @@
 
 #define W_TABBAR_CONTEXT_MENU  "TabBarContextMenu"
 
-#define CLOSE_MESSAGE_PATTERN "The document %1 has been modified.\nDo you want to save changes?"
+#define CLOSE_MODIVIED_MSG_PATTERN "The document %1 has been modified.\nDo you want to save changes?"
 #define STATUS_NOTEXISTS_MSG_PATTERN "The file %1 doesn't exist anymore.\nKeep this file in editor?"
 #define STATUS_MODIFIED_MSG_PATTERN "The file %1 has been modified by another program.\nDo you want to reload it?"
 
@@ -417,7 +417,7 @@ void CentralWidget::closeTab(Panel *panel, int index)
     if(binder->getStatusInt() == EditorBinder::Modified) {
         if( !((binder->getStatusExt() == EditorBinder::New) && (edit->length() == 0)) )
         {
-            QString message = tr(CLOSE_MESSAGE_PATTERN).arg(binder->canonicalFilePath());
+            QString message = tr(CLOSE_MODIVIED_MSG_PATTERN).arg(binder->canonicalFilePath());
             QMessageBox::StandardButton ret = QMessageBox::warning(this, tr("Save file"), message,
                                                     QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel,
                                                     QMessageBox::Save);
@@ -978,12 +978,6 @@ void CentralWidget::onEditorStatusExtChanged(int stat)
             }
         }
     }
-
-    //TODO: Show message window to inform user about change.
-    // statusExt == Normal && statusExt == Normal
-        //&& statusInt == Unmodified ==> Ask if file should be reloaded?
-        //&& statusInt == Modified ==> Ask if file should be reloaded or saved as new file?
-
 
     const EditorList &editors = binder->getEditors();
     foreach(Editor *edit, editors) {
