@@ -200,6 +200,13 @@ void CentralWidget::openTab(const QString &path)
  */
 void CentralWidget::openTab(Panel *panel, const QString &path)
 {
+    // If only one and empty tab is
+    if( (mPanelRight->count() == 0) && (mPanelLeft->count() == 1) ) {
+        Editor *first = mPanelLeft->getEditor(0);
+        if( (first->length() == 0) && (first->getBinder()->getStatusExt() == EditorBinder::New) )
+            this->closeTab(mPanelLeft, 0);
+    }
+
     QString file = Lib::getPathFromFile(path);
     int line = Lib::getLineFromFile(path);
     if(line>0)

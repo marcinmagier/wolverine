@@ -239,7 +239,7 @@ void MainWindow::createMenusAndToolbars()
     action->setChecked(false);
     // action is connected when current editor changed
     menu->addAction(action);
-    toolbar->addAction(W_ACTION_MONITOR_MODE, action);
+    toolbar->addAction(W_ACTION_MONITOR_MODE, action, true);
 
     mMenus[W_ACTION_GROUP_VIEW] = menu;
 
