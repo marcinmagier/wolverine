@@ -50,70 +50,7 @@ using namespace Wolverine;
 
 
 
-void CentralWidget::onMoveToOther()
-{
-    this->onCopyToOtherIdx(mPanelCurrent->currentIndex());
-}
 
-void CentralWidget::onMoveToOtherIdx(int index)
-{
-    if(mPanelCurrent == mPanelRight) {
-        this->moveTab(mPanelRight, index, mPanelLeft);
-        if(mPanelRight->count() == 0) {
-            mPanelRight->setVisible(false);
-        }
-    } else {
-        this->moveTab(mPanelLeft, index, mPanelRight);
-        mPanelRight->setVisible(true);
-    }
-}
-
-void CentralWidget::onCopyToOther()
-{
-    this->onCopyToOtherIdx(mPanelCurrent->currentIndex());
-}
-
-void CentralWidget::onCopyToOtherIdx(int index)
-{
-    if(mPanelCurrent == mPanelRight) {
-        // Copy to the left panel
-        setCurrentPanel(mPanelLeft);
-        this->copyTab(mPanelRight, index, mPanelLeft);
-    } else {
-        // Copy to the right panel
-        setCurrentPanel(mPanelRight);
-        this->copyTab(mPanelLeft, index, mPanelRight);
-        mPanelRight->setVisible(true);
-    }
-}
-
-void CentralWidget::onMoveToApp()
-{
-    this->onMoveToAppIdx(mPanelCurrent->currentIndex());
-}
-
-void CentralWidget::onMoveToAppIdx(int index)
-{
-    Editor *edit = mPanelCurrent->getEditor(index);
-    mPanelCurrent->removeTab(index);
-    if(mPanelCurrent == mPanelRight) {
-        if(mPanelRight->count() == 0) {
-            mPanelRight->setVisible(false);
-        }
-    }
-    Lib::openNewInstance(edit->getBinder()->absoluteFilePath());
-}
-
-void CentralWidget::onCopyToApp()
-{
-    this->onCopyToAppIdx(mPanelCurrent->currentIndex());
-}
-
-void CentralWidget::onCopyToAppIdx(int index)
-{
-    Editor *edit = mPanelCurrent->getEditor(index);
-    Lib::openNewInstance(edit->getBinder()->absoluteFilePath());
-}
 
 
 
@@ -276,13 +213,13 @@ void CentralWidget::onCustomContextMenuRequested(QPoint pos)
     } else if(action == mMenuSplitTab) {
         splitTab(idx);
     } else if(action == mMenuMoveTab) {
-        onMoveToOtherIdx(idx);
+        moveTabToOther(idx);
     } else if(action == mMenuCopyTab) {
-        onCopyToOtherIdx(idx);
+        copyTabToOther(idx);
     } else if(action == mMenuMoveApp) {
-        onMoveToAppIdx(idx);
+        moveTabToApp(idx);
     } else if(action == mMenuCopyApp) {
-        onCopyToAppIdx(idx);
+        copyTabToApp(idx);
     }
 }
 

@@ -548,26 +548,98 @@ void CentralWidget::splitTab(int index)
 
 
 
-
-
-void CentralWidget::moveAll(Panel *from, Panel *to)
+/**
+ *  Copies current tab to other panel.
+ */
+//slot
+void CentralWidget::copyTabToOther()
 {
-    int idx = to->currentIndex();
-    if(to->count() == 0)
-        idx = from->currentIndex();
-
-    int fromLength = from->count();
-    for(int i=0; i<fromLength; i++) {
-        Editor *edit = from->getEditor(0);
-        EditorBinder *binder = edit->getBinder();
-        from->removeTab(0);
-        to->addTab(edit, guesEditorStatusIcon(binder->getStatusInt(), binder->getStatusExt()));
-    }
-    setCurrentPanel(to);
-    to->setCurrentIndex(idx);
+    this->copyTabToOther(mPanelCurrent->currentIndex());
 }
 
 
+/**
+ *  Copies given tab to other panel.
+ *
+ * @param index
+ */
+//slot
+void CentralWidget::copyTabToOther(int index)
+{
+    if(mPanelCurrent == mPanelRight) {
+        // Copy to the left panel
+        setCurrentPanel(mPanelLeft);
+        this->copyTab(mPanelRight, index, mPanelLeft);
+    } else {
+        // Copy to the right panel
+        setCurrentPanel(mPanelRight);
+        this->copyTab(mPanelLeft, index, mPanelRight);
+        mPanelRight->setVisible(true);
+    }
+}
+
+
+/**
+ *  Copies given tab.
+ *
+ * @param from
+ * @param fromIdx
+ * @param to
+ */
+void CentralWidget::copyTab(Panel *from, int fromIdx, Panel *to)
+{
+    Editor *edit = from->getEditor(fromIdx);
+    setCurrentPanel(to);
+    int idx = to->indexOf(edit);
+    if(idx<0) {
+        Editor *copy = edit->getLinkedCopy();
+        EditorBinder *binder = copy->getBinder();
+        to->addTab(copy, guesEditorStatusIcon(binder->getStatusInt(), binder->getStatusExt()));
+        to->setCurrentWidget(copy);
+    } else {
+        // There is already a copy of the editor - select it
+        to->setCurrentIndex(idx);
+    }
+}
+
+
+/**
+ *  Moves current tab to other panel.
+ */
+//slot
+void CentralWidget::moveTabToOther()
+{
+    this->copyTabToOther(mPanelCurrent->currentIndex());
+}
+
+
+/**
+ *  Moves given tab to other panel.
+ *
+ * @param index
+ */
+//slot
+void CentralWidget::moveTabToOther(int index)
+{
+    if(mPanelCurrent == mPanelRight) {
+        this->moveTab(mPanelRight, index, mPanelLeft);
+        if(mPanelRight->count() == 0) {
+            mPanelRight->setVisible(false);
+        }
+    } else {
+        this->moveTab(mPanelLeft, index, mPanelRight);
+        mPanelRight->setVisible(true);
+    }
+}
+
+
+/**
+ *  Moves given tab.
+ *
+ * @param from
+ * @param fromIdx
+ * @param to
+ */
 void CentralWidget::moveTab(Panel *from, int fromIdx, Panel *to)
 {
     Editor *edit = from->getEditor(fromIdx);
@@ -586,21 +658,92 @@ void CentralWidget::moveTab(Panel *from, int fromIdx, Panel *to)
     }
 }
 
-void CentralWidget::copyTab(Panel *from, int fromIdx, Panel *to)
+
+/**
+ *  Moves all tabs.
+ *
+ * @param from
+ * @param to
+ */
+void CentralWidget::moveAllTabs(Panel *from, Panel *to)
 {
-    Editor *edit = from->getEditor(fromIdx);
-    setCurrentPanel(to);
-    int idx = to->indexOf(edit);
-    if(idx<0) {
-        Editor *copy = edit->getLinkedCopy();
-        EditorBinder *binder = copy->getBinder();
-        to->addTab(copy, guesEditorStatusIcon(binder->getStatusInt(), binder->getStatusExt()));
-        to->setCurrentWidget(copy);
-    } else {
-        // There is already a copy of the editor - select it
-        to->setCurrentIndex(idx);
+    int idx = to->currentIndex();
+    if(to->count() == 0)
+        idx = from->currentIndex();
+
+    int fromLength = from->count();
+    for(int i=0; i<fromLength; i++) {
+        Editor *edit = from->getEditor(0);
+        EditorBinder *binder = edit->getBinder();
+        from->removeTab(0);
+        to->addTab(edit, guesEditorStatusIcon(binder->getStatusInt(), binder->getStatusExt()));
     }
+    setCurrentPanel(to);
+    to->setCurrentIndex(idx);
 }
+
+
+/**
+ *  Copies current tab to new app.
+ */
+//slot
+void CentralWidget::copyTabToApp()
+{
+    this->copyTabToApp(mPanelCurrent->currentIndex());
+}
+
+
+/**
+ *  Copies given tab to new app.
+ *
+ * @param index
+ */
+//slot
+void CentralWidget::copyTabToApp(int index)
+{
+    Editor *edit = mPanelCurrent->getEditor(index);
+    Lib::openNewInstance(edit->getBinder()->absoluteFilePath());
+}
+
+
+/**
+ *  Moves current tab to new app.
+ */
+//slot
+void CentralWidget::moveTabToApp()
+{
+    this->moveTabToApp(mPanelCurrent->currentIndex());
+}
+
+
+/**
+ *  Moves given tab to new app.
+ *
+ * @param index
+ */
+//slot
+void CentralWidget::moveTabToApp(int index)
+{
+    Editor *edit = mPanelCurrent->getEditor(index);
+    mPanelCurrent->removeTab(index);
+    if(mPanelCurrent == mPanelRight) {
+        if(mPanelRight->count() == 0) {
+            mPanelRight->setVisible(false);
+        }
+    }
+    Lib::openNewInstance(edit->getBinder()->absoluteFilePath());
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 void CentralWidget::setCurrentPanel(Panel *panel, bool updateEditor)
@@ -650,7 +793,7 @@ void CentralWidget::updatePanels()
 {
     if(mPanelCurrent->count() == 0) {
         if(mPanelCurrent == mPanelLeft)
-            this->moveAll(mPanelRight, mPanelLeft);
+            this->moveAllTabs(mPanelRight, mPanelLeft);
         mPanelRight->setVisible(false);
         this->setCurrentPanel(mPanelLeft, true);
     }

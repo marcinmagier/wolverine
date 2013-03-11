@@ -80,14 +80,14 @@ public slots:
     void splitTab();
     void splitTab(int index);
 
-    void onMoveToOther();
-    void onMoveToOtherIdx(int index);
-    void onCopyToOther();
-    void onCopyToOtherIdx(int index);
-    void onMoveToApp();
-    void onMoveToAppIdx(int index);
-    void onCopyToApp();
-    void onCopyToAppIdx(int index);
+    void copyTabToOther();
+    void copyTabToOther(int index);
+    void moveTabToOther();
+    void moveTabToOther(int index);
+    void copyTabToApp();
+    void copyTabToApp(int index);
+    void moveTabToApp();
+    void moveTabToApp(int index);
 
 
 protected:
@@ -118,12 +118,14 @@ private:
     void closeOtherTabs(Panel *panel, int index);
     void closeAllTabs(Panel *panel);
 
+    void copyTab(Panel *from, int fromIdx, Panel *to);
+    void moveTab(Panel *from, int fromIdx, Panel *to);
+    void moveAllTabs(Panel *from, Panel *to);
+
 
     void setupContextMenu();
 
-    void moveAll(Panel *from, Panel *to);
-    void moveTab(Panel *from, int fromIdx, Panel *to);
-    void copyTab(Panel *from, int fromIdx, Panel *to);
+
     void setCurrentPanel(Panel *panel, bool updateEditor = false);
     void setCurrentEditor(Editor *editor);
     Panel* findEditor(Editor *editor, int *retIdx);
