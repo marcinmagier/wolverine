@@ -25,5 +25,8 @@
         <file alias="wolverine.png">appicon/wolverine-16.png</file>
         <file alias="monitor.png">images/monitor.png</file>
         <file alias="refresh.png">images/refresh.png</file>
+        <file alias="zoom.png">images/zoom.png</file>
+        <file alias="zoom_in.png">images/zoom_in.png</file>
+        <file alias="zoom_out.png">images/zoom_out.png</file>
     </qresource>
 </RCC>

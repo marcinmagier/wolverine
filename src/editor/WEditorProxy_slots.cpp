@@ -90,6 +90,21 @@ void EditorProxy::onReload()
     mCurrentEditor->getBinder()->loadFile();
 }
 
+void EditorProxy::onZoomDefault()
+{
+    mCurrentEditor->zoomTo(0);
+}
+
+void EditorProxy::onZoomIn()
+{
+    mCurrentEditor->zoomIn();
+}
+
+void EditorProxy::onZoomOut()
+{
+    mCurrentEditor->zoomOut();
+}
+
 
 
 void EditorProxy::onCustomContextMenuRequested(const QPoint &pos)

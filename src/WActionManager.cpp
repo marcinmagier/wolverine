@@ -146,27 +146,27 @@ void initializeActions()
     QAction *action;
 
     action = new QAction(QObject::tr("New"), 0);
-    action->setShortcut(QObject::tr("Ctrl+N"));
+    action->setShortcut(QKeySequence::New);
     action->setStatusTip(QObject::tr("Create a new file"));
     sInstance->addAction(W_ACTION_GROUP_FILE, W_ACTION_NEW, action);
 
     action = new QAction(QObject::tr("Open..."), 0);
-    action->setShortcut(QObject::tr("Ctrl+O"));
+    action->setShortcut(QKeySequence::Open);
     action->setStatusTip(QObject::tr("Open existing file"));
     sInstance->addAction(W_ACTION_GROUP_FILE, W_ACTION_OPEN, action);
 
     action = new QAction(QObject::tr("Reload"), 0);
-    //action->setShortcut(QObject::tr("Ctrl+O"));
+    action->setShortcut(QKeySequence::Refresh);
     action->setStatusTip(QObject::tr("Reload file"));
     sInstance->addAction(W_ACTION_GROUP_FILE, W_ACTION_RELOAD, action);
 
     action = new QAction(QObject::tr("Save"), 0);
-    action->setShortcut(QObject::tr("Ctrl+S"));
+    action->setShortcut(QKeySequence::Save);
     action->setStatusTip(QObject::tr("Save file"));
     sInstance->addAction(W_ACTION_GROUP_FILE, W_ACTION_SAVE, action);
 
     action = new QAction(QObject::tr("Save As..."), 0);
-    action->setShortcut(QObject::tr("Ctrl+Alt+S"));
+    action->setShortcut(QKeySequence::SaveAs);
     action->setStatusTip(QObject::tr("Save file as ..."));
     sInstance->addAction(W_ACTION_GROUP_FILE, W_ACTION_SAVE_AS, action);
 
@@ -176,7 +176,7 @@ void initializeActions()
     sInstance->addAction(W_ACTION_GROUP_FILE, W_ACTION_SAVE_ALL, action);
 
     action = new QAction(QObject::tr("Close"), 0);
-    action->setShortcut(QObject::tr("Ctrl+W"));
+    action->setShortcut(QKeySequence::Close);
     action->setStatusTip(QObject::tr("Close current file"));
     sInstance->addAction(W_ACTION_GROUP_FILE, W_ACTION_CLOSE, action);
 
@@ -191,34 +191,34 @@ void initializeActions()
     sInstance->addAction(W_ACTION_GROUP_FILE, W_ACTION_CLOSE_ALL, action);
 
     action = new QAction(QObject::tr("Exit"), 0);
-    action->setShortcut(QObject::tr("Alt+F4"));
+    action->setShortcut(QKeySequence::Quit);
     action->setStatusTip(QObject::tr("Close application"));
     sInstance->addAction(W_ACTION_GROUP_FILE, W_ACTION_EXIT, action);
 
 
 
     action = new QAction(QObject::tr("Undo"), 0);
-    action->setShortcut(QObject::tr("Ctrl+Z"));
+    action->setShortcut(QKeySequence::Undo);
     action->setStatusTip(QObject::tr("Undo action"));
     sInstance->addAction(W_ACTION_GROUP_EDIT, W_ACTION_UNDO, action);
 
     action = new QAction(QObject::tr("Redo"), 0);
-    action->setShortcut(QObject::tr("Ctrl+Y"));
+    action->setShortcut(QKeySequence::Redo);
     action->setStatusTip(QObject::tr("Redo action"));
     sInstance->addAction(W_ACTION_GROUP_EDIT, W_ACTION_REDO, action);
 
     action = new QAction(QObject::tr("Cut"), 0);
-    action->setShortcut(QObject::tr("Ctrl+X"));
+    action->setShortcut(QKeySequence::Cut);
     action->setStatusTip(QObject::tr("Cut selection"));
     sInstance->addAction(W_ACTION_GROUP_EDIT, W_ACTION_CUT, action);
 
     action = new QAction(QObject::tr("Copy"), 0);
-    action->setShortcut(QObject::tr("Ctrl+C"));
+    action->setShortcut(QKeySequence::Copy);
     action->setStatusTip(QObject::tr("Copy selection"));
     sInstance->addAction(W_ACTION_GROUP_EDIT, W_ACTION_COPY, action);
 
     action = new QAction(QObject::tr("Paste"), 0);
-    action->setShortcut(QObject::tr("Ctrl+V"));
+    action->setShortcut(QKeySequence::Paste);
     action->setStatusTip(QObject::tr("Paste"));
     sInstance->addAction(W_ACTION_GROUP_EDIT, W_ACTION_PASTE, action);
 
@@ -234,6 +234,21 @@ void initializeActions()
     action->setStatusTip(QObject::tr("Wrap Lines"));
     sInstance->addAction(W_ACTION_GROUP_VIEW, W_ACTION_WRAP, action);
 
+    action = new QAction(QObject::tr("Zoom In"), 0);
+    action->setShortcut(QKeySequence::ZoomIn);
+    action->setStatusTip(QObject::tr("Zoom in"));
+    sInstance->addAction(W_ACTION_GROUP_VIEW, W_ACTION_ZOOM_IN, action);
+
+    action = new QAction(QObject::tr("Zoom Out"), 0);
+    action->setShortcut(QKeySequence::ZoomOut);
+    action->setStatusTip(QObject::tr("Zoom out"));
+    sInstance->addAction(W_ACTION_GROUP_VIEW, W_ACTION_ZOOM_OUT, action);
+
+    action = new QAction(QObject::tr("Zoom Default"), 0);
+    action->setShortcut(QObject::tr("Ctrl+/"));
+    action->setStatusTip(QObject::tr("Wrap Lines"));
+    sInstance->addAction(W_ACTION_GROUP_VIEW, W_ACTION_ZOOM_DEF, action);
+
     action = new QAction(QObject::tr("Monitor Mode"), 0);
     //action->setShortcut(QObject::tr("Ctrl+V"));
     action->setStatusTip(QObject::tr("Automatically reload if file was changed externally"));
@@ -248,7 +263,7 @@ void initializeActions()
     sInstance->addAction(W_ACTION_GROUP_TOOLS, W_ACTION_CUSTOMIZE, action);
 
     action = new QAction(QObject::tr("Settings"), 0);
-    //action->setShortcut(QObject::tr("Ctrl+Alt+S"));
+    action->setShortcut(QKeySequence::Preferences);
     action->setStatusTip(QObject::tr("Settings dialog"));
     sInstance->addAction(W_ACTION_GROUP_TOOLS, W_ACTION_SETTINGS, action);
 

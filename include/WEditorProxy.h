@@ -70,6 +70,10 @@ public slots:
 
     void onReload();
 
+    void onZoomDefault();
+    void onZoomIn();
+    void onZoomOut();
+
 signals:
     void currentEditorChanged(Editor *editor);
 

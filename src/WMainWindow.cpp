@@ -221,22 +221,46 @@ void MainWindow::createMenusAndToolbars()
                           action, SLOT(setChecked(bool)), Qt::DirectConnection );
     toolbar->addAction(W_ACTION_WCHARS, action);
 
-    QMenu *wsMenu = menu->addMenu(action->text());
-    wsMenu->setIcon(QIcon(":/pilcrow.png"));
-    action = wsMenu->addAction(tr("Show spaces and tabs"));
+    QMenu *tmpMenu = menu->addMenu(action->text());
+    tmpMenu->setIcon(QIcon(":/pilcrow.png"));
+    action = tmpMenu->addAction(tr("Show spaces and tabs"));
     action->setCheckable(true);
     action->setChecked(mSettings->scintilla->isWhiteSpaceVisible());
     connect(               action, SIGNAL(toggled(bool)),
              mSettings->scintilla, SLOT(setWhiteSpaceVisible(bool)), Qt::DirectConnection );
     connect(mSettings->scintilla, SIGNAL(whiteSpaceVisibleChanged(bool)),
                           action, SLOT(setChecked(bool)), Qt::DirectConnection );
-    action = wsMenu->addAction(tr("Show end of lines"));
+    action = tmpMenu->addAction(tr("Show end of lines"));
     action->setCheckable(true);
     action->setChecked(mSettings->scintilla->isEolVisible());
     connect(               action, SIGNAL(toggled(bool)),
              mSettings->scintilla, SLOT(setEolVisible(bool)), Qt::DirectConnection );
     connect(mSettings->scintilla, SIGNAL(eolVisibleChanged(bool)),
                           action, SLOT(setChecked(bool)), Qt::DirectConnection );
+
+
+    tmpMenu = menu->addMenu(tr("Zoom"));
+    action = mActionManager->getAction(W_ACTION_GROUP_VIEW, W_ACTION_ZOOM_IN);
+    action->setIcon(QIcon(":/zoom_in.png"));
+    connect(       action, SIGNAL(triggered()),
+             mEditorProxy, SLOT(onZoomIn()) );
+    tmpMenu->addAction(action);
+    toolbar->addAction(W_ACTION_ZOOM_IN, action);
+
+    action = mActionManager->getAction(W_ACTION_GROUP_VIEW, W_ACTION_ZOOM_OUT);
+    action->setIcon(QIcon(":/zoom_out.png"));
+    connect(       action, SIGNAL(triggered()),
+             mEditorProxy, SLOT(onZoomOut()) );
+    tmpMenu->addAction(action);
+    toolbar->addAction(W_ACTION_ZOOM_OUT, action);
+
+    action = mActionManager->getAction(W_ACTION_GROUP_VIEW, W_ACTION_ZOOM_DEF);
+    action->setIcon(QIcon(":/zoom.png"));
+    connect(       action, SIGNAL(triggered()),
+             mEditorProxy, SLOT(onZoomDefault()) );
+    tmpMenu->addAction(action);
+    toolbar->addAction(W_ACTION_ZOOM_DEF, action);
+
 
     action = mActionManager->getAction(W_ACTION_GROUP_VIEW, W_ACTION_MONITOR_MODE);
     action->setIcon(QIcon(":/monitor.png"));

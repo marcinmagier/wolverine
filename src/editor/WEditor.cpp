@@ -31,6 +31,7 @@
 #include "Logger.h"
 
 #include <QContextMenuEvent>
+#include <QWheelEvent>
 
 #include <algorithm>
 
@@ -156,6 +157,19 @@ void Editor::focusInEvent(QFocusEvent *event)
 {
     emit focusReceived();
     QsciScintilla::focusInEvent(event);
+}
+
+void Editor::wheelEvent(QWheelEvent *event)
+{
+    if(event->modifiers() & Qt::ControlModifier) {
+        if(event->delta() < 0)
+            zoomOut();
+        else if(event->delta() > 0)
+            zoomIn();
+
+    } else {
+        QtScintilla::wheelEvent(event);
+    }
 }
 
 

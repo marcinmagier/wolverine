@@ -79,6 +79,9 @@ private:
 //W_ACTION_GROUP_VIEW
 #define W_ACTION_WCHARS         "WChars"
 #define W_ACTION_WRAP           "Wrap"
+#define W_ACTION_ZOOM_DEF       "ZoomDef"
+#define W_ACTION_ZOOM_IN        "ZoomIn"
+#define W_ACTION_ZOOM_OUT       "ZoomOut"
 #define W_ACTION_MONITOR_MODE   "MonitorMode"
 
     //W_ACTION_GROUP_TOOLS
