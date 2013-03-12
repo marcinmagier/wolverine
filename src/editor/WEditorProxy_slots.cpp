@@ -87,7 +87,14 @@ void EditorProxy::onPaste()
 
 void EditorProxy::onReload()
 {
+    int line, index;
+    mCurrentEditor->getCursorPosition(&line, &index);
+    int firstVisible = mCurrentEditor->firstVisibleLine();
+
     mCurrentEditor->getBinder()->loadFile();
+
+    mCurrentEditor->setFirstVisibleLine(firstVisible);
+    mCurrentEditor->setCursorPosition(line, index);
 }
 
 void EditorProxy::onZoomDefault()
