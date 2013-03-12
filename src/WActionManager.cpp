@@ -155,6 +155,11 @@ void initializeActions()
     action->setStatusTip(QObject::tr("Open existing file"));
     sInstance->addAction(W_ACTION_GROUP_FILE, W_ACTION_OPEN, action);
 
+    action = new QAction(QObject::tr("Reload"), 0);
+    //action->setShortcut(QObject::tr("Ctrl+O"));
+    action->setStatusTip(QObject::tr("Reload file"));
+    sInstance->addAction(W_ACTION_GROUP_FILE, W_ACTION_RELOAD, action);
+
     action = new QAction(QObject::tr("Save"), 0);
     action->setShortcut(QObject::tr("Ctrl+S"));
     action->setStatusTip(QObject::tr("Save file"));

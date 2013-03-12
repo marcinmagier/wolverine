@@ -5,6 +5,7 @@ File	Edit	View	Search		Encoding	Language	Tools	Plugins		Help
 File:
 	New
 	Open...
+	Reload
 	Save
 	Save As...
 	Save All

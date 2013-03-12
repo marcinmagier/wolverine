@@ -58,6 +58,7 @@ private:
     //W_ACTION_GROUP_FILE
 #define W_ACTION_NEW            "New"
 #define W_ACTION_OPEN           "Open"
+#define W_ACTION_RELOAD         "Reload"
 #define W_ACTION_SAVE           "Save"
 #define W_ACTION_SAVE_AS        "Save_As"
 #define W_ACTION_SAVE_ALL       "Save_All"

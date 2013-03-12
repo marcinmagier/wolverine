@@ -24,5 +24,6 @@
         <file alias="wrap.png">images/wrap.png</file>
         <file alias="wolverine.png">appicon/wolverine-16.png</file>
         <file alias="monitor.png">images/monitor.png</file>
+        <file alias="refresh.png">images/refresh.png</file>
     </qresource>
 </RCC>

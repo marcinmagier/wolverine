@@ -85,6 +85,10 @@ void EditorProxy::onPaste()
 }
 
 
+void EditorProxy::onReload()
+{
+    mCurrentEditor->getBinder()->loadFile();
+}
 
 
 

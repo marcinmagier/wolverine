@@ -68,6 +68,7 @@ public slots:
     void onCopy();
     void onPaste();
 
+    void onReload();
 
 signals:
     void currentEditorChanged(Editor *editor);

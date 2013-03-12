@@ -76,8 +76,6 @@ void MainWindow::createMenusAndToolbars()
     connect( mSettings->general, SIGNAL(appCustomizeEnabledChanged(bool)),
                         toolbar, SLOT(setManagerEnabled(bool)), Qt::DirectConnection );
 
-    EditorProxy *editProxy = EditorProxy::instance();
-
     QAction *action;
     QMenu *menu = menuBar()->addMenu(tr("File"));
 
@@ -94,6 +92,13 @@ void MainWindow::createMenusAndToolbars()
              mCentralWidget, SLOT(openTabForm()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_OPEN, action);
+
+    action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_RELOAD);
+    action->setIcon(QIcon(":/refresh.png"));
+    connect(       action, SIGNAL(triggered()),
+             mEditorProxy, SLOT(onReload()) );
+    menu->addAction(action);
+    toolbar->addAction(W_ACTION_RELOAD, action);
 
     action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_SAVE);
     action->setIcon(QIcon(":/save_blue.png"));
@@ -156,14 +161,14 @@ void MainWindow::createMenusAndToolbars()
     action = mActionManager->getAction(W_ACTION_GROUP_EDIT, W_ACTION_UNDO);
     action->setIcon(QIcon(":/undo.png"));
     connect(    action, SIGNAL(triggered()),
-             editProxy, SLOT(onUndo()) );
+             mEditorProxy, SLOT(onUndo()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_UNDO, action);
 
     action = mActionManager->getAction(W_ACTION_GROUP_EDIT, W_ACTION_REDO);
     action->setIcon(QIcon(":/redo.png"));
     connect(    action, SIGNAL(triggered()),
-             editProxy, SLOT(onRedo()) );
+             mEditorProxy, SLOT(onRedo()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_REDO, action);
 
@@ -172,21 +177,21 @@ void MainWindow::createMenusAndToolbars()
     action = mActionManager->getAction(W_ACTION_GROUP_EDIT, W_ACTION_CUT);
     action->setIcon(QIcon(":/cut.png"));
     connect(    action, SIGNAL(triggered()),
-             editProxy, SLOT(onCut()) );
+             mEditorProxy, SLOT(onCut()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_CUT, action);
 
     action = mActionManager->getAction(W_ACTION_GROUP_EDIT, W_ACTION_COPY);
     action->setIcon(QIcon(":/copy.png"));
     connect(    action, SIGNAL(triggered()),
-             editProxy, SLOT(onCopy()) );
+             mEditorProxy, SLOT(onCopy()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_COPY, action);
 
     action = mActionManager->getAction(W_ACTION_GROUP_EDIT, W_ACTION_PASTE);
     action->setIcon(QIcon(":/paste.png"));
     connect(    action, SIGNAL(triggered()),
-             editProxy, SLOT(onPaste()) );
+             mEditorProxy, SLOT(onPaste()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_PASTE, action);
 
@@ -296,4 +301,7 @@ void MainWindow::onCurrentEditorChanged(Editor *editor)
     action->setChecked(binder->isMonitorModeEnabled());
     connect( action, SIGNAL(toggled(bool)),
              binder, SLOT(enableMonitorMode(bool)) );
+
+    action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_RELOAD);
+    action->setEnabled(binder->exists());
 }
