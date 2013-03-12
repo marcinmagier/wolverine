@@ -1,0 +1,6 @@
+
+sudo cp wolverine /usr/bin/ 
+sudo cp wolverine.desktop /usr/share/app-install/desktop/wolverine:wolverine.desktop
+sudo cp wolverine.desktop /usr/share/applications/
+sudo cp wolverine.png /usr/share/app-install/icons/
+sudo cp wolverine.png /usr/share/pixmaps/
