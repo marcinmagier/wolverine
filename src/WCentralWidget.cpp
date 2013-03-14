@@ -1038,6 +1038,8 @@ void CentralWidget::onCustomContextMenuRequested(QPoint pos)
     }
 
     int idx = mPanelCurrent->tabAt(pos);
+    if(idx < 0)
+        idx = mPanelCurrent->currentIndex();
 
     EditorBinder::StatusExt statExt = mPanelCurrent->getEditor(idx)->getBinder()->getStatusExt();
     bool isNew = (statExt == EditorBinder::New || statExt == EditorBinder::NotExists) ? true : false;
