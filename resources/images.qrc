@@ -5,7 +5,6 @@
         <file alias="new.png">images/new.png</file>
         <file alias="paste.png">images/paste.png</file>
         <file alias="settings.png">images/settings.png</file>
-        <file alias="find.png">images/find.png</file>
         <file alias="open.png">images/open.png</file>
         <file alias="save_all.png">images/save_all.png</file>
         <file alias="redo.png">images/redo.png</file>
@@ -28,5 +27,8 @@
         <file alias="zoom.png">images/zoom.png</file>
         <file alias="zoom_in.png">images/zoom_in.png</file>
         <file alias="zoom_out.png">images/zoom_out.png</file>
+        <file alias="find.png">images/find.png</file>
+        <file alias="find_in_files.png">images/find_in_files.png</file>
+        <file alias="replace.png">images/find_replace.png</file>
     </qresource>
 </RCC>

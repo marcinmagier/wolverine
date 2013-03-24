@@ -50,6 +50,7 @@ private:
 #define W_ACTION_GROUP_GENERAL  "General"
 #define W_ACTION_GROUP_FILE     "File"
 #define W_ACTION_GROUP_EDIT     "Edit"
+#define W_ACTION_GROUP_SEARCH   "Search"
 #define W_ACTION_GROUP_VIEW     "View"
 #define W_ACTION_GROUP_TOOLS    "Tools"
 #define W_ACTION_GROUP_MISC     "Misc"
@@ -76,7 +77,16 @@ private:
 #define W_ACTION_COPY           "Copy"
 #define W_ACTION_PASTE          "Paste"
 
-//W_ACTION_GROUP_VIEW
+
+    //W_ACTION_GROUP_SEARCH
+#define W_ACTION_FIND           "Find"
+#define W_ACTION_FIND_NEXT      "Find_Next"
+#define W_ACTION_FIND_PREV      "Find_Prev"
+#define W_ACTION_FIND_IN_FILES  "Find_In_Files"
+#define W_ACTION_REPLACE        "Replace"
+
+
+    //W_ACTION_GROUP_VIEW
 #define W_ACTION_WCHARS         "WChars"
 #define W_ACTION_WRAP           "Wrap"
 #define W_ACTION_ZOOM_DEF       "ZoomDef"

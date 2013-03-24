@@ -45,6 +45,11 @@ protected:
 private slots:
     void onCurrentEditorChanged(Editor *editor);
 
+    void onFindTriggered();
+    void onFindInFilesTriggered();
+    void onReplaceTriggered();
+
+
 private:
     void createMenusAndToolbars();
 

@@ -152,7 +152,7 @@ void MainWindow::createMenusAndToolbars()
     //toolbar->addAction(W_ACTION_EXIT, action);
 
     mMenus[W_ACTION_GROUP_FILE] = menu;
-
+    toolbar->addSeparator();
 
 
 
@@ -196,8 +196,48 @@ void MainWindow::createMenusAndToolbars()
     toolbar->addAction(W_ACTION_PASTE, action);
 
     mMenus[W_ACTION_GROUP_EDIT] = menu;
+    toolbar->addSeparator();
 
 
+    menu = menuBar()->addMenu(tr("Search"));
+
+    action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND);
+    action->setIcon(QIcon(":/find.png"));
+    connect( action, SIGNAL(triggered()),
+               this, SLOT(onFindTriggered()) );
+    menu->addAction(action);
+    toolbar->addAction(W_ACTION_FIND, action);
+
+    action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND_NEXT);
+    //action->setIcon(QIcon(":/find.png"));
+    //connect( action, SIGNAL(triggered()),
+    //           this, SLOT(onFindTriggered()) );
+    menu->addAction(action);
+    //toolbar->addAction(W_ACTION_FIND, action);
+
+    action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND_PREV);
+    //action->setIcon(QIcon(":/find.png"));
+    //connect( action, SIGNAL(triggered()),
+    //           this, SLOT(onFindTriggered()) );
+    menu->addAction(action);
+    //toolbar->addAction(W_ACTION_FIND, action);
+
+    action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND_IN_FILES);
+    action->setIcon(QIcon(":/find_in_files.png"));
+    connect( action, SIGNAL(triggered()),
+               this, SLOT(onFindInFilesTriggered()) );
+    menu->addAction(action);
+    toolbar->addAction(W_ACTION_FIND_IN_FILES, action);
+
+    action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_REPLACE);
+    action->setIcon(QIcon(":/replace.png"));
+    connect( action, SIGNAL(triggered()),
+               this, SLOT(onReplaceTriggered()) );
+    menu->addAction(action);
+    toolbar->addAction(W_ACTION_REPLACE, action);
+
+    mMenus[W_ACTION_GROUP_SEARCH] = menu;
+    toolbar->addSeparator();
 
 
     menu = menuBar()->addMenu(tr("View"));
@@ -271,7 +311,7 @@ void MainWindow::createMenusAndToolbars()
     toolbar->addAction(W_ACTION_MONITOR_MODE, action, true);
 
     mMenus[W_ACTION_GROUP_VIEW] = menu;
-
+    toolbar->addSeparator();
 
 
 
@@ -328,4 +368,19 @@ void MainWindow::onCurrentEditorChanged(Editor *editor)
 
     action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_RELOAD);
     action->setEnabled(binder->exists());
+}
+
+void MainWindow::onFindTriggered()
+{
+
+}
+
+void MainWindow::onFindInFilesTriggered()
+{
+
+}
+
+void MainWindow::onReplaceTriggered()
+{
+
 }

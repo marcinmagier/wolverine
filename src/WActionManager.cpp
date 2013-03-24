@@ -199,54 +199,81 @@ void initializeActions()
 
     action = new QAction(QObject::tr("Undo"), 0);
     action->setShortcut(QKeySequence::Undo);
-    action->setStatusTip(QObject::tr("Undo action"));
+    //action->setStatusTip(QObject::tr("Undo action"));
     sInstance->addAction(W_ACTION_GROUP_EDIT, W_ACTION_UNDO, action);
 
     action = new QAction(QObject::tr("Redo"), 0);
     action->setShortcut(QKeySequence::Redo);
-    action->setStatusTip(QObject::tr("Redo action"));
+    //action->setStatusTip(QObject::tr("Redo action"));
     sInstance->addAction(W_ACTION_GROUP_EDIT, W_ACTION_REDO, action);
 
     action = new QAction(QObject::tr("Cut"), 0);
     action->setShortcut(QKeySequence::Cut);
-    action->setStatusTip(QObject::tr("Cut selection"));
+    //action->setStatusTip(QObject::tr("Cut selection"));
     sInstance->addAction(W_ACTION_GROUP_EDIT, W_ACTION_CUT, action);
 
     action = new QAction(QObject::tr("Copy"), 0);
     action->setShortcut(QKeySequence::Copy);
-    action->setStatusTip(QObject::tr("Copy selection"));
+    //action->setStatusTip(QObject::tr("Copy selection"));
     sInstance->addAction(W_ACTION_GROUP_EDIT, W_ACTION_COPY, action);
 
     action = new QAction(QObject::tr("Paste"), 0);
     action->setShortcut(QKeySequence::Paste);
-    action->setStatusTip(QObject::tr("Paste"));
+    //action->setStatusTip(QObject::tr("Paste"));
     sInstance->addAction(W_ACTION_GROUP_EDIT, W_ACTION_PASTE, action);
+
+
+
+    action = new QAction(QObject::tr("Find"), 0);
+    action->setShortcut(QKeySequence::Find);
+    //action->setStatusTip(QObject::tr("Find"));
+    sInstance->addAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND, action);
+
+    action = new QAction(QObject::tr("Find Next"), 0);
+    action->setShortcut(QKeySequence::FindNext);
+    //action->setStatusTip(QObject::tr("Find Next"));
+    sInstance->addAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND_NEXT, action);
+
+    action = new QAction(QObject::tr("Find Previous"), 0);
+    action->setShortcut(QKeySequence::FindPrevious);
+    //action->setStatusTip(QObject::tr("Find"));
+    sInstance->addAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND_PREV, action);
+
+    action = new QAction(QObject::tr("Find In Files"), 0);
+    action->setShortcut(QObject::tr("Ctrl+Shift+F"));
+    //action->setStatusTip(QObject::tr("Find"));
+    sInstance->addAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND_IN_FILES, action);
+
+    action = new QAction(QObject::tr("Replace"), 0);
+    action->setShortcut(QKeySequence::Replace);
+    //action->setStatusTip(QObject::tr("Find"));
+    sInstance->addAction(W_ACTION_GROUP_SEARCH, W_ACTION_REPLACE, action);
 
 
 
     action = new QAction(QObject::tr("Show White Chars"), 0);
     //action->setShortcut(QObject::tr("Ctrl+C"));
-    action->setStatusTip(QObject::tr("Show White Chars"));
+    //action->setStatusTip(QObject::tr("Show White Chars"));
     sInstance->addAction(W_ACTION_GROUP_VIEW, W_ACTION_WCHARS, action);
 
     action = new QAction(QObject::tr("Wrap Lines"), 0);
     //action->setShortcut(QObject::tr("Ctrl+V"));
-    action->setStatusTip(QObject::tr("Wrap Lines"));
+    //action->setStatusTip(QObject::tr("Wrap Lines"));
     sInstance->addAction(W_ACTION_GROUP_VIEW, W_ACTION_WRAP, action);
 
     action = new QAction(QObject::tr("Zoom In"), 0);
     action->setShortcut(QKeySequence::ZoomIn);
-    action->setStatusTip(QObject::tr("Zoom in"));
+    //action->setStatusTip(QObject::tr("Zoom in"));
     sInstance->addAction(W_ACTION_GROUP_VIEW, W_ACTION_ZOOM_IN, action);
 
     action = new QAction(QObject::tr("Zoom Out"), 0);
     action->setShortcut(QKeySequence::ZoomOut);
-    action->setStatusTip(QObject::tr("Zoom out"));
+    //action->setStatusTip(QObject::tr("Zoom out"));
     sInstance->addAction(W_ACTION_GROUP_VIEW, W_ACTION_ZOOM_OUT, action);
 
     action = new QAction(QObject::tr("Zoom Default"), 0);
     action->setShortcut(QObject::tr("Ctrl+/"));
-    action->setStatusTip(QObject::tr("Wrap Lines"));
+    //action->setStatusTip(QObject::tr("Zoom Default"));
     sInstance->addAction(W_ACTION_GROUP_VIEW, W_ACTION_ZOOM_DEF, action);
 
     action = new QAction(QObject::tr("Monitor Mode"), 0);
