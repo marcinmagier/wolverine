@@ -170,6 +170,9 @@ void Editor::wheelEvent(QWheelEvent *event)
     } else {
         QtScintilla::wheelEvent(event);
     }
+
+    if(!this->hasFocus())
+        emit focusReceived();
 }
 
 
