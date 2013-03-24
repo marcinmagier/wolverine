@@ -248,7 +248,7 @@ void StatusBar::onLblLexerClickLong(Qt::MouseButton /*button*/)
     binder->setLexer(currLexName);
 }
 
-void StatusBar::onLblEoLClickLong(Qt::MouseButton button)
+void StatusBar::onLblEoLClickLong(Qt::MouseButton /*button*/)
 {
     QAction *action;
     QMenu menu(this);
@@ -286,10 +286,14 @@ void StatusBar::onLblEoLClickLong(Qt::MouseButton button)
     }
 }
 
-void StatusBar::onLblInsOvrDoubleClick(Qt::MouseButton button)
+void StatusBar::onLblInsOvrDoubleClick(Qt::MouseButton /*button*/)
 {
-    if(mLblInsOvr->text() == "INS")
+    Editor *edit = mEditorProxy->getCurrentEditor();
+    if(mLblInsOvr->text() == "INS") {
         mLblInsOvr->setText("OVR");
-    else
+        edit->setOverwriteMode(true);
+    } else {
         mLblInsOvr->setText("INS");
+        edit->setOverwriteMode(false);
+    }
 }
