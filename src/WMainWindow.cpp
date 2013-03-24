@@ -281,9 +281,9 @@ void MainWindow::createMenusAndToolbars()
     action = mActionManager->getAction(W_ACTION_GROUP_VIEW, W_ACTION_INDENT_GUIDE);
     action->setIcon(QIcon(":/indent_guide.png"));
     action->setCheckable(true);
-    //action->setChecked(mSettings->scintilla->isWrapModeEnabled());
-    //connect(               action, SIGNAL(toggled(bool)),
-    //         mSettings->scintilla, SLOT(setWrapModeEnabled(bool)), Qt::DirectConnection );
+    action->setChecked(mSettings->scintilla->isIndentGuideEnabled());
+    connect(               action, SIGNAL(toggled(bool)),
+             mSettings->scintilla, SLOT(setIndentGuideEnabled(bool)), Qt::DirectConnection );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_INDENT_GUIDE, action);
 

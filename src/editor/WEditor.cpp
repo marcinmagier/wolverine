@@ -80,18 +80,21 @@ void Editor::initialize()
 
     this->setEolVisibility(mSciSettings->isEolVisible());
     connect( mSciSettings, SIGNAL(eolVisibleChanged(bool)),
-                  this, SLOT(setEolVisibility(bool)), Qt::DirectConnection );
+                     this, SLOT(setEolVisibility(bool)), Qt::DirectConnection );
 
     onWhiteSpaceVisibilityChanged(mSciSettings->isWhiteSpaceVisible());
     connect( mSciSettings, SIGNAL(whiteSpaceVisibleChanged(bool)),
-                  this, SLOT(onWhiteSpaceVisibilityChanged(bool)), Qt::DirectConnection );
+                     this, SLOT(onWhiteSpaceVisibilityChanged(bool)), Qt::DirectConnection );
 
     onWrapModeEnabledChanged(mSciSettings->isWrapModeEnabled());
     connect( mSciSettings, SIGNAL(wrapModeEnabledChanged(bool)),
-                  this, SLOT(onWrapModeEnabledChanged(bool)), Qt::DirectConnection );
+                     this, SLOT(onWrapModeEnabledChanged(bool)), Qt::DirectConnection );
+    //this->setWrapIndentMode(); TODO
+    //this->setWrapVisualFlags(); TODO
 
-    //this->setWrapIndentMode();
-    //this->setWrapVisualFlags();
+    this->setIndentationGuides(mSciSettings->isIndentGuideEnabled());
+    connect( mSciSettings, SIGNAL(indentGuideEnabledChanged(bool)),
+                     this, SLOT(setIndentationGuides(bool)), Qt::DirectConnection );
 
     connect( this, SIGNAL(cursorLineChanged(int)),
              this, SLOT(onCursorLineChanged(int)) );
