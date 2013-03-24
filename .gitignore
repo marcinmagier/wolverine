@@ -46,7 +46,7 @@ object_script.*.Release
 Wolverine/.settings/
 
 #Ignore build directories
-build_debug/
-build_release/
+*[Dd]ebug*/
+*[Rr]elease*/
 
 */Wolverine
