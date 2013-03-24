@@ -30,5 +30,8 @@
         <file alias="find.png">images/find.png</file>
         <file alias="find_in_files.png">images/find_in_files.png</file>
         <file alias="replace.png">images/find_replace.png</file>
+        <file alias="indent_guide.png">images/indent_guide.png</file>
+        <file alias="sync_h.png">images/sync_h.png</file>
+        <file alias="sync_v.png">images/sync_v.png</file>
     </qresource>
 </RCC>

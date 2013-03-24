@@ -278,6 +278,14 @@ void MainWindow::createMenusAndToolbars()
     connect(mSettings->scintilla, SIGNAL(eolVisibleChanged(bool)),
                           action, SLOT(setChecked(bool)), Qt::DirectConnection );
 
+    action = mActionManager->getAction(W_ACTION_GROUP_VIEW, W_ACTION_INDENT_GUIDE);
+    action->setIcon(QIcon(":/indent_guide.png"));
+    action->setCheckable(true);
+    //action->setChecked(mSettings->scintilla->isWrapModeEnabled());
+    //connect(               action, SIGNAL(toggled(bool)),
+    //         mSettings->scintilla, SLOT(setWrapModeEnabled(bool)), Qt::DirectConnection );
+    menu->addAction(action);
+    toolbar->addAction(W_ACTION_INDENT_GUIDE, action);
 
     tmpMenu = menu->addMenu(tr("Zoom"));
     action = mActionManager->getAction(W_ACTION_GROUP_VIEW, W_ACTION_ZOOM_IN);
@@ -301,6 +309,27 @@ void MainWindow::createMenusAndToolbars()
     tmpMenu->addAction(action);
     toolbar->addAction(W_ACTION_ZOOM_DEF, action);
 
+    menu->addSeparator();
+
+    action = mActionManager->getAction(W_ACTION_GROUP_VIEW, W_ACTION_SYNC_V);
+    action->setIcon(QIcon(":/sync_v.png"));
+    action->setCheckable(true);
+    //action->setChecked(mSettings->scintilla->isWrapModeEnabled());
+    //connect(               action, SIGNAL(toggled(bool)),
+    //         mSettings->scintilla, SLOT(setWrapModeEnabled(bool)), Qt::DirectConnection );
+    menu->addAction(action);
+    toolbar->addAction(W_ACTION_SYNC_V, action);
+
+    action = mActionManager->getAction(W_ACTION_GROUP_VIEW, W_ACTION_SYNC_H);
+    action->setIcon(QIcon(":/sync_h.png"));
+    action->setCheckable(true);
+    //action->setChecked(mSettings->scintilla->isWrapModeEnabled());
+    //connect(               action, SIGNAL(toggled(bool)),
+    //         mSettings->scintilla, SLOT(setWrapModeEnabled(bool)), Qt::DirectConnection );
+    menu->addAction(action);
+    toolbar->addAction(W_ACTION_SYNC_H, action);
+
+    menu->addSeparator();
 
     action = mActionManager->getAction(W_ACTION_GROUP_VIEW, W_ACTION_MONITOR_MODE);
     action->setIcon(QIcon(":/monitor.png"));

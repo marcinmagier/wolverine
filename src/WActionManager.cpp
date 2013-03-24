@@ -261,6 +261,11 @@ void initializeActions()
     //action->setStatusTip(QObject::tr("Wrap Lines"));
     sInstance->addAction(W_ACTION_GROUP_VIEW, W_ACTION_WRAP, action);
 
+    action = new QAction(QObject::tr("Show Indent Guide"), 0);
+    //action->setShortcut(QObject::tr("Ctrl+V"));
+    //action->setStatusTip(QObject::tr("Wrap Lines"));
+    sInstance->addAction(W_ACTION_GROUP_VIEW, W_ACTION_INDENT_GUIDE, action);
+
     action = new QAction(QObject::tr("Zoom In"), 0);
     action->setShortcut(QKeySequence::ZoomIn);
     //action->setStatusTip(QObject::tr("Zoom in"));
@@ -275,6 +280,16 @@ void initializeActions()
     action->setShortcut(QObject::tr("Ctrl+/"));
     //action->setStatusTip(QObject::tr("Zoom Default"));
     sInstance->addAction(W_ACTION_GROUP_VIEW, W_ACTION_ZOOM_DEF, action);
+
+    action = new QAction(QObject::tr("Synchronize Vertical Scrolling"), 0);
+    //action->setShortcut(QObject::tr("Ctrl+V"));
+    //action->setStatusTip(QObject::tr("Wrap Lines"));
+    sInstance->addAction(W_ACTION_GROUP_VIEW, W_ACTION_SYNC_V, action);
+
+    action = new QAction(QObject::tr("Synchronize Horizontal Scrolling"), 0);
+    //action->setShortcut(QObject::tr("Ctrl+V"));
+    //action->setStatusTip(QObject::tr("Wrap Lines"));
+    sInstance->addAction(W_ACTION_GROUP_VIEW, W_ACTION_SYNC_H, action);
 
     action = new QAction(QObject::tr("Monitor Mode"), 0);
     //action->setShortcut(QObject::tr("Ctrl+V"));
