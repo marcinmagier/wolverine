@@ -18,6 +18,9 @@ class GeneralSettings : public QObject
     Q_PROPERTY(QString  appLastOpenedDir            READ getAppLastOpenedDir            WRITE setAppLastOpenedDir           )
     Q_PROPERTY(bool     appBackupCopyEnabled        READ isAppBackupCopyEnabled         WRITE setAppBackupCopyEnabled       )
 
+    Q_PROPERTY(bool     synchVEnabled               READ isSynchVEnabled                WRITE setSynchVEnabled              )
+    Q_PROPERTY(bool     synchHEnabled               READ isSynchHEnabled                WRITE setSynchHEnabled              )
+
 
 
 public:
@@ -29,6 +32,9 @@ public:
     QString getAppLastOpenedDir();
     bool isAppBackupCopyEnabled();
 
+    bool isSynchVEnabled();
+    bool isSynchHEnabled();
+
 
 signals:
     void appCloseWhenLastTabClosedChanged(bool val);
@@ -36,6 +42,9 @@ signals:
     void appOpenFromCurrentChanged(bool val);
     void appLastOpenedDirChanged(QString val);
     void appBackupCopyEnabledChanged(bool val);
+
+    void synchVEnabledChanged(bool val);
+    void synchHEnabledChanged(bool val);
 
 
 public slots:
@@ -45,6 +54,8 @@ public slots:
     void setAppLastOpenedDir(const QString &val);
     void setAppBackupCopyEnabled(bool val);
 
+    void setSynchVEnabled(bool val);
+    void setSynchHEnabled(bool val);
 
 private:
     bool mAppCloseWhenLastTabClosed;
@@ -53,6 +64,8 @@ private:
     QString mAppLastOpenedDir;
     bool mAppBackupCopyEnabled;
 
+    bool mSynchVEnabled;
+    bool mSynchHEnabled;
 };
 
 #endif //__CFG_GENERAL_SETTINGS_H_

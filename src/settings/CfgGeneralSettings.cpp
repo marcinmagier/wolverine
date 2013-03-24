@@ -13,6 +13,8 @@ GeneralSettings::GeneralSettings()
     mAppLastOpenedDir = ".";
     mAppBackupCopyEnabled = true;
 
+    mSynchVEnabled = false;
+    mSynchHEnabled = false;
 }
 
 
@@ -79,3 +81,32 @@ bool GeneralSettings::isAppBackupCopyEnabled()
     return mAppBackupCopyEnabled;
 }
 
+
+
+
+
+//========================  Misc  ===========================================//
+
+void GeneralSettings::setSynchVEnabled(bool val)
+{
+    if(mSynchVEnabled != val) {
+        mSynchVEnabled = val;
+        emit synchVEnabledChanged(mSynchVEnabled);
+    }
+}
+bool GeneralSettings::isSynchVEnabled()
+{
+    return mSynchVEnabled;
+}
+
+void GeneralSettings::setSynchHEnabled(bool val)
+{
+    if(mSynchHEnabled != val) {
+        mSynchHEnabled = val;
+        emit synchHEnabledChanged(mSynchHEnabled);
+    }
+}
+bool GeneralSettings::isSynchHEnabled()
+{
+    return mSynchHEnabled;
+}

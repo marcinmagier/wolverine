@@ -166,6 +166,9 @@ void Editor::focusInEvent(QFocusEvent *event)
 
 void Editor::wheelEvent(QWheelEvent *event)
 {   
+    if(!this->hasFocus())
+        emit focusReceived();
+
     if(event->modifiers() & Qt::ControlModifier) {
         if(event->delta() < 0)
             zoomOut();
@@ -183,9 +186,6 @@ void Editor::wheelEvent(QWheelEvent *event)
     } else {
         QtScintilla::wheelEvent(event);
     }
-
-    if(!this->hasFocus())
-        emit focusReceived();
 }
 
 
