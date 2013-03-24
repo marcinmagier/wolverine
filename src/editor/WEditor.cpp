@@ -160,13 +160,21 @@ void Editor::focusInEvent(QFocusEvent *event)
 }
 
 void Editor::wheelEvent(QWheelEvent *event)
-{
+{   
     if(event->modifiers() & Qt::ControlModifier) {
         if(event->delta() < 0)
             zoomOut();
         else if(event->delta() > 0)
             zoomIn();
 
+    } else if(event->modifiers() & Qt::ShiftModifier) {
+        QWheelEvent *eventH = new QWheelEvent(event->pos(),
+                                              event->delta()/2,
+                                              event->buttons(),
+                                              event->modifiers(),
+                                              Qt::Horizontal);
+        QtScintilla::wheelEvent(eventH);
+        delete eventH;
     } else {
         QtScintilla::wheelEvent(event);
     }
