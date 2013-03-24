@@ -18,6 +18,8 @@ ScintillaSettings::ScintillaSettings()
     mWrapModeEnabled = false;
     mWrapMode = 1;  //SC_WRAP_WORD
 
+    mIndentGuideEnabled = false;
+
     foreach(const QByteArray &name, QTextCodec::availableCodecs()) {
         mCodecAvailable.append(QString(name));
     }
@@ -134,6 +136,18 @@ int ScintillaSettings::getWrapMode()
     return mWrapMode;
 }
 
+
+void ScintillaSettings::setIndentGuideEnabled(bool val)
+{
+    if(mIndentGuideEnabled != val) {
+        mIndentGuideEnabled = val;
+        emit indentGuideEnabledChanged(mIndentGuideEnabled);
+    }
+}
+bool ScintillaSettings::isIndentGuideEnabled()
+{
+    return mIndentGuideEnabled;
+}
 
 
 void ScintillaSettings::setCodecAvailable(const QStringList &codecs)

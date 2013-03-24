@@ -21,6 +21,8 @@ class ScintillaSettings : public QObject
     Q_PROPERTY(bool         wrapModeEnabled             READ isWrapModeEnabled              WRITE setWrapModeEnabled            )
     Q_PROPERTY(int          wrapMode                    READ getWrapMode                    WRITE setWrapMode                   )
 
+    Q_PROPERTY(bool         indentGuideEnabled          READ isIndentGuideEnabled           WRITE setIndentGuideEnabled         )
+
 
     Q_PROPERTY(QStringList  codecAvailable              READ getCodecAvailable              WRITE setCodecAvailable             )
 
@@ -38,6 +40,8 @@ public:
     bool isWrapModeEnabled();
     int getWrapMode();
 
+    bool isIndentGuideEnabled();
+
     const QStringList& getCodecAvailable();
     void addCodecAvailable(const QString &codec);
     void delCodecAvailable(const QString &codec);
@@ -52,6 +56,8 @@ signals:
 
     void wrapModeEnabledChanged(bool val);
 
+    void indentGuideEnabledChanged(bool val);
+
 
 public slots:
     void setShowLineNumbersEnabled(bool val);
@@ -64,6 +70,7 @@ public slots:
     void setWrapModeEnabled(bool val);
     void setWrapMode(int val);
 
+    void setIndentGuideEnabled(bool val);
 
 
     void setCodecAvailable(const QStringList &codecs);
@@ -82,7 +89,7 @@ private:
     bool mWrapModeEnabled;
     int  mWrapMode;
 
-
+    bool mIndentGuideEnabled;
 
     QStringList mCodecAvailable;
 

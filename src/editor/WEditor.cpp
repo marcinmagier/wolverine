@@ -76,6 +76,8 @@ void Editor::initialize()
     this->setMarginLineNumbers(1, true);
     this->setMarginSensitivity(0, true);
 
+    this->setIndentationWidth(0); //Set indent size the same as tab size
+
     this->setEolVisibility(mSciSettings->isEolVisible());
     connect( mSciSettings, SIGNAL(eolVisibleChanged(bool)),
                   this, SLOT(setEolVisibility(bool)), Qt::DirectConnection );
