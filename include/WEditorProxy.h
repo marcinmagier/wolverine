@@ -52,14 +52,14 @@ public:
     static EditorProxy* instance();
     static void deleteInstance();
 
-
     Editor* getCurrentEditor();
     QString getCurrentEditorDir();
     QString getCurrentEditorName();
 
+
+
 public slots:
     void setCurrentEditor(Editor *editor);
-    void setCurrentEditorLexer(const QString &name);
 
     void onUndo();
     void onRedo();

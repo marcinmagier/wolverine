@@ -27,7 +27,6 @@ SOURCES      += \
                 ../src/editor/WEditorLexerManager.cpp \
                 ../src/editor/WEditorLexerManagerWidget.cpp \
                 ../src/editor/WEditorProxy.cpp \
-                ../src/editor/WEditorProxy_slots.cpp \
                 ../src/editor/qtscintilla.cpp \
                 ../src/settings/DlgSettings.cpp \
                 ../src/settings/PageGeneral.cpp \

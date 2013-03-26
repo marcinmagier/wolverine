@@ -33,7 +33,7 @@
 #include "qtmanagedmenu.h"
 
 #include <QApplication>
-
+#include <QCursor>
 
 #define W_ACTION_CUT "Cut"
 #define W_ACTION_COPY "Copy"
@@ -84,6 +84,21 @@ Editor *EditorProxy::getCurrentEditor()
     return mCurrentEditor;
 }
 
+void EditorProxy::setCurrentEditor(Editor *editor)
+{
+    if(mCurrentEditor != editor) {
+        mCurrentEditor = editor;
+        if(mCurrentEditor) {
+            connect( mCurrentEditor, SIGNAL(customContextMenuRequested(QPoint)),
+                               this, SLOT(onCustomContextMenuRequested(QPoint)), Qt::UniqueConnection );
+
+            emit currentEditorChanged(mCurrentEditor);
+        }
+    }
+}
+
+
+
 QString EditorProxy::getCurrentEditorDir()
 {
     return mCurrentEditor->getBinder()->canonicalPath();
@@ -96,6 +111,73 @@ QString EditorProxy::getCurrentEditorName()
 
 
 
+
+
+
+
+void EditorProxy::onUndo()
+{
+    mCurrentEditor->undo();
+}
+
+void EditorProxy::onRedo()
+{
+    mCurrentEditor->redo();
+}
+
+void EditorProxy::onCut()
+{
+    mCurrentEditor->cut();
+}
+
+void EditorProxy::onCopy()
+{
+    mCurrentEditor->copy();
+}
+
+
+void EditorProxy::onPaste()
+{
+    mCurrentEditor->paste();
+}
+
+
+void EditorProxy::onReload()
+{
+    int line, index;
+    mCurrentEditor->getCursorPosition(&line, &index);
+    int firstVisible = mCurrentEditor->firstVisibleLine();
+
+    mCurrentEditor->getBinder()->loadFile();
+
+    mCurrentEditor->setFirstVisibleLine(firstVisible);
+    mCurrentEditor->setCursorPosition(line, index);
+}
+
+void EditorProxy::onZoomDefault()
+{
+    mCurrentEditor->zoomTo(0);
+}
+
+void EditorProxy::onZoomIn()
+{
+    mCurrentEditor->zoomIn();
+}
+
+void EditorProxy::onZoomOut()
+{
+    mCurrentEditor->zoomOut();
+}
+
+
+
+
+
+
+void EditorProxy::onCustomContextMenuRequested(const QPoint &pos)
+{
+    mContextMenu->exec(QCursor::pos());
+}
 
 
 void EditorProxy::setupContextMenu()
