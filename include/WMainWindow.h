@@ -8,6 +8,7 @@ class QtManagedToolBar;
 
 class QString;
 class QMenu;
+class QDockWidget;
 
 #include <QMainWindow>
 #include <QHash>
@@ -43,7 +44,6 @@ protected:
     virtual void closeEvent(QCloseEvent *);
 
 private slots:
-    void onCurrentEditorChanged(Editor *editor);
 
     void onFindTriggered();
     void onFindInFilesTriggered();
@@ -58,7 +58,8 @@ private:
     ActionManager *mActionManager;
     DlgSettings *mSettingsDialog;
     QHash<QString, QMenu*> mMenus;
-    QHash<QString, QtManagedToolBar* > mToolbars;
+    QHash<QString, QtManagedToolBar*> mToolbars;
+    QHash<QString, QDockWidget*> mDocks;
 
     CentralWidget *mCentralWidget;
     EditorProxy *mEditorProxy;

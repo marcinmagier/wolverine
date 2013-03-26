@@ -34,8 +34,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     mCentralWidget = new CentralWidget(this);
     mEditorProxy = EditorProxy::instance();
-    connect(mEditorProxy, SIGNAL(currentEditorChanged(Editor*)),
-                    this, SLOT(onCurrentEditorChanged(Editor*)) );
+
 
     this->resize(mSettings->hidden->getMWSize());
     this->move(mSettings->hidden->getMWPosition());
@@ -386,18 +385,7 @@ void MainWindow::openFile(const QString &file)
 }
 
 
-void MainWindow::onCurrentEditorChanged(Editor *editor)
-{
-    EditorBinder *binder = editor->getBinder();
-    QAction *action = mActionManager->getAction(W_ACTION_GROUP_VIEW, W_ACTION_MONITOR_MODE);
-    disconnect(action, SIGNAL(toggled(bool)), 0, 0);
-    action->setChecked(binder->isMonitorModeEnabled());
-    connect( action, SIGNAL(toggled(bool)),
-             binder, SLOT(enableMonitorMode(bool)) );
 
-    action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_RELOAD);
-    action->setEnabled(binder->exists());
-}
 
 void MainWindow::onFindTriggered()
 {

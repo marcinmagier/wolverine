@@ -16,6 +16,7 @@
 #include "WEditorProxy.h"
 #include "WEditorBinder.h"
 #include "WEditorLexerManager.h"
+#include "WActionManager.h"
 #include "CfgAppSettings.h"
 #include "CfgScintillaSettings.h"
 
@@ -154,6 +155,17 @@ void StatusBar::onCurrentEditorChanged(Editor *editor)
     onCurrentEditorPosChanged(pos.x(), pos.y());
     onCurrentEditorTextChanged();
     onCurrentEditorEolChanged(binder->getEolMode());
+
+
+    ActionManager *actionManager = ActionManager::instance();
+    QAction *action = actionManager->getAction(W_ACTION_GROUP_VIEW, W_ACTION_MONITOR_MODE);
+    disconnect(action, SIGNAL(toggled(bool)), 0, 0);
+    action->setChecked(binder->isMonitorModeEnabled());
+    connect( action, SIGNAL(toggled(bool)),
+             binder, SLOT(enableMonitorMode(bool)) );
+
+    action = actionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_RELOAD);
+    action->setEnabled(binder->exists());
 }
 
 
