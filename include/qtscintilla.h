@@ -38,6 +38,9 @@ public:
 
     int linesVisible();
 
+    void updateScrollH(int range);
+    void updateScrollV(int range);
+
 public slots:
     
 

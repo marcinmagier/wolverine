@@ -34,6 +34,8 @@
 
 #include <QApplication>
 #include <QCursor>
+#include <QScrollBar>
+
 
 #define W_ACTION_CUT "Cut"
 #define W_ACTION_COPY "Copy"
@@ -51,8 +53,14 @@ EditorProxy *EditorProxy::sInstance = 0;
 EditorProxy::EditorProxy()
 {
     mCurrentEditor = 0;
+    mSettings = AppSettings::instance();
     setupContextMenu();
     qAddPostRoutine(deleteInstance);
+
+    connect( mSettings->general, SIGNAL(synchHEnabledChanged(bool)),
+                           this, SLOT(onSynchHEnabledChanged(bool)), Qt::DirectConnection );
+    connect( mSettings->general, SIGNAL(synchVEnabledChanged(bool)),
+                           this, SLOT(onSynchVEnabledChanged(bool)), Qt::DirectConnection );
 }
 
 EditorProxy::~EditorProxy()
@@ -87,13 +95,34 @@ Editor *EditorProxy::getCurrentEditor()
 void EditorProxy::setCurrentEditor(Editor *editor)
 {
     if(mCurrentEditor != editor) {
+        cleanOldEditor(mCurrentEditor);
         mCurrentEditor = editor;
         if(mCurrentEditor) {
-            connect( mCurrentEditor, SIGNAL(customContextMenuRequested(QPoint)),
-                               this, SLOT(onCustomContextMenuRequested(QPoint)), Qt::UniqueConnection );
+            setupNewEditor(mCurrentEditor);
 
             emit currentEditorChanged(mCurrentEditor);
         }
+    }
+}
+
+void EditorProxy::setupNewEditor(Editor *editor)
+{
+    if(editor) {
+        connect( editor, SIGNAL(customContextMenuRequested(QPoint)),
+                           this, SLOT(onCustomContextMenuRequested(QPoint)), Qt::UniqueConnection );
+
+        onSynchHEnabledChanged(mSettings->general->isSynchHEnabled());
+        onSynchVEnabledChanged(mSettings->general->isSynchVEnabled());
+    }
+}
+
+void EditorProxy::cleanOldEditor(Editor *editor)
+{
+    if(editor) {
+        disconnect( editor->horizontalScrollBar(), SIGNAL(valueChanged(int)),
+                                             this, SLOT(onCurrentEditorScrollHChanged(int)) );
+        disconnect( editor->verticalScrollBar(), SIGNAL(valueChanged(int)),
+                                           this, SLOT(onCurrentEditorScrollVChanged(int)) );
     }
 }
 
@@ -172,6 +201,46 @@ void EditorProxy::onZoomOut()
 
 
 
+void EditorProxy::onSynchHEnabledChanged(bool value)
+{
+    QScrollBar *scrollBar = mCurrentEditor->horizontalScrollBar();
+    if(value) {
+        mCurrentEditorPrevScrollValH = scrollBar->value();
+        connect( scrollBar, SIGNAL(valueChanged(int)),
+                     this , SLOT(onCurrentEditorScrollHChanged(int)) );
+    } else {
+        disconnect( scrollBar, SIGNAL(valueChanged(int)),
+                         this, SLOT(onCurrentEditorScrollHChanged(int)) );
+    }
+}
+
+void EditorProxy::onSynchVEnabledChanged(bool value)
+{
+    QScrollBar *scrollBar = mCurrentEditor->verticalScrollBar();
+    if(value) {
+        mCurrentEditorPrevScrollValV = scrollBar->value();
+        connect( scrollBar, SIGNAL(valueChanged(int)),
+                     this , SLOT(onCurrentEditorScrollVChanged(int)), Qt::UniqueConnection );
+    } else {
+        disconnect( scrollBar, SIGNAL(valueChanged(int)),
+                         this, SLOT(onCurrentEditorScrollVChanged(int)) );
+    }
+}
+
+void EditorProxy::onCurrentEditorScrollHChanged(int value)
+{
+    int range = value - mCurrentEditorPrevScrollValH;
+    mCurrentEditorPrevScrollValH = value;
+    emit currentEditorScrollHChanged(range);
+}
+
+void EditorProxy::onCurrentEditorScrollVChanged(int value)
+{
+    int range = value - mCurrentEditorPrevScrollValV;
+    mCurrentEditorPrevScrollValV = value;
+    emit currentEditorScrollVChanged(range);
+}
+
 
 
 void EditorProxy::onCustomContextMenuRequested(const QPoint &pos)
@@ -183,11 +252,10 @@ void EditorProxy::onCustomContextMenuRequested(const QPoint &pos)
 void EditorProxy::setupContextMenu()
 {
     QAction *action;
-    GeneralSettings *settings = AppSettings::instance()->general;
     mContextMenu = new QtManagedMenu(0, W_EDITOR_CONTEXT_MENU);
-    mContextMenu->setManagerEnabled(settings->isAppCustomizeEnabled());
-    connect(     settings, SIGNAL(appCustomizeEnabledChanged(bool)),
-             mContextMenu, SLOT(setManagerEnabled(bool)), Qt::DirectConnection );
+    mContextMenu->setManagerEnabled(mSettings->general->isAppCustomizeEnabled());
+    connect( mSettings->general, SIGNAL(appCustomizeEnabledChanged(bool)),
+                   mContextMenu, SLOT(setManagerEnabled(bool)), Qt::DirectConnection );
 
     action = new QAction(tr("Cut"), mContextMenu);
     action->setIcon(QIcon(":/cut.png"));

@@ -23,6 +23,8 @@
 
 #include "qtscintilla.h"
 
+#include <QScrollBar>
+
 
 /**
  *  Constructor
@@ -48,7 +50,17 @@ int QtScintilla::linesVisible()
 
 
 
+void QtScintilla::updateScrollH(int range)
+{
+    QScrollBar *scrollBar = horizontalScrollBar();
+    scrollBar->setValue(scrollBar->value() + range);
+}
 
+void QtScintilla::updateScrollV(int range)
+{
+    QScrollBar *scrollBar = verticalScrollBar();
+    scrollBar->setValue(scrollBar->value() + range);
+}
 
 
 

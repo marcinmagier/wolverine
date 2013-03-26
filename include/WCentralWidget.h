@@ -99,6 +99,8 @@ private slots:
     void onEditorStatusIntChanged(int stat);
     void onEditorStatusExtChanged(int stat);
     void onEditorFileInfoChanged(QFileInfo *fileinfo);
+    void onEditorScrollHChanged(int range);
+    void onEditorScrollVChanged(int range);
 
     void onInternalWidgetFocusReceived();
     void onCustomContextMenuRequested(QPoint pos);

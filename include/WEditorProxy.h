@@ -33,6 +33,7 @@
 
 class QString;
 class QtManagedMenu;
+class AppSettings;
 
 
 namespace Wolverine
@@ -77,18 +78,32 @@ public slots:
 signals:
     void currentEditorChanged(Editor *editor);
 
+    void currentEditorScrollHChanged(int range);
+    void currentEditorScrollVChanged(int range);
+
 
 private slots:
+    void onSynchHEnabledChanged(bool value);
+    void onSynchVEnabledChanged(bool value);
+    void onCurrentEditorScrollHChanged(int value);
+    void onCurrentEditorScrollVChanged(int value);
+
     void onCustomContextMenuRequested(const QPoint &pos);
 
 
 private:
+    void setupNewEditor(Editor *editor);
+    void cleanOldEditor(Editor *editor);
+
     void setupContextMenu();
 
 
     Editor *mCurrentEditor;
-
+    AppSettings *mSettings;
     QtManagedMenu *mContextMenu;
+
+    int mCurrentEditorPrevScrollValH;
+    int mCurrentEditorPrevScrollValV;
 
     static EditorProxy *sInstance;
 };

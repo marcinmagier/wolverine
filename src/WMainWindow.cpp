@@ -314,18 +314,18 @@ void MainWindow::createMenusAndToolbars()
     action = mActionManager->getAction(W_ACTION_GROUP_VIEW, W_ACTION_SYNC_V);
     action->setIcon(QIcon(":/sync_v.png"));
     action->setCheckable(true);
-    //action->setChecked(mSettings->scintilla->isWrapModeEnabled());
-    //connect(               action, SIGNAL(toggled(bool)),
-    //         mSettings->scintilla, SLOT(setWrapModeEnabled(bool)), Qt::DirectConnection );
+    action->setChecked(mSettings->general->isSynchVEnabled());
+    connect(             action, SIGNAL(toggled(bool)),
+             mSettings->general, SLOT(setSynchVEnabled(bool)), Qt::DirectConnection );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_SYNC_V, action);
 
     action = mActionManager->getAction(W_ACTION_GROUP_VIEW, W_ACTION_SYNC_H);
     action->setIcon(QIcon(":/sync_h.png"));
     action->setCheckable(true);
-    //action->setChecked(mSettings->scintilla->isWrapModeEnabled());
-    //connect(               action, SIGNAL(toggled(bool)),
-    //         mSettings->scintilla, SLOT(setWrapModeEnabled(bool)), Qt::DirectConnection );
+    action->setChecked(mSettings->general->isSynchHEnabled());
+    connect(             action, SIGNAL(toggled(bool)),
+             mSettings->general, SLOT(setSynchHEnabled(bool)), Qt::DirectConnection );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_SYNC_H, action);
 

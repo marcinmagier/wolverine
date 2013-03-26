@@ -113,6 +113,11 @@ CentralWidget::CentralWidget(QWidget *parent):
     connect( mPanelRight, SIGNAL(tabNewRequested()),
                     this, SLOT(newTab()) );
 
+    connect( mCurrentEditor, SIGNAL(currentEditorScrollHChanged(int)),
+                       this, SLOT(onEditorScrollHChanged(int)) );
+    connect( mCurrentEditor, SIGNAL(currentEditorScrollVChanged(int)),
+                       this, SLOT(onEditorScrollVChanged(int)) );
+
     mSettings = AppSettings::instance();
 
     setCurrentPanel(mPanelLeft);
@@ -204,8 +209,8 @@ void CentralWidget::openTab(Panel *panel, const QString &path)
     if( (mPanelRight->count() == 0) && (mPanelLeft->count() == 1) ) {
         Editor *first = mPanelLeft->getEditor(0);
         if( (first->length() == 0) && (first->getBinder()->getStatusExt() == EditorBinder::New) ) {
-            this->closeTab(mPanelLeft, 0);
             mCurrentEditor->setCurrentEditor(0);
+            this->closeTab(mPanelLeft, 0);
         }
     }
 
@@ -1018,6 +1023,33 @@ void CentralWidget::onEditorFileInfoChanged(QFileInfo *fileinfo)
 }
 
 
+void CentralWidget::onEditorScrollHChanged(int range)
+{
+    Panel *other;
+    if(mPanelCurrent == mPanelLeft)
+        other = mPanelRight;
+    else
+        other = mPanelLeft;
+    if(other->count() == 0)
+        return;
+
+    Editor *edit = other->getEditor(other->currentIndex());
+    edit->updateScrollH(range);
+}
+
+void CentralWidget::onEditorScrollVChanged(int range)
+{
+    Panel *other;
+    if(mPanelCurrent == mPanelLeft)
+        other = mPanelRight;
+    else
+        other = mPanelLeft;
+    if(other->count() == 0)
+        return;
+
+    Editor *edit = other->getEditor(other->currentIndex());
+    edit->updateScrollV(range);
+}
 
 void CentralWidget::onInternalWidgetFocusReceived()
 {
