@@ -384,6 +384,10 @@ void MainWindow::openFile(const QString &file)
         mCentralWidget->openTab(file);
 }
 
+void MainWindow::showDockWidget(QDockWidget *widget, Qt::DockWidgetArea area)
+{
+
+}
 
 
 

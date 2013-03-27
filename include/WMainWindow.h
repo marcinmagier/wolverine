@@ -39,6 +39,7 @@ public:
 
 public slots:
     void openFile(const QString &file);
+    void showDockWidget(QDockWidget *widget, Qt::DockWidgetArea area);
 
 protected:
     virtual void closeEvent(QCloseEvent *);

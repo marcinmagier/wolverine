@@ -28,6 +28,7 @@ SOURCES      += \
                 ../src/editor/WEditorLexerManagerWidget.cpp \
                 ../src/editor/WEditorProxy.cpp \
                 ../src/editor/qtscintilla.cpp \
+                ../src/finder/WFinder.cpp \
                 ../src/settings/DlgSettings.cpp \
                 ../src/settings/PageGeneral.cpp \
                 ../src/settings/PageView.cpp \
@@ -78,6 +79,7 @@ HEADERS      += \
                 ../include/WEditorLexerCfg.h \
                 ../include/WEditorLexerManager.h \
                 ../include/WEditorProxy.h \
+                ../include/WFinder.h \
                 ../include/WLib.h \
                 ../include/WMainWindow.h \
                 ../include/qtscintilla.h
