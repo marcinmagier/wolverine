@@ -5,6 +5,7 @@
 #include "WStatusBar.h"
 #include "WEditor.h"
 #include "WEditorProxy.h"
+#include "WFinder.h"
 
 #include "qtmanagedtoolbar.h"
 #include "CfgAppSettings.h"
@@ -18,6 +19,7 @@
 #include <QMenu>
 #include <QMenuBar>
 #include <QStringList>
+#include <QDockWidget>
 
 #include "WPopup.h"
 
@@ -34,6 +36,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     mCentralWidget = new CentralWidget(this);
     mEditorProxy = EditorProxy::instance();
+    mFinder = Finder::instance();
+
+    connect( mFinder, SIGNAL(showWidgetRequested(QDockWidget*,Qt::DockWidgetArea, QString)),
+                this, SLOT(showDockWidget(QDockWidget*,Qt::DockWidgetArea, QString)) );
 
 
     this->resize(mSettings->hidden->getMWSize());
@@ -47,6 +53,10 @@ MainWindow::MainWindow(QWidget *parent) :
     setStatusBar(new StatusBar(this));
 
     Popup::initialize();
+
+
+    showDockWidget(new QDockWidget(tr("Documents")), Qt::LeftDockWidgetArea, tr("Documents"));
+    showDockWidget(new QDockWidget(tr("Explorer")), Qt::LeftDockWidgetArea, tr("Explorer"));
 
 }
 
@@ -203,35 +213,35 @@ void MainWindow::createMenusAndToolbars()
     action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND);
     action->setIcon(QIcon(":/find.png"));
     connect( action, SIGNAL(triggered()),
-               this, SLOT(onFindTriggered()) );
+               mFinder, SLOT(showFindWidget()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_FIND, action);
 
     action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND_NEXT);
     //action->setIcon(QIcon(":/find.png"));
-    //connect( action, SIGNAL(triggered()),
-    //           this, SLOT(onFindTriggered()) );
+    connect(  action, SIGNAL(triggered()),
+             mFinder, SLOT(findNext()) );
     menu->addAction(action);
     //toolbar->addAction(W_ACTION_FIND, action);
 
     action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND_PREV);
     //action->setIcon(QIcon(":/find.png"));
-    //connect( action, SIGNAL(triggered()),
-    //           this, SLOT(onFindTriggered()) );
+    connect(  action, SIGNAL(triggered()),
+             mFinder, SLOT(findPrev()) );
     menu->addAction(action);
     //toolbar->addAction(W_ACTION_FIND, action);
 
     action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND_IN_FILES);
     action->setIcon(QIcon(":/find_in_files.png"));
     connect( action, SIGNAL(triggered()),
-               this, SLOT(onFindInFilesTriggered()) );
+               mFinder, SLOT(showFindInFilesWidget()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_FIND_IN_FILES, action);
 
     action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_REPLACE);
     action->setIcon(QIcon(":/replace.png"));
     connect( action, SIGNAL(triggered()),
-               this, SLOT(onReplaceTriggered()) );
+               mFinder, SLOT(showReplaceWidget()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_REPLACE, action);
 
@@ -384,24 +394,9 @@ void MainWindow::openFile(const QString &file)
         mCentralWidget->openTab(file);
 }
 
-void MainWindow::showDockWidget(QDockWidget *widget, Qt::DockWidgetArea area)
+void MainWindow::showDockWidget(QDockWidget *widget, Qt::DockWidgetArea area, const QString &title)
 {
-
+    mDocks[title] = widget;
+    this->addDockWidget(area, widget);
 }
 
-
-
-void MainWindow::onFindTriggered()
-{
-
-}
-
-void MainWindow::onFindInFilesTriggered()
-{
-
-}
-
-void MainWindow::onReplaceTriggered()
-{
-
-}

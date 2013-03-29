@@ -23,30 +23,109 @@
 
 
 #include "WFinder.h"
+#include "WFindReqWidget.h"
 
 #include "Logger.h"
+
+
+#include <QApplication>
+#include <QDockWidget>
+
+#include <QDebug>
 
 
 using namespace Wolverine;
 
 
+Finder *Finder::sInstance = 0;
 
 
+/**
+ *  Constructor.
+ */
 Finder::Finder() 
 {
+    mFindRequestDock = 0;
+    qAddPostRoutine(deleteInstance);
 
 }
 
 
+/**
+ *  Destructor.
+ */
 Finder::~Finder()
 {
 
 }
 
 
+/**
+ *  Creates and returns instance.
+ * @return
+ */
+//static
 Finder* Finder::instance()
 {
-
-    return 0;
+    if(sInstance == 0) {
+        sInstance = new Finder();
+    }
+    return sInstance;
 }
 
+
+/**
+ *  Deletes instance.
+ */
+void Finder::deleteInstance()
+{
+    if(sInstance) {
+        delete sInstance;
+        sInstance = 0;
+    }
+}
+
+
+void Finder::showFindWidget()
+{
+    createFindWidget();
+}
+
+void Finder::showFindInFilesWidget()
+{
+    createFindWidget();
+}
+
+void Finder::showReplaceWidget()
+{
+    createFindWidget();
+}
+
+void Finder::findNext()
+{
+    if(mFindRequestDock == 0)
+        return;
+
+    qDebug() << "Find next";
+}
+
+void Finder::findPrev()
+{
+    if(mFindRequestDock == 0)
+        return;
+
+    qDebug() << "Find prev";
+}
+
+
+
+void Finder::createFindWidget()
+{
+    if(mFindRequestDock == 0) {
+        mFindRequestDock = new QDockWidget(tr("Find/Replace"));
+        mFindRequestDock->setWidget(new FindReqWidget());
+        emit showWidgetRequested(mFindRequestDock, Qt::BottomDockWidgetArea, tr("Find/Replace"));
+    } else {
+        mFindRequestDock->setFocus();
+    }
+}

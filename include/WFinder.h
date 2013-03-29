@@ -29,6 +29,8 @@
 
 #include <QObject>
 
+class QDockWidget;
+
 
 
 namespace Wolverine
@@ -43,25 +45,35 @@ class Finder: public QObject
     explicit Finder();
     virtual ~Finder();
 
+
 public:
     static Finder* instance();
     static void deleteInstance();
 
 
 public slots:
+    void showFindWidget();
+    void showFindInFilesWidget();
+    void showReplaceWidget();
+
+    void findNext();
+    void findPrev();
 
 
 signals:
+    void showWidgetRequested(QDockWidget *widget, Qt::DockWidgetArea area, QString title);
 
 
 private slots:
 
 
 private:
+    void createFindWidget();
+
+    QDockWidget *mFindRequestDock;
 
     static Finder *sInstance;
 };
-
 
 
 }

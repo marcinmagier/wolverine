@@ -25,6 +25,7 @@ class StatusBar;
 class CentralWidget;
 class Editor;
 class EditorProxy;
+class Finder;
 
 
 class MainWindow : public QMainWindow
@@ -39,16 +40,12 @@ public:
 
 public slots:
     void openFile(const QString &file);
-    void showDockWidget(QDockWidget *widget, Qt::DockWidgetArea area);
+    void showDockWidget(QDockWidget *widget, Qt::DockWidgetArea area, const QString &title);
 
 protected:
     virtual void closeEvent(QCloseEvent *);
 
 private slots:
-
-    void onFindTriggered();
-    void onFindInFilesTriggered();
-    void onReplaceTriggered();
 
 
 private:
@@ -64,6 +61,7 @@ private:
 
     CentralWidget *mCentralWidget;
     EditorProxy *mEditorProxy;
+    Finder *mFinder;
 
 };
 

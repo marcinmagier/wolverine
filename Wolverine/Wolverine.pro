@@ -29,6 +29,7 @@ SOURCES      += \
                 ../src/editor/WEditorProxy.cpp \
                 ../src/editor/qtscintilla.cpp \
                 ../src/finder/WFinder.cpp \
+                ../src/finder/WFindReqWidget.cpp \
                 ../src/settings/DlgSettings.cpp \
                 ../src/settings/PageGeneral.cpp \
                 ../src/settings/PageView.cpp \
@@ -60,6 +61,7 @@ HEADERS      += \
                 ../src/WPopup.h \
                 ../src/WStatusBar.h \
                 ../src/editor/WEditorLexerManagerWidget.h \
+                ../src/finder/WFindReqWidget.h \
                 ../src/settings/DlgSettings.h \
                 ../src/settings/PageGeneral.h \
                 ../src/settings/PageView.h \
@@ -101,6 +103,7 @@ RC_FILE      += \
 
 FORMS        += \
                 ../src/editor/WEditorLexerManagerWidget.ui \
+                ../src/finder/WFindReqWidget.ui \
                 ../src/settings/PageGeneral.ui \
                 ../src/settings/PageView.ui \
                 ../src/settings/PageEditor.ui \
