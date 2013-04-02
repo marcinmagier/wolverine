@@ -227,6 +227,7 @@ void initializeActions()
     action = new QAction(QObject::tr("Find"), 0);
     action->setShortcut(QKeySequence::Find);
     //action->setStatusTip(QObject::tr("Find"));
+    action->setCheckable(true);
     sInstance->addAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND, action);
 
     action = new QAction(QObject::tr("Find Next"), 0);
@@ -242,11 +243,13 @@ void initializeActions()
     action = new QAction(QObject::tr("Find In Files"), 0);
     action->setShortcut(QObject::tr("Ctrl+Shift+F"));
     //action->setStatusTip(QObject::tr("Find"));
+    action->setCheckable(true);
     sInstance->addAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND_IN_FILES, action);
 
     action = new QAction(QObject::tr("Replace"), 0);
     action->setShortcut(QKeySequence::Replace);
     //action->setStatusTip(QObject::tr("Find"));
+    action->setCheckable(true);
     sInstance->addAction(W_ACTION_GROUP_SEARCH, W_ACTION_REPLACE, action);
 
 

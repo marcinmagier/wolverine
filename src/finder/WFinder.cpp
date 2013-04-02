@@ -24,12 +24,14 @@
 
 #include "WFinder.h"
 #include "WFindReqWidget.h"
+#include "WActionManager.h"
 
 #include "Logger.h"
 
 
 #include <QApplication>
 #include <QDockWidget>
+#include <QAction>
 
 #include <QDebug>
 
@@ -47,6 +49,11 @@ Finder::Finder()
 {
     mFindRequestDock = 0;
     qAddPostRoutine(deleteInstance);
+
+    ActionManager *actionManager = ActionManager::instance();
+    mFindAction = actionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND);
+    mFindInFilesAction = actionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND_IN_FILES);
+    mReplaceAction = actionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_REPLACE);
 
 }
 
@@ -86,19 +93,37 @@ void Finder::deleteInstance()
 }
 
 
-void Finder::showFindWidget()
+void Finder::showFindWidget(bool visible)
 {
-    createFindWidget();
+    if(visible) {
+        createFindWidget();
+        mFindInFilesAction->setChecked(false);
+        mReplaceAction->setChecked(false);
+    } else {
+        mFindRequestDock->setVisible(false);
+    }
 }
 
-void Finder::showFindInFilesWidget()
+void Finder::showFindInFilesWidget(bool visible)
 {
-    createFindWidget();
+    if(visible) {
+        createFindWidget();
+        mFindAction->setChecked(false);
+        mReplaceAction->setChecked(false);
+    } else {
+        mFindRequestDock->setVisible(false);
+    }
 }
 
-void Finder::showReplaceWidget()
+void Finder::showReplaceWidget(bool visible)
 {
-    createFindWidget();
+    if(visible) {
+        createFindWidget();
+        mFindAction->setChecked(false);
+        mFindInFilesAction->setChecked(false);
+    } else {
+        mFindRequestDock->setVisible(false);
+    }
 }
 
 void Finder::findNext()

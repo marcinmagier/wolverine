@@ -30,7 +30,7 @@
 #include <QObject>
 
 class QDockWidget;
-
+class QAction;
 
 
 namespace Wolverine
@@ -52,9 +52,9 @@ public:
 
 
 public slots:
-    void showFindWidget();
-    void showFindInFilesWidget();
-    void showReplaceWidget();
+    void showFindWidget(bool visible);
+    void showFindInFilesWidget(bool visible);
+    void showReplaceWidget(bool visible);
 
     void findNext();
     void findPrev();
@@ -71,6 +71,9 @@ private:
     void createFindWidget();
 
     QDockWidget *mFindRequestDock;
+    QAction *mFindAction;
+    QAction *mFindInFilesAction;
+    QAction *mReplaceAction;
 
     static Finder *sInstance;
 };
