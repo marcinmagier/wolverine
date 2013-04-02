@@ -126,6 +126,7 @@ void Finder::createFindWidget()
         mFindRequestDock->setWidget(new FindReqWidget());
         emit showWidgetRequested(mFindRequestDock, Qt::BottomDockWidgetArea, tr("Find/Replace"));
     } else {
+        mFindRequestDock->setVisible(true);
         mFindRequestDock->setFocus();
     }
 }

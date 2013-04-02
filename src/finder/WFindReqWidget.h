@@ -7,6 +7,8 @@ namespace Ui {
 class FindReqWidget;
 }
 
+namespace Wolverine {
+
 class FindReqWidget : public QWidget
 {
     Q_OBJECT
@@ -17,6 +19,9 @@ public:
     
 private:
     Ui::FindReqWidget *ui;
+};
+
+
 };
 
 #endif // WFINDREQWIDGET_H

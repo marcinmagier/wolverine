@@ -47,6 +47,7 @@ protected:
 
 private slots:
     void onAppCustimizeEnabledChanged(bool enabled);
+    void onDockTopLevelChanged(bool topLevel);
 
 
 private:

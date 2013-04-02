@@ -405,7 +405,12 @@ void MainWindow::showDockWidget(QDockWidget *widget, Qt::DockWidgetArea area, co
 {
     mDocks[title] = widget;
     this->addDockWidget(area, widget);
-    widget->setFeatures(mSettings->general->isAppCustomizeEnabled() ? (widget->features() | QDockWidget::DockWidgetMovable) : (widget->features() & ~QDockWidget::DockWidgetMovable) );
+    bool customizeEnabled = mSettings->general->isAppCustomizeEnabled();
+    widget->setFeatures( customizeEnabled ? (widget->features() | QDockWidget::DockWidgetMovable) : (widget->features() & ~QDockWidget::DockWidgetMovable) );
+    widget->setFeatures( customizeEnabled ? (widget->features() | QDockWidget::DockWidgetFloatable) : (widget->features() & ~QDockWidget::DockWidgetFloatable) );
+
+    connect( widget, SIGNAL(topLevelChanged(bool)),
+               this, SLOT(onDockTopLevelChanged(bool)) );
 }
 
 
@@ -417,5 +422,16 @@ void MainWindow::onAppCustimizeEnabledChanged(bool enabled)
 
     foreach(QDockWidget *dock, mDocks) {
         dock->setFeatures( enabled ? (dock->features() | QDockWidget::DockWidgetMovable) : (dock->features() & ~QDockWidget::DockWidgetMovable) );
+        if(!dock->isFloating())
+            dock->setFeatures( enabled ? (dock->features() | QDockWidget::DockWidgetFloatable) : (dock->features() & ~QDockWidget::DockWidgetFloatable) );
+    }
+}
+
+void MainWindow::onDockTopLevelChanged(bool topLevel)
+{
+    if(!topLevel) {
+        QDockWidget *dock = dynamic_cast<QDockWidget*>(sender());
+        bool enabled = mSettings->general->isAppCustomizeEnabled();
+        dock->setFeatures( enabled ? (dock->features() | QDockWidget::DockWidgetFloatable) : (dock->features() & ~QDockWidget::DockWidgetFloatable) );
     }
 }
