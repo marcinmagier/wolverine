@@ -46,6 +46,7 @@ protected:
     virtual void closeEvent(QCloseEvent *);
 
 private slots:
+    void onAppCustimizeEnabledChanged(bool enabled);
 
 
 private:

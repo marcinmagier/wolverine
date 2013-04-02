@@ -41,6 +41,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect( mFinder, SIGNAL(showWidgetRequested(QDockWidget*,Qt::DockWidgetArea, QString)),
                 this, SLOT(showDockWidget(QDockWidget*,Qt::DockWidgetArea, QString)) );
 
+    this->setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
+    this->setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
+    this->setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
+    this->setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
+
 
     this->resize(mSettings->hidden->getMWSize());
     this->move(mSettings->hidden->getMWPosition());
@@ -54,9 +59,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     Popup::initialize();
 
+    connect( mSettings->general, SIGNAL(appCustomizeEnabledChanged(bool)),
+                           this, SLOT(onAppCustimizeEnabledChanged(bool)), Qt::DirectConnection );
+    this->onAppCustimizeEnabledChanged(mSettings->general->isAppCustomizeEnabled());
 
-    showDockWidget(new QDockWidget(tr("Documents")), Qt::LeftDockWidgetArea, tr("Documents"));
-    showDockWidget(new QDockWidget(tr("Explorer")), Qt::LeftDockWidgetArea, tr("Explorer"));
+    //showDockWidget(new QDockWidget(tr("Documents")), Qt::LeftDockWidgetArea, tr("Documents"));
+    //showDockWidget(new QDockWidget(tr("Explorer")), Qt::LeftDockWidgetArea, tr("Explorer"));
+
+
 
 }
 
@@ -81,9 +91,6 @@ void MainWindow::closeEvent(QCloseEvent *)
 void MainWindow::createMenusAndToolbars()
 {
     QtManagedToolBar *toolbar = new QtManagedToolBar(this, W_ACTION_GROUP_GENERAL);
-    toolbar->setManagerEnabled(mSettings->general->isAppCustomizeEnabled());
-    connect( mSettings->general, SIGNAL(appCustomizeEnabledChanged(bool)),
-                        toolbar, SLOT(setManagerEnabled(bool)), Qt::DirectConnection );
 
     QAction *action;
     QMenu *menu = menuBar()->addMenu(tr("File"));
@@ -398,5 +405,17 @@ void MainWindow::showDockWidget(QDockWidget *widget, Qt::DockWidgetArea area, co
 {
     mDocks[title] = widget;
     this->addDockWidget(area, widget);
+    widget->setFeatures(mSettings->general->isAppCustomizeEnabled() ? (widget->features() | QDockWidget::DockWidgetMovable) : (widget->features() & ~QDockWidget::DockWidgetMovable) );
 }
 
+
+void MainWindow::onAppCustimizeEnabledChanged(bool enabled)
+{
+    foreach(QtManagedToolBar *toolbar, mToolbars) {
+        toolbar->setManagerEnabled(enabled);
+    }
+
+    foreach(QDockWidget *dock, mDocks) {
+        dock->setFeatures( enabled ? (dock->features() | QDockWidget::DockWidgetMovable) : (dock->features() & ~QDockWidget::DockWidgetMovable) );
+    }
+}
