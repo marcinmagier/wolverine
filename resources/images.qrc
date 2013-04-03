@@ -33,5 +33,12 @@
         <file alias="indent_guide.png">images/indent_guide.png</file>
         <file alias="sync_h.png">images/sync_h.png</file>
         <file alias="sync_v.png">images/sync_v.png</file>
+        <file alias="search_mark.png">images/search_mark.png</file>
+        <file alias="search_regexp.png">images/search_regexp.png</file>
+        <file alias="search_selection.png">images/search_selection.png</file>
+        <file alias="search_sensitive.png">images/search_sensitive.png</file>
+        <file alias="search_words.png">images/search_words.png</file>
+        <file alias="search_wrap.png">images/search_wrap.png</file>
+        <file alias="search_reverse.png">images/search_reverse.png</file>
     </qresource>
 </RCC>
