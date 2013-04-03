@@ -48,6 +48,7 @@ Finder *Finder::sInstance = 0;
 Finder::Finder() 
 {
     mFindRequestDock = 0;
+    mFindReqWidget = 0;
     qAddPostRoutine(deleteInstance);
 
     ActionManager *actionManager = ActionManager::instance();
@@ -97,6 +98,7 @@ void Finder::showFindWidget(bool visible)
 {
     if(visible) {
         createFindWidget();
+        mFindReqWidget->setCurrentWidget(0);
         mFindInFilesAction->setChecked(false);
         mReplaceAction->setChecked(false);
     } else {
@@ -108,6 +110,7 @@ void Finder::showFindInFilesWidget(bool visible)
 {
     if(visible) {
         createFindWidget();
+        mFindReqWidget->setCurrentWidget(2);
         mFindAction->setChecked(false);
         mReplaceAction->setChecked(false);
     } else {
@@ -119,6 +122,7 @@ void Finder::showReplaceWidget(bool visible)
 {
     if(visible) {
         createFindWidget();
+        mFindReqWidget->setCurrentWidget(1);
         mFindAction->setChecked(false);
         mFindInFilesAction->setChecked(false);
     } else {
@@ -147,8 +151,9 @@ void Finder::findPrev()
 void Finder::createFindWidget()
 {
     if(mFindRequestDock == 0) {
+        mFindReqWidget = new FindReqWidget();
         mFindRequestDock = new QDockWidget(tr("Find/Replace"));
-        mFindRequestDock->setWidget(new FindReqWidget());
+        mFindRequestDock->setWidget(mFindReqWidget);
         emit showWidgetRequested(mFindRequestDock, Qt::BottomDockWidgetArea, tr("Find/Replace"));
     } else {
         mFindRequestDock->setVisible(true);

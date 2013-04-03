@@ -36,7 +36,7 @@ class QAction;
 namespace Wolverine
 {
 
-
+class FindReqWidget;
 
 class Finder: public QObject
 {
@@ -71,6 +71,7 @@ private:
     void createFindWidget();
 
     QDockWidget *mFindRequestDock;
+    FindReqWidget *mFindReqWidget;
     QAction *mFindAction;
     QAction *mFindInFilesAction;
     QAction *mReplaceAction;

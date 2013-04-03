@@ -16,6 +16,8 @@ class FindReqWidget : public QWidget
 public:
     explicit FindReqWidget(QWidget *parent = 0);
     ~FindReqWidget();
+
+    void setCurrentWidget(int idx);
     
 private:
     Ui::FindReqWidget *ui;
