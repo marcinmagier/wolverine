@@ -4,3 +4,10 @@ sudo cp wolverine.desktop /usr/share/app-install/desktop/wolverine:wolverine.des
 sudo cp wolverine.desktop /usr/share/applications/
 sudo cp wolverine.png /usr/share/app-install/icons/
 sudo cp wolverine.png /usr/share/pixmaps/
+
+###############################################################
+
+sudo cp /etc/ld.so.conf.d/libc.conf /etc/ld.so.conf.d/qt.conf
+#add path to qt libraries to qt.conf
+sudo sh -c "echo '/usr/mtools/Qt/SDK-5.0.1/5.0.1/gcc/lib' > /etc/ld.so.conf.d/qt.conf"
+sudo ldconfig
