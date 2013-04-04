@@ -104,6 +104,7 @@ void Finder::showFindWidget(bool visible)
     } else {
         mFindRequestDock->setVisible(false);
     }
+    mFindRequestDock->setWindowTitle(tr("Find"));
 }
 
 void Finder::showFindInFilesWidget(bool visible)
@@ -116,6 +117,7 @@ void Finder::showFindInFilesWidget(bool visible)
     } else {
         mFindRequestDock->setVisible(false);
     }
+    mFindRequestDock->setWindowTitle(tr("Find In Files"));
 }
 
 void Finder::showReplaceWidget(bool visible)
@@ -128,6 +130,7 @@ void Finder::showReplaceWidget(bool visible)
     } else {
         mFindRequestDock->setVisible(false);
     }
+    mFindRequestDock->setWindowTitle(tr("Replace"));
 }
 
 void Finder::findNext()
@@ -152,7 +155,7 @@ void Finder::createFindWidget()
 {
     if(mFindRequestDock == 0) {
         mFindReqWidget = new FindReqWidget();
-        mFindRequestDock = new QDockWidget(tr("Find/Replace"));
+        mFindRequestDock = new QDockWidget();
         mFindRequestDock->setWidget(mFindReqWidget);
         emit showWidgetRequested(mFindRequestDock, Qt::BottomDockWidgetArea, tr("Find/Replace"));
     } else {
