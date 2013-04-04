@@ -28,6 +28,7 @@
 
 
 #include <QObject>
+#include <QPoint>
 
 class QDockWidget;
 class QAction;
@@ -36,6 +37,7 @@ class QAction;
 namespace Wolverine
 {
 
+class FindReqDock;
 class FindReqWidget;
 
 class Finder: public QObject
@@ -65,12 +67,14 @@ signals:
 
 
 private slots:
+    void onVisibilityChanged(bool visible);
+    void onCustomContextMenuRequested(const QPoint &pos);
 
 
 private:
     void createFindWidget();
 
-    QDockWidget *mFindRequestDock;
+    FindReqDock *mFindRequestDock;
     FindReqWidget *mFindReqWidget;
     QAction *mFindAction;
     QAction *mFindInFilesAction;

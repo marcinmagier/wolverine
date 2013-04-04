@@ -23,6 +23,7 @@
 
 
 #include "WFinder.h"
+#include "WFindReqDock.h"
 #include "WFindReqWidget.h"
 #include "WActionManager.h"
 
@@ -32,6 +33,8 @@
 #include <QApplication>
 #include <QDockWidget>
 #include <QAction>
+#include <QMenu>
+#include <QCursor>
 
 #include <QDebug>
 
@@ -98,7 +101,7 @@ void Finder::showFindWidget(bool visible)
 {
     if(visible) {
         createFindWidget();
-        mFindReqWidget->setCurrentWidget(0);
+        mFindReqWidget->setCurrentIndex(0);
         mFindInFilesAction->setChecked(false);
         mReplaceAction->setChecked(false);
     } else {
@@ -111,7 +114,7 @@ void Finder::showFindInFilesWidget(bool visible)
 {
     if(visible) {
         createFindWidget();
-        mFindReqWidget->setCurrentWidget(2);
+        mFindReqWidget->setCurrentIndex(2);
         mFindAction->setChecked(false);
         mReplaceAction->setChecked(false);
     } else {
@@ -124,7 +127,7 @@ void Finder::showReplaceWidget(bool visible)
 {
     if(visible) {
         createFindWidget();
-        mFindReqWidget->setCurrentWidget(1);
+        mFindReqWidget->setCurrentIndex(1);
         mFindAction->setChecked(false);
         mFindInFilesAction->setChecked(false);
     } else {
@@ -155,11 +158,37 @@ void Finder::createFindWidget()
 {
     if(mFindRequestDock == 0) {
         mFindReqWidget = new FindReqWidget();
-        mFindRequestDock = new QDockWidget();
+        mFindRequestDock = new FindReqDock();
         mFindRequestDock->setWidget(mFindReqWidget);
-        emit showWidgetRequested(mFindRequestDock, Qt::BottomDockWidgetArea, tr("Find/Replace"));
+
+        mFindRequestDock->setContextMenuPolicy(Qt::CustomContextMenu);
+        connect( mFindRequestDock, SIGNAL(customContextMenuRequested(QPoint)),
+                             this, SLOT(onCustomContextMenuRequested(QPoint)) );
+        emit showWidgetRequested(mFindRequestDock, Qt::TopDockWidgetArea, tr("Find/Replace"));
     } else {
         mFindRequestDock->setVisible(true);
         mFindRequestDock->setFocus();
     }
+}
+
+
+
+
+void Finder::onVisibilityChanged(bool visible)
+{
+    if(!visible && !mFindRequestDock->isFloating()) {
+        mFindAction->setChecked(false);
+        mFindInFilesAction->setChecked(false);
+        mReplaceAction->setChecked(false);
+    }
+}
+
+void Finder::onCustomContextMenuRequested(const QPoint &/*pos*/)
+{
+    QMenu *menu = new QMenu();
+    menu->addAction(mFindAction);
+    menu->addAction(mReplaceAction);
+    menu->addAction(mFindInFilesAction);
+
+    menu->exec(QCursor::pos());
 }
