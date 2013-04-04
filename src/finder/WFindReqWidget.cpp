@@ -6,11 +6,11 @@
 using namespace Wolverine;
 
 FindReqWidget::FindReqWidget(QWidget *parent) :
-    QWidget(parent),
+    QStackedWidget(parent),
     ui(new Ui::FindReqWidget)
 {
     ui->setupUi(this);
-
+/*
     ui->btnCaseSensitive->setIcon(QIcon(":/search_sensitive.png"));
     ui->btnCaseSensitive->setToolTip(tr("Case Sensitive"));
     ui->btnWholeWords->setIcon(QIcon(":/search_words.png"));
@@ -38,7 +38,7 @@ FindReqWidget::FindReqWidget(QWidget *parent) :
     ui->btnWrap2->setToolTip(tr("Wrap"));
     ui->btnInSelection2->setIcon(QIcon(":/search_selection.png"));
     ui->btnInSelection2->setToolTip(tr("In Selection"));
-
+*/
 
 }
 
@@ -49,5 +49,5 @@ FindReqWidget::~FindReqWidget()
 
 void FindReqWidget::setCurrentWidget(int idx)
 {
-    ui->stackedWidget->setCurrentIndex(idx);
+    setCurrentIndex(idx);
 }

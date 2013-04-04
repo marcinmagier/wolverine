@@ -1,7 +1,7 @@
 #ifndef WFINDREQWIDGET_H
 #define WFINDREQWIDGET_H
 
-#include <QWidget>
+#include <QStackedWidget>
 
 namespace Ui {
 class FindReqWidget;
@@ -9,7 +9,7 @@ class FindReqWidget;
 
 namespace Wolverine {
 
-class FindReqWidget : public QWidget
+class FindReqWidget : public QStackedWidget
 {
     Q_OBJECT
     
