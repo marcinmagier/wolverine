@@ -29,6 +29,7 @@ SOURCES      += \
                 ../src/editor/WEditorProxy.cpp \
                 ../src/editor/qtscintilla.cpp \
                 ../src/finder/WFinder.cpp \
+				../src/finder/WFindReqDock.cpp \
                 ../src/finder/WFindReqWidget.cpp \
                 ../src/settings/DlgSettings.cpp \
                 ../src/settings/PageGeneral.cpp \
@@ -61,6 +62,7 @@ HEADERS      += \
                 ../src/WPopup.h \
                 ../src/WStatusBar.h \
                 ../src/editor/WEditorLexerManagerWidget.h \
+                ../src/finder/WFindReqDock.h \
                 ../src/finder/WFindReqWidget.h \
                 ../src/settings/DlgSettings.h \
                 ../src/settings/PageGeneral.h \

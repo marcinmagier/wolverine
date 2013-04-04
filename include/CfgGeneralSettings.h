@@ -21,6 +21,16 @@ class GeneralSettings : public QObject
     Q_PROPERTY(bool     synchVEnabled               READ isSynchVEnabled                WRITE setSynchVEnabled              )
     Q_PROPERTY(bool     synchHEnabled               READ isSynchHEnabled                WRITE setSynchHEnabled              )
 
+    Q_PROPERTY(bool     findCaseSensitive           READ isFindCaseSensitiveSet         WRITE setFindCaseSensitive          )
+    Q_PROPERTY(bool     findWholeWords              READ isFindWholeWordsSet            WRITE setFindWholeWords             )
+    Q_PROPERTY(bool     findRegexp                  READ isFindRegexpSet                WRITE setFindRegexp                 )
+    Q_PROPERTY(bool     findReverseDirection        READ isFindReverseDirectionSet      WRITE setFindReverseDirection       )
+    Q_PROPERTY(bool     findWrap                    READ isFindWrapSet                  WRITE setFindWrap                   )
+    Q_PROPERTY(bool     findInSelection             READ isFindInSelectionSet           WRITE setFindInSelection            )
+    Q_PROPERTY(bool     findMark                    READ isFindMarkSet                  WRITE setFindMark                   )
+    Q_PROPERTY(bool     findInSubDirs               READ isFindInSubDirsSet             WRITE setFindInSubDirs              )
+    Q_PROPERTY(bool     findInHiddenDirs            READ isFindInHiddenDirsSet          WRITE setFindInHiddenDirs           )
+
 
 
 public:
@@ -35,6 +45,17 @@ public:
     bool isSynchVEnabled();
     bool isSynchHEnabled();
 
+    bool isFindCaseSensitiveSet();
+    bool isFindWholeWordsSet();
+    bool isFindRegexpSet();
+    bool isFindReverseDirectionSet();
+    bool isFindWrapSet();
+    bool isFindInSelectionSet();
+    bool isFindMarkSet();
+    bool isFindInSubDirsSet();
+    bool isFindInHiddenDirsSet();
+
+
 
 signals:
     void appCloseWhenLastTabClosedChanged(bool val);
@@ -45,6 +66,16 @@ signals:
 
     void synchVEnabledChanged(bool val);
     void synchHEnabledChanged(bool val);
+
+    void findCaseSensitiveChanged(bool val);
+    void findWholeWordsChanged(bool val);
+    void findRegexpChanged(bool val);
+    void findReverseDirectionChanged(bool val);
+    void findWrapChanged(bool val);
+    void findInSelectionChanged(bool val);
+    void findMarkChanged(bool val);
+    void findInSubDirsChanged(bool val);
+    void findInHiddenDirsChanged(bool val);
 
 
 public slots:
@@ -57,6 +88,17 @@ public slots:
     void setSynchVEnabled(bool val);
     void setSynchHEnabled(bool val);
 
+    void setFindCaseSensitive(bool val);
+    void setFindWholeWords(bool val);
+    void setFindRegexp(bool val);
+    void setFindReverseDirection(bool val);
+    void setFindWrap(bool val);
+    void setFindInSelection(bool val);
+    void setFindMark(bool val);
+    void setFindInSubDirs(bool val);
+    void setFindInHiddenDirs(bool val);
+
+
 private:
     bool mAppCloseWhenLastTabClosed;
     bool mAppCustomizeEnabled;
@@ -66,6 +108,19 @@ private:
 
     bool mSynchVEnabled;
     bool mSynchHEnabled;
+
+    bool mFindCaseSensitive;
+    bool mFindWholeWords;
+    bool mFindRegexp;
+    bool mFindReverseDirection;
+    bool mFindWrap;
+    bool mFindInSelection;
+    bool mFindMark;
+    bool mFindInSubDirs;
+    bool mFindInHiddenDirs;
+
+
+
 };
 
 #endif //__CFG_GENERAL_SETTINGS_H_

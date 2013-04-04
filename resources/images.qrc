@@ -40,5 +40,9 @@
         <file alias="search_words.png">images/search_words.png</file>
         <file alias="search_wrap.png">images/search_wrap.png</file>
         <file alias="search_reverse.png">images/search_reverse.png</file>
+        <file alias="search_current_dir.png">images/search_current_dir.png</file>
+        <file alias="search_hidden.png">images/search_hidden.png</file>
+        <file alias="search_subdirs.png">images/search_subdirs.png</file>
+        <file alias="search_select_dir.png">images/search_select_dir.png</file>
     </qresource>
 </RCC>
