@@ -3,11 +3,14 @@
 
 #include <QStackedWidget>
 
+class GeneralSettings;
+
 namespace Ui {
 class FindReqWidget;
 }
 
 namespace Wolverine {
+
 
 class FindReqWidget : public QStackedWidget
 {
@@ -20,6 +23,8 @@ public:
     void setCurrentWidget(int idx);
     
 private:
+    GeneralSettings *mGenSettings;
+
     Ui::FindReqWidget *ui;
 };
 

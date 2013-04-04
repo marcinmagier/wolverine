@@ -13,6 +13,12 @@
   <property name="windowTitle">
    <string>StackedWidget</string>
   </property>
+  <property name="frameShape">
+   <enum>QFrame::Panel</enum>
+  </property>
+  <property name="frameShadow">
+   <enum>QFrame::Raised</enum>
+  </property>
   <property name="currentIndex">
    <number>2</number>
   </property>
