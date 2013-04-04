@@ -43,9 +43,11 @@ public:
 private slots:
 
 signals:
+    void closeRequested();
 
 
 protected:
+    virtual void closeEvent(QCloseEvent *event);
 
 
 };

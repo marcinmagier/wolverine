@@ -67,7 +67,7 @@ signals:
 
 
 private slots:
-    void onVisibilityChanged(bool visible);
+    void onCloseRequested();
     void onCustomContextMenuRequested(const QPoint &pos);
 
 

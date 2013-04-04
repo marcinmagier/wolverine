@@ -36,3 +36,11 @@ FindReqDock::FindReqDock(QWidget *parent) :
 {
 
 }
+
+
+
+void FindReqDock::closeEvent(QCloseEvent *event)
+{
+    emit closeRequested();
+    QDockWidget::closeEvent(event);
+}
