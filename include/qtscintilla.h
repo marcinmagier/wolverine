@@ -41,6 +41,10 @@ public:
     void updateScrollH(int range);
     void updateScrollV(int range);
 
+    void setIndicatorStyle(int id, const QColor &color, int outlineAlpha, int style);
+    void showIndicator(int id, int from, int len);
+    void clearIndicator(int id);
+
 public slots:
     
 
