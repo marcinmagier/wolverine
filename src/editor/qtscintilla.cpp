@@ -64,25 +64,19 @@ void QtScintilla::updateScrollV(int range)
 
 
 
-void QtScintilla::setIndicatorStyle(int id, const QColor &color, int outlineAlpha, int style)
+void QtScintilla::setIndicatorStyle(IndicatorStyle style, const QColor &color, int alpha, int alphaLine, int indicatorNumber)
 {
-    SendScintilla(SCI_INDICSETSTYLE, id, style);
-    SendScintilla(SCI_INDICSETUNDER, id, true);
-    SendScintilla(SCI_INDICSETFORE, id, color);
-    SendScintilla(SCI_INDICSETALPHA, id, color.alpha());
-    SendScintilla(SCI_INDICSETOUTLINEALPHA, id, outlineAlpha);
+    SendScintilla(SCI_INDICSETSTYLE, indicatorNumber, style);
+    SendScintilla(SCI_INDICSETUNDER, indicatorNumber, true);
+    SendScintilla(SCI_INDICSETFORE, indicatorNumber, color);
+    SendScintilla(SCI_INDICSETALPHA, indicatorNumber, alpha);
+    SendScintilla(SCI_INDICSETOUTLINEALPHA, indicatorNumber, alphaLine);
 }
 
-void QtScintilla::showIndicator(int id, int from, int len)
-{
-    SendScintilla(SCI_SETINDICATORCURRENT, id);
-    SendScintilla(SCI_INDICATORFILLRANGE, from, len);
-}
 
-void QtScintilla::clearIndicator(int id)
+void QtScintilla::clearIndicator(int indicatorNumber)
 {
-    SendScintilla(SCI_SETINDICATORCURRENT, id);
-    SendScintilla(SCI_INDICATORCLEARRANGE, 0, length());
+    QsciScintilla::clearIndicatorRange(0, length(), indicatorNumber);
 }
 
 
