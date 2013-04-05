@@ -61,6 +61,8 @@ public slots:
     void findNext();
     void findPrev();
 
+    void markAll();
+
 
 signals:
     void showWidgetRequested(QDockWidget *widget, Qt::DockWidgetArea area, QString title);

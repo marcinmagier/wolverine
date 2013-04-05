@@ -93,6 +93,7 @@ void MainWindow::createMenusAndToolbars()
     QtManagedToolBar *toolbar = new QtManagedToolBar(this, W_ACTION_GROUP_GENERAL);
 
     QAction *action;
+    QMenu *tmpMenu;
     QMenu *menu = menuBar()->addMenu(tr("File"));
 
     action = mActionManager->getAction(W_ACTION_GROUP_FILE, W_ACTION_NEW);
@@ -252,6 +253,97 @@ void MainWindow::createMenusAndToolbars()
     menu->addAction(action);
     toolbar->addAction(W_ACTION_FIND_IN_FILES, action);
 
+    menu->addSeparator();
+
+    tmpMenu = menu->addMenu(tr("Mark All"));
+    action = tmpMenu->addAction(tr("Set 1st Style"));
+    action->setData(1);
+    connect(  action, SIGNAL(triggered()),
+             mFinder, SLOT(markAll()) );
+    action = tmpMenu->addAction(tr("Set 2nd Style"));
+    action->setData(2);
+    connect(  action, SIGNAL(triggered()),
+             mFinder, SLOT(markAll()) );
+    action = tmpMenu->addAction(tr("Set 3rd Style"));
+    action->setData(3);
+    connect(  action, SIGNAL(triggered()),
+             mFinder, SLOT(markAll()) );
+    action = tmpMenu->addAction(tr("Set 4th Style"));
+    action->setData(4);
+    connect(  action, SIGNAL(triggered()),
+             mFinder, SLOT(markAll()) );
+    action = tmpMenu->addAction(tr("Set 5th Style"));
+    action->setData(5);
+    connect(  action, SIGNAL(triggered()),
+             mFinder, SLOT(markAll()) );
+
+    tmpMenu = menu->addMenu(tr("Unmark All"));
+    action = tmpMenu->addAction(tr("Clear 1st Style"));
+    action->setData(1);
+    connect(  action, SIGNAL(triggered()),
+             mFinder, SLOT(markAll()) );
+    action = tmpMenu->addAction(tr("Clear 2nd Style"));
+    action->setData(2);
+    connect(  action, SIGNAL(triggered()),
+             mFinder, SLOT(markAll()) );
+    action = tmpMenu->addAction(tr("Clear 3rd Style"));
+    action->setData(3);
+    connect(  action, SIGNAL(triggered()),
+             mFinder, SLOT(markAll()) );
+    action = tmpMenu->addAction(tr("Clear 4th Style"));
+    action->setData(4);
+    connect(  action, SIGNAL(triggered()),
+             mFinder, SLOT(markAll()) );
+    action = tmpMenu->addAction(tr("Clear 5th Style"));
+    action->setData(5);
+    connect(  action, SIGNAL(triggered()),
+             mFinder, SLOT(markAll()) );
+
+    tmpMenu = menu->addMenu(tr("Jump Up"));
+    action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_UP_STYLE1);
+    connect(  action, SIGNAL(triggered()),
+             mFinder, SLOT(markAll()) );
+    tmpMenu->addAction(action);
+    action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_UP_STYLE2);
+    connect(  action, SIGNAL(triggered()),
+             mFinder, SLOT(markAll()) );
+    tmpMenu->addAction(action);
+    action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_UP_STYLE3);
+    connect(  action, SIGNAL(triggered()),
+             mFinder, SLOT(markAll()) );
+    tmpMenu->addAction(action);
+    action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_UP_STYLE4);
+    connect(  action, SIGNAL(triggered()),
+             mFinder, SLOT(markAll()) );
+    tmpMenu->addAction(action);
+    action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_UP_STYLE5);
+    connect(  action, SIGNAL(triggered()),
+             mFinder, SLOT(markAll()) );
+    tmpMenu->addAction(action);
+
+    tmpMenu = menu->addMenu(tr("Jump Down"));
+    action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_DW_STYLE1);
+    connect(  action, SIGNAL(triggered()),
+             mFinder, SLOT(markAll()) );
+    tmpMenu->addAction(action);
+    action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_DW_STYLE2);
+    connect(  action, SIGNAL(triggered()),
+             mFinder, SLOT(markAll()) );
+    tmpMenu->addAction(action);
+    action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_DW_STYLE3);
+    connect(  action, SIGNAL(triggered()),
+             mFinder, SLOT(markAll()) );
+    tmpMenu->addAction(action);
+    action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_DW_STYLE4);
+    connect(  action, SIGNAL(triggered()),
+             mFinder, SLOT(markAll()) );
+    tmpMenu->addAction(action);
+    action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_DW_STYLE5);
+    connect(  action, SIGNAL(triggered()),
+             mFinder, SLOT(markAll()) );
+    tmpMenu->addAction(action);
+
+
     mMenus[W_ACTION_GROUP_SEARCH] = menu;
     toolbar->addSeparator();
 
@@ -277,7 +369,7 @@ void MainWindow::createMenusAndToolbars()
                           action, SLOT(setChecked(bool)), Qt::DirectConnection );
     toolbar->addAction(W_ACTION_WCHARS, action);
 
-    QMenu *tmpMenu = menu->addMenu(action->text());
+    tmpMenu = menu->addMenu(action->text());
     tmpMenu->setIcon(QIcon(":/pilcrow.png"));
     action = tmpMenu->addAction(tr("Show spaces and tabs"));
     action->setCheckable(true);

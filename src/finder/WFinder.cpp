@@ -152,6 +152,11 @@ void Finder::findPrev()
     qDebug() << "Find prev";
 }
 
+void Finder::markAll()
+{
+
+}
+
 
 
 void Finder::createFindWidget()

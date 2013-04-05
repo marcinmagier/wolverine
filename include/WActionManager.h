@@ -85,6 +85,17 @@ private:
 #define W_ACTION_FIND_IN_FILES  "Find_In_Files"
 #define W_ACTION_REPLACE        "Replace"
 
+#define W_ACTION_JUMP_UP_STYLE1 "JumpUpStyle1"
+#define W_ACTION_JUMP_UP_STYLE2 "JumpUpStyle2"
+#define W_ACTION_JUMP_UP_STYLE3 "JumpUpStyle3"
+#define W_ACTION_JUMP_UP_STYLE4 "JumpUpStyle4"
+#define W_ACTION_JUMP_UP_STYLE5 "JumpUpStyle5"
+#define W_ACTION_JUMP_DW_STYLE1 "JumpDwStyle1"
+#define W_ACTION_JUMP_DW_STYLE2 "JumpDwStyle2"
+#define W_ACTION_JUMP_DW_STYLE3 "JumpDwStyle3"
+#define W_ACTION_JUMP_DW_STYLE4 "JumpDwStyle4"
+#define W_ACTION_JUMP_DW_STYLE5 "JumpDwStyle5"
+
 
     //W_ACTION_GROUP_VIEW
 #define W_ACTION_WCHARS         "WChars"
