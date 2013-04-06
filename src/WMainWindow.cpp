@@ -220,8 +220,8 @@ void MainWindow::createMenusAndToolbars()
 
     action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND);
     action->setIcon(QIcon(":/find.png"));
-    connect( action, SIGNAL(triggered(bool)),
-               mFinder, SLOT(showFindWidget(bool)) );
+    connect( action, SIGNAL(triggered()),
+               mFinder, SLOT(showFindWidget()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_FIND, action);
 
@@ -241,15 +241,15 @@ void MainWindow::createMenusAndToolbars()
 
     action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_REPLACE);
     action->setIcon(QIcon(":/replace.png"));
-    connect( action, SIGNAL(triggered(bool)),
-               mFinder, SLOT(showReplaceWidget(bool)) );
+    connect( action, SIGNAL(triggered()),
+               mFinder, SLOT(showReplaceWidget()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_REPLACE, action);
 
     action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND_IN_FILES);
     action->setIcon(QIcon(":/find_in_files.png"));
-    connect( action, SIGNAL(triggered(bool)),
-               mFinder, SLOT(showFindInFilesWidget(bool)) );
+    connect( action, SIGNAL(triggered()),
+               mFinder, SLOT(showFindInFilesWidget()) );
     menu->addAction(action);
     toolbar->addAction(W_ACTION_FIND_IN_FILES, action);
 

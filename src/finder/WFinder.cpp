@@ -104,16 +104,15 @@ void Finder::deleteInstance()
 }
 
 
-void Finder::showFindWidget(bool visible)
+void Finder::showFindWidget()
 {
-    if(visible) {
+
         createFindWidget();
         mFindReqWidget->setCurrentIndex(0);
+        mFindAction->setChecked(true);
         mFindInFilesAction->setChecked(false);
         mReplaceAction->setChecked(false);
-    } else {
-        mFindRequestDock->setVisible(false);
-    }
+
     mFindRequestDock->setWindowTitle(tr("Find"));
 
     QString selection = mEditorProxy->getCurrentEditor()->selectedText();
@@ -121,16 +120,15 @@ void Finder::showFindWidget(bool visible)
         mFindReqWidget->setInitialSearchPattern(selection);
 }
 
-void Finder::showFindInFilesWidget(bool visible)
+void Finder::showFindInFilesWidget()
 {
-    if(visible) {
+
         createFindWidget();
         mFindReqWidget->setCurrentIndex(2);
         mFindAction->setChecked(false);
+        mFindInFilesAction->setChecked(true);
         mReplaceAction->setChecked(false);
-    } else {
-        mFindRequestDock->setVisible(false);
-    }
+
     mFindRequestDock->setWindowTitle(tr("Find In Files"));
 
     QString selection = mEditorProxy->getCurrentEditor()->selectedText();
@@ -138,16 +136,14 @@ void Finder::showFindInFilesWidget(bool visible)
         mFindReqWidget->setInitialSearchPattern(selection);
 }
 
-void Finder::showReplaceWidget(bool visible)
+void Finder::showReplaceWidget()
 {
-    if(visible) {
         createFindWidget();
         mFindReqWidget->setCurrentIndex(1);
         mFindAction->setChecked(false);
         mFindInFilesAction->setChecked(false);
-    } else {
-        mFindRequestDock->setVisible(false);
-    }
+        mReplaceAction->setChecked(true);
+
     mFindRequestDock->setWindowTitle(tr("Replace"));
 
     QString selection = mEditorProxy->getCurrentEditor()->selectedText();

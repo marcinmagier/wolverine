@@ -56,9 +56,9 @@ public:
 
 
 public slots:
-    void showFindWidget(bool visible);
-    void showFindInFilesWidget(bool visible);
-    void showReplaceWidget(bool visible);
+    void showFindWidget();
+    void showFindInFilesWidget();
+    void showReplaceWidget();
 
     void findNext();
     void findNext(FindOptions *opt);
