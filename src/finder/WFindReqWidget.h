@@ -26,6 +26,8 @@
  #define __W_FIND_REQ_WIDGET_H_
 
 
+#include "WFindOptions.h"
+
 #include <QStackedWidget>
 
 
@@ -39,16 +41,38 @@ class FindReqWidget;
 
 namespace Wolverine {
 
+
+class Finder;
+
+
 class FindReqWidget : public QStackedWidget
 {
     Q_OBJECT
     
+    enum Idx {
+        FindIdx,
+        ReplaceIdx,
+        FindInFilesIdx
+    };
+
+
 public:
-    explicit FindReqWidget(QWidget *parent = 0);
+    explicit FindReqWidget(Finder *finder, QWidget *parent = 0);
     ~FindReqWidget();
 
+    FindOptions getFindOptions();
+
+
+private slots:
+    void onCurrentChanged(int idx);
     
+
 private:
+    void setupFindWidget();
+    void setupReplaceWidget();
+    void setupFindInFilesWidget();
+
+    Finder *mFinder;
     GeneralSettings *mGenSettings;
 
     Ui::FindReqWidget *ui;

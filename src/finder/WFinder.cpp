@@ -23,6 +23,7 @@
 
 
 #include "WFinder.h"
+#include "WFindOptions.h"
 #include "WFindReqDock.h"
 #include "WFindReqWidget.h"
 #include "WActionManager.h"
@@ -144,12 +145,42 @@ void Finder::findNext()
     qDebug() << "Find next";
 }
 
+void Finder::findNext(FindOptions *opt)
+{
+
+}
+
 void Finder::findPrev()
 {
     if(mFindRequestDock == 0)
         return;
 
     qDebug() << "Find prev";
+}
+
+void Finder::findPrev(FindOptions *opt)
+{
+
+}
+
+void Finder::findAll()
+{
+
+}
+
+void Finder::findAll(FindOptions *opt)
+{
+
+}
+
+void Finder::findInAllTabs()
+{
+
+}
+
+void Finder::findInAllTabs(FindOptions *opt)
+{
+
 }
 
 void Finder::markAll()
@@ -162,7 +193,7 @@ void Finder::markAll()
 void Finder::createFindWidget()
 {
     if(mFindRequestDock == 0) {
-        mFindReqWidget = new FindReqWidget();
+        mFindReqWidget = new FindReqWidget(this);
         mFindRequestDock = new FindReqDock();
         mFindRequestDock->setWidget(mFindReqWidget);
 

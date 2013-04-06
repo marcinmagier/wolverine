@@ -35,10 +35,19 @@ namespace Wolverine {
 
 struct FindOptions
 {
+    enum FindType {
+        Find,
+        FindReplace,
+        FindInFiles
+    };
+
     FindOptions::FindOptions() :
+        type(Find),
         isCaseSensitive(false), isWholeWords(false), isRegexp(false),
         isReverseDirection(false), isWrap(false), isInSelection(false),
         isBookmarkLine(false), isInSubDirs(false), isInHiddenDirs(false) { }
+
+    FindType type;
 
     bool isCaseSensitive;
     bool isWholeWords;

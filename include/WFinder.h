@@ -37,6 +37,7 @@ class QAction;
 namespace Wolverine
 {
 
+struct FindOptions;
 class FindReqDock;
 class FindReqWidget;
 
@@ -59,7 +60,14 @@ public slots:
     void showReplaceWidget(bool visible);
 
     void findNext();
+    void findNext(FindOptions *opt);
     void findPrev();
+    void findPrev(FindOptions *opt);
+    void findAll();
+    void findAll(FindOptions *opt);
+    void findInAllTabs();
+    void findInAllTabs(FindOptions *opt);
+
 
     void markAll();
 
