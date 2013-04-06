@@ -66,7 +66,9 @@ protected:
     virtual void wheelEvent(QWheelEvent *event);
 
 private slots:
+    void onCursorPositionChanged(int line, int index);
     void onCursorLineChanged(int line);
+    void onSelectionChanged();
     void onShowLineNumbersEnabledChanged(bool val);
     void onWhiteSpaceVisibilityChanged(bool val);
     void onWrapModeEnabledChanged(bool val);

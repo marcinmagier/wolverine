@@ -29,7 +29,7 @@
 #include "CfgAppSettings.h"
 #include "CfgScintillaSettings.h"
 
-
+#include <QDebug>
 
 using namespace Wolverine;
 
@@ -40,10 +40,19 @@ void Editor::onShowLineNumbersEnabledChanged(bool val)
     this->updateLineNoMargin(val);
 }
 
+void Editor::onCursorPositionChanged(int line, int index)
+{
+    qDebug() << "Hello";
+}
 
 void Editor::onCursorLineChanged(int line)
 {
     this->updateLineNoMargin(mSciSettings->isShowLineNumbersEnabled());
+}
+
+void Editor::onSelectionChanged()
+{
+
 }
 
 void Editor::onWhiteSpaceVisibilityChanged(bool val)

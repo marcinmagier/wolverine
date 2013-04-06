@@ -99,6 +99,11 @@ void Editor::initialize()
     connect( this, SIGNAL(cursorLineChanged(int)),
              this, SLOT(onCursorLineChanged(int)) );
 
+    connect( this, SIGNAL(cursorPositionChanged(int,int)),
+             this, SLOT(onCursorPositionChanged(int,int)) );
+    connect( this, SIGNAL(selectionChanged()),
+             this, SLOT(onSelectionChanged()) );
+
     connect( mSciSettings, SIGNAL(showLineNumbersEnabledChanged(bool)),
                   this, SLOT(onShowLineNumbersEnabledChanged(bool)), Qt::DirectConnection );
 
