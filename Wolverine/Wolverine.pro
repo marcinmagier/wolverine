@@ -61,6 +61,7 @@ HEADERS      += \
                 ../src/editor/WEditorLexerManagerWidget.h \
                 ../src/finder/WFindOptions.h \
                 ../src/finder/WFindHit.h \
+                ../src/finder/WFindRequest.h \
                 ../src/finder/WFindReqDock.h \
                 ../src/finder/WFindReqWidget.h \
                 ../src/panel/WPanelTabBar.h \
