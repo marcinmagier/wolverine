@@ -31,6 +31,9 @@ SOURCES      += \
                 ../src/finder/WFinder.cpp \
 				../src/finder/WFindReqDock.cpp \
                 ../src/finder/WFindReqWidget.cpp \
+                ../src/panel/WPanel.cpp \
+                ../src/panel/WPanelTabBar.cpp \
+                ../src/panel/WPanelTabContent.cpp \
                 ../src/settings/DlgSettings.cpp \
                 ../src/settings/PageGeneral.cpp \
                 ../src/settings/PageView.cpp \
@@ -47,24 +50,19 @@ SOURCES      += \
                 ../src/WCentralWidget.cpp \
                 ../src/WLib.cpp \
                 ../src/WMainWindow.cpp \
-                ../src/WPanel.cpp \
-                ../src/WPanelTabBar.cpp \
-                ../src/WPanelTabContent.cpp \
                 ../src/WPopup.cpp \
                 ../src/WStatusBar.cpp
 
 
 HEADERS      += \
                 ../src/wolverine_cfg.h \
-                ../src/WPanel.h \
-                ../src/WPanelTabBar.h \
-                ../src/WPanelTabContent.h \
                 ../src/WPopup.h \
                 ../src/WStatusBar.h \
                 ../src/editor/WEditorLexerManagerWidget.h \
                 ../src/finder/WFindReqDock.h \
                 ../src/finder/WFindReqWidget.h \
-                ../src/settings/DlgSettings.h \
+                ../src/panel/WPanelTabBar.h \
+                ../src/panel/WPanelTabContent.h \
                 ../src/settings/PageGeneral.h \
                 ../src/settings/PageView.h \
                 ../src/settings/PageEditor.h \
@@ -78,6 +76,7 @@ HEADERS      += \
                 ../include/CfgViewSettings.h \
                 ../include/WActionManager.h \
                 ../include/WCentralWidget.h \
+                ../include/DlgSettings.h \
                 ../include/WEditor.h \
                 ../include/WEditorBinder.h \
                 ../include/WEditorLexerCfg.h \
@@ -86,13 +85,13 @@ HEADERS      += \
                 ../include/WFinder.h \
                 ../include/WLib.h \
                 ../include/WMainWindow.h \
+                ../include/WPanel.h \
                 ../include/qtscintilla.h
 
 
 INCLUDEPATH  += \
                 ../include \
-                ../src \
-                ../src/settings
+                ../src
 
 
 RESOURCES    += \
