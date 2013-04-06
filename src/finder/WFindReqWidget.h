@@ -62,6 +62,11 @@ public:
 
     FindOptions getFindOptions();
 
+    void setInitialSearchPattern(const QString &pattern);
+    void setInitialReplacePattern(const QString &pattern);
+    void setInitialFilters(const QString &filters);
+    void setInitialDirectory(const QString &directory);
+
 
 private slots:
     void onCurrentChanged(int idx);

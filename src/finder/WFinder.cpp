@@ -26,6 +26,11 @@
 #include "WFindOptions.h"
 #include "WFindReqDock.h"
 #include "WFindReqWidget.h"
+
+
+#include "WEditor.h"
+#include "WEditorProxy.h"
+
 #include "WActionManager.h"
 
 #include "Logger.h"
@@ -51,6 +56,7 @@ Finder *Finder::sInstance = 0;
  */
 Finder::Finder() 
 {
+    mEditorProxy = EditorProxy::instance();
     mFindRequestDock = 0;
     mFindReqWidget = 0;
     qAddPostRoutine(deleteInstance);
@@ -109,6 +115,10 @@ void Finder::showFindWidget(bool visible)
         mFindRequestDock->setVisible(false);
     }
     mFindRequestDock->setWindowTitle(tr("Find"));
+
+    QString selection = mEditorProxy->getCurrentEditor()->selectedText();
+    if(!selection.isEmpty())
+        mFindReqWidget->setInitialSearchPattern(selection);
 }
 
 void Finder::showFindInFilesWidget(bool visible)
@@ -122,6 +132,10 @@ void Finder::showFindInFilesWidget(bool visible)
         mFindRequestDock->setVisible(false);
     }
     mFindRequestDock->setWindowTitle(tr("Find In Files"));
+
+    QString selection = mEditorProxy->getCurrentEditor()->selectedText();
+    if(!selection.isEmpty())
+        mFindReqWidget->setInitialSearchPattern(selection);
 }
 
 void Finder::showReplaceWidget(bool visible)
@@ -135,6 +149,10 @@ void Finder::showReplaceWidget(bool visible)
         mFindRequestDock->setVisible(false);
     }
     mFindRequestDock->setWindowTitle(tr("Replace"));
+
+    QString selection = mEditorProxy->getCurrentEditor()->selectedText();
+    if(!selection.isEmpty())
+        mFindReqWidget->setInitialSearchPattern(selection);
 }
 
 void Finder::findNext()

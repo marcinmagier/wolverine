@@ -30,8 +30,10 @@
 namespace Wolverine {
 
 
-struct FindHit
+class FindHit
 {
+public:
+
     FindHit::FindHit() :
         startLine(-1), startCol(-1), startPos(-1) { }
 

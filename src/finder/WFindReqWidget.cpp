@@ -210,6 +210,60 @@ FindOptions FindReqWidget::getFindOptions()
 }
 
 
+void FindReqWidget::setInitialSearchPattern(const QString &pattern)
+{
+    int idx = currentIndex();
+    switch(idx) {
+    case FindIdx:
+        ui->cmb0SearchPattern->lineEdit()->setText(pattern);
+        break;
+    case ReplaceIdx:
+        ui->cmb1SearchPattern->lineEdit()->setText(pattern);
+        break;
+    case FindInFilesIdx:
+        ui->cmb2SearchPattern->lineEdit()->setText(pattern);
+        break;
+    default:
+        LOG_ERROR("Wrong FindReqWidget index - %d", idx);
+        break;
+    }
+}
+
+void FindReqWidget::setInitialReplacePattern(const QString &pattern)
+{
+    int idx = currentIndex();
+    switch(idx) {
+    case ReplaceIdx:
+        ui->cmb1ReplacePattern->lineEdit()->setText(pattern);
+        break;
+    case FindInFilesIdx:
+        ui->cmb2ReplacePattern->lineEdit()->setText(pattern);
+        break;
+    default:
+        LOG_ERROR("Wrong FindReqWidget index - %d", idx);
+        break;
+    }
+}
+
+void FindReqWidget::setInitialFilters(const QString &filters)
+{
+    int idx = currentIndex();
+    if(idx == FindInFilesIdx)
+        ui->cmb2Filters->lineEdit()->setText(filters);
+    else
+        LOG_ERROR("Wrong FindReqWidget index - %d", idx);
+}
+
+void FindReqWidget::setInitialDirectory(const QString &directory)
+{
+    int idx = currentIndex();
+    if(idx == FindInFilesIdx)
+        ui->cmb2Directory->lineEdit()->setText(directory);
+    else
+        LOG_ERROR("Wrong FindReqWidget index - %d", idx);
+}
+
+
 void FindReqWidget::onCurrentChanged(int idx)
 {
     switch(idx) {

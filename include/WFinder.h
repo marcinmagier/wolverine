@@ -37,9 +37,10 @@ class QAction;
 namespace Wolverine
 {
 
-struct FindOptions;
+class FindOptions;
 class FindReqDock;
 class FindReqWidget;
+class EditorProxy;
 
 class Finder: public QObject
 {
@@ -86,6 +87,7 @@ private:
 
     FindReqDock *mFindRequestDock;
     FindReqWidget *mFindReqWidget;
+    EditorProxy *mEditorProxy;
     QAction *mFindAction;
     QAction *mFindInFilesAction;
     QAction *mReplaceAction;

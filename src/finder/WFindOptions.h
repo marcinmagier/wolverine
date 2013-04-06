@@ -33,8 +33,10 @@
 namespace Wolverine {
 
 
-struct FindOptions
+class FindOptions
 {
+public:
+
     enum FindType {
         Find,
         FindReplace,
