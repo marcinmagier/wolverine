@@ -102,6 +102,14 @@ void Editor::initialize()
     connect( mSciSettings, SIGNAL(showLineNumbersEnabledChanged(bool)),
                   this, SLOT(onShowLineNumbersEnabledChanged(bool)), Qt::DirectConnection );
 
+
+    setIndicatorStyle(StraightBoxIndicator, QColor(230, 120, 120), 50, 200, 1);
+    setIndicatorStyle(StraightBoxIndicator, QColor(50, 210, 80), 50, 200, 2);
+    setIndicatorStyle(StraightBoxIndicator, QColor(150, 210, 80), 50, 0, 3);
+    setIndicatorStyle(StraightBoxIndicator, QColor(150, 10, 80), 50, 0, 4);
+    setIndicatorStyle(StraightBoxIndicator, QColor(150, 10, 180), 50, 200, 5);
+    setIndicatorStyle(StraightBoxIndicator, QColor(50, 10, 180), 50, 0, 6);
+
     updateLineNoMargin(true);
 }
 
@@ -186,6 +194,19 @@ void Editor::wheelEvent(QWheelEvent *event)
     } else {
         QtScintilla::wheelEvent(event);
     }
+
+    if(event->delta() < 0) {
+        fillIndicatorRange(10, 50, 1);
+        fillIndicatorRange(130, 10, 2);
+
+        fillIndicatorRange(100, 5, 3);
+        fillIndicatorRange(130, 210, 4);
+    }
+    else {
+        clearIndicator(1);
+    }
+
+
 }
 
 
