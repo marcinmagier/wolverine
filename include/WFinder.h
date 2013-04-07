@@ -70,8 +70,14 @@ public slots:
     void findInAllTabs();
     void findInAllTabs(FindOptions *opt);
 
-
     void markAll();
+    void markAll(int style);
+    void unmarkAll();
+    void unmarkAll(int style);
+    void jumpNextMark();
+    void jumpNextMark(int style);
+    void jumpPrevMark();
+    void jumpPrevMark(int style);
 
 
 signals:

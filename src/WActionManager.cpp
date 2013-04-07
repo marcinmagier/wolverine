@@ -254,61 +254,61 @@ void initializeActions()
 
 
     action = new QAction(QObject::tr("1st Style"), 0);
-    action->setShortcut(QObject::tr("Ctrl+Shift+1"));
+    action->setShortcut(QObject::tr("Ctrl+1"));
     action->setData(1);
     //action->setStatusTip(QObject::tr("1st Style"));
     sInstance->addAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_UP_STYLE1, action);
 
     action = new QAction(QObject::tr("2nd Style"), 0);
-    action->setShortcut(QObject::tr("Ctrl+Shift+2"));
+    action->setShortcut(QObject::tr("Ctrl+2"));
     action->setData(2);
     //action->setStatusTip(QObject::tr("2nd Style"));
     sInstance->addAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_UP_STYLE2, action);
 
     action = new QAction(QObject::tr("3rd Style"), 0);
-    action->setShortcut(QObject::tr("Ctrl+Shift+3"));
+    action->setShortcut(QObject::tr("Ctrl+3"));
     action->setData(3);
     //action->setStatusTip(QObject::tr("3rd Style"));
     sInstance->addAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_UP_STYLE3, action);
 
     action = new QAction(QObject::tr("4th Style"), 0);
-    action->setShortcut(QObject::tr("Ctrl+Shift+4"));
+    action->setShortcut(QObject::tr("Ctrl+4"));
     action->setData(4);
     //action->setStatusTip(QObject::tr("4st Style"));
     sInstance->addAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_UP_STYLE4, action);
 
     action = new QAction(QObject::tr("5th Style"), 0);
-    action->setShortcut(QObject::tr("Ctrl+Shift+5"));
+    action->setShortcut(QObject::tr("Ctrl+5"));
     action->setData(5);
     //action->setStatusTip(QObject::tr("5st Style"));
     sInstance->addAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_UP_STYLE5, action);
 
     action = new QAction(QObject::tr("1st Style"), 0);
-    action->setShortcut(QObject::tr("Ctrl+1"));
+    action->setShortcut(QObject::tr("Ctrl+Shift+1"));
     action->setData(1);
     //action->setStatusTip(QObject::tr("1st Style"));
     sInstance->addAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_DW_STYLE1, action);
 
     action = new QAction(QObject::tr("2nd Style"), 0);
-    action->setShortcut(QObject::tr("Ctrl+2"));
+    action->setShortcut(QObject::tr("Ctrl+Shift+2"));
     action->setData(2);
     //action->setStatusTip(QObject::tr("2nd Style"));
     sInstance->addAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_DW_STYLE2, action);
 
     action = new QAction(QObject::tr("3rd Style"), 0);
-    action->setShortcut(QObject::tr("Ctrl+3"));
+    action->setShortcut(QObject::tr("Ctrl+Shift+3"));
     action->setData(3);
     //action->setStatusTip(QObject::tr("3rd Style"));
     sInstance->addAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_DW_STYLE3, action);
 
     action = new QAction(QObject::tr("4th Style"), 0);
-    action->setShortcut(QObject::tr("Ctrl+4"));
+    action->setShortcut(QObject::tr("Ctrl+Shift+4"));
     action->setData(4);
     //action->setStatusTip(QObject::tr("4st Style"));
     sInstance->addAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_DW_STYLE4, action);
 
     action = new QAction(QObject::tr("5th Style"), 0);
-    action->setShortcut(QObject::tr("Ctrl+5"));
+    action->setShortcut(QObject::tr("Ctrl+Shift+5"));
     action->setData(5);
     //action->setStatusTip(QObject::tr("5st Style"));
     sInstance->addAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_DW_STYLE5, action);

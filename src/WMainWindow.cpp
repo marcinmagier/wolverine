@@ -281,66 +281,66 @@ void MainWindow::createMenusAndToolbars()
     action = tmpMenu->addAction(tr("Clear 1st Style"));
     action->setData(1);
     connect(  action, SIGNAL(triggered()),
-             mFinder, SLOT(markAll()) );
+             mFinder, SLOT(unmarkAll()) );
     action = tmpMenu->addAction(tr("Clear 2nd Style"));
     action->setData(2);
     connect(  action, SIGNAL(triggered()),
-             mFinder, SLOT(markAll()) );
+             mFinder, SLOT(unmarkAll()) );
     action = tmpMenu->addAction(tr("Clear 3rd Style"));
     action->setData(3);
     connect(  action, SIGNAL(triggered()),
-             mFinder, SLOT(markAll()) );
+             mFinder, SLOT(unmarkAll()) );
     action = tmpMenu->addAction(tr("Clear 4th Style"));
     action->setData(4);
     connect(  action, SIGNAL(triggered()),
-             mFinder, SLOT(markAll()) );
+             mFinder, SLOT(unmarkAll()) );
     action = tmpMenu->addAction(tr("Clear 5th Style"));
     action->setData(5);
     connect(  action, SIGNAL(triggered()),
-             mFinder, SLOT(markAll()) );
+             mFinder, SLOT(unmarkAll()) );
 
-    tmpMenu = menu->addMenu(tr("Jump Up"));
+    tmpMenu = menu->addMenu(tr("Jump Next"));
     action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_UP_STYLE1);
     connect(  action, SIGNAL(triggered()),
-             mFinder, SLOT(markAll()) );
+             mFinder, SLOT(jumpNextMark()) );
     tmpMenu->addAction(action);
     action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_UP_STYLE2);
     connect(  action, SIGNAL(triggered()),
-             mFinder, SLOT(markAll()) );
+             mFinder, SLOT(jumpNextMark()) );
     tmpMenu->addAction(action);
     action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_UP_STYLE3);
     connect(  action, SIGNAL(triggered()),
-             mFinder, SLOT(markAll()) );
+             mFinder, SLOT(jumpNextMark()) );
     tmpMenu->addAction(action);
     action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_UP_STYLE4);
     connect(  action, SIGNAL(triggered()),
-             mFinder, SLOT(markAll()) );
+             mFinder, SLOT(jumpNextMark()) );
     tmpMenu->addAction(action);
     action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_UP_STYLE5);
     connect(  action, SIGNAL(triggered()),
-             mFinder, SLOT(markAll()) );
+             mFinder, SLOT(jumpNextMark()) );
     tmpMenu->addAction(action);
 
-    tmpMenu = menu->addMenu(tr("Jump Down"));
+    tmpMenu = menu->addMenu(tr("Jump Prev"));
     action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_DW_STYLE1);
     connect(  action, SIGNAL(triggered()),
-             mFinder, SLOT(markAll()) );
+             mFinder, SLOT(jumpPrevMark()) );
     tmpMenu->addAction(action);
     action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_DW_STYLE2);
     connect(  action, SIGNAL(triggered()),
-             mFinder, SLOT(markAll()) );
+             mFinder, SLOT(jumpPrevMark()) );
     tmpMenu->addAction(action);
     action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_DW_STYLE3);
     connect(  action, SIGNAL(triggered()),
-             mFinder, SLOT(markAll()) );
+             mFinder, SLOT(jumpPrevMark()) );
     tmpMenu->addAction(action);
     action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_DW_STYLE4);
     connect(  action, SIGNAL(triggered()),
-             mFinder, SLOT(markAll()) );
+             mFinder, SLOT(jumpPrevMark()) );
     tmpMenu->addAction(action);
     action = mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_JUMP_DW_STYLE5);
     connect(  action, SIGNAL(triggered()),
-             mFinder, SLOT(markAll()) );
+             mFinder, SLOT(jumpPrevMark()) );
     tmpMenu->addAction(action);
 
 

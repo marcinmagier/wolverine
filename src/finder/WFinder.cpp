@@ -202,7 +202,43 @@ void Finder::findInAllTabs(FindOptions *opt)
 
 }
 
+
 void Finder::markAll()
+{
+
+}
+
+void Finder::markAll(int style)
+{
+
+}
+
+void Finder::unmarkAll()
+{
+
+}
+
+void Finder::unmarkAll(int style)
+{
+
+}
+
+void Finder::jumpNextMark()
+{
+
+}
+
+void Finder::jumpNextMark(int style)
+{
+
+}
+
+void Finder::jumpPrevMark()
+{
+
+}
+
+void Finder::jumpPrevMark(int style)
 {
 
 }
