@@ -56,10 +56,15 @@ Finder *Finder::sInstance = 0;
  */
 Finder::Finder() 
 {
-    mEditorProxy = EditorProxy::instance();
     mFindRequestDock = 0;
     mFindReqWidget = 0;
     qAddPostRoutine(deleteInstance);
+
+    mEditorProxy = EditorProxy::instance();
+    connect( mEditorProxy, SIGNAL(currentEditorChanged(Editor*)),
+                     this, SLOT(onEditorChanged(Editor*)) );
+    connect( mEditorProxy, SIGNAL(currentEditorNotValid(Editor*)),
+                     this, SLOT(onEditorNotValid(Editor*)) );
 
     ActionManager *actionManager = ActionManager::instance();
     mFindAction = actionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND);
@@ -212,11 +217,11 @@ void Finder::createFindWidget()
         mFindRequestDock->setWidget(mFindReqWidget);
 
         connect( mFindRequestDock, SIGNAL(closeRequested()),
-                             this, SLOT(onCloseRequested()) );
+                             this, SLOT(onReqDockCloseRequested()) );
 
         mFindRequestDock->setContextMenuPolicy(Qt::CustomContextMenu);
         connect( mFindRequestDock, SIGNAL(customContextMenuRequested(QPoint)),
-                             this, SLOT(onCustomContextMenuRequested(QPoint)) );
+                             this, SLOT(onReqDockCustomContextMenuRequested(QPoint)) );
         emit showWidgetRequested(mFindRequestDock, Qt::BottomDockWidgetArea, tr("Find/Replace"));
     } else {
         mFindRequestDock->setVisible(true);
@@ -227,19 +232,57 @@ void Finder::createFindWidget()
 
 
 
-void Finder::onCloseRequested()
+void Finder::onReqDockCloseRequested()
 {
     mFindAction->setChecked(false);
     mFindInFilesAction->setChecked(false);
     mReplaceAction->setChecked(false);
 }
 
-void Finder::onCustomContextMenuRequested(const QPoint &/*pos*/)
+void Finder::onReqDockCustomContextMenuRequested(const QPoint &/*pos*/)
 {
     QMenu *menu = new QMenu();
     menu->addAction(mFindAction);
     menu->addAction(mReplaceAction);
     menu->addAction(mFindInFilesAction);
+    menu->addAction( tr("Close"), this, SLOT(onReqDockCloseTriggered()) );
 
     menu->exec(QCursor::pos());
+}
+
+void Finder::onReqDockCloseTriggered()
+{
+    onReqDockCloseRequested();
+    mFindRequestDock->hide();
+}
+
+void Finder::onEditorChanged(Editor *edit)
+{
+    connect( edit, SIGNAL(selectionChanged()),
+             this, SLOT(onEditorSelectionChanged()) );
+    connect( edit, SIGNAL(cursorPositionChanged(int,int)),
+             this, SLOT(onEditorCursorPositionChanged(int,int)) );
+}
+
+void Finder::onEditorNotValid(Editor *edit)
+{
+    disconnect( edit, SIGNAL(selectionChanged()),
+                this, SLOT(onEditorSelectionChanged()) );
+    disconnect( edit, SIGNAL(cursorPositionChanged(int,int)),
+                this, SLOT(onEditorCursorPositionChanged(int,int)) );
+}
+
+void Finder::onEditorSelectionChanged()
+{
+    Editor *edit = dynamic_cast<Editor*>(sender());
+    if(edit->selectedText().isEmpty())
+        return;
+
+    if(edit->isSignleWordSelected())
+        qDebug() << "Word";
+}
+
+void Finder::onEditorCursorPositionChanged(int line, int index)
+{
+    qDebug() << "Cursor changed";
 }

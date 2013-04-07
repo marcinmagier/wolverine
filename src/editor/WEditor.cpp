@@ -99,11 +99,6 @@ void Editor::initialize()
     connect( this, SIGNAL(cursorLineChanged(int)),
              this, SLOT(onCursorLineChanged(int)) );
 
-    connect( this, SIGNAL(cursorPositionChanged(int,int)),
-             this, SLOT(onCursorPositionChanged(int,int)) );
-    connect( this, SIGNAL(selectionChanged()),
-             this, SLOT(onSelectionChanged()) );
-
     connect( mSciSettings, SIGNAL(showLineNumbersEnabledChanged(bool)),
                   this, SLOT(onShowLineNumbersEnabledChanged(bool)), Qt::DirectConnection );
 
@@ -220,23 +215,10 @@ void Editor::onShowLineNumbersEnabledChanged(bool val)
     this->updateLineNoMargin(val);
 }
 
-void Editor::onCursorPositionChanged(int line, int index)
-{
-    //qDebug() << "Hello";
-}
 
 void Editor::onCursorLineChanged(int line)
 {
     this->updateLineNoMargin(mSciSettings->isShowLineNumbersEnabled());
-}
-
-void Editor::onSelectionChanged()
-{
-    if(selectedText().isEmpty())
-        return;
-
-    if(isSignleWordSelected())
-        qDebug() << "Word";
 }
 
 void Editor::onWhiteSpaceVisibilityChanged(bool val)

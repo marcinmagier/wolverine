@@ -40,6 +40,7 @@ namespace Wolverine
 class FindOptions;
 class FindReqDock;
 class FindReqWidget;
+class Editor;
 class EditorProxy;
 
 class Finder: public QObject
@@ -78,8 +79,14 @@ signals:
 
 
 private slots:
-    void onCloseRequested();
-    void onCustomContextMenuRequested(const QPoint &pos);
+    void onReqDockCloseRequested();
+    void onReqDockCustomContextMenuRequested(const QPoint &pos);
+    void onReqDockCloseTriggered();
+
+    void onEditorChanged(Editor *edit);
+    void onEditorNotValid(Editor *edit);
+    void onEditorSelectionChanged();
+    void onEditorCursorPositionChanged(int line, int index);
 
 
 private:
