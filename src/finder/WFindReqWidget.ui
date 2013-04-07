@@ -20,7 +20,7 @@
    <enum>QFrame::Raised</enum>
   </property>
   <property name="currentIndex">
-   <number>2</number>
+   <number>0</number>
   </property>
   <widget class="QWidget" name="pageFind">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -76,6 +76,12 @@
       </item>
       <item row="0" column="2">
        <widget class="QPushButton" name="btn0Regexp">
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>27</height>
+         </size>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -100,6 +106,12 @@
       </item>
       <item row="1" column="1">
        <widget class="QPushButton" name="btn0Wrap">
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>27</height>
+         </size>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -126,6 +138,12 @@
       </item>
       <item row="1" column="2">
        <widget class="QPushButton" name="btn0InSelection">
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>27</height>
+         </size>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -136,6 +154,12 @@
       </item>
       <item row="1" column="0">
        <widget class="QPushButton" name="btn0Reverse">
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>27</height>
+         </size>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -146,6 +170,12 @@
       </item>
       <item row="0" column="0">
        <widget class="QPushButton" name="btn0CaseSensitive">
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>27</height>
+         </size>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -156,6 +186,12 @@
       </item>
       <item row="0" column="1">
        <widget class="QPushButton" name="btn0Words">
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>27</height>
+         </size>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -189,6 +225,12 @@
       </item>
       <item row="1" column="3">
        <widget class="QPushButton" name="btn0Mark">
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>27</height>
+         </size>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -266,6 +308,12 @@
       </item>
       <item row="0" column="2">
        <widget class="QPushButton" name="btn1Regexp">
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>27</height>
+         </size>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -290,6 +338,12 @@
       </item>
       <item row="1" column="1">
        <widget class="QPushButton" name="btn1Wrap">
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>27</height>
+         </size>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -316,6 +370,12 @@
       </item>
       <item row="1" column="2">
        <widget class="QPushButton" name="btn1InSelection">
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>27</height>
+         </size>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -326,6 +386,12 @@
       </item>
       <item row="1" column="0">
        <widget class="QPushButton" name="btn1Reverse">
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>27</height>
+         </size>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -336,6 +402,12 @@
       </item>
       <item row="0" column="0">
        <widget class="QPushButton" name="btn1CaseSensitive">
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>27</height>
+         </size>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -346,6 +418,12 @@
       </item>
       <item row="0" column="1">
        <widget class="QPushButton" name="btn1Words">
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>27</height>
+         </size>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -483,6 +561,12 @@
       </item>
       <item row="2" column="11">
        <widget class="QPushButton" name="btn2CurrentDir">
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>27</height>
+         </size>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -493,7 +577,7 @@
         <property name="maximumSize">
          <size>
           <width>32</width>
-          <height>16777215</height>
+          <height>27</height>
          </size>
         </property>
         <property name="text">
@@ -503,6 +587,12 @@
       </item>
       <item row="2" column="0">
        <widget class="QPushButton" name="btn2InSubDirs">
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>27</height>
+         </size>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -513,6 +603,12 @@
       </item>
       <item row="2" column="1">
        <widget class="QPushButton" name="btn2InHiddenDirs">
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>27</height>
+         </size>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -530,6 +626,12 @@
       </item>
       <item row="0" column="2">
        <widget class="QPushButton" name="btn2Regexp">
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>27</height>
+         </size>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -556,6 +658,18 @@
       </item>
       <item row="0" column="0">
        <widget class="QPushButton" name="btn2CaseSensitive">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>27</height>
+         </size>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -566,6 +680,12 @@
       </item>
       <item row="0" column="1">
        <widget class="QPushButton" name="btn2Words">
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>27</height>
+         </size>
+        </property>
         <property name="text">
          <string/>
         </property>

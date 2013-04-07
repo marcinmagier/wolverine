@@ -177,18 +177,18 @@ FindOptions FindReqWidget::getFindOptions()
 
     switch(currentIndex()) {
     case FindIdx:
-        opt.type = FindOptions::Find;
+        opt.findType = FindOptions::Find;
         opt.searchPattern = ui->cmb0SearchPattern->lineEdit()->text();
         break;
 
     case ReplaceIdx:
-        opt.type = FindOptions::FindReplace;
+        opt.findType = FindOptions::FindReplace;
         opt.searchPattern = ui->cmb1SearchPattern->lineEdit()->text();
         opt.replacePattern = ui->cmb1ReplacePattern->lineEdit()->text();
         break;
 
     case FindInFilesIdx:
-        opt.type = FindOptions::FindInFiles;
+        opt.findType = FindOptions::FindInFiles;
         opt.searchPattern = ui->cmb2SearchPattern->lineEdit()->text();
         opt.replacePattern = ui->cmb2ReplacePattern->lineEdit()->text();
         opt.filters = ui->cmb2Filters->lineEdit()->text();

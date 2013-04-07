@@ -43,13 +43,13 @@ public:
         FindInFiles
     };
 
-    FindOptions::FindOptions() :
-        type(Find),
+    FindOptions() :
+        findType(Find),
         isCaseSensitive(false), isWholeWords(false), isRegexp(false),
         isReverseDirection(false), isWrap(false), isInSelection(false),
         isBookmarkLine(false), isInSubDirs(false), isInHiddenDirs(false) { }
 
-    FindType type;
+    FindType findType;
 
     bool isCaseSensitive;
     bool isWholeWords;
