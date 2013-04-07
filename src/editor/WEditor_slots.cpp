@@ -42,7 +42,7 @@ void Editor::onShowLineNumbersEnabledChanged(bool val)
 
 void Editor::onCursorPositionChanged(int line, int index)
 {
-    qDebug() << "Hello";
+    //qDebug() << "Hello";
 }
 
 void Editor::onCursorLineChanged(int line)
@@ -52,7 +52,7 @@ void Editor::onCursorLineChanged(int line)
 
 void Editor::onSelectionChanged()
 {
-
+    isSignleWordSelected();
 }
 
 void Editor::onWhiteSpaceVisibilityChanged(bool val)

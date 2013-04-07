@@ -25,6 +25,7 @@
 
 #include <QScrollBar>
 
+#include <QDebug>
 
 /**
  *  Constructor
@@ -79,6 +80,17 @@ void QtScintilla::clearIndicator(int indicatorNumber)
     QsciScintilla::clearIndicatorRange(0, length(), indicatorNumber);
 }
 
+
+bool QtScintilla::isSignleWordSelected()
+{
+    int posFrom, posTo;
+    getSelection(&posFrom, &posTo);
+
+
+
+    qDebug() << "";
+    return true;
+}
 
 
 

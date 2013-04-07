@@ -44,6 +44,8 @@ public:
     void setIndicatorStyle(IndicatorStyle style, const QColor &color, int alpha, int alphaLine, int indicatorNumber);
     void clearIndicator(int indicatorNumber);
 
+    bool isSignleWordSelected();
+
 public slots:
     
 
