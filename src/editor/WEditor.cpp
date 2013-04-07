@@ -232,7 +232,11 @@ void Editor::onCursorLineChanged(int line)
 
 void Editor::onSelectionChanged()
 {
-    isSignleWordSelected();
+    if(selectedText().isEmpty())
+        return;
+
+    if(isSignleWordSelected())
+        qDebug() << "Word";
 }
 
 void Editor::onWhiteSpaceVisibilityChanged(bool val)

@@ -54,6 +54,7 @@ signals:
     void linesChanged(int lines);
 
 protected:
+    char getChar(int pos);
 
 private slots:
     void onLinesChanged();

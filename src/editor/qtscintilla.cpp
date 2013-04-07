@@ -27,6 +27,8 @@
 
 #include <QDebug>
 
+#include <cctype>
+
 /**
  *  Constructor
  *
@@ -86,10 +88,16 @@ bool QtScintilla::isSignleWordSelected()
     int posFrom, posTo;
     getSelection(&posFrom, &posTo);
 
+    if(posFrom == posTo)
+        return false;
 
+    char pre = getChar(posFrom-1);
+    char post = getChar(posTo);
 
-    qDebug() << "";
-    return true;
+    if(!std::isalnum(pre) && !std::isalnum(post))
+        return true;
+
+    return false;
 }
 
 
@@ -97,6 +105,13 @@ bool QtScintilla::isSignleWordSelected()
 void QtScintilla::onLinesChanged()
 {
     emit linesChanged(this->lines());
+}
+
+
+char QtScintilla::getChar(int pos)
+{
+
+    return SendScintilla(SCI_GETCHARAT, pos);
 }
 
 
