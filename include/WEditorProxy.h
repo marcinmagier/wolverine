@@ -77,6 +77,7 @@ public slots:
 
 signals:
     void currentEditorChanged(Editor *editor);
+    void currentEditorNotValid(Editor *editor);
 
     void currentEditorScrollHChanged(int range);
     void currentEditorScrollVChanged(int range);

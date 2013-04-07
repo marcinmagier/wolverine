@@ -97,11 +97,7 @@ void EditorProxy::setCurrentEditor(Editor *editor)
     if(mCurrentEditor != editor) {
         cleanOldEditor(mCurrentEditor);
         mCurrentEditor = editor;
-        if(mCurrentEditor) {
-            setupNewEditor(mCurrentEditor);
-
-            emit currentEditorChanged(mCurrentEditor);
-        }
+        setupNewEditor(mCurrentEditor);
     }
 }
 
@@ -113,6 +109,8 @@ void EditorProxy::setupNewEditor(Editor *editor)
 
         onSynchHEnabledChanged(mSettings->general->isSynchHEnabled());
         onSynchVEnabledChanged(mSettings->general->isSynchVEnabled());
+
+        emit currentEditorChanged(editor);
     }
 }
 
@@ -123,6 +121,8 @@ void EditorProxy::cleanOldEditor(Editor *editor)
                                              this, SLOT(onCurrentEditorScrollHChanged(int)) );
         disconnect( editor->verticalScrollBar(), SIGNAL(valueChanged(int)),
                                            this, SLOT(onCurrentEditorScrollVChanged(int)) );
+
+        emit currentEditorNotValid(editor);
     }
 }
 
