@@ -54,6 +54,7 @@ public:
     explicit CentralWidget(QWidget *parent = 0);
     virtual ~CentralWidget();
 
+    void bringToFront();
 
     void closeAllTabs(bool closeApp);
 

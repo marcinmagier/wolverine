@@ -195,7 +195,7 @@ void Editor::wheelEvent(QWheelEvent *event)
         QtScintilla::wheelEvent(event);
     }
 
-    if(event->delta() < 0) {
+ /*   if(event->delta() < 0) {
         fillIndicatorRange(10, 50, 1);
         fillIndicatorRange(130, 10, 2);
 
@@ -205,7 +205,7 @@ void Editor::wheelEvent(QWheelEvent *event)
     else {
         clearIndicator(1);
     }
-
+*/
 
 }
 

@@ -134,6 +134,15 @@ CentralWidget::~CentralWidget()
 }
 
 
+/**
+ *  Brings window to front.
+ */
+void CentralWidget::bringToFront()
+{
+    raise();
+    show();
+    activateWindow();
+}
 
 
 /**
@@ -205,6 +214,8 @@ void CentralWidget::openTab(const QString &path)
  */
 void CentralWidget::openTab(Panel *panel, const QString &path)
 {
+    bringToFront();
+
     // If only one and empty tab is
     if( (mPanelRight->count() == 0) && (mPanelLeft->count() == 1) ) {
         Editor *first = mPanelLeft->getEditor(0);
