@@ -215,6 +215,46 @@ void Editor::wheelEvent(QWheelEvent *event)
 }
 
 
+void Editor::onShowLineNumbersEnabledChanged(bool val)
+{
+    this->updateLineNoMargin(val);
+}
+
+void Editor::onCursorPositionChanged(int line, int index)
+{
+    //qDebug() << "Hello";
+}
+
+void Editor::onCursorLineChanged(int line)
+{
+    this->updateLineNoMargin(mSciSettings->isShowLineNumbersEnabled());
+}
+
+void Editor::onSelectionChanged()
+{
+    isSignleWordSelected();
+}
+
+void Editor::onWhiteSpaceVisibilityChanged(bool val)
+{
+    if(val) {
+        this->setWhitespaceVisibility( static_cast<QsciScintilla::WhitespaceVisibility>(mSciSettings->getWhiteSpaceVisibleMode()) );
+    } else {
+        this->setWhitespaceVisibility( QsciScintilla::WsInvisible);
+    }
+}
+
+void Editor::onWrapModeEnabledChanged(bool val)
+{
+    if(val) {
+        this->setWrapMode( static_cast<QsciScintilla::WrapMode>(mSciSettings->getWrapMode()));
+    } else {
+        this->setWrapMode(QsciScintilla::WrapNone);
+    }
+}
+
+
+
 void Editor::updateLineNoMargin(bool visible)
 {
     if(visible) {

@@ -21,7 +21,6 @@ include(../extlib/qtscintilla/qtscintilla.pri)
 SOURCES      += \
                 ../src/main.cpp \
                 ../src/editor/WEditor.cpp \
-                ../src/editor/WEditor_slots.cpp \
                 ../src/editor/WEditorBinder.cpp \
                 ../src/editor/WEditorLexerCfg.cpp \
                 ../src/editor/WEditorLexerManager.cpp \
