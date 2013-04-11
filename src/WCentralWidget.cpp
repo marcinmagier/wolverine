@@ -433,7 +433,7 @@ void CentralWidget::closeTab(int index)
  * @param panel
  * @param index
  */
-void CentralWidget::closeTab(Panel *panel, int index)
+bool CentralWidget::closeTab(Panel *panel, int index)
 {
     Editor *edit = panel->getEditor(index);
     EditorBinder *binder = edit->getBinder();
@@ -446,7 +446,7 @@ void CentralWidget::closeTab(Panel *panel, int index)
                                                     QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel,
                                                     QMessageBox::Save);
             if(ret == QMessageBox::Cancel)
-                return;
+                return false;
             if(ret == QMessageBox::Save) {
                 if(binder->getStatusExt() == EditorBinder::New)
                     this->saveTabForm(panel, index);
@@ -458,6 +458,7 @@ void CentralWidget::closeTab(Panel *panel, int index)
     panel->removeTab(index);
     mCurrentEditor->setCurrentEditor(0);
     Editor::removeEditor(edit);
+    return true;
 }
 
 
@@ -489,10 +490,10 @@ void CentralWidget::closeOtherTabs(int index)
  * @param panel
  * @param index
  */
-void CentralWidget::closeOtherTabs(Panel *panel, int index)
+bool CentralWidget::closeOtherTabs(Panel *panel, int index)
 {
     if(panel->count() < 2)
-        return;
+        return false;
 
     int idxToRemove = 0;    // Remove first widget for i < index
     int i=-1;
@@ -503,8 +504,10 @@ void CentralWidget::closeOtherTabs(Panel *panel, int index)
             continue;
         }
         panel->setCurrentIndex(idxToRemove);
-        this->closeTab(panel, idxToRemove);
+        if(!this->closeTab(panel, idxToRemove))
+            return false;
     }
+    return true;
 }
 
 
@@ -523,10 +526,12 @@ void CentralWidget::closeAllTabs()
  *
  * @param closeApp
  */
-void CentralWidget::closeAllTabs(bool closeApp)
+bool CentralWidget::closeAllTabs(bool closeApp)
 {
-    closeAllTabs(mPanelRight);
-    closeAllTabs(mPanelLeft);
+    if(!closeAllTabs(mPanelRight))
+        return false;
+    if(!closeAllTabs(mPanelLeft))
+        return false;
 
     if(closeApp) {
         qApp->quit();
@@ -536,6 +541,8 @@ void CentralWidget::closeAllTabs(bool closeApp)
         setCurrentPanel(mPanelLeft);
         newTab();
     }
+
+    return true;
 }
 
 
@@ -544,12 +551,15 @@ void CentralWidget::closeAllTabs(bool closeApp)
  *
  * @param panel
  */
-void CentralWidget::closeAllTabs(Panel *panel)
+bool CentralWidget::closeAllTabs(Panel *panel)
 {
     while(panel->count() > 0) {
         panel->setCurrentIndex(0);
-        this->closeTab(panel, 0);
+        if(!this->closeTab(panel, 0))
+            return false;
     }
+
+    return true;
 }
 
 

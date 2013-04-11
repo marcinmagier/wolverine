@@ -20,6 +20,7 @@
 #include <QMenuBar>
 #include <QStringList>
 #include <QDockWidget>
+#include <QCloseEvent>
 
 #include "WPopup.h"
 
@@ -82,9 +83,10 @@ MainWindow::~MainWindow()
     //ActionManager
 }
 
-void MainWindow::closeEvent(QCloseEvent *)
+void MainWindow::closeEvent(QCloseEvent *event)
 {
-    mCentralWidget->closeAllTabs(true);
+    if(!mCentralWidget->closeAllTabs(true))
+        event->ignore();
 }
 
 

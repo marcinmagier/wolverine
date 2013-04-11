@@ -56,7 +56,7 @@ public:
 
     void bringToFront();
 
-    void closeAllTabs(bool closeApp);
+    bool closeAllTabs(bool closeApp);
 
 
 public slots:
@@ -117,9 +117,9 @@ private:
     void saveTabForm(Panel *panel, int index);
     void saveAllTabs(Panel *panel);
 
-    void closeTab(Panel *panel, int index);
-    void closeOtherTabs(Panel *panel, int index);
-    void closeAllTabs(Panel *panel);
+    bool closeTab(Panel *panel, int index);
+    bool closeOtherTabs(Panel *panel, int index);
+    bool closeAllTabs(Panel *panel);
 
     void copyTab(Panel *from, int fromIdx, Panel *to);
     void moveTab(Panel *from, int fromIdx, Panel *to);

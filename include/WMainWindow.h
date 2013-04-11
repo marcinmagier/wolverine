@@ -43,7 +43,7 @@ public slots:
     void showDockWidget(QDockWidget *widget, Qt::DockWidgetArea area, const QString &title);
 
 protected:
-    virtual void closeEvent(QCloseEvent *);
+    virtual void closeEvent(QCloseEvent *event);
 
 private slots:
     void onAppCustimizeEnabledChanged(bool enabled);
