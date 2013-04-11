@@ -220,7 +220,6 @@ void CentralWidget::openTab(Panel *panel, const QString &path)
     if( (mPanelRight->count() == 0) && (mPanelLeft->count() == 1) ) {
         Editor *first = mPanelLeft->getEditor(0);
         if( (first->length() == 0) && (first->getBinder()->getStatusExt() == EditorBinder::New) ) {
-            mCurrentEditor->setCurrentEditor(0);
             this->closeTab(mPanelLeft, 0);
         }
     }
@@ -457,6 +456,7 @@ void CentralWidget::closeTab(Panel *panel, int index)
         }
     }
     panel->removeTab(index);
+    mCurrentEditor->setCurrentEditor(0);
     Editor::removeEditor(edit);
 }
 
