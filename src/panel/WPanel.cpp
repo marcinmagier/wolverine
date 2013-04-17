@@ -52,6 +52,7 @@ Panel::Panel(QWidget *parent) :
 {
     mEditorProxy = EditorProxy::instance();
     mTabBar = new PanelTabBar(this);
+    this->setModernStyleListButtonEnabled(true);
     this->setTabBar(mTabBar);
 
     connect( mTabBar, SIGNAL(customContextMenuRequested(QPoint)),
