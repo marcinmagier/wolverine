@@ -159,6 +159,7 @@ FindReqWidget::FindReqWidget(Finder *finder, QWidget *parent) :
     ui->btn2CurrentDir->setIcon(QIcon(":/search_current_dir.png"));
     ui->btn2CurrentDir->setToolTip(tr("Select Current Document's Directory"));
 
+    setupFindWidget();
 }
 
 
