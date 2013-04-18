@@ -46,7 +46,10 @@ public:
 
     bool isSignleWordSelected();
 
+    bool isEndAtLastLineSet();
+
 public slots:
+    void setEndAtLastLine(bool enabled);
     
 
 signals:
@@ -62,6 +65,7 @@ private slots:
 
 private:
     int mCursorLine;
+    bool mEndAtLastLine;
 };
 
 #endif // __QT_SCINTILLA_H_

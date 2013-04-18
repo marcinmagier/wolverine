@@ -103,6 +103,9 @@ void Editor::initialize()
                   this, SLOT(onShowLineNumbersEnabledChanged(bool)), Qt::DirectConnection );
 
 
+    setEndAtLastLine(false);
+
+
     setIndicatorStyle(StraightBoxIndicator, QColor(230, 120, 120), 50, 200, 1);
     setIndicatorStyle(StraightBoxIndicator, QColor(50, 210, 80), 50, 200, 2);
     setIndicatorStyle(StraightBoxIndicator, QColor(150, 210, 80), 50, 0, 3);

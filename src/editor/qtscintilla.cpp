@@ -38,6 +38,7 @@ QtScintilla::QtScintilla(QWidget *parent) :
     QsciScintilla(parent)
 {
     mCursorLine = 0;
+    mEndAtLastLine = false;
 
     connect( this, SIGNAL(linesChanged()),
              this, SLOT(onLinesChanged()) );
@@ -98,6 +99,16 @@ bool QtScintilla::isSignleWordSelected()
         return true;
 
     return false;
+}
+
+bool QtScintilla::isEndAtLastLineSet()
+{
+    return SendScintilla(SCI_GETENDATLASTLINE);
+}
+
+void QtScintilla::setEndAtLastLine(bool enabled)
+{
+    SendScintilla(SCI_SETENDATLASTLINE, enabled);
 }
 
 
