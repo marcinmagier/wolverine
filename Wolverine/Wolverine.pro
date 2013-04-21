@@ -25,6 +25,7 @@ SOURCES      += \
                 ../src/editor/WEditorLexerCfg.cpp \
                 ../src/editor/WEditorLexerManager.cpp \
                 ../src/editor/WEditorLexerManagerWidget.cpp \
+                ../src/editor/WEditorMap.cpp \
                 ../src/editor/WEditorProxy.cpp \
                 ../src/editor/qtscintilla.cpp \
                 ../src/finder/WFinder.cpp \
@@ -83,6 +84,7 @@ HEADERS      += \
                 ../include/WEditorBinder.h \
                 ../include/WEditorLexerCfg.h \
                 ../include/WEditorLexerManager.h \
+                ../include/WEditorMap.h \
                 ../include/WEditorProxy.h \
                 ../include/WFinder.h \
                 ../include/WLib.h \
