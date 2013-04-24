@@ -161,6 +161,8 @@ void Finder::findNext()
     if(mFindRequestDock == 0)
         return;
 
+    mFindReqWidget->updateSearchHistory();
+
     qDebug() << "Find next";
 }
 
@@ -170,51 +172,60 @@ void Finder::findPrev()
     if(mFindRequestDock == 0)
         return;
 
+    mFindReqWidget->updateSearchHistory();
+
     qDebug() << "Find prev";
 }
 
 
 void Finder::findAll()
 {
-
+    mFindReqWidget->updateSearchHistory();
 }
 
 
 void Finder::findInAllTabs()
 {
-
+    mFindReqWidget->updateSearchHistory();
 }
 
 
 void Finder::findInFiles()
 {
-
+    mFindReqWidget->updateSearchHistory();
+    mFindReqWidget->updateFilterAndDirectoryHistory();
 }
 
 
 void Finder::replace()
 {
-
+    mFindReqWidget->updateSearchHistory();
+    mFindReqWidget->updateReplaceHistory();
 }
 
 void Finder::replaceFindNext()
 {
-
+    mFindReqWidget->updateSearchHistory();
+    mFindReqWidget->updateReplaceHistory();
 }
 
 void Finder::replaceAll()
 {
-
+    mFindReqWidget->updateSearchHistory();
+    mFindReqWidget->updateReplaceHistory();
 }
 
 void Finder::replaceInAllTabs()
 {
-
+    mFindReqWidget->updateSearchHistory();
+    mFindReqWidget->updateReplaceHistory();
 }
 
 void Finder::replaceInFiles()
 {
-
+    mFindReqWidget->updateSearchHistory();
+    mFindReqWidget->updateReplaceHistory();
+    mFindReqWidget->updateFilterAndDirectoryHistory();
 }
 
 
