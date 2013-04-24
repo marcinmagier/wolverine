@@ -159,6 +159,33 @@ FindReqWidget::FindReqWidget(Finder *finder, QWidget *parent) :
     ui->btn2CurrentDir->setIcon(QIcon(":/search_current_dir.png"));
     ui->btn2CurrentDir->setToolTip(tr("Select Current Document's Directory"));
 
+
+    connect( ui->btn0FindNext, SIGNAL(clicked()),
+                      mFinder, SLOT(findNext()) );
+    connect( ui->btn0FindPrev, SIGNAL(clicked()),
+                      mFinder, SLOT(findPrev()) );
+    connect( ui->btn0FindAll, SIGNAL(clicked()),
+                     mFinder, SLOT(findAll()) );
+    connect( ui->btn0FindAllInTabs, SIGNAL(clicked()),
+                           mFinder, SLOT(findInAllTabs()) );
+
+    connect( ui->btn1FindNext, SIGNAL(clicked()),
+                      mFinder, SLOT(findNext()) );
+    connect( ui->btn1Replace, SIGNAL(clicked()),
+                     mFinder, SLOT(replace()) );
+    connect( ui->btn1ReplaceFind, SIGNAL(clicked()),
+                         mFinder, SLOT(replaceFindNext()) );
+    connect( ui->btn1ReplaceAll, SIGNAL(clicked()),
+                        mFinder, SLOT(replaceAll()) );
+    connect( ui->btn1ReplaceAllInTabs, SIGNAL(clicked()),
+                              mFinder, SLOT(replaceInAllTabs()) );
+
+    connect( ui->btn2FindAll, SIGNAL(clicked()),
+                     mFinder, SLOT(findInFiles()) );
+    connect( ui->btn2ReplaceAll, SIGNAL(clicked()),
+                        mFinder, SLOT(replaceInFiles()) );
+
+
     setupFindWidget();
 }
 

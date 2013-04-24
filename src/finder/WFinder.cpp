@@ -164,10 +164,6 @@ void Finder::findNext()
     qDebug() << "Find next";
 }
 
-void Finder::findNext(FindOptions *opt)
-{
-
-}
 
 void Finder::findPrev()
 {
@@ -177,30 +173,50 @@ void Finder::findPrev()
     qDebug() << "Find prev";
 }
 
-void Finder::findPrev(FindOptions *opt)
-{
-
-}
 
 void Finder::findAll()
 {
 
 }
 
-void Finder::findAll(FindOptions *opt)
-{
-
-}
 
 void Finder::findInAllTabs()
 {
 
 }
 
-void Finder::findInAllTabs(FindOptions *opt)
+
+void Finder::findInFiles()
 {
 
 }
+
+
+void Finder::replace()
+{
+
+}
+
+void Finder::replaceFindNext()
+{
+
+}
+
+void Finder::replaceAll()
+{
+
+}
+
+void Finder::replaceInAllTabs()
+{
+
+}
+
+void Finder::replaceInFiles()
+{
+
+}
+
 
 
 void Finder::markAll()

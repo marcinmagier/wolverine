@@ -62,13 +62,17 @@ public slots:
     void showReplaceWidget();
 
     void findNext();
-    void findNext(FindOptions *opt);
     void findPrev();
-    void findPrev(FindOptions *opt);
     void findAll();
-    void findAll(FindOptions *opt);
     void findInAllTabs();
-    void findInAllTabs(FindOptions *opt);
+    void findInFiles();
+
+    void replace();
+    void replaceFindNext();
+    void replaceAll();
+    void replaceInAllTabs();
+    void replaceInFiles();
+
 
     void markAll();
     void markAll(int style);
