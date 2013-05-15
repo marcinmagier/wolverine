@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>848</width>
-    <height>130</height>
+    <height>253</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
    <enum>QFrame::Raised</enum>
   </property>
   <property name="currentIndex">
-   <number>0</number>
+   <number>1</number>
   </property>
   <widget class="QWidget" name="pageFind">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -255,8 +255,8 @@
       </property>
       <property name="sizeHint" stdset="0">
        <size>
-        <width>20</width>
-        <height>237</height>
+        <width>10</width>
+        <height>0</height>
        </size>
       </property>
      </spacer>
@@ -508,8 +508,8 @@
       </property>
       <property name="sizeHint" stdset="0">
        <size>
-        <width>20</width>
-        <height>57</height>
+        <width>10</width>
+        <height>0</height>
        </size>
       </property>
      </spacer>
@@ -784,8 +784,8 @@
       </property>
       <property name="sizeHint" stdset="0">
        <size>
-        <width>20</width>
-        <height>182</height>
+        <width>10</width>
+        <height>0</height>
        </size>
       </property>
      </spacer>
