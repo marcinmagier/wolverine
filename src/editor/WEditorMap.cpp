@@ -37,6 +37,8 @@
                                 "background-color: rgb(27, 122, 231, 30);"  \
                                 "}"
 
+#define FRAME_MAX_WIDTH 180
+#define FRAME_MIN_WIDTH 60
 
 
 
@@ -50,6 +52,9 @@ EditorMap::EditorMap(QWidget *parent) :
     mBg = new QFrame(this);
     mFg = new QFrame(this);
     mFg->setStyleSheet(QString(FRAME_STYLE_PATTERN));
+
+    this->setMaximumWidth(FRAME_MAX_WIDTH);
+    this->setMinimumWidth(FRAME_MIN_WIDTH);
 
     this->setFocusPolicy(Qt::NoFocus);
     this->setMarginWidth(0, 0);
