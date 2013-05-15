@@ -772,6 +772,7 @@ void CentralWidget::moveTabToApp(int index)
         }
     }
     Lib::openNewInstance(edit->getBinder()->absoluteFilePath());
+    Editor::removeEditor(edit);
 }
 
 
