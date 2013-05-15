@@ -6,10 +6,13 @@
 #include "WFindOptions.h"
 
 #include <QList>
+#include <QMap>
 
 
 namespace Wolverine {
 
+
+typedef QList<FindHit> FindHitList;
 
 class FindRequest
 {
@@ -22,7 +25,7 @@ public:
 
     bool isValid;
     FindOptions options;
-    QList<FindHit> hitList;
+    QMap<QString, FindHitList> hitFiles;
 };
 
 
