@@ -236,3 +236,94 @@ bool GeneralSettings::isFindInHiddenDirsSet()
     return mFindInHiddenDirs;
 }
 
+void GeneralSettings::setFindSearchPatterns(const QStringList &val)
+{
+    mFindSearchPatterns = val;
+}
+void GeneralSettings::addFindSearchPattern(const QString &val)
+{
+    if(val.isEmpty())
+        return;
+
+    mFindSearchPatterns.removeAll(val);
+    mFindSearchPatterns.prepend(val);
+    while(mFindSearchPatterns.length() > FIND_HISTORY_LEN)
+        mFindSearchPatterns.removeLast();
+}
+const QStringList& GeneralSettings::getFindSearchPatterns()
+{
+    return mFindSearchPatterns;
+}
+const QString& GeneralSettings::getFindLastSearchPattern()
+{
+    return mFindSearchPatterns.at(0);
+}
+
+void GeneralSettings::setFindReplacePatterns(const QStringList &val)
+{
+    mFindReplacePatterns = val;
+}
+void GeneralSettings::addFindReplacePattern(const QString &val)
+{
+    if(val.isEmpty())
+        return;
+
+    mFindReplacePatterns.removeAll(val);
+    mFindReplacePatterns.prepend(val);
+    while(mFindReplacePatterns.length() > FIND_HISTORY_LEN)
+        mFindReplacePatterns.removeLast();
+}
+const QStringList& GeneralSettings::getFindReplacePatterns()
+{
+    return mFindReplacePatterns;
+}
+const QString& GeneralSettings::getFindLastReplacePattern()
+{
+    return mFindReplacePatterns.at(0);
+}
+
+void GeneralSettings::setFindFilters(const QStringList &val)
+{
+    mFindFilters = val;
+}
+void GeneralSettings::addFindFilter(const QString &val)
+{
+    if(val.isEmpty())
+        return;
+
+    mFindFilters.removeAll(val);
+    mFindFilters.prepend(val);
+    while(mFindFilters.length() > FIND_HISTORY_LEN)
+        mFindFilters.removeLast();
+}
+const QStringList &GeneralSettings::getFindFilters()
+{
+    return mFindFilters;
+}
+const QString& GeneralSettings::getFindLastFilter()
+{
+    return mFindFilters.at(0);
+}
+
+void GeneralSettings::setFindDirectories(const QStringList &val)
+{
+    mFindDirectories = val;
+}
+void GeneralSettings::addFindDirectory(const QString &val)
+{
+    if(val.isEmpty())
+        return;
+
+    mFindDirectories.removeAll(val);
+    mFindDirectories.prepend(val);
+    while(mFindDirectories.length() > FIND_HISTORY_LEN)
+        mFindDirectories.removeLast();
+}
+const QStringList &GeneralSettings::getFindDirectories()
+{
+    return mFindDirectories;
+}
+const QString& GeneralSettings::getFindLastDirectory()
+{
+    return mFindDirectories.at(0);
+}

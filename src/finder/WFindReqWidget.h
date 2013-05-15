@@ -33,6 +33,8 @@
 
 class GeneralSettings;
 
+class QStringListModel;
+
 
 namespace Ui {
 class FindReqWidget;
@@ -67,9 +69,15 @@ public:
     void setInitialFilters(const QString &filters);
     void setInitialDirectory(const QString &directory);
 
+    void updateSearchHistory();
+    void updateReplaceHistory();
+    void updateFilterAndDirectoryHistory();
+
 
 private slots:
     void onCurrentChanged(int idx);
+    void onSearchPatternChanged(const QString &pattern);
+    void onReplacePatternChanged(const QString &pattern);
     
 
 private:
@@ -79,6 +87,13 @@ private:
 
     Finder *mFinder;
     GeneralSettings *mGenSettings;
+
+    QString mCurrentSearchPattern;
+    QString mCurrentReplacePattern;
+    QStringListModel *mSearchPatternModel;
+    QStringListModel *mReplacePatternModel;
+    QStringListModel *mFilterModel;
+    QStringListModel *mDirectoryModel;
 
     Ui::FindReqWidget *ui;
 };

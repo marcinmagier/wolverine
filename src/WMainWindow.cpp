@@ -5,6 +5,7 @@
 #include "WStatusBar.h"
 #include "WEditor.h"
 #include "WEditorProxy.h"
+#include "WEditorMap.h"
 #include "WFinder.h"
 
 #include "qtmanagedtoolbar.h"
@@ -44,8 +45,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
     this->setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
-    this->setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
-    this->setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
+    this->setCorner(Qt::TopRightCorner, Qt::TopDockWidgetArea);
+    this->setCorner(Qt::BottomRightCorner, Qt::BottomDockWidgetArea);
 
 
     this->resize(mSettings->hidden->getMWSize());
@@ -64,7 +65,9 @@ MainWindow::MainWindow(QWidget *parent) :
                            this, SLOT(onAppCustimizeEnabledChanged(bool)), Qt::DirectConnection );
     this->onAppCustimizeEnabledChanged(mSettings->general->isAppCustomizeEnabled());
 
-    //showDockWidget(new QDockWidget(tr("Documents")), Qt::LeftDockWidgetArea, tr("Documents"));
+    QDockWidget *miniMap = new QDockWidget(tr("MiniMap"));
+    miniMap->setWidget(new EditorMap());
+    showDockWidget(miniMap, Qt::RightDockWidgetArea, tr("MiniMap"));
     //showDockWidget(new QDockWidget(tr("Explorer")), Qt::LeftDockWidgetArea, tr("Explorer"));
 
 
@@ -93,6 +96,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::createMenusAndToolbars()
 {
     QtManagedToolBar *toolbar = new QtManagedToolBar(this, W_ACTION_GROUP_GENERAL);
+    toolbar->setWindowTitle(tr("Main ToolBar"));
 
     QAction *action;
     QMenu *tmpMenu;
