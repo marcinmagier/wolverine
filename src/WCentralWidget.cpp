@@ -797,6 +797,9 @@ void CentralWidget::updatePanels()
             newTab();
         }
     }
+
+    if(mCurrentEditor->getCurrentEditor() == 0)
+        this->setCurrentEditor(mPanelCurrent->getEditor(mPanelCurrent->currentIndex()));
 }
 
 

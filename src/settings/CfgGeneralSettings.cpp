@@ -25,6 +25,12 @@ GeneralSettings::GeneralSettings()
     mFindMark = false;
     mFindInSubDirs = false;
     mFindInHiddenDirs = false;
+
+    // Init patterns history with empty strings
+    mFindSearchPatterns.append(QString());
+    mFindReplacePatterns.append(QString());
+    mFindFilters.append(QString());
+    mFindDirectories.append(QString());
 }
 
 
