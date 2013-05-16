@@ -38,8 +38,10 @@
                                 "background-color: rgb(27, 122, 231, 30);"  \
                                 "}"
 
-#define FRAME_MAX_WIDTH 180
-#define FRAME_MIN_WIDTH 80
+#define FRAME_MAX_WIDTH  180
+#define FRAME_MIN_WIDTH  80
+
+#define MINI_LINE_HEIGHT 3
 
 
 
@@ -85,5 +87,5 @@ void EditorMap::onCurrentEditorChanged(Editor *editor)
     this->setLexer(editor->lexer());
 
     int lines = editor->linesVisible();
-    mFg->resize(mFg->width(), lines*5);
+    mFg->resize(mFg->width(), lines * MINI_LINE_HEIGHT);
 }
