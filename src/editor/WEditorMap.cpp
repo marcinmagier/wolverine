@@ -31,6 +31,7 @@
 #include <QFrame>
 #include <QResizeEvent>
 
+#include <QDebug>
 
 
 #define FRAME_STYLE_PATTERN     "QFrame {"                                  \
@@ -38,7 +39,7 @@
                                 "}"
 
 #define FRAME_MAX_WIDTH 180
-#define FRAME_MIN_WIDTH 60
+#define FRAME_MIN_WIDTH 80
 
 
 
@@ -66,6 +67,8 @@ EditorMap::EditorMap(QWidget *parent) :
 
     connect( mEditorProxy, SIGNAL(currentEditorChanged(Editor*)),
                      this, SLOT(onCurrentEditorChanged(Editor*)) );
+
+
 }
 
 
@@ -73,11 +76,14 @@ EditorMap::EditorMap(QWidget *parent) :
 void EditorMap::resizeEvent(QResizeEvent *e)
 {
     mBg->resize(e->size());
-    mFg->resize(mBg->width(), 100);
+    mFg->resize(e->size().width(), mFg->height());
 }
 
 void EditorMap::onCurrentEditorChanged(Editor *editor)
 {
     this->setDocument(editor->document());
     this->setLexer(editor->lexer());
+
+    int lines = editor->linesVisible();
+    mFg->resize(mFg->width(), lines*5);
 }
