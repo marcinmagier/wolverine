@@ -24,6 +24,7 @@
 #include "WPanelTabContent.h"
 #include "WEditor.h"
 #include "WEditorBinder.h"
+#include "WEditorProxy.h"
 
 
 using namespace Wolverine;
@@ -133,6 +134,7 @@ bool PanelTabContent::hasEditor(const QString &filePath)
 void PanelTabContent::removeEditor(int index)
 {
     Editor *editor = dynamic_cast<Editor*>(this->widget(index));
+    EditorProxy::instance()->setCurrentEditor(0);
     Editor::removeEditor(editor);
 }
 
