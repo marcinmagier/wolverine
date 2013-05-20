@@ -71,6 +71,8 @@ EditorMap::EditorMap(QWidget *parent) :
                      this, SLOT(onCurrentEditorChanged(Editor*)) );
     connect( mEditorProxy, SIGNAL(currentEditorNotValid(Editor*)),
                      this, SLOT(onCurrentEditorNotValid(Editor*)) );
+    connect( mEditorProxy, SIGNAL(currentEditorScrollVChanged(int)),
+                     this, SLOT(onCurrentEditorScrollChanged(int)) );
 
     onCurrentEditorChanged(mEditorProxy->getCurrentEditor());
 }
@@ -112,9 +114,16 @@ void EditorMap::onCurrentEditorZoomChanged()
     updateMap(mEditorProxy->getCurrentEditor());
 }
 
+void EditorMap::onCurrentEditorScrollChanged(int)
+{
+    updateMap(mEditorProxy->getCurrentEditor());
+}
+
 
 void EditorMap::updateMap(Editor *editor)
 {
     int lines = editor->linesVisible();
     mFg->resize(mFg->width(), lines * MINI_LINE_HEIGHT);
+    int firstLine = editor->firstVisibleLine();
+    mFg->move(0, firstLine * MINI_LINE_HEIGHT);
 }

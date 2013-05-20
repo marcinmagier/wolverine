@@ -56,6 +56,7 @@ private slots:
     void onCurrentEditorNotValid(Editor *editor);
     void onCurrentEditorSizeChanged();
     void onCurrentEditorZoomChanged();
+    void onCurrentEditorScrollChanged(int);
 
 private:
     void updateMap(Editor *editor);
