@@ -53,8 +53,13 @@ protected:
 
 private slots:
     void onCurrentEditorChanged(Editor *editor);
+    void onCurrentEditorNotValid(Editor *editor);
+    void onCurrentEditorSizeChanged();
+    void onCurrentEditorZoomChanged();
 
 private:
+    void updateMap(Editor *editor);
+
     EditorProxy *mEditorProxy;
 
     QFrame *mBg;

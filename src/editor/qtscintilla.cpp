@@ -118,6 +118,12 @@ void QtScintilla::onLinesChanged()
     emit linesChanged(this->lines());
 }
 
+void QtScintilla::resizeEvent(QResizeEvent *e)
+{
+    QsciScintilla::resizeEvent(e);
+    emit sizeChanged();
+}
+
 
 char QtScintilla::getChar(int pos)
 {

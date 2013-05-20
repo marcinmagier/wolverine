@@ -55,9 +55,11 @@ public slots:
 signals:
     void cursorLineChanged(int line);
     void linesChanged(int lines);
+    void sizeChanged();
 
 protected:
     char getChar(int pos);
+    virtual void resizeEvent(QResizeEvent *e);
 
 private slots:
     void onLinesChanged();

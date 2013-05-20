@@ -69,8 +69,10 @@ EditorMap::EditorMap(QWidget *parent) :
 
     connect( mEditorProxy, SIGNAL(currentEditorChanged(Editor*)),
                      this, SLOT(onCurrentEditorChanged(Editor*)) );
+    connect( mEditorProxy, SIGNAL(currentEditorNotValid(Editor*)),
+                     this, SLOT(onCurrentEditorNotValid(Editor*)) );
 
-
+    onCurrentEditorChanged(mEditorProxy->getCurrentEditor());
 }
 
 
@@ -86,6 +88,33 @@ void EditorMap::onCurrentEditorChanged(Editor *editor)
     this->setDocument(editor->document());
     this->setLexer(editor->lexer());
 
+    connect( editor, SIGNAL(sizeChanged()),
+               this, SLOT(onCurrentEditorSizeChanged()) );
+    connect( editor, SIGNAL(SCN_ZOOM()),
+               this, SLOT(onCurrentEditorZoomChanged()) );
+
+    updateMap(editor);
+}
+
+void EditorMap::onCurrentEditorNotValid(Editor *editor)
+{
+    editor->disconnect(this);
+}
+
+
+void EditorMap::onCurrentEditorSizeChanged()
+{
+    updateMap(mEditorProxy->getCurrentEditor());
+}
+
+void EditorMap::onCurrentEditorZoomChanged()
+{
+    updateMap(mEditorProxy->getCurrentEditor());
+}
+
+
+void EditorMap::updateMap(Editor *editor)
+{
     int lines = editor->linesVisible();
     mFg->resize(mFg->width(), lines * MINI_LINE_HEIGHT);
 }
