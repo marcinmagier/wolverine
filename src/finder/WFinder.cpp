@@ -24,9 +24,8 @@
 
 #include "WFinder.h"
 #include "WFindOptions.h"
-#include "WFindReqDock.h"
 #include "WFindReqWidget.h"
-
+#include "WDockWidget.h"
 
 #include "WEditor.h"
 #include "WEditorProxy.h"
@@ -276,11 +275,11 @@ void Finder::createFindWidget()
 {
     if(mFindRequestDock == 0) {
         mFindReqWidget = new FindReqWidget(this);
-        mFindRequestDock = new FindReqDock();
+        mFindRequestDock = new DockWidget(QString());
         mFindRequestDock->setWidget(mFindReqWidget);
 
-        connect( mFindRequestDock, SIGNAL(closeRequested()),
-                             this, SLOT(onReqDockCloseRequested()) );
+        connect( mFindRequestDock, SIGNAL(dockVisibilityChanged(bool)),
+                             this, SLOT(onDockVisibilityChanged(bool)) );
 
         mFindRequestDock->setContextMenuPolicy(Qt::CustomContextMenu);
         connect( mFindRequestDock, SIGNAL(customContextMenuRequested(QPoint)),
@@ -295,11 +294,29 @@ void Finder::createFindWidget()
 
 
 
-void Finder::onReqDockCloseRequested()
+void Finder::onDockVisibilityChanged(bool visible)
 {
-    mFindAction->setChecked(false);
-    mFindInFilesAction->setChecked(false);
-    mReplaceAction->setChecked(false);
+    if(visible) {
+        int idx = mFindReqWidget->currentIndex();
+        switch(idx) {
+        case FindReqWidget::FindIdx:
+            mFindAction->setChecked(true);
+            break;
+        case FindReqWidget::ReplaceIdx:
+            mReplaceAction->setChecked(true);
+            break;
+        case FindReqWidget::FindInFilesIdx:
+            mFindInFilesAction->setChecked(true);
+            break;
+        default:
+            LOG_ERROR("Wrong FindReqWidget index - %d", idx);
+            break;
+        }
+    } else {
+        mFindAction->setChecked(false);
+        mFindInFilesAction->setChecked(false);
+        mReplaceAction->setChecked(false);
+    }
 }
 
 void Finder::onReqDockCustomContextMenuRequested(const QPoint &/*pos*/)
@@ -315,7 +332,7 @@ void Finder::onReqDockCustomContextMenuRequested(const QPoint &/*pos*/)
 
 void Finder::onReqDockCloseTriggered()
 {
-    onReqDockCloseRequested();
+    onDockVisibilityChanged(false);
     mFindRequestDock->hide();
 }
 

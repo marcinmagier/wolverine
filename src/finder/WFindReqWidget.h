@@ -50,15 +50,14 @@ class Finder;
 class FindReqWidget : public QStackedWidget
 {
     Q_OBJECT
-    
+
+public:
     enum Idx {
         FindIdx,
         ReplaceIdx,
         FindInFilesIdx
     };
 
-
-public:
     explicit FindReqWidget(Finder *finder, QWidget *parent = 0);
     ~FindReqWidget();
 

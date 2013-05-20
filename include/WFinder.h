@@ -38,10 +38,10 @@ namespace Wolverine
 {
 
 class FindOptions;
-class FindReqDock;
 class FindReqWidget;
 class Editor;
 class EditorProxy;
+class DockWidget;
 
 class Finder: public QObject
 {
@@ -89,7 +89,7 @@ signals:
 
 
 private slots:
-    void onReqDockCloseRequested();
+    void onDockVisibilityChanged(bool visible);
     void onReqDockCustomContextMenuRequested(const QPoint &pos);
     void onReqDockCloseTriggered();
 
@@ -102,7 +102,7 @@ private slots:
 private:
     void createFindWidget();
 
-    FindReqDock *mFindRequestDock;
+    DockWidget *mFindRequestDock;
     FindReqWidget *mFindReqWidget;
     EditorProxy *mEditorProxy;
     QAction *mFindAction;
