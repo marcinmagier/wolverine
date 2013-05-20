@@ -44,5 +44,6 @@
         <file alias="search_hidden.png">images/search_hidden.png</file>
         <file alias="search_subdirs.png">images/search_subdirs.png</file>
         <file alias="search_select_dir.png">images/search_select_dir.png</file>
+        <file alias="map.png">images/map.png</file>
     </qresource>
 </RCC>

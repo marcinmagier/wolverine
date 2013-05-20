@@ -107,6 +107,7 @@ private:
 #define W_ACTION_SYNC_V         "SyncV"
 #define W_ACTION_SYNC_H         "SyncH"
 #define W_ACTION_MONITOR_MODE   "MonitorMode"
+#define W_ACTION_MINI_MAP       "MiniMap"
 
     //W_ACTION_GROUP_TOOLS
 #define W_ACTION_CUSTOMIZE      "Customize"

@@ -7,6 +7,7 @@
 #include "WEditorProxy.h"
 #include "WEditorMap.h"
 #include "WFinder.h"
+#include "WDockWidget.h"
 
 #include "qtmanagedtoolbar.h"
 #include "CfgAppSettings.h"
@@ -39,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
     mCentralWidget = new CentralWidget(this);
     mEditorProxy = EditorProxy::instance();
     mFinder = Finder::instance();
+    mMiniMap = 0;
 
     connect( mFinder, SIGNAL(showWidgetRequested(QDockWidget*,Qt::DockWidgetArea, QString)),
                 this, SLOT(showDockWidget(QDockWidget*,Qt::DockWidgetArea, QString)) );
@@ -65,9 +67,7 @@ MainWindow::MainWindow(QWidget *parent) :
                            this, SLOT(onAppCustimizeEnabledChanged(bool)), Qt::DirectConnection );
     this->onAppCustimizeEnabledChanged(mSettings->general->isAppCustomizeEnabled());
 
-    QDockWidget *miniMap = new QDockWidget(tr("MiniMap"));
-    miniMap->setWidget(new EditorMap());
-    showDockWidget(miniMap, Qt::RightDockWidgetArea, tr("MiniMap"));
+
     //showDockWidget(new QDockWidget(tr("Explorer")), Qt::LeftDockWidgetArea, tr("Explorer"));
 
 
@@ -453,6 +453,15 @@ void MainWindow::createMenusAndToolbars()
     menu->addAction(action);
     toolbar->addAction(W_ACTION_MONITOR_MODE, action, true);
 
+    action = mActionManager->getAction(W_ACTION_GROUP_VIEW, W_ACTION_MINI_MAP);
+    action->setIcon(QIcon(":/map.png"));
+    action->setCheckable(true);
+    action->setChecked(false);
+    connect( action, SIGNAL(toggled(bool)),
+             this, SLOT(onMiniMapShowChanged(bool)) );
+    menu->addAction(action);
+    toolbar->addAction(W_ACTION_MINI_MAP, action, true);
+
     mMenus[W_ACTION_GROUP_VIEW] = menu;
     toolbar->addSeparator();
 
@@ -532,4 +541,21 @@ void MainWindow::onDockTopLevelChanged(bool topLevel)
         bool enabled = mSettings->general->isAppCustomizeEnabled();
         dock->setFeatures( enabled ? (dock->features() | QDockWidget::DockWidgetFloatable) : (dock->features() & ~QDockWidget::DockWidgetFloatable) );
     }
+}
+
+void MainWindow::onMiniMapShowChanged(bool show)
+{
+    if(mMiniMap == 0) {
+        mMiniMap = new DockWidget(tr("MiniMap"));
+        mMiniMap->setWidget(new EditorMap());
+        mMiniMap->addAction(mActionManager->getAction(W_ACTION_GROUP_VIEW, W_ACTION_MINI_MAP));
+        showDockWidget(mMiniMap, Qt::RightDockWidgetArea, tr("MiniMap"));
+    }
+
+    if(show) {
+        mMiniMap->show();
+    } else {
+        mMiniMap->hide();
+    }
+
 }

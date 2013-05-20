@@ -362,6 +362,11 @@ void initializeActions()
     action->setStatusTip(QObject::tr("Automatically reload if file was changed externally"));
     sInstance->addAction(W_ACTION_GROUP_VIEW, W_ACTION_MONITOR_MODE, action);
 
+    action = new QAction(QObject::tr("Mini Map"), 0);
+    //action->setShortcut(QObject::tr("Ctrl+V"));
+    action->setStatusTip(QObject::tr("Mini Map"));
+    sInstance->addAction(W_ACTION_GROUP_VIEW, W_ACTION_MINI_MAP, action);
+
 
 
     action = new QAction(QObject::tr("Customize"), 0);

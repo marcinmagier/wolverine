@@ -26,6 +26,7 @@ class CentralWidget;
 class Editor;
 class EditorProxy;
 class Finder;
+class DockWidget;
 
 
 class MainWindow : public QMainWindow
@@ -48,6 +49,7 @@ protected:
 private slots:
     void onAppCustimizeEnabledChanged(bool enabled);
     void onDockTopLevelChanged(bool topLevel);
+    void onMiniMapShowChanged(bool show);
 
 
 private:
@@ -64,6 +66,7 @@ private:
     CentralWidget *mCentralWidget;
     EditorProxy *mEditorProxy;
     Finder *mFinder;
+    DockWidget *mMiniMap;
 
 };
 

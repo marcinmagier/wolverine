@@ -48,6 +48,7 @@ SOURCES      += \
                 ../src/settings/CfgViewSettings.cpp \
                 ../src/WActionManager.cpp \
                 ../src/WCentralWidget.cpp \
+                ../src/WDockWidget.cpp \
                 ../src/WLib.cpp \
                 ../src/WMainWindow.cpp \
                 ../src/WPopup.cpp \
@@ -79,6 +80,7 @@ HEADERS      += \
                 ../include/CfgViewSettings.h \
                 ../include/WActionManager.h \
                 ../include/WCentralWidget.h \
+                ../include/WDockWidget.h \
                 ../include/DlgSettings.h \
                 ../include/WEditor.h \
                 ../include/WEditorBinder.h \
