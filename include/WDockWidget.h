@@ -44,10 +44,14 @@ public:
     void addAction(QAction *action);
     QAction* getAction();
 
+signals:
+    void dockVisibilityChanged(bool);
 
-protected slots:
-    void onVisibilityChanged(bool visible);
+public slots:
 
+protected:
+    virtual bool event(QEvent *e);
+    virtual void closeEvent(QCloseEvent *e);
 
 private:
     QAction *mAction;

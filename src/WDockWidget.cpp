@@ -44,30 +44,59 @@ DockWidget::DockWidget(const QString &title, QWidget *parent) :
     QDockWidget(title, parent)
 {
     mAction = 0;
-    connect(this, SIGNAL(visibilityChanged(bool)),
-            this, SLOT(onVisibilityChanged(bool)) );
 }
 
+
+/**
+ *  Adds show/hide action.
+ *
+ * @param action
+ */
 void DockWidget::addAction(QAction *action)
 {
     mAction = action;
 }
 
 
+/**
+ *  Returns show/hide action.
+ *
+ * @return
+ */
 QAction* DockWidget::getAction()
 {
     return mAction;
 }
 
 
-void DockWidget::onVisibilityChanged(bool visible)
+/**
+ *  event() handler.
+ *
+ * @param e
+ * @return
+ */
+bool DockWidget::event(QEvent *e)
 {
-    if(mAction == 0)
-        return;
-    if(mAction->isCheckable() == false)
-        return;
-    if(mAction->isChecked() == visible)
-        return;
-
-    mAction->setChecked(visible);
+    if(e->type() == QEvent::Show) {
+        if(mAction && mAction->isCheckable())
+            mAction->setChecked(true);
+        emit dockVisibilityChanged(true);
+    }
+    return QDockWidget::event(e);
 }
+
+
+/**
+ *  closeEvent() handler.
+ *
+ * @param e
+ */
+void DockWidget::closeEvent(QCloseEvent *e)
+{
+    if(mAction && mAction->isCheckable())
+        mAction->setChecked(false);
+
+    emit dockVisibilityChanged(false);
+    QDockWidget::closeEvent(e);
+}
+
