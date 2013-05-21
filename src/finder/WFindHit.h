@@ -34,10 +34,10 @@ class FindHit
 {
 public:
 
-    FindHit::FindHit() :
+    FindHit() :
         startLine(-1), startCol(-1), startPos(-1) { }
 
-    FindHit::FindHit(int startLine, int startCol, int startPos) :
+    FindHit(int startLine, int startCol, int startPos) :
         startLine(startLine), startCol(startCol), startPos(startPos) { }
 
     int startLine;

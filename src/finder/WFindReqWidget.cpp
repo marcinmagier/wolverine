@@ -239,7 +239,7 @@ FindReqWidget::~FindReqWidget()
 }
 
 
-FindRequest FindReqWidget::getFindOptions()
+FindRequest FindReqWidget::getFindRequest()
 {
     FindRequest opt;
 

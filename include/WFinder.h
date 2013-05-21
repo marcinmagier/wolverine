@@ -102,7 +102,8 @@ private slots:
 
 private:
     void createFindWidget();
-    FindResults* find(FindRequest *options);
+    void find(const FindRequest &req, bool reverse);
+    FindResults* find(const FindRequest &req);
 
     DockWidget *mFindRequestDock;
     FindReqWidget *mFindReqWidget;

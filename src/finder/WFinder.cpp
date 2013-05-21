@@ -24,6 +24,7 @@
 
 #include "WFinder.h"
 #include "WFindRequest.h"
+#include "WFindResults.h"
 #include "WFindReqWidget.h"
 #include "WDockWidget.h"
 
@@ -79,6 +80,8 @@ Finder::Finder()
  */
 Finder::~Finder()
 {
+    if(mFindResults)
+        delete mFindResults;
 
 }
 
@@ -162,8 +165,7 @@ void Finder::findNext()
         return;
 
     mFindReqWidget->updateSearchHistory();
-
-    qDebug() << "Find next";
+    find(mFindReqWidget->getFindRequest(), false);
 }
 
 
@@ -173,8 +175,7 @@ void Finder::findPrev()
         return;
 
     mFindReqWidget->updateSearchHistory();
-
-    qDebug() << "Find prev";
+    find(mFindReqWidget->getFindRequest(), true);
 }
 
 
@@ -366,4 +367,46 @@ void Finder::onEditorSelectionChanged()
 void Finder::onEditorCursorPositionChanged(int line, int index)
 {
     qDebug() << "Cursor changed";
+}
+
+
+void Finder::find(const FindRequest &req, bool reverse)
+{
+    Editor *edit = mEditorProxy->getCurrentEditor();
+    bool revDir = (req.isReverseDirection == reverse) ? false : true;
+    bool ret;
+
+
+    if(req.isInSelection) {
+        ret = edit->findFirstInSelection(req.searchPattern,
+                                   req.isRegexp,
+                                   req.isCaseSensitive,
+                                   req.isWholeWords,
+                                   revDir);
+    } else {
+        int line = -1;
+        int index = -1;
+        if(revDir) {
+            edit->getCursorPosition(&line, &index);
+            line = line-1;
+        }
+        ret = edit->findFirst(req.searchPattern,
+                        req.isRegexp,
+                        req.isCaseSensitive,
+                        req.isWholeWords,
+                        req.isWrap,
+                        revDir,
+                        line,
+                        index);
+    }
+    qDebug() << ret;
+}
+
+FindResults* Finder::find(const FindRequest &req)
+{
+    FindResults *results = new FindResults(req);
+
+    mEditorProxy->getCurrentEditor()->findFirst(req.searchPattern, false, false, false, false);
+
+    return results;
 }

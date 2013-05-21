@@ -61,7 +61,7 @@ public:
     explicit FindReqWidget(Finder *finder, QWidget *parent = 0);
     ~FindReqWidget();
 
-    FindRequest getFindOptions();
+    FindRequest getFindRequest();
 
     void setInitialSearchPattern(const QString &pattern);
     void setInitialReplacePattern(const QString &pattern);
