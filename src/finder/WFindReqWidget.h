@@ -77,12 +77,15 @@ private slots:
     void onCurrentChanged(int idx);
     void onSearchPatternChanged(const QString &pattern);
     void onReplacePatternChanged(const QString &pattern);
-    
+    void onSelectDirectoryClicked();
+    void onCurrentDirectoryClicked();
+
 
 private:
     void setupFindWidget();
     void setupReplaceWidget();
     void setupFindInFilesWidget();
+    QString getCurrentEditorDir();
 
     Finder *mFinder;
     GeneralSettings *mGenSettings;

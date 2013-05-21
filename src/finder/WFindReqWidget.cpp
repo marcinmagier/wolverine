@@ -24,6 +24,9 @@
 #include "WFindReqWidget.h"
 #include "ui_WFindReqWidget.h"
 #include "WFinder.h"
+#include "WEditor.h"
+#include "WEditorBinder.h"
+#include "WEditorProxy.h"
 
 #include "CfgAppSettings.h"
 #include "CfgGeneralSettings.h"
@@ -32,6 +35,8 @@
 
 #include <QLineEdit>
 #include <QStringListModel>
+#include <QFileDialog>
+#include <QDir>
 
 
 using namespace Wolverine;
@@ -155,9 +160,13 @@ FindReqWidget::FindReqWidget(Finder *finder, QWidget *parent) :
 
     ui->btn2SelectDir->setIcon(QIcon(":/search_select_dir.png"));
     ui->btn2SelectDir->setToolTip(tr("Select Directory"));
+    connect( ui->btn2SelectDir, SIGNAL(clicked()),
+                          this, SLOT(onSelectDirectoryClicked()) );
 
     ui->btn2CurrentDir->setIcon(QIcon(":/search_current_dir.png"));
     ui->btn2CurrentDir->setToolTip(tr("Select Current Document's Directory"));
+    connect( ui->btn2CurrentDir, SIGNAL(clicked()),
+                           this, SLOT(onCurrentDirectoryClicked()) );
 
 
     mSearchPatternModel = new QStringListModel(mGenSettings->getFindSearchPatterns());
@@ -429,6 +438,21 @@ void FindReqWidget::onReplacePatternChanged(const QString &pattern)
     mCurrentReplacePattern = pattern;
 }
 
+void FindReqWidget::onSelectDirectoryClicked()
+{
+    QString dir = ui->cmb2Directory->lineEdit()->text();
+    dir = QFileDialog::getExistingDirectory(this, tr("Select directory"), dir, QFileDialog::ShowDirsOnly);
+    if(!dir.isEmpty())
+        ui->cmb2Directory->lineEdit()->setText(dir);
+}
+
+void FindReqWidget::onCurrentDirectoryClicked()
+{
+    QString dir = getCurrentEditorDir();
+    if(!dir.isEmpty())
+        ui->cmb2Directory->lineEdit()->setText(dir);
+}
+
 
 void FindReqWidget::setupFindWidget()
 {
@@ -488,7 +512,17 @@ void FindReqWidget::setupFindInFilesWidget()
 
     if(ui->cmb2Filters->lineEdit()->text().isEmpty())
         ui->cmb2Filters->lineEdit()->setText(mGenSettings->getFindLastFilter());
+    if(ui->cmb2Filters->lineEdit()->text().isEmpty())
+        ui->cmb2Filters->lineEdit()->setText("*.*");
 
     if(ui->cmb2Directory->lineEdit()->text().isEmpty())
         ui->cmb2Directory->lineEdit()->setText(mGenSettings->getFindLastDirectory());
+    if(ui->cmb2Directory->lineEdit()->text().isEmpty())
+        ui->cmb2Directory->lineEdit()->setText(getCurrentEditorDir());
+}
+
+QString FindReqWidget::getCurrentEditorDir()
+{
+    QDir dir = EditorProxy::instance()->getCurrentEditor()->getBinder()->absoluteDir();
+    return dir.absolutePath();
 }
