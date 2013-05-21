@@ -59,9 +59,9 @@ HEADERS      += \
                 ../src/WPopup.h \
                 ../src/WStatusBar.h \
                 ../src/editor/WEditorLexerManagerWidget.h \
-                ../src/finder/WFindOptions.h \
                 ../src/finder/WFindHit.h \
                 ../src/finder/WFindRequest.h \
+                ../src/finder/WFindResults.h \
                 ../src/finder/WFindReqWidget.h \
                 ../src/panel/WPanelTabBar.h \
                 ../src/panel/WPanelTabContent.h \

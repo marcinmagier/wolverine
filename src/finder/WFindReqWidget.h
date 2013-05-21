@@ -26,7 +26,7 @@
  #define __W_FIND_REQ_WIDGET_H_
 
 
-#include "WFindOptions.h"
+#include "WFindRequest.h"
 
 #include <QStackedWidget>
 
@@ -61,7 +61,7 @@ public:
     explicit FindReqWidget(Finder *finder, QWidget *parent = 0);
     ~FindReqWidget();
 
-    FindOptions getFindOptions();
+    FindRequest getFindOptions();
 
     void setInitialSearchPattern(const QString &pattern);
     void setInitialReplacePattern(const QString &pattern);

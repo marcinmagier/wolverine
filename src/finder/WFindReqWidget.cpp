@@ -239,24 +239,24 @@ FindReqWidget::~FindReqWidget()
 }
 
 
-FindOptions FindReqWidget::getFindOptions()
+FindRequest FindReqWidget::getFindOptions()
 {
-    FindOptions opt;
+    FindRequest opt;
 
     switch(currentIndex()) {
     case FindIdx:
-        opt.findType = FindOptions::Find;
+        opt.findType = FindRequest::Find;
         opt.searchPattern = ui->cmb0SearchPattern->lineEdit()->text();
         break;
 
     case ReplaceIdx:
-        opt.findType = FindOptions::FindReplace;
+        opt.findType = FindRequest::FindReplace;
         opt.searchPattern = ui->cmb1SearchPattern->lineEdit()->text();
         opt.replacePattern = ui->cmb1ReplacePattern->lineEdit()->text();
         break;
 
     case FindInFilesIdx:
-        opt.findType = FindOptions::FindInFiles;
+        opt.findType = FindRequest::FindInFiles;
         opt.searchPattern = ui->cmb2SearchPattern->lineEdit()->text();
         opt.replacePattern = ui->cmb2ReplacePattern->lineEdit()->text();
         opt.filters = ui->cmb2Filters->lineEdit()->text();

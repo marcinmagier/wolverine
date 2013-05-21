@@ -37,7 +37,8 @@ class QAction;
 namespace Wolverine
 {
 
-class FindOptions;
+class FindRequest;
+class FindResults;
 class FindReqWidget;
 class Editor;
 class EditorProxy;
@@ -101,9 +102,11 @@ private slots:
 
 private:
     void createFindWidget();
+    FindResults* find(FindRequest *options);
 
     DockWidget *mFindRequestDock;
     FindReqWidget *mFindReqWidget;
+    FindResults *mFindResults;
     EditorProxy *mEditorProxy;
     QAction *mFindAction;
     QAction *mFindInFilesAction;

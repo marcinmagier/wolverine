@@ -23,7 +23,7 @@
 
 
 #include "WFinder.h"
-#include "WFindOptions.h"
+#include "WFindRequest.h"
 #include "WFindReqWidget.h"
 #include "WDockWidget.h"
 
@@ -57,6 +57,7 @@ Finder::Finder()
 {
     mFindRequestDock = 0;
     mFindReqWidget = 0;
+    mFindResults = 0;
     qAddPostRoutine(deleteInstance);
 
     mEditorProxy = EditorProxy::instance();
