@@ -44,6 +44,9 @@ QtScintilla::QtScintilla(QWidget *parent) :
              this, SLOT(onLinesChanged()) );
     connect( this, SIGNAL(cursorPositionChanged(int,int)),
              this, SLOT(onCursorPositionChanged(int,int)) );
+
+    SendScintilla(SCI_SETSCROLLWIDTHTRACKING, true);
+    SendScintilla(SCI_SETSCROLLWIDTH, 10);
 }
 
 
