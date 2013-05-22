@@ -373,7 +373,7 @@ void Finder::onEditorCursorPositionChanged(int line, int index)
 void Finder::find(const FindRequest &req, bool reverse)
 {
     Editor *edit = mEditorProxy->getCurrentEditor();
-    bool revDir = (req.isReverseDirection == reverse) ? false : true;
+    bool forward = (req.isReverseDirection == reverse) ? true : false;
     bool ret;
 
 
@@ -382,20 +382,20 @@ void Finder::find(const FindRequest &req, bool reverse)
                                    req.isRegexp,
                                    req.isCaseSensitive,
                                    req.isWholeWords,
-                                   revDir);
+                                   forward);
     } else {
         int line = -1;
         int index = -1;
-        if(revDir) {
+        if(!forward) {
             edit->getCursorPosition(&line, &index);
-            line = line-1;
+            index--;
         }
         ret = edit->findFirst(req.searchPattern,
                         req.isRegexp,
                         req.isCaseSensitive,
                         req.isWholeWords,
                         req.isWrap,
-                        revDir,
+                        forward,
                         line,
                         index);
     }
