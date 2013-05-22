@@ -186,14 +186,6 @@ void Editor::wheelEvent(QWheelEvent *event)
         else if(event->delta() > 0)
             zoomIn();
 
-    } else if(event->modifiers() & Qt::ShiftModifier) {
-        QWheelEvent *eventH = new QWheelEvent(event->pos(),
-                                              event->delta()/2,
-                                              event->buttons(),
-                                              event->modifiers(),
-                                              Qt::Horizontal);
-        QtScintilla::wheelEvent(eventH);
-        delete eventH;
     } else {
         QtScintilla::wheelEvent(event);
     }
