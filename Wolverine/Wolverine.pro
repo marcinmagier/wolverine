@@ -27,7 +27,6 @@ SOURCES      += \
                 ../src/editor/WEditorLexerManagerWidget.cpp \
                 ../src/editor/WEditorMap.cpp \
                 ../src/editor/WEditorProxy.cpp \
-                ../src/editor/qtscintilla.cpp \
                 ../src/finder/WFinder.cpp \
                 ../src/finder/WFindReqWidget.cpp \
                 ../src/panel/WPanel.cpp \
@@ -89,8 +88,7 @@ HEADERS      += \
                 ../include/WFinder.h \
                 ../include/WLib.h \
                 ../include/WMainWindow.h \
-                ../include/WPanel.h \
-                ../include/qtscintilla.h
+                ../include/WPanel.h
 
 
 INCLUDEPATH  += \
