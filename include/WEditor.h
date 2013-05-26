@@ -56,14 +56,19 @@ public:
     QString getCode();
     void convertToCodec(const QString &name);
 
+    void updateScrollH(int range);
+    void updateScrollV(int range);
+
 
 signals:
     void focusReceived();
+    void sizeChanged();
 
 
 protected:
     virtual void focusInEvent(QFocusEvent *event);
     virtual void wheelEvent(QWheelEvent *event);
+    virtual void resizeEvent(QResizeEvent *e);
 
 private slots:
     void onCursorLineChanged(int line);

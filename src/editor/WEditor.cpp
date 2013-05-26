@@ -32,6 +32,7 @@
 
 #include <QContextMenuEvent>
 #include <QWheelEvent>
+#include <QScrollBar>
 
 #include <algorithm>
 
@@ -162,6 +163,21 @@ void Editor::convertToCodec(const QString &name)
 }
 
 
+void Editor::updateScrollH(int range)
+{
+    QScrollBar *scrollBar = horizontalScrollBar();
+    scrollBar->setValue(scrollBar->value() + range);
+}
+
+void Editor::updateScrollV(int range)
+{
+    QScrollBar *scrollBar = verticalScrollBar();
+    scrollBar->setValue(scrollBar->value() + range);
+}
+
+
+
+
 
 
 /**
@@ -172,7 +188,7 @@ void Editor::convertToCodec(const QString &name)
 void Editor::focusInEvent(QFocusEvent *event)
 {
     emit focusReceived();
-    QsciScintilla::focusInEvent(event);
+    QtScintilla::focusInEvent(event);
 }
 
 void Editor::wheelEvent(QWheelEvent *event)
@@ -202,6 +218,12 @@ void Editor::wheelEvent(QWheelEvent *event)
     }
 */
 
+}
+
+void Editor::resizeEvent(QResizeEvent *e)
+{
+    QtScintilla::resizeEvent(e);
+    emit sizeChanged();
 }
 
 
