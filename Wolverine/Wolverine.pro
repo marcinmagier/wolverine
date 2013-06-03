@@ -50,7 +50,8 @@ SOURCES      += \
                 ../src/WLib.cpp \
                 ../src/WMainWindow.cpp \
                 ../src/WPopup.cpp \
-                ../src/WStatusBar.cpp
+                ../src/WStatusBar.cpp \
+    ../src/finder/WFindWidget.cpp
 
 
 HEADERS      += \
@@ -88,7 +89,8 @@ HEADERS      += \
                 ../include/WFinder.h \
                 ../include/WLib.h \
                 ../include/WMainWindow.h \
-                ../include/WPanel.h
+                ../include/WPanel.h \
+    ../src/finder/WFindWidget.h
 
 
 INCLUDEPATH  += \
@@ -110,7 +112,8 @@ FORMS        += \
                 ../src/settings/PageGeneral.ui \
                 ../src/settings/PageView.ui \
                 ../src/settings/PageEditor.ui \
-                ../src/settings/PageEditorCodec.ui
+                ../src/settings/PageEditorCodec.ui \
+    ../src/finder/WFindWidget.ui
 
 
 TRANSLATIONS += \

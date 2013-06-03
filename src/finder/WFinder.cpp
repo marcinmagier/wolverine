@@ -26,6 +26,7 @@
 #include "WFindRequest.h"
 #include "WFindResults.h"
 #include "WFindReqWidget.h"
+#include "WFindWidget.h"
 #include "WDockWidget.h"
 
 #include "WEditor.h"
@@ -278,7 +279,7 @@ void Finder::createFindWidget()
     if(mFindRequestDock == 0) {
         mFindReqWidget = new FindReqWidget(this);
         mFindRequestDock = new DockWidget(QString());
-        mFindRequestDock->setWidget(mFindReqWidget);
+        //mFindRequestDock->setWidget(mFindReqWidget);
 
         connect( mFindRequestDock, SIGNAL(dockVisibilityChanged(bool)),
                              this, SLOT(onDockVisibilityChanged(bool)) );
