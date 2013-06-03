@@ -27,7 +27,7 @@
 
 #include "WFindRequest.h"
 
-#include <QDockWidget>
+#include <QWidget>
 
 
 class GeneralSettings;
@@ -44,7 +44,7 @@ namespace Wolverine
 class Finder;
 
 
-class FindWidget : public QDockWidget
+class FindWidget : public QWidget
 {
     Q_OBJECT
     
@@ -59,15 +59,23 @@ public:
     explicit FindWidget(Finder *finder, QWidget *parent = 0);
     ~FindWidget();
 
+    void setCurrentIndex(Idx idx);
+    Idx getCurrentIndex();
     FindRequest getFindRequest();
 
     
+private slots:
+    void onSelectDirectoryClicked();
+    void onCurrentDirectoryClicked();
+
+
 private:
     void setupFindWidget();
     void setupReplaceWidget();
     void setupFindInFilesWidget();
     QString getCurrentEditorDir();
 
+    Idx mIdx;
     Finder *mFinder;
     GeneralSettings *mGenSettings;
 

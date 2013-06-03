@@ -28,7 +28,7 @@ SOURCES      += \
                 ../src/editor/WEditorMap.cpp \
                 ../src/editor/WEditorProxy.cpp \
                 ../src/finder/WFinder.cpp \
-                ../src/finder/WFindReqWidget.cpp \
+                ../src/finder/WFindWidget.cpp \
                 ../src/panel/WPanel.cpp \
                 ../src/panel/WPanelTabBar.cpp \
                 ../src/panel/WPanelTabContent.cpp \
@@ -50,8 +50,7 @@ SOURCES      += \
                 ../src/WLib.cpp \
                 ../src/WMainWindow.cpp \
                 ../src/WPopup.cpp \
-                ../src/WStatusBar.cpp \
-    ../src/finder/WFindWidget.cpp
+                ../src/WStatusBar.cpp
 
 
 HEADERS      += \
@@ -62,7 +61,7 @@ HEADERS      += \
                 ../src/finder/WFindHit.h \
                 ../src/finder/WFindRequest.h \
                 ../src/finder/WFindResults.h \
-                ../src/finder/WFindReqWidget.h \
+                ../src/finder/WFindWidget.h \
                 ../src/panel/WPanelTabBar.h \
                 ../src/panel/WPanelTabContent.h \
                 ../src/settings/PageGeneral.h \
@@ -89,8 +88,7 @@ HEADERS      += \
                 ../include/WFinder.h \
                 ../include/WLib.h \
                 ../include/WMainWindow.h \
-                ../include/WPanel.h \
-    ../src/finder/WFindWidget.h
+                ../include/WPanel.h
 
 
 INCLUDEPATH  += \
@@ -108,12 +106,11 @@ RC_FILE      += \
 
 FORMS        += \
                 ../src/editor/WEditorLexerManagerWidget.ui \
-                ../src/finder/WFindReqWidget.ui \
+                ../src/finder/WFindWidget.ui \
                 ../src/settings/PageGeneral.ui \
                 ../src/settings/PageView.ui \
                 ../src/settings/PageEditor.ui \
-                ../src/settings/PageEditorCodec.ui \
-    ../src/finder/WFindWidget.ui
+                ../src/settings/PageEditorCodec.ui
 
 
 TRANSLATIONS += \
