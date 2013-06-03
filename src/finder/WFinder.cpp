@@ -25,7 +25,7 @@
 #include "WFinder.h"
 #include "WFindRequest.h"
 #include "WFindResults.h"
-#include "WFindWidget.h"
+#include "WFindReqWidget.h"
 #include "WDockWidget.h"
 
 #include "WEditor.h"
@@ -116,7 +116,7 @@ void Finder::showFindWidget()
 {
 
         createFindWidget();
-        mFindReqWidget->setCurrentIndex(FindWidget::FindIdx);
+        mFindReqWidget->setCurrentIndex(FindReqWidget::FindIdx);
         mFindAction->setChecked(true);
         mFindInFilesAction->setChecked(false);
         mReplaceAction->setChecked(false);
@@ -132,7 +132,7 @@ void Finder::showFindInFilesWidget()
 {
 
         createFindWidget();
-        mFindReqWidget->setCurrentIndex(FindWidget::FindInFilesIdx);
+        mFindReqWidget->setCurrentIndex(FindReqWidget::FindInFilesIdx);
         mFindAction->setChecked(false);
         mFindInFilesAction->setChecked(true);
         mReplaceAction->setChecked(false);
@@ -147,7 +147,7 @@ void Finder::showFindInFilesWidget()
 void Finder::showReplaceWidget()
 {
         createFindWidget();
-        mFindReqWidget->setCurrentIndex(FindWidget::ReplaceIdx);
+        mFindReqWidget->setCurrentIndex(FindReqWidget::ReplaceIdx);
         mFindAction->setChecked(false);
         mFindInFilesAction->setChecked(false);
         mReplaceAction->setChecked(true);
@@ -276,7 +276,7 @@ void Finder::jumpPrevMark(int style)
 void Finder::createFindWidget()
 {
     if(mFindRequestDock == 0) {
-        mFindReqWidget = new FindWidget(this);
+        mFindReqWidget = new FindReqWidget(this);
         mFindRequestDock = new DockWidget(QString());
         mFindRequestDock->setWidget(mFindReqWidget);
 
@@ -299,15 +299,15 @@ void Finder::createFindWidget()
 void Finder::onDockVisibilityChanged(bool visible)
 {
     if(visible) {
-        FindWidget::Idx idx = mFindReqWidget->getCurrentIndex();
+        FindReqWidget::Idx idx = mFindReqWidget->getCurrentIndex();
         switch(idx) {
-        case FindWidget::FindIdx:
+        case FindReqWidget::FindIdx:
             mFindAction->setChecked(true);
             break;
-        case FindWidget::ReplaceIdx:
+        case FindReqWidget::ReplaceIdx:
             mReplaceAction->setChecked(true);
             break;
-        case FindWidget::FindInFilesIdx:
+        case FindReqWidget::FindInFilesIdx:
             mFindInFilesAction->setChecked(true);
             break;
         }

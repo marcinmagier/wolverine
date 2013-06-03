@@ -16,8 +16,8 @@
 **************************************************************************************************/
 
 /**
- *  @file       WFindWidget.h
- *  @brief      Wolverine::FindWidget class interface.
+ *  @file       WFindReqWidget.h
+ *  @brief      Wolverine::FindReqWidget class interface.
  */
 
 
@@ -34,7 +34,7 @@ class GeneralSettings;
 
 
 namespace Ui {
-class FindWidget;
+class FindReqWidget;
 }
 
 
@@ -44,7 +44,7 @@ namespace Wolverine
 class Finder;
 
 
-class FindWidget : public QWidget
+class FindReqWidget : public QWidget
 {
     Q_OBJECT
     
@@ -56,8 +56,8 @@ public:
     };
 
 
-    explicit FindWidget(Finder *finder, QWidget *parent = 0);
-    ~FindWidget();
+    explicit FindReqWidget(Finder *finder, QWidget *parent = 0);
+    ~FindReqWidget();
 
     void setCurrentIndex(Idx idx);
     Idx getCurrentIndex();
@@ -79,7 +79,7 @@ private:
     Finder *mFinder;
     GeneralSettings *mGenSettings;
 
-    Ui::FindWidget *ui;
+    Ui::FindReqWidget *ui;
 };
 
 

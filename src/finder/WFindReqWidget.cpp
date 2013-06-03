@@ -16,14 +16,14 @@
 **************************************************************************************************/
 
 /**
- *  @file       WFindWidget.cpp
- *  @brief      Wolverine::FindWidget class implementation.
+ *  @file       WFindReqWidget.cpp
+ *  @brief      Wolverine::FindReqWidget class implementation.
  */
 
 
 
-#include "WFindWidget.h"
-#include "ui_WFindWidget.h"
+#include "WFindReqWidget.h"
+#include "ui_WFindReqWidget.h"
 #include "WFinder.h"
 #include "WEditor.h"
 #include "WEditorBinder.h"
@@ -45,10 +45,10 @@ using namespace Wolverine;
  *
  * @param parent
  */
-FindWidget::FindWidget(Finder *finder, QWidget *parent) :
+FindReqWidget::FindReqWidget(Finder *finder, QWidget *parent) :
     QWidget(parent),
     mFinder(finder),
-    ui(new Ui::FindWidget)
+    ui(new Ui::FindReqWidget)
 {
     mGenSettings = AppSettings::instance()->general;
 
@@ -119,14 +119,14 @@ FindWidget::FindWidget(Finder *finder, QWidget *parent) :
                                  this, SLOT(onCurrentDirectoryClicked()) );
 }
 
-FindWidget::~FindWidget()
+FindReqWidget::~FindReqWidget()
 {
     delete ui;
 }
 
 
 
-void FindWidget::setCurrentIndex(Idx idx)
+void FindReqWidget::setCurrentIndex(Idx idx)
 {
     switch(idx) {
     case FindIdx:
@@ -143,13 +143,13 @@ void FindWidget::setCurrentIndex(Idx idx)
     }
 }
 
-FindWidget::Idx FindWidget::getCurrentIndex()
+FindReqWidget::Idx FindReqWidget::getCurrentIndex()
 {
     return mIdx;
 }
 
 
-FindRequest FindWidget::getFindRequest()
+FindRequest FindReqWidget::getFindRequest()
 {
     FindRequest opt;
 
@@ -159,19 +159,19 @@ FindRequest FindWidget::getFindRequest()
 
 
 
-void FindWidget::onSelectDirectoryClicked()
+void FindReqWidget::onSelectDirectoryClicked()
 {
 
 }
 
-void FindWidget::onCurrentDirectoryClicked()
+void FindReqWidget::onCurrentDirectoryClicked()
 {
 
 }
 
 
 
-void FindWidget::setupFindWidget()
+void FindReqWidget::setupFindWidget()
 {
     mIdx = FindIdx;
     ui->stButtons->setCurrentIndex(mIdx);
@@ -208,7 +208,7 @@ void FindWidget::setupFindWidget()
 }
 
 
-void FindWidget::setupReplaceWidget()
+void FindReqWidget::setupReplaceWidget()
 {
     mIdx = ReplaceIdx;
     ui->stButtons->setCurrentIndex(mIdx);
@@ -249,7 +249,7 @@ void FindWidget::setupReplaceWidget()
 }
 
 
-void FindWidget::setupFindInFilesWidget()
+void FindReqWidget::setupFindInFilesWidget()
 {
     mIdx = FindInFilesIdx;
     ui->stButtons->setCurrentIndex(mIdx);
@@ -286,7 +286,7 @@ void FindWidget::setupFindInFilesWidget()
 }
 
 
-QString FindWidget::getCurrentEditorDir()
+QString FindReqWidget::getCurrentEditorDir()
 {
     return QString();
 }

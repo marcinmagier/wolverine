@@ -39,7 +39,7 @@ namespace Wolverine
 
 class FindRequest;
 class FindResults;
-class FindWidget;
+class FindReqWidget;
 class Editor;
 class EditorProxy;
 class DockWidget;
@@ -106,7 +106,7 @@ private:
     FindResults* find(const FindRequest &req);
 
     DockWidget *mFindRequestDock;
-    FindWidget *mFindReqWidget;
+    FindReqWidget *mFindReqWidget;
     FindResults *mFindResults;
     EditorProxy *mEditorProxy;
     QAction *mFindAction;
