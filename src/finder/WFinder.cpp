@@ -124,8 +124,8 @@ void Finder::showFindWidget()
     mFindRequestDock->setWindowTitle(tr("Find"));
 
     QString selection = mEditorProxy->getCurrentEditor()->selectedText();
-    //if(!selection.isEmpty())
-    //    mFindReqWidget->setInitialSearchPattern(selection);
+    if(!selection.isEmpty())
+        mFindReqWidget->setInitialSearchPattern(selection);
 }
 
 void Finder::showFindInFilesWidget()
@@ -140,8 +140,8 @@ void Finder::showFindInFilesWidget()
     mFindRequestDock->setWindowTitle(tr("Find In Files"));
 
     QString selection = mEditorProxy->getCurrentEditor()->selectedText();
-    //if(!selection.isEmpty())
-    //    mFindReqWidget->setInitialSearchPattern(selection);
+    if(!selection.isEmpty())
+        mFindReqWidget->setInitialSearchPattern(selection);
 }
 
 void Finder::showReplaceWidget()
@@ -155,8 +155,8 @@ void Finder::showReplaceWidget()
     mFindRequestDock->setWindowTitle(tr("Replace"));
 
     QString selection = mEditorProxy->getCurrentEditor()->selectedText();
-    //if(!selection.isEmpty())
-    //    mFindReqWidget->setInitialSearchPattern(selection);
+    if(!selection.isEmpty())
+        mFindReqWidget->setInitialSearchPattern(selection);
 }
 
 void Finder::findNext()
@@ -164,7 +164,7 @@ void Finder::findNext()
     if(mFindRequestDock == 0)
         return;
 
-   // mFindReqWidget->updateSearchHistory();
+    mFindReqWidget->updateSearchHistory();
     find(mFindReqWidget->getFindRequest(), false);
 }
 
@@ -174,59 +174,59 @@ void Finder::findPrev()
     if(mFindRequestDock == 0)
         return;
 
- //   mFindReqWidget->updateSearchHistory();
+    mFindReqWidget->updateSearchHistory();
     find(mFindReqWidget->getFindRequest(), true);
 }
 
 
 void Finder::findAll()
 {
-   // mFindReqWidget->updateSearchHistory();
+    mFindReqWidget->updateSearchHistory();
 }
 
 
 void Finder::findInAllTabs()
 {
-  //  mFindReqWidget->updateSearchHistory();
+    mFindReqWidget->updateSearchHistory();
 }
 
 
 void Finder::findInFiles()
 {
-  //  mFindReqWidget->updateSearchHistory();
- //   mFindReqWidget->updateFilterAndDirectoryHistory();
+    mFindReqWidget->updateSearchHistory();
+    mFindReqWidget->updateFilterAndDirectoryHistory();
 }
 
 
 void Finder::replace()
 {
-  //  mFindReqWidget->updateSearchHistory();
-  //  mFindReqWidget->updateReplaceHistory();
+    mFindReqWidget->updateSearchHistory();
+    mFindReqWidget->updateReplaceHistory();
 }
 
 void Finder::replaceFindNext()
 {
- //   mFindReqWidget->updateSearchHistory();
- //   mFindReqWidget->updateReplaceHistory();
+    mFindReqWidget->updateSearchHistory();
+    mFindReqWidget->updateReplaceHistory();
 }
 
 void Finder::replaceAll()
 {
-//    mFindReqWidget->updateSearchHistory();
-//    mFindReqWidget->updateReplaceHistory();
+    mFindReqWidget->updateSearchHistory();
+    mFindReqWidget->updateReplaceHistory();
 }
 
 void Finder::replaceInAllTabs()
 {
- //   mFindReqWidget->updateSearchHistory();
-//    mFindReqWidget->updateReplaceHistory();
+    mFindReqWidget->updateSearchHistory();
+    mFindReqWidget->updateReplaceHistory();
 }
 
 void Finder::replaceInFiles()
 {
- //   mFindReqWidget->updateSearchHistory();
- //   mFindReqWidget->updateReplaceHistory();
-//    mFindReqWidget->updateFilterAndDirectoryHistory();
+    mFindReqWidget->updateSearchHistory();
+    mFindReqWidget->updateReplaceHistory();
+    mFindReqWidget->updateFilterAndDirectoryHistory();
 }
 
 

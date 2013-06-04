@@ -117,6 +117,41 @@ FindReqWidget::FindReqWidget(Finder *finder, QWidget *parent) :
     ui->btn2SelectCurrentDir->setToolTip(tr("Select Current Document's Directory"));
     connect( ui->btn2SelectCurrentDir, SIGNAL(clicked()),
                                  this, SLOT(onCurrentDirectoryClicked()) );
+
+    ui->cmbSearchPattern->addItems(mGenSettings->getFindSearchPatterns());
+    ui->cmbReplacePattern->addItems(mGenSettings->getFindReplacePatterns());
+    ui->cmbFilters->addItems(mGenSettings->getFindFilters());
+    ui->cmbDirectory->addItems(mGenSettings->getFindDirectories());
+
+
+    connect( ui->btn0FindNext, SIGNAL(clicked()),
+                      mFinder, SLOT(findNext()) );
+    connect( ui->btn0FindPrev, SIGNAL(clicked()),
+                      mFinder, SLOT(findPrev()) );
+    connect( ui->btn0FindAll, SIGNAL(clicked()),
+                     mFinder, SLOT(findAll()) );
+    connect( ui->btn0FindAllInTabs, SIGNAL(clicked()),
+                           mFinder, SLOT(findInAllTabs()) );
+
+    connect( ui->btn1FindNext, SIGNAL(clicked()),
+                      mFinder, SLOT(findNext()) );
+    connect( ui->btn1Replace, SIGNAL(clicked()),
+                     mFinder, SLOT(replace()) );
+    connect( ui->btn1ReplaceFind, SIGNAL(clicked()),
+                         mFinder, SLOT(replaceFindNext()) );
+    connect( ui->btn1ReplaceAll, SIGNAL(clicked()),
+                        mFinder, SLOT(replaceAll()) );
+    connect( ui->btn1ReplaceAllInTabs, SIGNAL(clicked()),
+                              mFinder, SLOT(replaceInAllTabs()) );
+
+    connect( ui->btn2FindAll, SIGNAL(clicked()),
+                     mFinder, SLOT(findInFiles()) );
+    connect( ui->btn2ReplaceAll, SIGNAL(clicked()),
+                        mFinder, SLOT(replaceInFiles()) );
+
+
+
+
 }
 
 FindReqWidget::~FindReqWidget()
@@ -153,20 +188,112 @@ FindRequest FindReqWidget::getFindRequest()
 {
     FindRequest opt;
 
+    switch(mIdx) {
+    case FindIdx:
+        opt.findType = FindRequest::Find;
+        break;
+
+    case ReplaceIdx:
+        opt.findType = FindRequest::FindReplace;
+        break;
+
+    case FindInFilesIdx:
+        opt.findType = FindRequest::FindInFiles;
+    }
+
+    opt.searchPattern = ui->cmbSearchPattern->lineEdit()->text();
+    opt.replacePattern = ui->cmbReplacePattern->lineEdit()->text();
+    opt.filters = ui->cmbFilters->lineEdit()->text();
+    opt.directory = ui->cmbDirectory->lineEdit()->text();
+
+    opt.isCaseSensitive = mGenSettings->isFindCaseSensitiveSet();
+    opt.isWholeWords = mGenSettings->isFindWholeWordsSet();
+    opt.isRegexp = mGenSettings->isFindRegexpSet();
+    opt.isReverseDirection = mGenSettings->isFindReverseDirectionSet();
+    opt.isWrap = mGenSettings->isFindWrapSet();
+    opt.isInSelection = mGenSettings->isFindInSelectionSet();
+    opt.isBookmarkLine = mGenSettings->isFindMarkSet();
+    opt.isInSubDirs = mGenSettings->isFindInSubDirsSet();
+    opt.isInHiddenDirs = mGenSettings->isFindInHiddenDirsSet();
 
     return opt;
+}
+
+
+void FindReqWidget::setInitialSearchPattern(const QString &pattern)
+{
+    ui->cmbSearchPattern->lineEdit()->setText(pattern);
+}
+
+
+void FindReqWidget::setInitialReplacePattern(const QString &pattern)
+{
+    ui->cmbReplacePattern->lineEdit()->setText(pattern);
+}
+
+
+void FindReqWidget::setInitialFilters(const QString &pattern)
+{
+    ui->cmbFilters->lineEdit()->setText(pattern);
+}
+
+
+void FindReqWidget::setInitialDirectory(const QString &pattern)
+{
+    ui->cmbDirectory->lineEdit()->setText(pattern);
+}
+
+
+void FindReqWidget::updateSearchHistory()
+{
+    QString currentText = ui->cmbSearchPattern->lineEdit()->text();
+    mGenSettings->addFindSearchPattern(currentText);
+    ui->cmbSearchPattern->clear();
+    ui->cmbSearchPattern->addItems(mGenSettings->getFindSearchPatterns());
+    ui->cmbSearchPattern->lineEdit()->setText(currentText);
+}
+
+
+void FindReqWidget::updateReplaceHistory()
+{
+    QString currentText = ui->cmbReplacePattern->lineEdit()->text();
+    mGenSettings->addFindReplacePattern(currentText);
+    ui->cmbReplacePattern->clear();
+    ui->cmbReplacePattern->addItems(mGenSettings->getFindReplacePatterns());
+    ui->cmbReplacePattern->lineEdit()->setText(currentText);
+}
+
+
+void FindReqWidget::updateFilterAndDirectoryHistory()
+{
+    QString currentText = ui->cmbFilters->lineEdit()->text();
+    mGenSettings->addFindFilter(currentText);
+    ui->cmbFilters->clear();
+    ui->cmbFilters->addItems(mGenSettings->getFindFilters());
+    ui->cmbFilters->lineEdit()->setText(currentText);
+
+    currentText = ui->cmbDirectory->lineEdit()->text();
+    mGenSettings->addFindDirectory(currentText);
+    ui->cmbDirectory->clear();
+    ui->cmbDirectory->addItems(mGenSettings->getFindDirectories());
+    ui->cmbDirectory->lineEdit()->setText(currentText);
 }
 
 
 
 void FindReqWidget::onSelectDirectoryClicked()
 {
-
+    QString dir = ui->cmbDirectory->lineEdit()->text();
+    dir = QFileDialog::getExistingDirectory(this, tr("Select directory"), dir, QFileDialog::ShowDirsOnly);
+    if(!dir.isEmpty())
+        ui->cmbDirectory->lineEdit()->setText(dir);
 }
 
 void FindReqWidget::onCurrentDirectoryClicked()
 {
-
+    QString dir = getCurrentEditorDir();
+    if(!dir.isEmpty())
+        ui->cmbDirectory->lineEdit()->setText(dir);
 }
 
 
@@ -205,6 +332,9 @@ void FindReqWidget::setupFindWidget()
     ui->btn0FindPrev->show();
     ui->btn0FindAll->show();
     ui->btn0FindAllInTabs->show();
+
+    if(ui->cmbSearchPattern->lineEdit()->text().isEmpty())
+        ui->cmbSearchPattern->lineEdit()->setText(mGenSettings->getFindLastSearchPattern());
 }
 
 
@@ -246,6 +376,12 @@ void FindReqWidget::setupReplaceWidget()
     ui->btn1ReplaceAll->show();
     ui->btn1ReplaceAllInTabs->show();
 
+    if(ui->cmbSearchPattern->lineEdit()->text().isEmpty())
+        ui->cmbSearchPattern->lineEdit()->setText(mGenSettings->getFindLastSearchPattern());
+
+    if(ui->cmbReplacePattern->lineEdit()->text().isEmpty())
+        ui->cmbReplacePattern->lineEdit()->setText(mGenSettings->getFindLastReplacePattern());
+
 }
 
 
@@ -283,10 +419,23 @@ void FindReqWidget::setupFindInFilesWidget()
     ui->btn2ReplaceAll->show();
     ui->btn2SelectDir->show();
     ui->btn2SelectCurrentDir->show();
+
+    if(ui->cmbSearchPattern->lineEdit()->text().isEmpty())
+        ui->cmbSearchPattern->lineEdit()->setText(mGenSettings->getFindLastSearchPattern());
+
+    if(ui->cmbReplacePattern->lineEdit()->text().isEmpty())
+        ui->cmbReplacePattern->lineEdit()->setText(mGenSettings->getFindLastReplacePattern());
+
+    if(ui->cmbFilters->lineEdit()->text().isEmpty())
+        ui->cmbFilters->lineEdit()->setText(mGenSettings->getFindLastFilter());
+
+    if(ui->cmbDirectory->lineEdit()->text().isEmpty())
+        ui->cmbDirectory->lineEdit()->setText(mGenSettings->getFindLastDirectory());
 }
 
 
 QString FindReqWidget::getCurrentEditorDir()
 {
-    return QString();
+    QDir dir = EditorProxy::instance()->getCurrentEditor()->getBinder()->absoluteDir();
+    return dir.absolutePath();
 }

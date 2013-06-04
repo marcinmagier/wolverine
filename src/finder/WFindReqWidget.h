@@ -63,6 +63,15 @@ public:
     Idx getCurrentIndex();
     FindRequest getFindRequest();
 
+    void setInitialSearchPattern(const QString &pattern);
+    void setInitialReplacePattern(const QString &pattern);
+    void setInitialFilters(const QString &pattern);
+    void setInitialDirectory(const QString &pattern);
+
+    void updateSearchHistory();
+    void updateReplaceHistory();
+    void updateFilterAndDirectoryHistory();
+
     
 private slots:
     void onSelectDirectoryClicked();
