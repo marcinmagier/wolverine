@@ -116,7 +116,7 @@ void Finder::showFindWidget()
 {
 
         createFindWidget();
-        mFindReqWidget->setCurrentIndex(0);
+        mFindReqWidget->setCurrentIndex(FindReqWidget::FindIdx);
         mFindAction->setChecked(true);
         mFindInFilesAction->setChecked(false);
         mReplaceAction->setChecked(false);
@@ -132,7 +132,7 @@ void Finder::showFindInFilesWidget()
 {
 
         createFindWidget();
-        mFindReqWidget->setCurrentIndex(2);
+        mFindReqWidget->setCurrentIndex(FindReqWidget::FindInFilesIdx);
         mFindAction->setChecked(false);
         mFindInFilesAction->setChecked(true);
         mReplaceAction->setChecked(false);
@@ -147,7 +147,7 @@ void Finder::showFindInFilesWidget()
 void Finder::showReplaceWidget()
 {
         createFindWidget();
-        mFindReqWidget->setCurrentIndex(1);
+        mFindReqWidget->setCurrentIndex(FindReqWidget::ReplaceIdx);
         mFindAction->setChecked(false);
         mFindInFilesAction->setChecked(false);
         mReplaceAction->setChecked(true);
@@ -299,7 +299,7 @@ void Finder::createFindWidget()
 void Finder::onDockVisibilityChanged(bool visible)
 {
     if(visible) {
-        int idx = mFindReqWidget->currentIndex();
+        FindReqWidget::Idx idx = mFindReqWidget->getCurrentIndex();
         switch(idx) {
         case FindReqWidget::FindIdx:
             mFindAction->setChecked(true);
@@ -309,9 +309,6 @@ void Finder::onDockVisibilityChanged(bool visible)
             break;
         case FindReqWidget::FindInFilesIdx:
             mFindInFilesAction->setChecked(true);
-            break;
-        default:
-            LOG_ERROR("Wrong FindReqWidget index - %d", idx);
             break;
         }
     } else {

@@ -21,19 +21,16 @@
  */
 
 
-
-#ifndef __W_FIND_REQ_WIDGET_H_
- #define __W_FIND_REQ_WIDGET_H_
+#ifndef __W_FIND_WIDGET_H_
+ #define __W_FIND_WIDGET_H_
 
 
 #include "WFindRequest.h"
 
-#include <QStackedWidget>
+#include <QWidget>
 
 
 class GeneralSettings;
-
-class QStringListModel;
 
 
 namespace Ui {
@@ -41,16 +38,16 @@ class FindReqWidget;
 }
 
 
-namespace Wolverine {
-
+namespace Wolverine
+{
 
 class Finder;
 
 
-class FindReqWidget : public QStackedWidget
+class FindReqWidget : public QWidget
 {
     Q_OBJECT
-
+    
 public:
     enum Idx {
         FindIdx,
@@ -58,25 +55,25 @@ public:
         FindInFilesIdx
     };
 
+
     explicit FindReqWidget(Finder *finder, QWidget *parent = 0);
     ~FindReqWidget();
 
+    void setCurrentIndex(Idx idx);
+    Idx getCurrentIndex();
     FindRequest getFindRequest();
 
     void setInitialSearchPattern(const QString &pattern);
     void setInitialReplacePattern(const QString &pattern);
-    void setInitialFilters(const QString &filters);
-    void setInitialDirectory(const QString &directory);
+    void setInitialFilters(const QString &pattern);
+    void setInitialDirectory(const QString &pattern);
 
     void updateSearchHistory();
     void updateReplaceHistory();
     void updateFilterAndDirectoryHistory();
 
-
+    
 private slots:
-    void onCurrentChanged(int idx);
-    void onSearchPatternChanged(const QString &pattern);
-    void onReplacePatternChanged(const QString &pattern);
     void onSelectDirectoryClicked();
     void onCurrentDirectoryClicked();
 
@@ -87,20 +84,14 @@ private:
     void setupFindInFilesWidget();
     QString getCurrentEditorDir();
 
+    Idx mIdx;
     Finder *mFinder;
     GeneralSettings *mGenSettings;
-
-    QString mCurrentSearchPattern;
-    QString mCurrentReplacePattern;
-    QStringListModel *mSearchPatternModel;
-    QStringListModel *mReplacePatternModel;
-    QStringListModel *mFilterModel;
-    QStringListModel *mDirectoryModel;
 
     Ui::FindReqWidget *ui;
 };
 
 
-};
+}
 
-#endif // __W_FIND_REQ_WIDGET_H_
+#endif // __W_FIND_WIDGET_H_

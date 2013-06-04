@@ -21,6 +21,7 @@
  */
 
 
+
 #include "WFindReqWidget.h"
 #include "ui_WFindReqWidget.h"
 #include "WFinder.h"
@@ -31,15 +32,12 @@
 #include "CfgAppSettings.h"
 #include "CfgGeneralSettings.h"
 
-#include "Logger.h"
-
 #include <QLineEdit>
-#include <QStringListModel>
 #include <QFileDialog>
 #include <QDir>
 
-
 using namespace Wolverine;
+
 
 
 /**
@@ -48,7 +46,7 @@ using namespace Wolverine;
  * @param parent
  */
 FindReqWidget::FindReqWidget(Finder *finder, QWidget *parent) :
-    QStackedWidget(parent),
+    QWidget(parent),
     mFinder(finder),
     ui(new Ui::FindReqWidget)
 {
@@ -56,143 +54,74 @@ FindReqWidget::FindReqWidget(Finder *finder, QWidget *parent) :
 
     ui->setupUi(this);
 
-    connect( this, SIGNAL(currentChanged(int)),
-             this, SLOT(onCurrentChanged(int)) );
+    ui->btnOptCaseSensitive->setIcon(QIcon(":/search_sensitive.png"));
+    ui->btnOptCaseSensitive->setToolTip(tr("Case Sensitive"));
+    ui->btnOptCaseSensitive->setChecked(mGenSettings->isFindCaseSensitiveSet());
+    connect( ui->btnOptCaseSensitive, SIGNAL(toggled(bool)),
+             mGenSettings, SLOT(setFindCaseSensitive(bool)), Qt::DirectConnection );
 
-    ui->btn0CaseSensitive->setIcon(QIcon(":/search_sensitive.png"));
-    ui->btn0CaseSensitive->setToolTip(tr("Case Sensitive"));
-    connect(ui->btn0CaseSensitive, SIGNAL(toggled(bool)),
-            mGenSettings, SLOT(setFindCaseSensitive(bool)), Qt::DirectConnection);
+    ui->btnOptWords->setIcon(QIcon(":/search_words.png"));
+    ui->btnOptWords->setToolTip(tr("Whole Words"));
+    ui->btnOptWords->setChecked(mGenSettings->isFindWholeWordsSet());
+    connect( ui->btnOptWords, SIGNAL(toggled(bool)),
+             mGenSettings, SLOT(setFindWholeWords(bool)), Qt::DirectConnection );
 
-    ui->btn1CaseSensitive->setIcon(QIcon(":/search_sensitive.png"));
-    ui->btn1CaseSensitive->setToolTip(tr("Case Sensitive"));
-    connect(ui->btn1CaseSensitive, SIGNAL(toggled(bool)),
-            mGenSettings, SLOT(setFindCaseSensitive(bool)), Qt::DirectConnection);
+    ui->btnOptRegexp->setIcon(QIcon(":/search_regexp.png"));
+    ui->btnOptRegexp->setToolTip(tr("Regular Expression"));
+    ui->btnOptRegexp->setChecked(mGenSettings->isFindRegexpSet());
+    connect( ui->btnOptRegexp, SIGNAL(toggled(bool)),
+             mGenSettings, SLOT(setFindRegexp(bool)), Qt::DirectConnection );
 
-    ui->btn2CaseSensitive->setIcon(QIcon(":/search_sensitive.png"));
-    ui->btn2CaseSensitive->setToolTip(tr("Case Sensitive"));
-    connect(ui->btn2CaseSensitive, SIGNAL(toggled(bool)),
-            mGenSettings, SLOT(setFindCaseSensitive(bool)), Qt::DirectConnection);
+    ui->btnOptReverse->setIcon(QIcon(":/search_reverse.png"));
+    ui->btnOptReverse->setToolTip(tr("Reverse Direction"));
+    ui->btnOptReverse->setChecked(mGenSettings->isFindReverseDirectionSet());
+    connect( ui->btnOptReverse, SIGNAL(toggled(bool)),
+             mGenSettings, SLOT(setFindReverseDirection(bool)), Qt::DirectConnection );
 
+    ui->btnOptWrap->setIcon(QIcon(":/search_wrap.png"));
+    ui->btnOptWrap->setToolTip(tr("Wrap"));
+    ui->btnOptWrap->setChecked(mGenSettings->isFindWrapSet());
+    connect( ui->btnOptWrap, SIGNAL(toggled(bool)),
+             mGenSettings, SLOT(setFindWrap(bool)), Qt::DirectConnection );
 
-    ui->btn0Words->setIcon(QIcon(":/search_words.png"));
-    ui->btn0Words->setToolTip(tr("Whole Words"));
-    connect(ui->btn0Words, SIGNAL(toggled(bool)),
-            mGenSettings, SLOT(setFindWholeWords(bool)), Qt::DirectConnection);
+    ui->btnOptInSelection->setIcon(QIcon(":/search_selection.png"));
+    ui->btnOptInSelection->setToolTip(tr("In Selection"));
+    ui->btnOptInSelection->setChecked(mGenSettings->isFindInSelectionSet());
+    connect( ui->btnOptInSelection, SIGNAL(toggled(bool)),
+             mGenSettings, SLOT(setFindInSelection(bool)), Qt::DirectConnection );
 
-    ui->btn1Words->setIcon(QIcon(":/search_words.png"));
-    ui->btn1Words->setToolTip(tr("Whole Words"));
-    connect(ui->btn1Words, SIGNAL(toggled(bool)),
-            mGenSettings, SLOT(setFindWholeWords(bool)), Qt::DirectConnection);
+    ui->btnOptMark->setIcon(QIcon(":/search_mark.png"));
+    ui->btnOptMark->setToolTip("Bookmark Line");
+    ui->btnOptMark->setChecked(mGenSettings->isFindMarkSet());
+    connect( ui->btnOptMark, SIGNAL(toggled(bool)),
+             mGenSettings, SLOT(setFindMark(bool)), Qt::DirectConnection );
 
-    ui->btn2Words->setIcon(QIcon(":/search_words.png"));
-    ui->btn2Words->setToolTip(tr("Whole Words"));
-    connect(ui->btn2Words, SIGNAL(toggled(bool)),
-            mGenSettings, SLOT(setFindWholeWords(bool)), Qt::DirectConnection);
+    ui->btnOptInSubDirs->setIcon(QIcon(":/search_subdirs.png"));
+    ui->btnOptInSubDirs->setToolTip(tr("Search in sub-folders"));
+    ui->btnOptInSubDirs->setChecked(mGenSettings->isFindInSubDirsSet());
+    connect( ui->btnOptInSubDirs, SIGNAL(toggled(bool)),
+             mGenSettings, SLOT(setFindInSubDirs(bool)), Qt::DirectConnection );
 
-
-    ui->btn0Regexp->setIcon(QIcon(":/search_regexp.png"));
-    ui->btn0Regexp->setToolTip(tr("Regular Expression"));
-    connect(ui->btn0Regexp, SIGNAL(toggled(bool)),
-            mGenSettings, SLOT(setFindRegexp(bool)), Qt::DirectConnection);
-
-    ui->btn1Regexp->setIcon(QIcon(":/search_regexp.png"));
-    ui->btn1Regexp->setToolTip(tr("Regular Expression"));
-    connect(ui->btn1Regexp, SIGNAL(toggled(bool)),
-            mGenSettings, SLOT(setFindRegexp(bool)), Qt::DirectConnection);
-
-    ui->btn2Regexp->setIcon(QIcon(":/search_regexp.png"));
-    ui->btn2Regexp->setToolTip(tr("Regular Expression"));
-    connect(ui->btn2Regexp, SIGNAL(toggled(bool)),
-            mGenSettings, SLOT(setFindRegexp(bool)), Qt::DirectConnection);
-
-
-    ui->btn0Reverse->setIcon(QIcon(":/search_reverse.png"));
-    ui->btn0Reverse->setToolTip(tr("Reverse Direction"));
-    connect(ui->btn0Reverse, SIGNAL(toggled(bool)),
-            mGenSettings, SLOT(setFindReverseDirection(bool)), Qt::DirectConnection);
-
-    ui->btn1Reverse->setIcon(QIcon(":/search_reverse.png"));
-    ui->btn1Reverse->setToolTip(tr("Reverse Direction"));
-    connect(ui->btn1Reverse, SIGNAL(toggled(bool)),
-            mGenSettings, SLOT(setFindReverseDirection(bool)), Qt::DirectConnection);
-
-
-    ui->btn0Wrap->setIcon(QIcon(":/search_wrap.png"));
-    ui->btn0Wrap->setToolTip(tr("Wrap"));
-    connect(ui->btn0Wrap, SIGNAL(toggled(bool)),
-            mGenSettings, SLOT(setFindWrap(bool)), Qt::DirectConnection);
-
-    ui->btn1Wrap->setIcon(QIcon(":/search_wrap.png"));
-    ui->btn1Wrap->setToolTip(tr("Wrap"));
-    connect(ui->btn1Wrap, SIGNAL(toggled(bool)),
-            mGenSettings, SLOT(setFindWrap(bool)), Qt::DirectConnection);
-
-
-    ui->btn0InSelection->setIcon(QIcon(":/search_selection.png"));
-    ui->btn0InSelection->setToolTip(tr("In Selection"));
-    connect(ui->btn0InSelection, SIGNAL(toggled(bool)),
-            mGenSettings, SLOT(setFindInSelection(bool)), Qt::DirectConnection);
-
-    ui->btn1InSelection->setIcon(QIcon(":/search_selection.png"));
-    ui->btn1InSelection->setToolTip(tr("In Selection"));
-    connect(ui->btn1InSelection, SIGNAL(toggled(bool)),
-            mGenSettings, SLOT(setFindInSelection(bool)), Qt::DirectConnection);
-
-
-    ui->btn0Mark->setIcon(QIcon(":/search_mark.png"));
-    ui->btn0Mark->setToolTip("Bookmark Line");
-    connect(ui->btn0Mark, SIGNAL(toggled(bool)),
-            mGenSettings, SLOT(setFindMark(bool)), Qt::DirectConnection);
-
-
-    ui->btn2InSubDirs->setIcon(QIcon(":/search_subdirs.png"));
-    ui->btn2InSubDirs->setToolTip(tr("Search in sub-folders"));
-    connect(ui->btn2InSubDirs, SIGNAL(toggled(bool)),
-            mGenSettings, SLOT(setFindInSubDirs(bool)), Qt::DirectConnection);
-
-
-    ui->btn2InHiddenDirs->setIcon(QIcon(":/search_hidden.png"));
-    ui->btn2InHiddenDirs->setToolTip(tr("Search in hidden folders"));
-    connect(ui->btn2InHiddenDirs, SIGNAL(toggled(bool)),
-            mGenSettings, SLOT(setFindInHiddenDirs(bool)), Qt::DirectConnection);
-
+    ui->btnOptInHiddenDirs->setIcon(QIcon(":/search_hidden.png"));
+    ui->btnOptInHiddenDirs->setToolTip(tr("Search in hidden folders"));
+    ui->btnOptInHiddenDirs->setChecked(mGenSettings->isFindInHiddenDirsSet());
+    connect( ui->btnOptInHiddenDirs, SIGNAL(toggled(bool)),
+             mGenSettings, SLOT(setFindInHiddenDirs(bool)), Qt::DirectConnection );
 
     ui->btn2SelectDir->setIcon(QIcon(":/search_select_dir.png"));
     ui->btn2SelectDir->setToolTip(tr("Select Directory"));
     connect( ui->btn2SelectDir, SIGNAL(clicked()),
                           this, SLOT(onSelectDirectoryClicked()) );
 
-    ui->btn2CurrentDir->setIcon(QIcon(":/search_current_dir.png"));
-    ui->btn2CurrentDir->setToolTip(tr("Select Current Document's Directory"));
-    connect( ui->btn2CurrentDir, SIGNAL(clicked()),
-                           this, SLOT(onCurrentDirectoryClicked()) );
+    ui->btn2SelectCurrentDir->setIcon(QIcon(":/search_current_dir.png"));
+    ui->btn2SelectCurrentDir->setToolTip(tr("Select Current Document's Directory"));
+    connect( ui->btn2SelectCurrentDir, SIGNAL(clicked()),
+                                 this, SLOT(onCurrentDirectoryClicked()) );
 
-
-    mSearchPatternModel = new QStringListModel(mGenSettings->getFindSearchPatterns());
-    ui->cmb0SearchPattern->setModel(mSearchPatternModel);
-    ui->cmb1SearchPattern->setModel(mSearchPatternModel);
-    ui->cmb2SearchPattern->setModel(mSearchPatternModel);
-    connect( ui->cmb0SearchPattern->lineEdit(), SIGNAL(textChanged(QString)),
-                                          this, SLOT(onSearchPatternChanged(QString)) );
-    connect( ui->cmb1SearchPattern->lineEdit(), SIGNAL(textChanged(QString)),
-                                          this, SLOT(onSearchPatternChanged(QString)) );
-    connect( ui->cmb2SearchPattern->lineEdit(), SIGNAL(textChanged(QString)),
-                                          this, SLOT(onSearchPatternChanged(QString)) );
-
-    mReplacePatternModel = new QStringListModel(mGenSettings->getFindReplacePatterns());
-    ui->cmb1ReplacePattern->setModel(mReplacePatternModel);
-    ui->cmb2ReplacePattern->setModel(mReplacePatternModel);
-    connect( ui->cmb1ReplacePattern->lineEdit(), SIGNAL(textChanged(QString)),
-                                           this, SLOT(onReplacePatternChanged(QString)) );
-    connect( ui->cmb2ReplacePattern->lineEdit(), SIGNAL(textChanged(QString)),
-                                           this, SLOT(onReplacePatternChanged(QString)) );
-
-    mFilterModel = new QStringListModel(mGenSettings->getFindFilters());
-    ui->cmb2Filters->setModel(mFilterModel);
-
-    mDirectoryModel = new QStringListModel(mGenSettings->getFindDirectories());
-    ui->cmb2Directory->setModel(mDirectoryModel);
+    ui->cmbSearchPattern->addItems(mGenSettings->getFindSearchPatterns());
+    ui->cmbReplacePattern->addItems(mGenSettings->getFindReplacePatterns());
+    ui->cmbFilters->addItems(mGenSettings->getFindFilters());
+    ui->cmbDirectory->addItems(mGenSettings->getFindDirectories());
 
 
     connect( ui->btn0FindNext, SIGNAL(clicked()),
@@ -221,21 +150,37 @@ FindReqWidget::FindReqWidget(Finder *finder, QWidget *parent) :
                         mFinder, SLOT(replaceInFiles()) );
 
 
-    setupFindWidget();
+
+
 }
 
-
-/**
- *  Destructor
- */
 FindReqWidget::~FindReqWidget()
 {
     delete ui;
+}
 
-    delete mSearchPatternModel;
-    delete mReplacePatternModel;
-    delete mFilterModel;
-    delete mDirectoryModel;
+
+
+void FindReqWidget::setCurrentIndex(Idx idx)
+{
+    switch(idx) {
+    case FindIdx:
+        setupFindWidget();
+        break;
+
+    case ReplaceIdx:
+        setupReplaceWidget();
+        break;
+
+    case FindInFilesIdx:
+        setupFindInFilesWidget();
+        break;
+    }
+}
+
+FindReqWidget::Idx FindReqWidget::getCurrentIndex()
+{
+    return mIdx;
 }
 
 
@@ -243,26 +188,23 @@ FindRequest FindReqWidget::getFindRequest()
 {
     FindRequest opt;
 
-    switch(currentIndex()) {
+    switch(mIdx) {
     case FindIdx:
         opt.findType = FindRequest::Find;
-        opt.searchPattern = ui->cmb0SearchPattern->lineEdit()->text();
         break;
 
     case ReplaceIdx:
         opt.findType = FindRequest::FindReplace;
-        opt.searchPattern = ui->cmb1SearchPattern->lineEdit()->text();
-        opt.replacePattern = ui->cmb1ReplacePattern->lineEdit()->text();
         break;
 
     case FindInFilesIdx:
         opt.findType = FindRequest::FindInFiles;
-        opt.searchPattern = ui->cmb2SearchPattern->lineEdit()->text();
-        opt.replacePattern = ui->cmb2ReplacePattern->lineEdit()->text();
-        opt.filters = ui->cmb2Filters->lineEdit()->text();
-        opt.directory = ui->cmb2Directory->lineEdit()->text();
-        break;
     }
+
+    opt.searchPattern = ui->cmbSearchPattern->lineEdit()->text();
+    opt.replacePattern = ui->cmbReplacePattern->lineEdit()->text();
+    opt.filters = ui->cmbFilters->lineEdit()->text();
+    opt.directory = ui->cmbDirectory->lineEdit()->text();
 
     opt.isCaseSensitive = mGenSettings->isFindCaseSensitiveSet();
     opt.isWholeWords = mGenSettings->isFindWholeWordsSet();
@@ -280,246 +222,217 @@ FindRequest FindReqWidget::getFindRequest()
 
 void FindReqWidget::setInitialSearchPattern(const QString &pattern)
 {
-    int idx = currentIndex();
-    switch(idx) {
-    case FindIdx:
-        ui->cmb0SearchPattern->lineEdit()->setText(pattern);
-        break;
-    case ReplaceIdx:
-        ui->cmb1SearchPattern->lineEdit()->setText(pattern);
-        break;
-    case FindInFilesIdx:
-        ui->cmb2SearchPattern->lineEdit()->setText(pattern);
-        break;
-    default:
-        LOG_ERROR("Wrong FindReqWidget index - %d", idx);
-        break;
-    }
+    ui->cmbSearchPattern->lineEdit()->setText(pattern);
 }
+
 
 void FindReqWidget::setInitialReplacePattern(const QString &pattern)
 {
-    int idx = currentIndex();
-    switch(idx) {
-    case ReplaceIdx:
-        ui->cmb1ReplacePattern->lineEdit()->setText(pattern);
-        break;
-    case FindInFilesIdx:
-        ui->cmb2ReplacePattern->lineEdit()->setText(pattern);
-        break;
-    default:
-        LOG_ERROR("Wrong FindReqWidget index - %d", idx);
-        break;
-    }
+    ui->cmbReplacePattern->lineEdit()->setText(pattern);
 }
 
-void FindReqWidget::setInitialFilters(const QString &filters)
+
+void FindReqWidget::setInitialFilters(const QString &pattern)
 {
-    int idx = currentIndex();
-    if(idx == FindInFilesIdx)
-        ui->cmb2Filters->lineEdit()->setText(filters);
-    else
-        LOG_ERROR("Wrong FindReqWidget index - %d", idx);
+    ui->cmbFilters->lineEdit()->setText(pattern);
 }
 
-void FindReqWidget::setInitialDirectory(const QString &directory)
+
+void FindReqWidget::setInitialDirectory(const QString &pattern)
 {
-    int idx = currentIndex();
-    if(idx == FindInFilesIdx)
-        ui->cmb2Directory->lineEdit()->setText(directory);
-    else
-        LOG_ERROR("Wrong FindReqWidget index - %d", idx);
+    ui->cmbDirectory->lineEdit()->setText(pattern);
 }
 
 
 void FindReqWidget::updateSearchHistory()
 {
-    int idx = currentIndex();
-    QString currentText;
-    switch(idx) {
-    case FindIdx:
-        currentText = ui->cmb0SearchPattern->lineEdit()->text();
-        mGenSettings->addFindSearchPattern(currentText);
-        mSearchPatternModel->setStringList(mGenSettings->getFindSearchPatterns());
-        ui->cmb0SearchPattern->lineEdit()->setText(currentText);
-        break;
-
-    case ReplaceIdx:
-        currentText = ui->cmb1SearchPattern->lineEdit()->text();
-        mGenSettings->addFindSearchPattern(currentText);
-        mSearchPatternModel->setStringList(mGenSettings->getFindSearchPatterns());
-        ui->cmb1SearchPattern->lineEdit()->setText(currentText);
-        break;
-
-    case FindInFilesIdx:
-        currentText = ui->cmb2SearchPattern->lineEdit()->text();
-        mGenSettings->addFindSearchPattern(currentText);
-        mSearchPatternModel->setStringList(mGenSettings->getFindSearchPatterns());
-        ui->cmb2SearchPattern->lineEdit()->setText(currentText);
-        break;
-
-    default:
-        LOG_ERROR("Wrong FindReqWidget index - %d", idx);
-        break;
-    }
+    QString currentText = ui->cmbSearchPattern->lineEdit()->text();
+    mGenSettings->addFindSearchPattern(currentText);
+    ui->cmbSearchPattern->clear();
+    ui->cmbSearchPattern->addItems(mGenSettings->getFindSearchPatterns());
+    ui->cmbSearchPattern->lineEdit()->setText(currentText);
 }
+
 
 void FindReqWidget::updateReplaceHistory()
 {
-    int idx = currentIndex();
-    QString currentText;
-    switch(idx) {
-    case ReplaceIdx:
-        currentText = ui->cmb1ReplacePattern->lineEdit()->text();
-        mGenSettings->addFindReplacePattern(currentText);
-        mReplacePatternModel->setStringList(mGenSettings->getFindReplacePatterns());
-        ui->cmb1ReplacePattern->lineEdit()->setText(currentText);
-        break;
-
-    case FindInFilesIdx:
-        currentText = ui->cmb2ReplacePattern->lineEdit()->text();
-        mGenSettings->addFindReplacePattern(currentText);
-        mReplacePatternModel->setStringList(mGenSettings->getFindReplacePatterns());
-        ui->cmb2ReplacePattern->lineEdit()->setText(currentText);
-        break;
-
-    default:
-        LOG_ERROR("Wrong FindReqWidget index - %d", idx);
-        break;
-    }
+    QString currentText = ui->cmbReplacePattern->lineEdit()->text();
+    mGenSettings->addFindReplacePattern(currentText);
+    ui->cmbReplacePattern->clear();
+    ui->cmbReplacePattern->addItems(mGenSettings->getFindReplacePatterns());
+    ui->cmbReplacePattern->lineEdit()->setText(currentText);
 }
+
 
 void FindReqWidget::updateFilterAndDirectoryHistory()
 {
-    int idx = currentIndex();
-    if(idx == FindInFilesIdx) {
-        QString currentText = ui->cmb2Filters->lineEdit()->text();
-        mGenSettings->addFindFilter(currentText);
-        mFilterModel->setStringList(mGenSettings->getFindFilters());
-        ui->cmb2Filters->lineEdit()->setText(currentText);
-        currentText = ui->cmb2Directory->lineEdit()->text();
-        mGenSettings->addFindDirectory(currentText);
-        mDirectoryModel->setStringList(mGenSettings->getFindDirectories());
-        ui->cmb2Directory->lineEdit()->setText(currentText);
-    } else {
-        LOG_ERROR("Wrong FindReqWidget index - %d", idx);
-    }
+    QString currentText = ui->cmbFilters->lineEdit()->text();
+    mGenSettings->addFindFilter(currentText);
+    ui->cmbFilters->clear();
+    ui->cmbFilters->addItems(mGenSettings->getFindFilters());
+    ui->cmbFilters->lineEdit()->setText(currentText);
+
+    currentText = ui->cmbDirectory->lineEdit()->text();
+    mGenSettings->addFindDirectory(currentText);
+    ui->cmbDirectory->clear();
+    ui->cmbDirectory->addItems(mGenSettings->getFindDirectories());
+    ui->cmbDirectory->lineEdit()->setText(currentText);
 }
 
 
-void FindReqWidget::onCurrentChanged(int idx)
-{
-    switch(idx) {
-    case FindIdx:
-        setupFindWidget();
-        break;
-
-    case ReplaceIdx:
-        setupReplaceWidget();
-        break;
-
-    case FindInFilesIdx:
-        setupFindInFilesWidget();
-        break;
-
-    default:
-        LOG_ERROR("Wrong FindReqWidget index - %d", idx);
-        break;
-    }
-}
-
-void FindReqWidget::onSearchPatternChanged(const QString &pattern)
-{
-    mCurrentSearchPattern = pattern;
-}
-
-void FindReqWidget::onReplacePatternChanged(const QString &pattern)
-{
-    mCurrentReplacePattern = pattern;
-}
 
 void FindReqWidget::onSelectDirectoryClicked()
 {
-    QString dir = ui->cmb2Directory->lineEdit()->text();
+    QString dir = ui->cmbDirectory->lineEdit()->text();
     dir = QFileDialog::getExistingDirectory(this, tr("Select directory"), dir, QFileDialog::ShowDirsOnly);
     if(!dir.isEmpty())
-        ui->cmb2Directory->lineEdit()->setText(dir);
+        ui->cmbDirectory->lineEdit()->setText(dir);
 }
 
 void FindReqWidget::onCurrentDirectoryClicked()
 {
     QString dir = getCurrentEditorDir();
     if(!dir.isEmpty())
-        ui->cmb2Directory->lineEdit()->setText(dir);
+        ui->cmbDirectory->lineEdit()->setText(dir);
 }
+
 
 
 void FindReqWidget::setupFindWidget()
 {
-    ui->btn0CaseSensitive->setChecked(mGenSettings->isFindCaseSensitiveSet());
-    ui->btn0Words->setChecked(mGenSettings->isFindWholeWordsSet());
-    ui->btn0Regexp->setChecked(mGenSettings->isFindRegexpSet());
-    ui->btn0Reverse->setChecked(mGenSettings->isFindReverseDirectionSet());
-    ui->btn0Wrap->setChecked(mGenSettings->isFindWrapSet());
-    ui->btn0InSelection->setChecked(mGenSettings->isFindInSelectionSet());
-    ui->btn0Mark->setChecked(mGenSettings->isFindMarkSet());
+    mIdx = FindIdx;
+    ui->stButtons->setCurrentIndex(mIdx);
 
-    if(mCurrentSearchPattern.isEmpty())
-        ui->cmb0SearchPattern->lineEdit()->setText(mGenSettings->getFindLastSearchPattern());
-    else
-        ui->cmb0SearchPattern->lineEdit()->setText(mCurrentSearchPattern);
+    ui->btnOptInSubDirs->hide();
+    ui->btnOptInHiddenDirs->hide();
+
+    ui->cmbReplacePattern->hide();
+    ui->cmbFilters->hide();
+    ui->cmbDirectory->hide();
+    ui->lblReplace->hide();
+    ui->lblFilters->hide();
+    ui->lblDirectory->hide();
+
+    ui->btn1FindNext->hide();
+    ui->btn1Replace->hide();
+    ui->btn1ReplaceFind->hide();
+    ui->btn1ReplaceAll->hide();
+    ui->btn1ReplaceAllInTabs->hide();
+    ui->btn2FindAll->hide();
+    ui->btn2ReplaceAll->hide();
+    ui->btn2SelectDir->hide();
+    ui->btn2SelectCurrentDir->hide();
+
+    ui->btnOptReverse->show();
+    ui->btnOptWrap->show();
+    ui->btnOptInSelection->show();
+    ui->btnOptMark->show();
+
+    ui->btn0FindNext->show();
+    ui->btn0FindPrev->show();
+    ui->btn0FindAll->show();
+    ui->btn0FindAllInTabs->show();
+
+    if(ui->cmbSearchPattern->lineEdit()->text().isEmpty())
+        ui->cmbSearchPattern->lineEdit()->setText(mGenSettings->getFindLastSearchPattern());
 }
+
 
 void FindReqWidget::setupReplaceWidget()
 {
-    ui->btn1CaseSensitive->setChecked(mGenSettings->isFindCaseSensitiveSet());
-    ui->btn1Words->setChecked(mGenSettings->isFindWholeWordsSet());
-    ui->btn1Regexp->setChecked(mGenSettings->isFindRegexpSet());
-    ui->btn1Reverse->setChecked(mGenSettings->isFindReverseDirectionSet());
-    ui->btn1Wrap->setChecked(mGenSettings->isFindWrapSet());
-    ui->btn1InSelection->setChecked(mGenSettings->isFindInSelectionSet());
+    mIdx = ReplaceIdx;
+    ui->stButtons->setCurrentIndex(mIdx);
 
-    if(mCurrentSearchPattern.isEmpty())
-        ui->cmb1SearchPattern->lineEdit()->setText(mGenSettings->getFindLastSearchPattern());
-    else
-        ui->cmb1SearchPattern->lineEdit()->setText(mCurrentSearchPattern);
+    ui->btnOptInSubDirs->hide();
+    ui->btnOptInHiddenDirs->hide();
+    ui->btnOptMark->hide();
 
-    if(mCurrentReplacePattern.isEmpty())
-        ui->cmb1ReplacePattern->lineEdit()->setText(mGenSettings->getFindLastReplacePattern());
-    else
-        ui->cmb1ReplacePattern->lineEdit()->setText(mCurrentReplacePattern);
+    ui->cmbFilters->hide();
+    ui->cmbDirectory->hide();
+    ui->lblFilters->hide();
+    ui->lblDirectory->hide();
+
+    ui->btn0FindNext->hide();
+    ui->btn0FindPrev->hide();
+    ui->btn0FindAll->hide();
+    ui->btn0FindAllInTabs->hide();
+    ui->btn2FindAll->hide();
+    ui->btn2ReplaceAll->hide();
+    ui->btn2SelectDir->hide();
+    ui->btn2SelectCurrentDir->hide();
+
+
+
+    ui->btnOptReverse->show();
+    ui->btnOptWrap->show();
+    ui->btnOptInSelection->show();
+
+    ui->cmbReplacePattern->show();
+    ui->lblReplace->show();
+
+    ui->btn1FindNext->show();
+    ui->btn1Replace->show();
+    ui->btn1ReplaceFind->show();
+    ui->btn1ReplaceAll->show();
+    ui->btn1ReplaceAllInTabs->show();
+
+    if(ui->cmbSearchPattern->lineEdit()->text().isEmpty())
+        ui->cmbSearchPattern->lineEdit()->setText(mGenSettings->getFindLastSearchPattern());
+
+    if(ui->cmbReplacePattern->lineEdit()->text().isEmpty())
+        ui->cmbReplacePattern->lineEdit()->setText(mGenSettings->getFindLastReplacePattern());
+
 }
+
 
 void FindReqWidget::setupFindInFilesWidget()
 {
-    ui->btn2CaseSensitive->setChecked(mGenSettings->isFindCaseSensitiveSet());
-    ui->btn2Words->setChecked(mGenSettings->isFindWholeWordsSet());
-    ui->btn2Regexp->setChecked(mGenSettings->isFindRegexpSet());
-    ui->btn2InSubDirs->setChecked(mGenSettings->isFindInSubDirsSet());
-    ui->btn2InHiddenDirs->setChecked(mGenSettings->isFindInHiddenDirsSet());
-    ui->cmb2SearchPattern->lineEdit()->setText(mCurrentSearchPattern);
-    ui->cmb2ReplacePattern->lineEdit()->setText(mCurrentReplacePattern);
+    mIdx = FindInFilesIdx;
+    ui->stButtons->setCurrentIndex(mIdx);
 
-    if(mCurrentSearchPattern.isEmpty())
-        ui->cmb2SearchPattern->lineEdit()->setText(mGenSettings->getFindLastSearchPattern());
-    else
-        ui->cmb2SearchPattern->lineEdit()->setText(mCurrentSearchPattern);
+    ui->btnOptReverse->hide();
+    ui->btnOptWrap->hide();
+    ui->btnOptInSelection->hide();
+    ui->btnOptMark->hide();
 
-    if(mCurrentReplacePattern.isEmpty())
-        ui->cmb2ReplacePattern->lineEdit()->setText(mGenSettings->getFindLastReplacePattern());
-    else
-        ui->cmb2ReplacePattern->lineEdit()->setText(mCurrentReplacePattern);
+    ui->btn0FindNext->hide();
+    ui->btn0FindPrev->hide();
+    ui->btn0FindAll->hide();
+    ui->btn0FindAllInTabs->hide();
+    ui->btn1FindNext->hide();
+    ui->btn1Replace->hide();
+    ui->btn1ReplaceFind->hide();
+    ui->btn1ReplaceAll->hide();
+    ui->btn1ReplaceAllInTabs->hide();
 
-    if(ui->cmb2Filters->lineEdit()->text().isEmpty())
-        ui->cmb2Filters->lineEdit()->setText(mGenSettings->getFindLastFilter());
-    if(ui->cmb2Filters->lineEdit()->text().isEmpty())
-        ui->cmb2Filters->lineEdit()->setText("*.*");
+    ui->btnOptInSubDirs->show();
+    ui->btnOptInHiddenDirs->show();
 
-    if(ui->cmb2Directory->lineEdit()->text().isEmpty())
-        ui->cmb2Directory->lineEdit()->setText(mGenSettings->getFindLastDirectory());
-    if(ui->cmb2Directory->lineEdit()->text().isEmpty())
-        ui->cmb2Directory->lineEdit()->setText(getCurrentEditorDir());
+    ui->cmbReplacePattern->show();
+    ui->cmbFilters->show();
+    ui->cmbDirectory->show();
+    ui->lblReplace->show();
+    ui->lblFilters->show();
+    ui->lblDirectory->show();
+
+    ui->btn2FindAll->show();
+    ui->btn2ReplaceAll->show();
+    ui->btn2SelectDir->show();
+    ui->btn2SelectCurrentDir->show();
+
+    if(ui->cmbSearchPattern->lineEdit()->text().isEmpty())
+        ui->cmbSearchPattern->lineEdit()->setText(mGenSettings->getFindLastSearchPattern());
+
+    if(ui->cmbReplacePattern->lineEdit()->text().isEmpty())
+        ui->cmbReplacePattern->lineEdit()->setText(mGenSettings->getFindLastReplacePattern());
+
+    if(ui->cmbFilters->lineEdit()->text().isEmpty())
+        ui->cmbFilters->lineEdit()->setText(mGenSettings->getFindLastFilter());
+
+    if(ui->cmbDirectory->lineEdit()->text().isEmpty())
+        ui->cmbDirectory->lineEdit()->setText(mGenSettings->getFindLastDirectory());
 }
+
 
 QString FindReqWidget::getCurrentEditorDir()
 {
