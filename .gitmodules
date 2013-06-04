@@ -1,15 +1,15 @@
 [submodule "extlib/qtscintilla"]
 	path = extlib/qtscintilla
-	url = git@mmgr.pl:qt/qtscintilla.git
+	url = ssh://git@mmgr.pl:10022/qt/qtscintilla.git
 [submodule "extlib/qtlogger"]
 	path = extlib/qtlogger
-	url = git@mmgr.pl:qt/qtlogger.git
+	url = ssh://git@mmgr.pl:10022/qt/qtlogger.git
 [submodule "extlib/qtsingleapplication"]
 	path = extlib/qtsingleapplication
-	url = git@mmgr.pl:qt/qtsingleapplication.git
+	url = ssh://git@mmgr.pl:10022/qt/qtsingleapplication.git
 [submodule "extlib/qtmisclib"]
 	path = extlib/qtmisclib
-	url = git@mmgr.pl:qt/qtmisclib.git
+	url = ssh://git@mmgr.pl:10022/qt/qtmisclib.git
 [submodule "extlib/qtwidgets"]
 	path = extlib/qtwidgets
-	url = git@mmgr.pl:qt/qtwidgets.git
+	url = ssh://git@mmgr.pl:10022/qt/qtwidgets.git
