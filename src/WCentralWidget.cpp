@@ -113,10 +113,10 @@ CentralWidget::CentralWidget(QWidget *parent):
     connect( mPanelRight, SIGNAL(tabNewRequested()),
                     this, SLOT(newTab()) );
 
-    connect( mCurrentEditor, SIGNAL(currentEditorScrollHChanged(int)),
-                       this, SLOT(onEditorScrollHChanged(int)) );
-    connect( mCurrentEditor, SIGNAL(currentEditorScrollVChanged(int)),
-                       this, SLOT(onEditorScrollVChanged(int)) );
+    connect( mCurrentEditor, SIGNAL(currentEditorChanged(Editor*)),
+                       this, SLOT(onCurrentEditorChanged(Editor*)) );
+    connect( mCurrentEditor, SIGNAL(currentEditorNotValid(Editor*)),
+                       this, SLOT(onCurrentEditorNotValid(Editor*)) );
 
     mSettings = AppSettings::instance();
 
@@ -964,6 +964,20 @@ void CentralWidget::dropEvent(QDropEvent *event)
 
 
 
+void CentralWidget::onCurrentEditorChanged(Editor *editor)
+{
+    connect( editor, SIGNAL(horizontalScrollBarChanged(int)),
+               this, SLOT(onEditorScrollHChanged(int)) );
+    connect( editor, SIGNAL(verticalScrollBarChanged(int)),
+               this, SLOT(onEditorScrollVChanged(int)) );
+}
+
+void CentralWidget::onCurrentEditorNotValid(Editor *editor)
+{
+    editor->disconnect(this);
+}
+
+
 void CentralWidget::onEditorStatusIntChanged(int stat)
 {
     EditorBinder *binder = dynamic_cast<EditorBinder*>(sender());
@@ -1050,6 +1064,9 @@ void CentralWidget::onEditorFileInfoChanged(QFileInfo *fileinfo)
 
 void CentralWidget::onEditorScrollHChanged(int range)
 {
+    if(!mSettings->general->isSynchHEnabled())
+        return;
+
     Panel *other;
     if(mPanelCurrent == mPanelLeft)
         other = mPanelRight;
@@ -1059,11 +1076,14 @@ void CentralWidget::onEditorScrollHChanged(int range)
         return;
 
     Editor *edit = other->getEditor(other->currentIndex());
-    edit->updateScrollH(range);
+    edit->moveHorizontalScrollBarBy(range);
 }
 
 void CentralWidget::onEditorScrollVChanged(int range)
 {
+    if(!mSettings->general->isSynchVEnabled())
+        return;
+
     Panel *other;
     if(mPanelCurrent == mPanelLeft)
         other = mPanelRight;
@@ -1073,7 +1093,7 @@ void CentralWidget::onEditorScrollVChanged(int range)
         return;
 
     Editor *edit = other->getEditor(other->currentIndex());
-    edit->updateScrollV(range);
+    edit->moveVerticalScrollBarBy(range);
 }
 
 void CentralWidget::onInternalWidgetFocusReceived()

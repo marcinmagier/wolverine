@@ -71,8 +71,6 @@ EditorMap::EditorMap(QWidget *parent) :
                      this, SLOT(onCurrentEditorChanged(Editor*)) );
     connect( mEditorProxy, SIGNAL(currentEditorNotValid(Editor*)),
                      this, SLOT(onCurrentEditorNotValid(Editor*)) );
-    connect( mEditorProxy, SIGNAL(currentEditorScrollVChanged(int)),
-                     this, SLOT(onCurrentEditorScrollChanged(int)) );
 
     onCurrentEditorChanged(mEditorProxy->getCurrentEditor());
 }
@@ -94,6 +92,8 @@ void EditorMap::onCurrentEditorChanged(Editor *editor)
                this, SLOT(onCurrentEditorSizeChanged()) );
     connect( editor, SIGNAL(SCN_ZOOM()),
                this, SLOT(onCurrentEditorZoomChanged()) );
+    connect( editor, SIGNAL(verticalScrollBarChanged(int)),
+               this, SLOT(onCurrentEditorScrollChanged(int)) );
 
     updateMap(editor);
 }

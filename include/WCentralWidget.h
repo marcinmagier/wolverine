@@ -97,6 +97,8 @@ protected:
 
 
 private slots:
+    void onCurrentEditorChanged(Editor *editor);
+    void onCurrentEditorNotValid(Editor *editor);
     void onEditorStatusIntChanged(int stat);
     void onEditorStatusExtChanged(int stat);
     void onEditorFileInfoChanged(QFileInfo *fileinfo);

@@ -79,17 +79,10 @@ signals:
     void currentEditorChanged(Editor *editor);
     void currentEditorNotValid(Editor *editor);
 
-    void currentEditorScrollHChanged(int range);
-    void currentEditorScrollVChanged(int range);
 
 
 private slots:
-    void onSynchHEnabledChanged(bool value);
-    void onSynchVEnabledChanged(bool value);
-    void onCurrentEditorScrollHChanged(int value);
-    void onCurrentEditorScrollVChanged(int value);
-
-    void onCustomContextMenuRequested(const QPoint &pos);
+    void onCustomContextMenuRequested(const QPoint &/*pos*/);
 
 
 private:
@@ -102,9 +95,6 @@ private:
     Editor *mCurrentEditor;
     AppSettings *mSettings;
     QtManagedMenu *mContextMenu;
-
-    int mCurrentEditorPrevScrollValH;
-    int mCurrentEditorPrevScrollValV;
 
     static EditorProxy *sInstance;
 };
