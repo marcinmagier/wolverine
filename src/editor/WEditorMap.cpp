@@ -65,6 +65,7 @@ EditorMap::EditorMap(QWidget *parent) :
     this->zoomTo(-10);
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    this->setEndAtLastLine(false);
 
 
     connect( mEditorProxy, SIGNAL(currentEditorChanged(Editor*)),
@@ -123,7 +124,18 @@ void EditorMap::onCurrentEditorScrollChanged(int)
 void EditorMap::updateMap(Editor *editor)
 {
     int lines = editor->linesVisible();
-    mFg->resize(mFg->width(), lines * MINI_LINE_HEIGHT);
     int firstLine = editor->firstVisibleLine();
+    int miniLines = this->linesVisible();
+    int miniFirstLine = this->firstVisibleLine();
+    int miniLinesPlus = miniLines - lines + 1;
+    int miniLin = this->lines();
+    int lin = editor->lines();
+
+    int lastLine = this->lines() - miniLinesPlus;
+
+    mFg->resize(mFg->width(), lines * MINI_LINE_HEIGHT);
+
+    //this->SendScintilla(SCI_GOTOLINE, firstLine);
+    this->setFirstVisibleLine(lastLine);
     mFg->move(0, firstLine * MINI_LINE_HEIGHT);
 }
