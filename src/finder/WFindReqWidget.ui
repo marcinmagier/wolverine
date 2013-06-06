@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>630</width>
-    <height>145</height>
+    <width>763</width>
+    <height>161</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>630</width>
-    <height>145</height>
+    <height>160</height>
    </size>
   </property>
   <layout class="QGridLayout" name="gridLayout_4" columnstretch="0,1,0,0,2,0,0,0,0">
@@ -66,7 +66,7 @@
     <widget class="QLabel" name="lblFind">
      <property name="minimumSize">
       <size>
-       <width>42</width>
+       <width>53</width>
        <height>0</height>
       </size>
      </property>

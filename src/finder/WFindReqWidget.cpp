@@ -428,9 +428,13 @@ void FindReqWidget::setupFindInFilesWidget()
 
     if(ui->cmbFilters->lineEdit()->text().isEmpty())
         ui->cmbFilters->lineEdit()->setText(mGenSettings->getFindLastFilter());
+    if(ui->cmbFilters->lineEdit()->text().isEmpty())
+        ui->cmbFilters->lineEdit()->setText("*.*");
 
     if(ui->cmbDirectory->lineEdit()->text().isEmpty())
         ui->cmbDirectory->lineEdit()->setText(mGenSettings->getFindLastDirectory());
+    if(ui->cmbDirectory->lineEdit()->text().isEmpty())
+        ui->cmbDirectory->lineEdit()->setText(getCurrentEditorDir());
 }
 
 
