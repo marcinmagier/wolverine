@@ -26,6 +26,7 @@
 #include "WFindRequest.h"
 #include "WFindResults.h"
 #include "WFindReqWidget.h"
+#include "WFindResWidget.h"
 #include "WDockWidget.h"
 
 #include "WEditor.h"
@@ -58,6 +59,8 @@ Finder::Finder()
 {
     mFindRequestDock = 0;
     mFindReqWidget = 0;
+    mFindResultsDock = 0;
+    mFindResWidget = 0;
     mFindResults = 0;
     qAddPostRoutine(deleteInstance);
 
@@ -82,6 +85,7 @@ Finder::~Finder()
 {
     if(mFindResults)
         delete mFindResults;
+
 
 }
 
@@ -195,6 +199,7 @@ void Finder::findInFiles()
 {
     mFindReqWidget->updateSearchHistory();
     mFindReqWidget->updateFilterAndDirectoryHistory();
+    createResultsWidget();
 }
 
 
@@ -291,9 +296,24 @@ void Finder::createFindWidget()
         mFindRequestDock->setVisible(true);
         mFindRequestDock->setFocus();
     }
+    mFindRequestDock->raise();
 }
 
 
+void Finder::createResultsWidget()
+{
+    if(mFindResultsDock == 0) {
+        mFindResWidget = new FindResWidget(this);
+        mFindResultsDock = new DockWidget(tr("Find Results"));
+        mFindResultsDock->setWidget(mFindResWidget);
+
+        emit showResultsWidgetRequested(mFindResultsDock, mFindRequestDock, tr("FindResults"));
+    }
+
+    mFindResultsDock->setVisible(true);
+    mFindResultsDock->setFocus();
+    mFindResultsDock->raise();
+}
 
 
 void Finder::onDockVisibilityChanged(bool visible)

@@ -40,6 +40,7 @@ namespace Wolverine
 class FindRequest;
 class FindResults;
 class FindReqWidget;
+class FindResWidget;
 class Editor;
 class EditorProxy;
 class DockWidget;
@@ -87,6 +88,7 @@ public slots:
 
 signals:
     void showWidgetRequested(QDockWidget *widget, Qt::DockWidgetArea area, QString title);
+    void showResultsWidgetRequested(QDockWidget *widget, QDockWidget *to, QString title);
 
 
 private slots:
@@ -102,11 +104,14 @@ private slots:
 
 private:
     void createFindWidget();
+    void createResultsWidget();
     void find(const FindRequest &req, bool reverse);
     FindResults* find(const FindRequest &req);
 
     DockWidget *mFindRequestDock;
     FindReqWidget *mFindReqWidget;
+    DockWidget *mFindResultsDock;
+    FindResWidget *mFindResWidget;
     FindResults *mFindResults;
     EditorProxy *mEditorProxy;
     QAction *mFindAction;

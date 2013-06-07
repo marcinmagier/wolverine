@@ -44,6 +44,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect( mFinder, SIGNAL(showWidgetRequested(QDockWidget*,Qt::DockWidgetArea, QString)),
                 this, SLOT(showDockWidget(QDockWidget*,Qt::DockWidgetArea, QString)) );
+    connect( mFinder, SIGNAL(showResultsWidgetRequested(QDockWidget*,QDockWidget*,QString)),
+                this, SLOT(tabifyDockWidget(QDockWidget*,QDockWidget*,QString)) );
 
     this->setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
     this->setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
@@ -512,6 +514,18 @@ void MainWindow::showDockWidget(QDockWidget *widget, Qt::DockWidgetArea area, co
 {
     mDocks[title] = widget;
     this->addDockWidget(area, widget);
+    bool customizeEnabled = mSettings->general->isAppCustomizeEnabled();
+    widget->setFeatures( customizeEnabled ? (widget->features() | QDockWidget::DockWidgetMovable) : (widget->features() & ~QDockWidget::DockWidgetMovable) );
+    widget->setFeatures( customizeEnabled ? (widget->features() | QDockWidget::DockWidgetFloatable) : (widget->features() & ~QDockWidget::DockWidgetFloatable) );
+
+    connect( widget, SIGNAL(topLevelChanged(bool)),
+               this, SLOT(onDockTopLevelChanged(bool)) );
+}
+
+void MainWindow::tabifyDockWidget(QDockWidget *widget, QDockWidget *to, const QString &title)
+{
+    mDocks[title] = widget;
+    QMainWindow::tabifyDockWidget(to, widget);
     bool customizeEnabled = mSettings->general->isAppCustomizeEnabled();
     widget->setFeatures( customizeEnabled ? (widget->features() | QDockWidget::DockWidgetMovable) : (widget->features() & ~QDockWidget::DockWidgetMovable) );
     widget->setFeatures( customizeEnabled ? (widget->features() | QDockWidget::DockWidgetFloatable) : (widget->features() & ~QDockWidget::DockWidgetFloatable) );

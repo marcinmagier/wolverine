@@ -42,6 +42,7 @@ public:
 public slots:
     void openFile(const QString &file);
     void showDockWidget(QDockWidget *widget, Qt::DockWidgetArea area, const QString &title);
+    void tabifyDockWidget(QDockWidget *widget, QDockWidget *to, const QString &title);
 
 protected:
     virtual void closeEvent(QCloseEvent *event);

@@ -30,6 +30,7 @@ SOURCES      += \
                 ../src/editor/WEditorProxy.cpp \
                 ../src/finder/WFinder.cpp \
                 ../src/finder/WFindReqWidget.cpp \
+                ../src/finder/WFindResWidget.cpp \
                 ../src/panel/WPanel.cpp \
                 ../src/panel/WPanelTabBar.cpp \
                 ../src/panel/WPanelTabContent.cpp \
@@ -64,6 +65,7 @@ HEADERS      += \
                 ../src/finder/WFindRequest.h \
                 ../src/finder/WFindResults.h \
                 ../src/finder/WFindReqWidget.h \
+                ../src/finder/WFindResWidget.h \
                 ../src/panel/WPanelTabBar.h \
                 ../src/panel/WPanelTabContent.h \
                 ../src/settings/PageGeneral.h \
@@ -109,6 +111,7 @@ RC_FILE      += \
 FORMS        += \
                 ../src/editor/WEditorLexerManagerWidget.ui \
                 ../src/finder/WFindReqWidget.ui \
+                ../src/finder/WFindResWidget.ui \
                 ../src/settings/PageGeneral.ui \
                 ../src/settings/PageView.ui \
                 ../src/settings/PageEditor.ui \
