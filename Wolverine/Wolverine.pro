@@ -26,6 +26,7 @@ SOURCES      += \
                 ../src/editor/WEditorLexerManager.cpp \
                 ../src/editor/WEditorLexerManagerWidget.cpp \
                 ../src/editor/WEditorMap.cpp \
+                ../src/editor/WEditorMapFrame.cpp \
                 ../src/editor/WEditorProxy.cpp \
                 ../src/finder/WFinder.cpp \
                 ../src/finder/WFindReqWidget.cpp \
@@ -58,6 +59,7 @@ HEADERS      += \
                 ../src/WPopup.h \
                 ../src/WStatusBar.h \
                 ../src/editor/WEditorLexerManagerWidget.h \
+                ../src/editor/WEditorMapFrame.h \
                 ../src/finder/WFindHit.h \
                 ../src/finder/WFindRequest.h \
                 ../src/finder/WFindResults.h \

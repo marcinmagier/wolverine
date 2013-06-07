@@ -24,6 +24,7 @@
 
 
 #include "WEditorMap.h"
+#include "WEditorMapFrame.h"
 #include "WEditor.h"
 #include "WEditorProxy.h"
 
@@ -34,8 +35,8 @@
 #include <QDebug>
 
 
-#define FRAME_STYLE_PATTERN     "QFrame {"                                  \
-                                "background-color: rgb(27, 122, 231, 30);"  \
+#define FRAME_STYLE_PATTERN     "QFrame {"                                \
+                                "background-color: rgb(%1, %2, %3, 30);"  \
                                 "}"
 
 #define FRAME_MAX_WIDTH  180
@@ -47,15 +48,21 @@
 
 using namespace Wolverine;
 
+
+/**
+ *  Constructor
+ *
+ * @param parent
+ */
 EditorMap::EditorMap(QWidget *parent) :
     QtScintilla(parent)
 {
     mEditorProxy = EditorProxy::instance();
 
-    mBg = new QFrame(this);
     mFg = new QFrame(this);
-    mFg->setStyleSheet(QString(FRAME_STYLE_PATTERN));
+    mBg = new EditorMapFrame(this);
 
+    this->setColorFrame(QColor(27, 122, 231));
     this->setMaximumWidth(FRAME_MAX_WIDTH);
     this->setMinimumWidth(FRAME_MIN_WIDTH);
 
@@ -68,6 +75,11 @@ EditorMap::EditorMap(QWidget *parent) :
     this->setEndAtLastLine(false);
 
 
+    connect(  mBg, SIGNAL(mousePressed(int)),
+             this, SLOT(onFramePressed(int)) );
+    connect(  mBg, SIGNAL(wheelDeltaChanged(int)),
+             this, SLOT(onFrameWheelDeltaChanged(int)) );
+
     connect( mEditorProxy, SIGNAL(currentEditorChanged(Editor*)),
                      this, SLOT(onCurrentEditorChanged(Editor*)) );
     connect( mEditorProxy, SIGNAL(currentEditorNotValid(Editor*)),
@@ -77,13 +89,44 @@ EditorMap::EditorMap(QWidget *parent) :
 }
 
 
+/**
+ *  Destructor
+ */
+EditorMap::~EditorMap()
+{
+    delete mFg;
+    delete mBg;
+}
 
+
+/**
+ *  Sets current screen frame color.
+ *
+ * @param color
+ */
+void EditorMap::setColorFrame(const QColor &color)
+{
+    mFg->setStyleSheet(QString(FRAME_STYLE_PATTERN).arg(color.red()).arg(color.green()).arg(color.blue()));
+}
+
+
+/**
+ *  resizeEvent() handler
+ *
+ * @param e
+ */
 void EditorMap::resizeEvent(QResizeEvent *e)
 {
     mBg->resize(e->size());
     mFg->resize(e->size().width(), mFg->height());
 }
 
+
+/**
+ *  Slot called when current editor has changed.
+ *
+ * @param editor
+ */
 void EditorMap::onCurrentEditorChanged(Editor *editor)
 {
     this->setDocument(editor->document());
@@ -99,28 +142,78 @@ void EditorMap::onCurrentEditorChanged(Editor *editor)
     updateMap(editor);
 }
 
+
+/**
+ *  Slot called when current editor has become invalid.
+ *
+ * @param editor
+ */
 void EditorMap::onCurrentEditorNotValid(Editor *editor)
 {
     editor->disconnect(this);
 }
 
 
+/**
+ *  Slot called when size of current editor changed.
+ */
 void EditorMap::onCurrentEditorSizeChanged()
 {
     updateMap(mEditorProxy->getCurrentEditor());
 }
 
+
+/**
+ *  Slot called when zoom of current editor changed.
+ */
 void EditorMap::onCurrentEditorZoomChanged()
 {
     updateMap(mEditorProxy->getCurrentEditor());
 }
 
+
+/**
+ *  Slot called when current editor was scrolled.
+ */
 void EditorMap::onCurrentEditorScrollChanged(int)
 {
     updateMap(mEditorProxy->getCurrentEditor());
 }
 
 
+/**
+ *  Slot called when mini map was clicked.
+ *
+ * @param y
+ */
+void EditorMap::onFramePressed(int y)
+{
+    Editor *editor = mEditorProxy->getCurrentEditor();
+
+    int frame = editor->linesVisible() * MINI_LINE_HEIGHT;
+    int line = this->lineAt(QPoint(1, y-frame/2));
+    editor->setFirstVisibleLine(line);
+}
+
+
+/**
+ *  Slot called when mini map was scrolled.
+ *
+ * @param delta
+ */
+void EditorMap::onFrameWheelDeltaChanged(int delta)
+{
+    Editor *editor = mEditorProxy->getCurrentEditor();
+    int line = editor->firstVisibleLine();
+    editor->setFirstVisibleLine(line - delta);
+}
+
+
+/**
+ *  Updates mini map layout.
+ *
+ * @param editor
+ */
 void EditorMap::updateMap(Editor *editor)
 {
     int editLines = editor->lines();
@@ -129,8 +222,11 @@ void EditorMap::updateMap(Editor *editor)
 
     int miniLinesVisiblePlus = this->linesVisible() - editLinesVisible;
 
-    int fgFrameFirstLine = editFirstVisibleLine/editLines * miniLinesVisiblePlus;
-    int miniFirstVisibleLine = editFirstVisibleLine - fgFrameFirstLine;
+    int miniFirstVisibleLine = 0;
+    if(editLines > miniLinesVisiblePlus) {
+        int fgFrameFirstLine = editFirstVisibleLine/editLines * miniLinesVisiblePlus;
+        miniFirstVisibleLine = editFirstVisibleLine - fgFrameFirstLine;
+    }
     int fgMoveLines = editFirstVisibleLine - miniFirstVisibleLine;
 
     this->setFirstVisibleLine(miniFirstVisibleLine);

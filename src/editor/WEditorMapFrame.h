@@ -16,66 +16,43 @@
 **************************************************************************************************/
 
 /**
- *  @file       WEditorMap.h
- *  @brief      Wolverine::EditorMap class interface.
+ *  @file       WEditorMapFrame.h
+ *  @brief      Wolverine::EditorMapFrame class interface.
  */
 
 
 
-#ifndef __W_EDITOR_MAP_H_
- #define __W_EDITOR_MAP_H_
 
+#ifndef __W_EDITOR_MAP_FRAME_H_
+ #define __W_EDITOR_MAP_FRAME_H_
 
-#include "qtscintilla.h"
+#include <QFrame>
 
-
-class QFrame;
 
 namespace Wolverine {
 
-class Editor;
-class EditorProxy;
 
-
-class EditorMap : public QtScintilla
+class EditorMapFrame : public QFrame
 {
     Q_OBJECT
 
 public:
-    explicit EditorMap(QWidget *parent = 0);
-    ~EditorMap();
+    explicit EditorMapFrame(QWidget *parent = 0);
     
 signals:
+    void mousePressed(int y);
+    void wheelDeltaChanged(int delta);
     
 public slots:
-    void setColorFrame(const QColor &color);
 
 protected:
-    void resizeEvent(QResizeEvent *e);
-
-
-private slots:
-    void onCurrentEditorChanged(Editor *editor);
-    void onCurrentEditorNotValid(Editor *editor);
-    void onCurrentEditorSizeChanged();
-    void onCurrentEditorZoomChanged();
-    void onCurrentEditorScrollChanged(int);
-
-    void onFramePressed(int y);
-    void onFrameWheelDeltaChanged(int delta);
-
-private:
-    void updateMap(Editor *editor);
-
-    EditorProxy *mEditorProxy;
-
-    QFrame *mBg;
-    QFrame *mFg;
-
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void wheelEvent(QWheelEvent *event);
+    
 };
 
 
 }
 
-
-#endif // __W_EDITOR_MAP_H_
+#endif // __W_EDITOR_MAP_FRAME_H_
