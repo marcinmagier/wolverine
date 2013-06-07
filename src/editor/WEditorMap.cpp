@@ -123,19 +123,18 @@ void EditorMap::onCurrentEditorScrollChanged(int)
 
 void EditorMap::updateMap(Editor *editor)
 {
-    int lines = editor->linesVisible();
-    int firstLine = editor->firstVisibleLine();
-    int miniLines = this->linesVisible();
-    int miniFirstLine = this->firstVisibleLine();
-    int miniLinesPlus = miniLines - lines + 1;
-    int miniLin = this->lines();
-    int lin = editor->lines();
+    int editLines = editor->lines();
+    int editLinesVisible = editor->linesVisible();
+    float editFirstVisibleLine = editor->firstVisibleLine();
 
-    int lastLine = this->lines() - miniLinesPlus;
+    int miniLinesVisiblePlus = this->linesVisible() - editLinesVisible;
 
-    mFg->resize(mFg->width(), lines * MINI_LINE_HEIGHT);
+    int fgFrameFirstLine = editFirstVisibleLine/editLines * miniLinesVisiblePlus;
+    int miniFirstVisibleLine = editFirstVisibleLine - fgFrameFirstLine;
+    int fgMoveLines = editFirstVisibleLine - miniFirstVisibleLine;
 
-    //this->SendScintilla(SCI_GOTOLINE, firstLine);
-    this->setFirstVisibleLine(lastLine);
-    mFg->move(0, firstLine * MINI_LINE_HEIGHT);
+    this->setFirstVisibleLine(miniFirstVisibleLine);
+
+    mFg->resize(mFg->width(), editLinesVisible * MINI_LINE_HEIGHT);
+    mFg->move(0, fgMoveLines * MINI_LINE_HEIGHT);
 }
