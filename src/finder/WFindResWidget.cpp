@@ -1,18 +1,46 @@
 #include "WFindResWidget.h"
-#include "ui_WFindResWidget.h"
+
+#include "CfgAppSettings.h"
+#include "CfgViewSettings.h"
+
+#include <qttabbar.h>
 
 
 using namespace Wolverine;
 
 FindResWidget::FindResWidget(Finder *finder, QWidget *parent) :
-    QWidget(parent),
-    mFinder(finder),
-    ui(new Ui::FindResWidget)
+    QtTabWidget(parent),
+    mFinder(finder)
 {
-    ui->setupUi(this);
+    mTabBar = new QtTabBar(this);
+    this->setTabBar(mTabBar);
+    this->setTabsClosable(true);
+
+    AppSettings *settings = AppSettings::instance();
+    connect( settings->view, SIGNAL(tabBarModernStyleEnabledChanged(bool)),
+                       this, SLOT(onModernStyleEnabledChanged(bool)), Qt::DirectConnection);
+
+    onModernStyleEnabledChanged(settings->view->isTabBarModernStyleEnabled());
 }
 
 FindResWidget::~FindResWidget()
 {
-    delete ui;
+
+}
+
+
+void FindResWidget::find(const FindRequest &req)
+{
+    this->addTab(new QWidget(), QIcon(":/search_progress.png"), req.searchPattern);
+}
+
+
+
+void FindResWidget::onModernStyleEnabledChanged(bool enabled)
+{
+    this->setModernStyleListButtonEnabled(enabled);
+    if(enabled)
+        mTabBar->setStyle(QtTabBar::MODERN);
+    else
+       mTabBar->setStyle(QtTabBar::CLASSIC);
 }

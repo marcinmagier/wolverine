@@ -1,28 +1,37 @@
+
+
 #ifndef WFINDRESWIDGET_H
 #define WFINDRESWIDGET_H
 
-#include <QWidget>
+#include <qttabwidget.h>
 
-namespace Ui {
-class FindResWidget;
-}
+#include "WFindRequest.h"
+
+class QtTabBar;
 
 namespace Wolverine
 {
 
 class Finder;
 
-class FindResWidget : public QWidget
+class FindResWidget : public QtTabWidget
 {
     Q_OBJECT
     
 public:
     explicit FindResWidget(Finder *finder, QWidget *parent = 0);
     ~FindResWidget();
+
+    void find(const FindRequest &req);
     
+
+private slots:
+    void onModernStyleEnabledChanged(bool enabled);
+
 private:
+    QtTabBar *mTabBar;
     Finder *mFinder;
-    Ui::FindResWidget *ui;
+
 };
 
 }

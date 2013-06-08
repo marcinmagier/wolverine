@@ -111,7 +111,6 @@ RC_FILE      += \
 FORMS        += \
                 ../src/editor/WEditorLexerManagerWidget.ui \
                 ../src/finder/WFindReqWidget.ui \
-                ../src/finder/WFindResWidget.ui \
                 ../src/settings/PageGeneral.ui \
                 ../src/settings/PageView.ui \
                 ../src/settings/PageEditor.ui \

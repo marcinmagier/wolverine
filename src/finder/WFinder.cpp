@@ -200,6 +200,7 @@ void Finder::findInFiles()
     mFindReqWidget->updateSearchHistory();
     mFindReqWidget->updateFilterAndDirectoryHistory();
     createResultsWidget();
+    mFindResWidget->find(mFindReqWidget->getFindRequest());
 }
 
 
