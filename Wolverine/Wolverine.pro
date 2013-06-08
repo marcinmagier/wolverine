@@ -31,6 +31,7 @@ SOURCES      += \
                 ../src/finder/WFinder.cpp \
                 ../src/finder/WFindReqWidget.cpp \
                 ../src/finder/WFindResWidget.cpp \
+                ../src/finder/WFindResWidgetTab.cpp \
                 ../src/panel/WPanel.cpp \
                 ../src/panel/WPanelTabBar.cpp \
                 ../src/panel/WPanelTabContent.cpp \
@@ -66,6 +67,7 @@ HEADERS      += \
                 ../src/finder/WFindResults.h \
                 ../src/finder/WFindReqWidget.h \
                 ../src/finder/WFindResWidget.h \
+                ../src/finder/WFindResWidgetTab.h \
                 ../src/panel/WPanelTabBar.h \
                 ../src/panel/WPanelTabContent.h \
                 ../src/settings/PageGeneral.h \

@@ -27,6 +27,7 @@ public:
 
 private slots:
     void onModernStyleEnabledChanged(bool enabled);
+    void onSearchProcFinished(int idx);
 
 private:
     QtTabBar *mTabBar;
