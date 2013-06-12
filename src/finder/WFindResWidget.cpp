@@ -1,5 +1,5 @@
 #include "WFindResWidget.h"
-#include "WFindResWidgetTab.h"
+#include "WFindResTab.h"
 
 #include "CfgAppSettings.h"
 #include "CfgViewSettings.h"
@@ -32,12 +32,9 @@ FindResWidget::~FindResWidget()
 
 void FindResWidget::find(const FindRequest &req)
 {
-    FindResWidgetTab *tab = new FindResWidgetTab(req);
-    int idx = this->addTab(tab, QIcon(":/search_progress.png"), req.searchPattern);
-    tab->setTabIdx(idx);
-
-    connect(  tab, SIGNAL(searchProcFinished(int)),
-             this, SLOT(onSearchProcFinished(int)) );
+    WFindResTab *tab = new WFindResTab(req, this);
+    this->addTab(tab, req.searchPattern);
+    tab->startSearching();
 }
 
 
@@ -49,10 +46,4 @@ void FindResWidget::onModernStyleEnabledChanged(bool enabled)
         mTabBar->setStyle(QtTabBar::MODERN);
     else
        mTabBar->setStyle(QtTabBar::CLASSIC);
-}
-
-
-void FindResWidget::onSearchProcFinished(int idx)
-{
-    this->setTabIcon(idx, QIcon(":/search_done.png"));
 }

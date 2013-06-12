@@ -31,7 +31,6 @@ SOURCES      += \
                 ../src/finder/WFinder.cpp \
                 ../src/finder/WFindReqWidget.cpp \
                 ../src/finder/WFindResWidget.cpp \
-                ../src/finder/WFindResWidgetTab.cpp \
                 ../src/panel/WPanel.cpp \
                 ../src/panel/WPanelTabBar.cpp \
                 ../src/panel/WPanelTabContent.cpp \
@@ -53,7 +52,10 @@ SOURCES      += \
                 ../src/WLib.cpp \
                 ../src/WMainWindow.cpp \
                 ../src/WPopup.cpp \
-                ../src/WStatusBar.cpp
+                ../src/WStatusBar.cpp \
+    ../src/finder/WFindResTabModel.cpp \
+    ../src/finder/WFindResTabView.cpp \
+    ../src/finder/WFindResTab.cpp
 
 
 HEADERS      += \
@@ -67,7 +69,6 @@ HEADERS      += \
                 ../src/finder/WFindResults.h \
                 ../src/finder/WFindReqWidget.h \
                 ../src/finder/WFindResWidget.h \
-                ../src/finder/WFindResWidgetTab.h \
                 ../src/panel/WPanelTabBar.h \
                 ../src/panel/WPanelTabContent.h \
                 ../src/settings/PageGeneral.h \
@@ -94,7 +95,10 @@ HEADERS      += \
                 ../include/WFinder.h \
                 ../include/WLib.h \
                 ../include/WMainWindow.h \
-                ../include/WPanel.h
+                ../include/WPanel.h \
+    ../src/finder/WFindResTabModel.h \
+    ../src/finder/WFindResTabView.h \
+    ../src/finder/WFindResTab.h
 
 
 INCLUDEPATH  += \
@@ -116,7 +120,8 @@ FORMS        += \
                 ../src/settings/PageGeneral.ui \
                 ../src/settings/PageView.ui \
                 ../src/settings/PageEditor.ui \
-                ../src/settings/PageEditorCodec.ui
+                ../src/settings/PageEditorCodec.ui \
+    ../src/finder/WFindResTab.ui
 
 
 TRANSLATIONS += \
