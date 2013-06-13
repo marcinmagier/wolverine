@@ -78,7 +78,8 @@ using namespace Wolverine;
  * @param parent
  */
 CentralWidget::CentralWidget(QWidget *parent):
-    QWidget(parent)
+    QWidget(parent),
+    mPanelCurrent(0)
 {
     setAcceptDrops(true);
     mCurrentEditor = EditorProxy::instance();

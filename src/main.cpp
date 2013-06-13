@@ -106,6 +106,7 @@ void loadTranslations(QApplication *app)
         if(!translator->isEmpty())
             app->installTranslator(translator);
     }
+    delete translator;
 }
 
 
