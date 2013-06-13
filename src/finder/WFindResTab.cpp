@@ -126,7 +126,8 @@ void WFindResTab::updateTabIcon(bool done)
     } else {
         QString icon = QString(":/search_progress_%1.png").arg(mIconIdx);
         mParent->setTabIcon(idx, QIcon(icon));
-        mIconIdx = (++mIconIdx & 0x3);
+        mIconIdx++;
+        mIconIdx = (mIconIdx & 0x3);
     }
 
 
