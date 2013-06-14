@@ -119,6 +119,7 @@ void EditorMap::resizeEvent(QResizeEvent *e)
 {
     mBg->resize(e->size());
     mFg->resize(e->size().width(), mFg->height());
+    updateMap(mEditorProxy->getCurrentEditor());
 }
 
 
