@@ -41,6 +41,7 @@ public:
 
 public slots:
     void openFile(const QString &file);
+    void addDockWidget(QDockWidget *widget, Qt::DockWidgetArea area);
     void showDockWidget(QDockWidget *widget, Qt::DockWidgetArea area, const QString &title);
     void tabifyDockWidget(QDockWidget *widget, QDockWidget *to, const QString &title);
 
@@ -50,11 +51,10 @@ protected:
 private slots:
     void onAppCustimizeEnabledChanged(bool enabled);
     void onDockTopLevelChanged(bool topLevel);
-    void onMiniMapShowChanged(bool show);
-
 
 private:
     void createMenusAndToolbars();
+    void createDocks();
 
 
     AppSettings *mSettings;
@@ -63,6 +63,7 @@ private:
     QHash<QString, QMenu*> mMenus;
     QHash<QString, QtManagedToolBar*> mToolbars;
     QHash<QString, QDockWidget*> mDocks;
+    QList<QDockWidget*> mDockWidgets;
 
     CentralWidget *mCentralWidget;
     EditorProxy *mEditorProxy;

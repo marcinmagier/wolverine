@@ -5,9 +5,10 @@
 #include "WStatusBar.h"
 #include "WEditor.h"
 #include "WEditorProxy.h"
-#include "WEditorMap.h"
 #include "WFinder.h"
 #include "WDockWidget.h"
+#include "WDockEditorMap.h"
+
 
 #include "qtmanagedtoolbar.h"
 #include "CfgAppSettings.h"
@@ -58,6 +59,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setWindowIcon(QIcon(":/wolverine.png"));
 
     createMenusAndToolbars();
+    createDocks();
 
 
     setCentralWidget(mCentralWidget);
@@ -71,8 +73,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     //showDockWidget(new QDockWidget(tr("Explorer")), Qt::LeftDockWidgetArea, tr("Explorer"));
-
-
 
 }
 
@@ -459,8 +459,7 @@ void MainWindow::createMenusAndToolbars()
     action->setIcon(QIcon(":/map.png"));
     action->setCheckable(true);
     action->setChecked(false);
-    connect( action, SIGNAL(toggled(bool)),
-             this, SLOT(onMiniMapShowChanged(bool)) );
+    // action is connected within dock widget
     menu->addAction(action);
     toolbar->addAction(W_ACTION_MINI_MAP, action, true);
 
@@ -496,6 +495,16 @@ void MainWindow::createMenusAndToolbars()
 
 }
 
+void MainWindow::createDocks()
+{
+    QtDockWidget *widget;
+
+    widget = new DockEditorMap();
+    widget->addAction(mActionManager->getAction(W_ACTION_GROUP_VIEW, W_ACTION_MINI_MAP));
+    addDockWidget(widget, Qt::RightDockWidgetArea);
+
+}
+
 
 
 void MainWindow::openNewFile()
@@ -510,10 +519,26 @@ void MainWindow::openFile(const QString &file)
         mCentralWidget->openTab(file);
 }
 
+
+void MainWindow::addDockWidget(QDockWidget *widget, Qt::DockWidgetArea area)
+{
+    mDockWidgets.append(widget);
+    widget->hide();
+    QMainWindow::addDockWidget(area, widget);
+
+    bool customizeEnabled = mSettings->general->isAppCustomizeEnabled();
+    widget->setFeatures( customizeEnabled ? (widget->features() | QDockWidget::DockWidgetMovable) : (widget->features() & ~QDockWidget::DockWidgetMovable) );
+    widget->setFeatures( customizeEnabled ? (widget->features() | QDockWidget::DockWidgetFloatable) : (widget->features() & ~QDockWidget::DockWidgetFloatable) );
+
+    connect( widget, SIGNAL(topLevelChanged(bool)),
+               this, SLOT(onDockTopLevelChanged(bool)) );
+}
+
+
 void MainWindow::showDockWidget(QDockWidget *widget, Qt::DockWidgetArea area, const QString &title)
 {
     mDocks[title] = widget;
-    this->addDockWidget(area, widget);
+    QMainWindow::addDockWidget(area, widget);
     bool customizeEnabled = mSettings->general->isAppCustomizeEnabled();
     widget->setFeatures( customizeEnabled ? (widget->features() | QDockWidget::DockWidgetMovable) : (widget->features() & ~QDockWidget::DockWidgetMovable) );
     widget->setFeatures( customizeEnabled ? (widget->features() | QDockWidget::DockWidgetFloatable) : (widget->features() & ~QDockWidget::DockWidgetFloatable) );
@@ -557,19 +582,3 @@ void MainWindow::onDockTopLevelChanged(bool topLevel)
     }
 }
 
-void MainWindow::onMiniMapShowChanged(bool show)
-{
-    if(mMiniMap == 0) {
-        mMiniMap = new DockWidget(tr("MiniMap"));
-        mMiniMap->setWidget(new EditorMap());
-        mMiniMap->addAction(mActionManager->getAction(W_ACTION_GROUP_VIEW, W_ACTION_MINI_MAP));
-        showDockWidget(mMiniMap, Qt::RightDockWidgetArea, tr("MiniMap"));
-    }
-
-    if(show) {
-        mMiniMap->show();
-    } else {
-        mMiniMap->hide();
-    }
-
-}

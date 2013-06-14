@@ -25,9 +25,10 @@ SOURCES      += \
                 ../src/editor/WEditorLexerCfg.cpp \
                 ../src/editor/WEditorLexerManager.cpp \
                 ../src/editor/WEditorLexerManagerWidget.cpp \
-                ../src/editor/WEditorMap.cpp \
-                ../src/editor/WEditorMapFrame.cpp \
                 ../src/editor/WEditorProxy.cpp \
+                ../src/editormap/WDockEditorMap.cpp \
+                ../src/editormap/WEditorMap.cpp \
+                ../src/editormap/WEditorMapFrame.cpp \
                 ../src/finder/WFinder.cpp \
                 ../src/finder/WFindReqWidget.cpp \
                 ../src/finder/WFindResWidget.cpp \
@@ -58,12 +59,14 @@ SOURCES      += \
     ../src/finder/WFindResTab.cpp
 
 
+
 HEADERS      += \
                 ../src/wolverine_cfg.h \
                 ../src/WPopup.h \
                 ../src/WStatusBar.h \
                 ../src/editor/WEditorLexerManagerWidget.h \
-                ../src/editor/WEditorMapFrame.h \
+                ../src/editormap/WEditorMap.h \
+                ../src/editormap/WEditorMapFrame.h \
                 ../src/finder/WFindHit.h \
                 ../src/finder/WFindRequest.h \
                 ../src/finder/WFindResults.h \
@@ -90,7 +93,7 @@ HEADERS      += \
                 ../include/WEditorBinder.h \
                 ../include/WEditorLexerCfg.h \
                 ../include/WEditorLexerManager.h \
-                ../include/WEditorMap.h \
+                ../include/WDockEditorMap.h \
                 ../include/WEditorProxy.h \
                 ../include/WFinder.h \
                 ../include/WLib.h \
@@ -99,6 +102,7 @@ HEADERS      += \
     ../src/finder/WFindResTabModel.h \
     ../src/finder/WFindResTabView.h \
     ../src/finder/WFindResTab.h
+
 
 
 INCLUDEPATH  += \
