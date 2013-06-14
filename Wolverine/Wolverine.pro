@@ -56,7 +56,9 @@ SOURCES      += \
                 ../src/WStatusBar.cpp \
     ../src/finder/WFindResTabModel.cpp \
     ../src/finder/WFindResTabView.cpp \
-    ../src/finder/WFindResTab.cpp
+    ../src/finder/WFindResTab.cpp \
+    ../src/finder/WDockFindReq.cpp \
+    ../src/finder/WDockFindRes.cpp
 
 
 
@@ -101,7 +103,9 @@ HEADERS      += \
                 ../include/WPanel.h \
     ../src/finder/WFindResTabModel.h \
     ../src/finder/WFindResTabView.h \
-    ../src/finder/WFindResTab.h
+    ../src/finder/WFindResTab.h \
+    ../src/finder/WDockFindReq.h \
+    ../src/finder/WDockFindRes.h
 
 
 

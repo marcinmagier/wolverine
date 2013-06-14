@@ -37,20 +37,25 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     virtual ~MainWindow();
 
+    void addDockWidget(QDockWidget *widget);
+    void addDockWidget(QDockWidget *widget, Qt::DockWidgetArea area);
+    void addDockWidget(QDockWidget *widget, QDockWidget *tabifyTo);
+
     void openNewFile();
+
 
 public slots:
     void openFile(const QString &file);
-    void addDockWidget(QDockWidget *widget, Qt::DockWidgetArea area);
-    void showDockWidget(QDockWidget *widget, Qt::DockWidgetArea area, const QString &title);
-    void tabifyDockWidget(QDockWidget *widget, QDockWidget *to, const QString &title);
+
 
 protected:
     virtual void closeEvent(QCloseEvent *event);
 
+
 private slots:
     void onAppCustimizeEnabledChanged(bool enabled);
     void onDockTopLevelChanged(bool topLevel);
+
 
 private:
     void createMenusAndToolbars();
@@ -62,13 +67,11 @@ private:
     DlgSettings *mSettingsDialog;
     QHash<QString, QMenu*> mMenus;
     QHash<QString, QtManagedToolBar*> mToolbars;
-    QHash<QString, QDockWidget*> mDocks;
-    QList<QDockWidget*> mDockWidgets;
+    QList<QDockWidget*> mDocks;
 
     CentralWidget *mCentralWidget;
     EditorProxy *mEditorProxy;
     Finder *mFinder;
-    DockWidget *mMiniMap;
 
 };
 

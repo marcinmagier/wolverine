@@ -28,11 +28,13 @@
 #include "WFindReqWidget.h"
 #include "WFindResWidget.h"
 #include "WDockWidget.h"
+#include "WDockFindReq.h"
+#include "WDockFindRes.h"
 
 #include "WEditor.h"
 #include "WEditorProxy.h"
 
-#include "WActionManager.h"
+//#include "WActionManager.h"
 
 #include "Logger.h"
 
@@ -57,6 +59,9 @@ Finder *Finder::sInstance = 0;
  */
 Finder::Finder() 
 {
+    mDockReqWidget = new DockFindReq();
+    mDockResWidget = new DockFindRes();
+
     mFindRequestDock = 0;
     mFindReqWidget = 0;
     mFindResultsDock = 0;
@@ -69,12 +74,6 @@ Finder::Finder()
                      this, SLOT(onEditorChanged(Editor*)) );
     connect( mEditorProxy, SIGNAL(currentEditorNotValid(Editor*)),
                      this, SLOT(onEditorNotValid(Editor*)) );
-
-    ActionManager *actionManager = ActionManager::instance();
-    mFindAction = actionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND);
-    mFindInFilesAction = actionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND_IN_FILES);
-    mReplaceAction = actionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_REPLACE);
-
 }
 
 
@@ -114,6 +113,36 @@ void Finder::deleteInstance()
         sInstance = 0;
     }
 }
+
+
+void Finder::setFindAction(QAction *action)
+{
+    mFindAction = action;
+}
+
+
+void Finder::setReplaceAction(QAction *action)
+{
+    mReplaceAction = action;
+}
+
+
+void Finder::setFindInFilesAction(QAction *action)
+{
+    mFindInFilesAction = action;
+}
+
+
+QDockWidget* Finder::getFindReqDock()
+{
+    return mDockReqWidget;
+}
+
+QDockWidget* Finder::getFindResDock()
+{
+    return mDockResWidget;
+}
+
 
 
 void Finder::showFindWidget()

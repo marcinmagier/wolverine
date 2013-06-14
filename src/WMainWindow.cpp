@@ -40,19 +40,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     mCentralWidget = new CentralWidget(this);
     mEditorProxy = EditorProxy::instance();
+
     mFinder = Finder::instance();
-    mMiniMap = 0;
-
-    connect( mFinder, SIGNAL(showWidgetRequested(QDockWidget*,Qt::DockWidgetArea, QString)),
-                this, SLOT(showDockWidget(QDockWidget*,Qt::DockWidgetArea, QString)) );
-    connect( mFinder, SIGNAL(showResultsWidgetRequested(QDockWidget*,QDockWidget*,QString)),
-                this, SLOT(tabifyDockWidget(QDockWidget*,QDockWidget*,QString)) );
-
-    this->setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
-    this->setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
-    this->setCorner(Qt::TopRightCorner, Qt::TopDockWidgetArea);
-    this->setCorner(Qt::BottomRightCorner, Qt::BottomDockWidgetArea);
-
+    mFinder->setFindAction(mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND));
+    mFinder->setReplaceAction(mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_REPLACE));
+    mFinder->setFindInFilesAction(mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND_IN_FILES));
 
     this->resize(mSettings->hidden->getMWSize());
     this->move(mSettings->hidden->getMWPosition());
@@ -87,6 +79,40 @@ MainWindow::~MainWindow()
     //AppSettings
     //ActionManager
 }
+
+
+
+
+void MainWindow::addDockWidget(QDockWidget *widget)
+{
+    mDocks.append(widget);
+    widget->hide();
+
+    bool customizeEnabled = mSettings->general->isAppCustomizeEnabled();
+    widget->setFeatures( customizeEnabled ? (widget->features() | QDockWidget::DockWidgetMovable) : (widget->features() & ~QDockWidget::DockWidgetMovable) );
+    widget->setFeatures( customizeEnabled ? (widget->features() | QDockWidget::DockWidgetFloatable) : (widget->features() & ~QDockWidget::DockWidgetFloatable) );
+
+    connect( widget, SIGNAL(topLevelChanged(bool)),
+               this, SLOT(onDockTopLevelChanged(bool)) );
+}
+
+
+void MainWindow::addDockWidget(QDockWidget *widget, Qt::DockWidgetArea area)
+{
+    addDockWidget(widget);
+    QMainWindow::addDockWidget(area, widget);
+}
+
+
+void MainWindow::addDockWidget(QDockWidget *widget, QDockWidget *tabifyTo)
+{
+    addDockWidget(widget);
+    QMainWindow::tabifyDockWidget(tabifyTo, widget);
+}
+
+
+
+
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
@@ -499,12 +525,21 @@ void MainWindow::createDocks()
 {
     QtDockWidget *widget;
 
+    this->setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
+    this->setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
+    this->setCorner(Qt::TopRightCorner, Qt::TopDockWidgetArea);
+    this->setCorner(Qt::BottomRightCorner, Qt::BottomDockWidgetArea);
+
+    // Finder
+    addDockWidget(mFinder->getFindReqDock(), Qt::BottomDockWidgetArea);
+    addDockWidget(mFinder->getFindResDock(), mFinder->getFindReqDock());
+
+    // MiniMap
     widget = new DockEditorMap();
     widget->addAction(mActionManager->getAction(W_ACTION_GROUP_VIEW, W_ACTION_MINI_MAP));
     addDockWidget(widget, Qt::RightDockWidgetArea);
 
 }
-
 
 
 void MainWindow::openNewFile()
@@ -519,45 +554,6 @@ void MainWindow::openFile(const QString &file)
         mCentralWidget->openTab(file);
 }
 
-
-void MainWindow::addDockWidget(QDockWidget *widget, Qt::DockWidgetArea area)
-{
-    mDockWidgets.append(widget);
-    widget->hide();
-    QMainWindow::addDockWidget(area, widget);
-
-    bool customizeEnabled = mSettings->general->isAppCustomizeEnabled();
-    widget->setFeatures( customizeEnabled ? (widget->features() | QDockWidget::DockWidgetMovable) : (widget->features() & ~QDockWidget::DockWidgetMovable) );
-    widget->setFeatures( customizeEnabled ? (widget->features() | QDockWidget::DockWidgetFloatable) : (widget->features() & ~QDockWidget::DockWidgetFloatable) );
-
-    connect( widget, SIGNAL(topLevelChanged(bool)),
-               this, SLOT(onDockTopLevelChanged(bool)) );
-}
-
-
-void MainWindow::showDockWidget(QDockWidget *widget, Qt::DockWidgetArea area, const QString &title)
-{
-    mDocks[title] = widget;
-    QMainWindow::addDockWidget(area, widget);
-    bool customizeEnabled = mSettings->general->isAppCustomizeEnabled();
-    widget->setFeatures( customizeEnabled ? (widget->features() | QDockWidget::DockWidgetMovable) : (widget->features() & ~QDockWidget::DockWidgetMovable) );
-    widget->setFeatures( customizeEnabled ? (widget->features() | QDockWidget::DockWidgetFloatable) : (widget->features() & ~QDockWidget::DockWidgetFloatable) );
-
-    connect( widget, SIGNAL(topLevelChanged(bool)),
-               this, SLOT(onDockTopLevelChanged(bool)) );
-}
-
-void MainWindow::tabifyDockWidget(QDockWidget *widget, QDockWidget *to, const QString &title)
-{
-    mDocks[title] = widget;
-    QMainWindow::tabifyDockWidget(to, widget);
-    bool customizeEnabled = mSettings->general->isAppCustomizeEnabled();
-    widget->setFeatures( customizeEnabled ? (widget->features() | QDockWidget::DockWidgetMovable) : (widget->features() & ~QDockWidget::DockWidgetMovable) );
-    widget->setFeatures( customizeEnabled ? (widget->features() | QDockWidget::DockWidgetFloatable) : (widget->features() & ~QDockWidget::DockWidgetFloatable) );
-
-    connect( widget, SIGNAL(topLevelChanged(bool)),
-               this, SLOT(onDockTopLevelChanged(bool)) );
-}
 
 
 void MainWindow::onAppCustimizeEnabledChanged(bool enabled)

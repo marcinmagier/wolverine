@@ -33,7 +33,6 @@
 class QDockWidget;
 class QAction;
 
-
 namespace Wolverine
 {
 
@@ -41,6 +40,8 @@ class FindRequest;
 class FindResults;
 class FindReqWidget;
 class FindResWidget;
+class DockFindReq;
+class DockFindRes;
 class Editor;
 class EditorProxy;
 class DockWidget;
@@ -56,6 +57,13 @@ class Finder: public QObject
 public:
     static Finder* instance();
     static void deleteInstance();
+
+    void setFindAction(QAction *action);
+    void setReplaceAction(QAction *action);
+    void setFindInFilesAction(QAction *action);
+
+    QDockWidget* getFindReqDock();
+    QDockWidget* getFindResDock();
 
 
 public slots:
@@ -119,6 +127,10 @@ private:
     QAction *mReplaceAction;
 
     static Finder *sInstance;
+
+
+    DockFindReq *mDockReqWidget;
+    DockFindRes *mDockResWidget;
 };
 
 
