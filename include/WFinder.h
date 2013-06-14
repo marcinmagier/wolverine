@@ -100,9 +100,12 @@ signals:
 
 
 private slots:
-    void onDockVisibilityChanged(bool visible);
+    void onReqDockVisibilityChanged(bool visible);
     void onReqDockCustomContextMenuRequested(const QPoint &pos);
     void onReqDockCloseTriggered();
+
+    void onDockVisibilityChanged(bool visible);
+
 
     void onEditorChanged(Editor *edit);
     void onEditorNotValid(Editor *edit);
@@ -111,7 +114,7 @@ private slots:
 
 
 private:
-    void createFindWidget();
+    void setupFindWidget();
     void createResultsWidget();
     void find(const FindRequest &req, bool reverse);
     FindResults* find(const FindRequest &req);

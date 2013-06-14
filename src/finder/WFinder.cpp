@@ -62,6 +62,12 @@ Finder::Finder()
     mDockReqWidget = new DockFindReq();
     mDockResWidget = new DockFindRes();
 
+    mDockReqWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect( mDockReqWidget, SIGNAL(dockVisibilityChanged(bool)),
+                       this, SLOT(onReqDockVisibilityChanged(bool)) );
+    connect( mDockReqWidget, SIGNAL(customContextMenuRequested(QPoint)),
+                       this, SLOT(onReqDockCustomContextMenuRequested(QPoint)) );
+
     mFindRequestDock = 0;
     mFindReqWidget = 0;
     mFindResultsDock = 0;
@@ -147,50 +153,57 @@ QDockWidget* Finder::getFindResDock()
 
 void Finder::showFindWidget()
 {
+    mDockReqWidget->setWindowTitle(tr("Find"));
 
-        createFindWidget();
-        mFindReqWidget->setCurrentIndex(FindReqWidget::FindIdx);
-        mFindAction->setChecked(true);
-        mFindInFilesAction->setChecked(false);
-        mReplaceAction->setChecked(false);
+    setupFindWidget();
 
-    mFindRequestDock->setWindowTitle(tr("Find"));
-
-    QString selection = mEditorProxy->getCurrentEditor()->selectedText();
-    if(!selection.isEmpty())
-        mFindReqWidget->setInitialSearchPattern(selection);
+    mFindReqWidget->setCurrentIndex(FindReqWidget::FindIdx);
+    mFindAction->setChecked(true);
+    mFindInFilesAction->setChecked(false);
+    mReplaceAction->setChecked(false);
 }
 
 void Finder::showFindInFilesWidget()
 {
+    mDockReqWidget->setWindowTitle(tr("Find In Files"));
 
-        createFindWidget();
-        mFindReqWidget->setCurrentIndex(FindReqWidget::FindInFilesIdx);
-        mFindAction->setChecked(false);
-        mFindInFilesAction->setChecked(true);
-        mReplaceAction->setChecked(false);
+    setupFindWidget();
 
-    mFindRequestDock->setWindowTitle(tr("Find In Files"));
-
-    QString selection = mEditorProxy->getCurrentEditor()->selectedText();
-    if(!selection.isEmpty())
-        mFindReqWidget->setInitialSearchPattern(selection);
+    mFindReqWidget->setCurrentIndex(FindReqWidget::FindInFilesIdx);
+    mFindAction->setChecked(false);
+    mFindInFilesAction->setChecked(true);
+    mReplaceAction->setChecked(false);
 }
 
 void Finder::showReplaceWidget()
 {
-        createFindWidget();
-        mFindReqWidget->setCurrentIndex(FindReqWidget::ReplaceIdx);
-        mFindAction->setChecked(false);
-        mFindInFilesAction->setChecked(false);
-        mReplaceAction->setChecked(true);
+    mDockReqWidget->setWindowTitle(tr("Replace"));
 
-    mFindRequestDock->setWindowTitle(tr("Replace"));
+    setupFindWidget();
+
+    mFindReqWidget->setCurrentIndex(FindReqWidget::ReplaceIdx);
+    mFindAction->setChecked(false);
+    mFindInFilesAction->setChecked(false);
+    mReplaceAction->setChecked(true);
+}
+
+
+void Finder::setupFindWidget()
+{
+    if(mFindReqWidget == 0) {
+        mDockReqWidget->show();
+        mFindReqWidget = dynamic_cast<FindReqWidget*>(mDockReqWidget->widget());
+    } else {
+        mDockReqWidget->setFocus();
+    }
 
     QString selection = mEditorProxy->getCurrentEditor()->selectedText();
     if(!selection.isEmpty())
         mFindReqWidget->setInitialSearchPattern(selection);
+
+    mDockReqWidget->raise();
 }
+
 
 void Finder::findNext()
 {
@@ -308,26 +321,6 @@ void Finder::jumpPrevMark(int style)
 
 
 
-void Finder::createFindWidget()
-{
-    if(mFindRequestDock == 0) {
-        mFindReqWidget = new FindReqWidget(this);
-        mFindRequestDock = new DockWidget(QString());
-        mFindRequestDock->setWidget(mFindReqWidget);
-
-        connect( mFindRequestDock, SIGNAL(dockVisibilityChanged(bool)),
-                             this, SLOT(onDockVisibilityChanged(bool)) );
-
-        mFindRequestDock->setContextMenuPolicy(Qt::CustomContextMenu);
-        connect( mFindRequestDock, SIGNAL(customContextMenuRequested(QPoint)),
-                             this, SLOT(onReqDockCustomContextMenuRequested(QPoint)) );
-        emit showWidgetRequested(mFindRequestDock, Qt::BottomDockWidgetArea, tr("Find/Replace"));
-    } else {
-        mFindRequestDock->setVisible(true);
-        mFindRequestDock->setFocus();
-    }
-    mFindRequestDock->raise();
-}
 
 
 void Finder::createResultsWidget()
@@ -348,6 +341,31 @@ void Finder::createResultsWidget()
 
 void Finder::onDockVisibilityChanged(bool visible)
 {
+    if(visible) {
+        FindReqWidget::Idx idx = mFindReqWidget->getCurrentIndex();
+        switch(idx) {
+        case FindReqWidget::FindIdx:
+            mFindAction->setChecked(true);
+            break;
+        case FindReqWidget::ReplaceIdx:
+            mReplaceAction->setChecked(true);
+            break;
+        case FindReqWidget::FindInFilesIdx:
+            mFindInFilesAction->setChecked(true);
+            break;
+        }
+    } else {
+        mFindAction->setChecked(false);
+        mFindInFilesAction->setChecked(false);
+        mReplaceAction->setChecked(false);
+    }
+}
+
+
+void Finder::onReqDockVisibilityChanged(bool visible)
+{
+    return;
+
     if(visible) {
         FindReqWidget::Idx idx = mFindReqWidget->getCurrentIndex();
         switch(idx) {

@@ -51,10 +51,8 @@ DockEditorMap::DockEditorMap(QWidget *parent) :
  */
 DockEditorMap::~DockEditorMap()
 {
-    if(mEditorMap) {
+    if(mEditorMap)
         delete mEditorMap;
-        mEditorMap = 0;
-    }
 }
 
 

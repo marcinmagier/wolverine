@@ -7,6 +7,8 @@
 namespace Wolverine
 {
 
+class FindReqWidget;
+
 
 class DockFindReq : public QtDockWidget
 {
@@ -14,10 +16,19 @@ class DockFindReq : public QtDockWidget
 
 public:
     explicit DockFindReq(QWidget *parent = 0);
-    
+    ~DockFindReq();
+
+
 signals:
     
 public slots:
+
+protected:
+    virtual void changeVisibility(bool visible);
+
+
+private:
+    FindReqWidget *mReqWidget;
     
 };
 
