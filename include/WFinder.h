@@ -30,8 +30,9 @@
 #include <QObject>
 #include <QPoint>
 
-class QDockWidget;
 class QAction;
+class QDockWidget;
+class QtDockWidget;
 
 namespace Wolverine
 {
@@ -40,11 +41,9 @@ class FindRequest;
 class FindResults;
 class FindReqWidget;
 class FindResWidget;
-class DockFindReq;
-class DockFindRes;
 class Editor;
 class EditorProxy;
-class DockWidget;
+
 
 class Finder: public QObject
 {
@@ -94,17 +93,11 @@ public slots:
     void jumpPrevMark(int style);
 
 
-signals:
-    void showWidgetRequested(QDockWidget *widget, Qt::DockWidgetArea area, QString title);
-    void showResultsWidgetRequested(QDockWidget *widget, QDockWidget *to, QString title);
-
-
 private slots:
     void onReqDockVisibilityChanged(bool visible);
     void onReqDockCustomContextMenuRequested(const QPoint &pos);
-    void onReqDockCloseTriggered();
 
-    void onDockVisibilityChanged(bool visible);
+    void onResDockVisibilityChanged(bool visible);
 
 
     void onEditorChanged(Editor *edit);
@@ -119,9 +112,9 @@ private:
     void find(const FindRequest &req, bool reverse);
     FindResults* find(const FindRequest &req);
 
-    DockWidget *mFindRequestDock;
+    QtDockWidget *mDockReqWidget;
+    QtDockWidget *mDockResWidget;
     FindReqWidget *mFindReqWidget;
-    DockWidget *mFindResultsDock;
     FindResWidget *mFindResWidget;
     FindResults *mFindResults;
     EditorProxy *mEditorProxy;
@@ -131,9 +124,6 @@ private:
 
     static Finder *sInstance;
 
-
-    DockFindReq *mDockReqWidget;
-    DockFindRes *mDockResWidget;
 };
 
 

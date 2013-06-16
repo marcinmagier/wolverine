@@ -26,7 +26,6 @@ class CentralWidget;
 class Editor;
 class EditorProxy;
 class Finder;
-class DockWidget;
 
 
 class MainWindow : public QMainWindow

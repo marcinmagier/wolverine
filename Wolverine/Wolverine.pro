@@ -31,6 +31,9 @@ SOURCES      += \
                 ../src/editormap/WEditorMapFrame.cpp \
                 ../src/finder/WFinder.cpp \
                 ../src/finder/WFindReqWidget.cpp \
+                ../src/finder/WFindResTabModel.cpp \
+                ../src/finder/WFindResTabView.cpp \
+                ../src/finder/WFindResTab.cpp \
                 ../src/finder/WFindResWidget.cpp \
                 ../src/panel/WPanel.cpp \
                 ../src/panel/WPanelTabBar.cpp \
@@ -49,16 +52,10 @@ SOURCES      += \
                 ../src/settings/CfgViewSettings.cpp \
                 ../src/WActionManager.cpp \
                 ../src/WCentralWidget.cpp \
-                ../src/WDockWidget.cpp \
                 ../src/WLib.cpp \
                 ../src/WMainWindow.cpp \
                 ../src/WPopup.cpp \
-                ../src/WStatusBar.cpp \
-    ../src/finder/WFindResTabModel.cpp \
-    ../src/finder/WFindResTabView.cpp \
-    ../src/finder/WFindResTab.cpp \
-    ../src/finder/WDockFindReq.cpp \
-    ../src/finder/WDockFindRes.cpp
+                ../src/WStatusBar.cpp
 
 
 
@@ -73,6 +70,9 @@ HEADERS      += \
                 ../src/finder/WFindRequest.h \
                 ../src/finder/WFindResults.h \
                 ../src/finder/WFindReqWidget.h \
+                ../src/finder/WFindResTabModel.h \
+                ../src/finder/WFindResTabView.h \
+                ../src/finder/WFindResTab.h \
                 ../src/finder/WFindResWidget.h \
                 ../src/panel/WPanelTabBar.h \
                 ../src/panel/WPanelTabContent.h \
@@ -89,7 +89,6 @@ HEADERS      += \
                 ../include/CfgViewSettings.h \
                 ../include/WActionManager.h \
                 ../include/WCentralWidget.h \
-                ../include/WDockWidget.h \
                 ../include/DlgSettings.h \
                 ../include/WEditor.h \
                 ../include/WEditorBinder.h \
@@ -100,12 +99,7 @@ HEADERS      += \
                 ../include/WFinder.h \
                 ../include/WLib.h \
                 ../include/WMainWindow.h \
-                ../include/WPanel.h \
-    ../src/finder/WFindResTabModel.h \
-    ../src/finder/WFindResTabView.h \
-    ../src/finder/WFindResTab.h \
-    ../src/finder/WDockFindReq.h \
-    ../src/finder/WDockFindRes.h
+                ../include/WPanel.h
 
 
 

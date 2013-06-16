@@ -6,7 +6,6 @@
 #include "WEditor.h"
 #include "WEditorProxy.h"
 #include "WFinder.h"
-#include "WDockWidget.h"
 #include "WDockEditorMap.h"
 
 
