@@ -72,6 +72,11 @@ Finder::Finder()
     connect( mDockReqWidget, SIGNAL(customContextMenuRequested(QPoint)),
                        this, SLOT(onReqDockCustomContextMenuRequested(QPoint)) );
 
+    connect( mDockResWidget, SIGNAL(dockVisibilityChanged(bool)),
+                       this, SLOT(onResDockVisibilityChanged(bool)) );
+
+
+
     mEditorProxy = EditorProxy::instance();
     connect( mEditorProxy, SIGNAL(currentEditorChanged(Editor*)),
                      this, SLOT(onEditorChanged(Editor*)) );
@@ -320,17 +325,13 @@ void Finder::jumpPrevMark(int style)
 
 
 void Finder::createResultsWidget()
-{/*
-    if(mFindResultsDock == 0) {
-        mFindResWidget = new FindResWidget(this);
-        mFindResultsDock = new DockWidget(tr("Find Results"));
-        mFindResultsDock->setWidget(mFindResWidget);
-    }
+{
+    if(mFindResWidget == 0)
+        mDockResWidget->show();
+    else
+        mDockResWidget->setFocus();
 
-    mFindResultsDock->setVisible(true);
-    mFindResultsDock->setFocus();
-    mFindResultsDock->raise();
-    */
+    mDockResWidget->raise();
 }
 
 
@@ -345,6 +346,8 @@ void Finder::onReqDockVisibilityChanged(bool visible)
             mFindAction->setChecked(true);
             mFindInFilesAction->setChecked(false);
             mReplaceAction->setChecked(false);
+
+            mDockResWidget->toggleViewAction()->setEnabled(true);
         }
     } else {
         if(mFindReqWidget) {
@@ -352,6 +355,8 @@ void Finder::onReqDockVisibilityChanged(bool visible)
             mFindReqWidget = 0;
             mDockReqWidget->setWidget(0);
             mDockReqWidget->setWindowTitle(tr("Find"));
+
+            mDockResWidget->toggleViewAction()->setEnabled(false);
         }
         mFindAction->setChecked(false);
         mFindInFilesAction->setChecked(false);
@@ -374,7 +379,23 @@ void Finder::onReqDockCustomContextMenuRequested(const QPoint &/*pos*/)
 
 void Finder::onResDockVisibilityChanged(bool visible)
 {
+    if(visible) {
+        if(mFindReqWidget == 0) {
+            mDockResWidget->hide();
+            return;
+        }
 
+        if(mFindResWidget == 0) {
+            mFindResWidget = new FindResWidget(this);
+            mDockResWidget->setWidget(mFindResWidget);
+        }
+    } else {
+        if(mFindResWidget) {
+            delete mFindResWidget;
+            mFindResWidget = 0;
+            mDockResWidget->setWidget(0);
+        }
+    }
 }
 
 

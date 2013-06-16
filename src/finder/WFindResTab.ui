@@ -42,7 +42,7 @@
    <item row="4" column="0">
     <widget class="QLabel" name="lblFiles">
      <property name="text">
-      <string>Files:</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Files:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>
@@ -76,7 +76,7 @@
    <item row="1" column="0">
     <widget class="QLabel" name="lblHits">
      <property name="text">
-      <string>Hits:</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Hits:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>

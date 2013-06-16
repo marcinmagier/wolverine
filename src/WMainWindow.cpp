@@ -532,6 +532,7 @@ void MainWindow::createDocks()
     // Finder
     addDockWidget(mFinder->getFindReqDock(), Qt::BottomDockWidgetArea);
     addDockWidget(mFinder->getFindResDock(), mFinder->getFindReqDock());
+    mFinder->getFindResDock()->toggleViewAction()->setEnabled(false);
 
     // MiniMap
     widget = new DockEditorMap();
