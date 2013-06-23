@@ -23,6 +23,7 @@ WFindResTab::WFindResTab(const FindRequest &req, QWidget *parent) :
     ui->setupUi(this);
 
     mModel = new FindResTabModel();
+    ui->treeView->setModel(mModel);
 
 }
 
@@ -69,6 +70,8 @@ void WFindResTab::onTimerTimeout()
     ui->lblHitNr->setText(QString("%1").arg(mModel->getHits()));
     ui->lblFilesNr->setText(QString("%1").arg(mModel->getFiles()));
 
+    ui->treeView->spanFileNames();
+
     mMutex->unlock();
 
 }
@@ -83,7 +86,7 @@ void WFindResTab::onProcFinished(int exitCode)
     updateTabIcon(true);
 
 
-    mModel->showHits();
+   // mModel->showHits();
 
     if(exitCode)
             LOG_ERROR("Search process finished with error code %d", exitCode);

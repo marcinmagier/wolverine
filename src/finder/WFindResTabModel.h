@@ -8,17 +8,39 @@
 namespace Wolverine
 {
 
-class Hit
+class Item
 {
+public:
+    Item(Item *parrent):
+        parrent(parrent) {}
+
+    Item* parrent;
+};
+
+
+class Hit : public Item
+{
+public:
+    Hit(int line, const QString &text, Item *parrent) :
+        Item(parrent),
+        lineNr(line), lineText(text) {}
+
     int lineNr;
     QString lineText;
 };
 
-class HitFile
+
+class HitFile : public Item
 {
-    QString file;
-    QList<Hit> hits;
+public:
+    HitFile(const QString &file) :
+        Item(0),
+        filePath(file) {}
+
+    QString filePath;
+    QList<Hit*> hits;
 };
+
 
 
 class FindResTabModel : public QAbstractItemModel
@@ -29,9 +51,11 @@ public:
 
     QModelIndex index(int row, int column, const QModelIndex &parent) const;
     QModelIndex parent(const QModelIndex &child) const;
-    int rowCount(const QModelIndex &parent) const;
-    int columnCount(const QModelIndex &parent) const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role) const;
+
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
     void addHits(const QStringList &list);
     int getHits();
@@ -44,7 +68,10 @@ signals:
 public slots:
 
 private:
-    QList<HitFile> mHitList;
+    void parseLine(const QString &line);
+
+    int mHits;
+    QList<HitFile*> mHitList;
     QStringList mList;
     
 };
