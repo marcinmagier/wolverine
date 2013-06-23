@@ -391,7 +391,7 @@ void Finder::onResDockVisibilityChanged(bool visible)
         }
 
         if(mFindResWidget == 0) {
-            mFindResWidget = new FindResWidget(this);
+            mFindResWidget = new FindResWidget(this, mDockResWidget);
             mDockResWidget->setWidget(mFindResWidget);
         }
     } else {

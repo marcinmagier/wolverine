@@ -28,6 +28,8 @@ public:
 private slots:
     void onModernStyleEnabledChanged(bool enabled);
 
+    void onTabCloseRequested(int idx);
+
 private:
     QtTabBar *mTabBar;
     Finder *mFinder;

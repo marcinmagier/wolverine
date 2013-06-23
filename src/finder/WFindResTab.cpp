@@ -36,8 +36,8 @@ WFindResTab::WFindResTab(const FindRequest &req, CentralWidget *cw, QWidget *par
 
 WFindResTab::~WFindResTab()
 {
-    delete ui;
     killProc();
+    delete ui;
 }
 
 
@@ -48,6 +48,7 @@ void WFindResTab::startSearching()
     killProc();
 
     mProcess = new QProcess();
+    mProcess->setProcessEnvironment(QProcessEnvironment::systemEnvironment());
     connect( mProcess, SIGNAL(readyReadStandardOutput()),
                  this, SLOT(onProcReadyStandardOutput()) );
     connect( mProcess, SIGNAL(readyReadStandardError()),
@@ -62,7 +63,14 @@ void WFindResTab::startSearching()
     mMutex = new QMutex();
 
     mTimer->start(400);
-    mProcess->start("F:\\TMP\\grep.exe", QStringList() << "-rn" << "--binary-files=without-match" << "WEditorMap" << "F:\\IT\\qt\\wolverine");
+
+    QStringList args;
+    args << "-rn";
+    args << "--binary-files=without-match";
+    args << mFindRequest.searchPattern;
+    args << mFindRequest.directory;
+
+    mProcess->start("grep.exe", args);
 }
 
 
