@@ -66,6 +66,13 @@ void WFindResTab::startSearching()
 
     QStringList args;
     args << "-rn";
+    if(!mFindRequest.isCaseSensitive)
+        args << "-i";
+    if(mFindRequest.isWholeWords)
+        args << "-w";
+    if(mFindRequest.filters != "*.*")
+        args << QString("--include=%1").arg(mFindRequest.filters);
+
     args << "--binary-files=without-match";
     args << mFindRequest.searchPattern;
     args << mFindRequest.directory;
@@ -99,9 +106,6 @@ void WFindResTab::onProcFinished(int exitCode)
 
     onTimerTimeout();
     updateTabIcon(true);
-
-
-   // mModel->showHits();
 
     if(exitCode)
             LOG_ERROR("Search process finished with error code %d", exitCode);
