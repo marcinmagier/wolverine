@@ -125,7 +125,9 @@ QString Lib::getPathFromFile(const QString &file)
 int Lib::getLineFromFile(const QString &file)
 {
     QStringList tmp = file.split(W_FILE_LINE_SEP);
-    return tmp.value(1).toInt();
+    if(tmp.length() > 1)
+        return tmp.value(1).toInt();
+    return -1;
 }
 
 

@@ -230,10 +230,10 @@ void CentralWidget::openTab(Panel *panel, const QString &path)
     if(line>0)
         line--; //Lines start from 0.
 
-    if(setCurrentIfExists(mPanelLeft, file))
+    if(setCurrentIfExists(mPanelLeft, file, line))
         return;
 
-    if(setCurrentIfExists(mPanelRight, file))
+    if(setCurrentIfExists(mPanelRight, file, line))
         return;
 
     EditorBinder *binder = new EditorBinder(file);
@@ -883,7 +883,8 @@ bool CentralWidget::setCurrentIfExists(Panel *panel, Editor *editor, int line)
         setCurrentPanel(panel);
         mPanelCurrent->setCurrentIndex(idx);
         if(line >= 0)
-            mPanelCurrent->getEditor(idx)->setCursorPosition(line, 0);
+            editor->setCursorPosition(line, 0);
+        editor->setFocus();
         return true;
     }
 
@@ -905,8 +906,10 @@ bool CentralWidget::setCurrentIfExists(Panel *panel, const QString &path, int li
     if(idx >= 0) {
         setCurrentPanel(panel);
         mPanelCurrent->setCurrentIndex(idx);
+        Editor *editor = mPanelCurrent->getEditor(idx);
         if(line >= 0)
-            mPanelCurrent->getEditor(idx)->setCursorPosition(line, 0);
+            editor->setCursorPosition(line, 0);
+        editor->setFocus();
         return true;
     }
 

@@ -117,9 +117,10 @@ bool PanelTabContent::hasEditor(Editor *editor)
  */
 bool PanelTabContent::hasEditor(const QString &filePath)
 {
+    QFileInfo fileInfo(filePath);
     for(int i=0; i<count(); i++) {
         Editor *tmpEditor = dynamic_cast<Editor*>(this->widget(i));
-        if(tmpEditor->getBinder()->absoluteFilePath() == filePath)
+        if(tmpEditor->getBinder()->absoluteFilePath() == fileInfo.absoluteFilePath())
             return true;
     }
     return false;
