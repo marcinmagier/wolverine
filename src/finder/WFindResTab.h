@@ -18,6 +18,7 @@ namespace Wolverine
 {
 
 class FindResTabModel;
+class CentralWidget;
 
 
 class WFindResTab : public QWidget
@@ -25,7 +26,7 @@ class WFindResTab : public QWidget
     Q_OBJECT
     
 public:
-    explicit WFindResTab(const FindRequest &req, QWidget *parent = 0);
+    explicit WFindResTab(const FindRequest &req, CentralWidget *cw, QWidget *parent = 0);
     ~WFindResTab();
 
     void startSearching();
@@ -36,6 +37,8 @@ private slots:
     void onProcReadyStandardError();
     void onProcFinished(int exitCode);
 
+    void onFileNameDoubleClicked(const QModelIndex &index);
+
 private:
     void killProc();
     void updateTabIcon(bool done = false);
@@ -45,6 +48,7 @@ private:
     FindRequest mFindRequest;
     FindResTabModel *mModel;
 
+    CentralWidget *mCentralWidget;
 
     QTabWidget *mParent;
     QProcess *mProcess;

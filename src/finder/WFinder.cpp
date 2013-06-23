@@ -31,7 +31,7 @@
 #include "WEditor.h"
 #include "WEditorProxy.h"
 
-//#include "WActionManager.h"
+#include "WCentralWidget.h"
 
 #include "qtdockwidget.h"
 
@@ -140,6 +140,11 @@ void Finder::setFindInFilesAction(QAction *action)
     mFindInFilesAction = action;
 }
 
+
+void Finder::setCentralWidget(CentralWidget *central)
+{
+    mCentralWidget = central;
+}
 
 QDockWidget* Finder::getFindReqDock()
 {

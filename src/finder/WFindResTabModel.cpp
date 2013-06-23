@@ -135,6 +135,20 @@ int FindResTabModel::getFiles()
 }
 
 
+QString FindResTabModel::getFileName(const QModelIndex &index)
+{
+    HitFile *hf = static_cast<HitFile*>(index.parent().internalPointer());
+
+    return hf->filePath;
+}
+
+int FindResTabModel::getLine(const QModelIndex &index)
+{
+    HitFile *hf = static_cast<HitFile*>(index.parent().internalPointer());
+
+    return hf->hits[index.row()]->lineNr;
+}
+
 void FindResTabModel::showHits()
 {
     foreach(HitFile *hf, mHitList) {

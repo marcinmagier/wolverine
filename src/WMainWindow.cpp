@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
     mFinder->setFindAction(mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND));
     mFinder->setReplaceAction(mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_REPLACE));
     mFinder->setFindInFilesAction(mActionManager->getAction(W_ACTION_GROUP_SEARCH, W_ACTION_FIND_IN_FILES));
+    mFinder->setCentralWidget(mCentralWidget);
 
     this->resize(mSettings->hidden->getMWSize());
     this->move(mSettings->hidden->getMWPosition());

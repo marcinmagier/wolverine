@@ -44,6 +44,7 @@ class FindResWidget;
 class Editor;
 class EditorProxy;
 
+class CentralWidget;
 
 class Finder: public QObject
 {
@@ -60,6 +61,8 @@ public:
     void setFindAction(QAction *action);
     void setReplaceAction(QAction *action);
     void setFindInFilesAction(QAction *action);
+
+    void setCentralWidget(CentralWidget* central);
 
     QDockWidget* getFindReqDock();
     QDockWidget* getFindResDock();
@@ -122,8 +125,12 @@ private:
     QAction *mFindInFilesAction;
     QAction *mReplaceAction;
 
+    CentralWidget *mCentralWidget;
+
     static Finder *sInstance;
 
+
+    friend class FindResWidget;
 };
 
 

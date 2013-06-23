@@ -25,10 +25,6 @@ using namespace Wolverine;
 
 QString Lib::sAppFile;
 
-Lib::Lib()
-{
-
-}
 
 
 /**

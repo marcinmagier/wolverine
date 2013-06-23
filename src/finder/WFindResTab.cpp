@@ -3,6 +3,9 @@
 
 #include "WFindResTabModel.h"
 
+#include "WCentralWidget.h"
+#include "WLib.h"
+
 #include "Logger.h"
 
 #include <QTimer>
@@ -12,10 +15,11 @@
 
 using namespace Wolverine;
 
-WFindResTab::WFindResTab(const FindRequest &req, QWidget *parent) :
+WFindResTab::WFindResTab(const FindRequest &req, CentralWidget *cw, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WFindResTab),
     mFindRequest(req),
+    mCentralWidget(cw),
     mProcess(0), mTimer(0),
     mIconIdx(0), mHits(0), mFiles(0)
 {
@@ -24,6 +28,9 @@ WFindResTab::WFindResTab(const FindRequest &req, QWidget *parent) :
 
     mModel = new FindResTabModel();
     ui->treeView->setModel(mModel);
+
+    connect( ui->treeView, SIGNAL(doubleClicked(QModelIndex)),
+                    this , SLOT(onFileNameDoubleClicked(QModelIndex)) );
 
 }
 
@@ -105,6 +112,16 @@ void WFindResTab::onProcReadyStandardOutput()
 void WFindResTab::onProcReadyStandardError()
 {
     LOG_ERROR( QString(mProcess->readAllStandardError()) );
+}
+
+
+void WFindResTab::onFileNameDoubleClicked(const QModelIndex &index)
+{
+    if(!index.parent().isValid())
+        return;
+
+    mCentralWidget->openTab(Lib::createFileName(mModel->getFileName(index), mModel->getLine(index)));
+
 }
 
 

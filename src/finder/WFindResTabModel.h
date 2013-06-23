@@ -61,6 +61,9 @@ public:
     int getHits();
     int getFiles();
 
+    QString getFileName(const QModelIndex &index);
+    int getLine(const QModelIndex &index);
+
     void showHits();
     
 signals:

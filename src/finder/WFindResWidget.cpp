@@ -1,5 +1,6 @@
 #include "WFindResWidget.h"
 #include "WFindResTab.h"
+#include "WFinder.h"
 
 #include "CfgAppSettings.h"
 #include "CfgViewSettings.h"
@@ -32,7 +33,7 @@ FindResWidget::~FindResWidget()
 
 void FindResWidget::find(const FindRequest &req)
 {
-    WFindResTab *tab = new WFindResTab(req, this);
+    WFindResTab *tab = new WFindResTab(req, mFinder->mCentralWidget, this);
     this->addTab(tab, req.searchPattern);
     tab->startSearching();
 }

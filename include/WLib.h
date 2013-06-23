@@ -31,8 +31,6 @@ class Lib
 {
 
 public:
-    Lib();
-
     static QString createFileName(const QString &path, const int line);
     static QString createFileName(const QString &path, const QString &line);
     static QStringList createFileListFromArgs(int argc, char **argv);
