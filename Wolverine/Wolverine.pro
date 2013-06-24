@@ -105,7 +105,8 @@ HEADERS      += \
 
 INCLUDEPATH  += \
                 ../include \
-                ../src
+                ../src \
+                ../src/finder
 
 
 RESOURCES    += \

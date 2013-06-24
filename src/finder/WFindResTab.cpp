@@ -77,7 +77,7 @@ void WFindResTab::startSearching()
     args << mFindRequest.searchPattern;
     args << mFindRequest.directory;
 
-    mProcess->start("grep.exe", args);
+    mProcess->start("grep", args);
 }
 
 
