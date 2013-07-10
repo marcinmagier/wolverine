@@ -76,6 +76,8 @@ public:
 private slots:
     void onSelectDirectoryClicked();
     void onCurrentDirectoryClicked();
+    void onSearchEditReturnPressed();
+    void onReplaceEditReturnPressed();
 
 
 private:

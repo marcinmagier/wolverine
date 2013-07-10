@@ -149,8 +149,12 @@ FindReqWidget::FindReqWidget(Finder *finder, QWidget *parent) :
     connect( ui->btn2ReplaceAll, SIGNAL(clicked()),
                         mFinder, SLOT(replaceInFiles()) );
 
+    connect( ui->cmbSearchPattern->lineEdit(), SIGNAL(returnPressed()),
+                                         this, SLOT(onSearchEditReturnPressed()) );
+    connect( ui->cmbReplacePattern->lineEdit(), SIGNAL(returnPressed()),
+                                          this, SLOT(onReplaceEditReturnPressed()) );
 
-
+    setFocusProxy(ui->cmbSearchPattern);
 
 }
 
@@ -280,7 +284,6 @@ void FindReqWidget::updateFilterAndDirectoryHistory()
 }
 
 
-
 void FindReqWidget::onSelectDirectoryClicked()
 {
     QString dir = ui->cmbDirectory->lineEdit()->text();
@@ -294,6 +297,22 @@ void FindReqWidget::onCurrentDirectoryClicked()
     QString dir = getCurrentEditorDir();
     if(!dir.isEmpty())
         ui->cmbDirectory->lineEdit()->setText(dir);
+}
+
+void FindReqWidget::onSearchEditReturnPressed()
+{
+    if(mIdx == FindInFilesIdx)
+        mFinder->findInFiles();
+    else
+        mFinder->findNext();
+}
+
+void FindReqWidget::onReplaceEditReturnPressed()
+{
+    if(mIdx == FindInFilesIdx)
+        mFinder->replaceInFiles();
+    else
+        mFinder->replaceFindNext();
 }
 
 

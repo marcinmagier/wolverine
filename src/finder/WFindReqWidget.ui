@@ -16,6 +16,9 @@
     <height>160</height>
    </size>
   </property>
+  <property name="focusPolicy">
+   <enum>Qt::ClickFocus</enum>
+  </property>
   <layout class="QGridLayout" name="gridLayout_4" columnstretch="0,1,0,0,2,0,0,0,0">
    <property name="leftMargin">
     <number>9</number>
@@ -90,6 +93,9 @@
        <height>27</height>
       </size>
      </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
      <property name="text">
       <string/>
      </property>
@@ -102,6 +108,9 @@
        <width>32</width>
        <height>27</height>
       </size>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
      </property>
      <property name="text">
       <string/>
@@ -118,6 +127,9 @@
      </property>
      <item>
       <widget class="QPushButton" name="btn1ReplaceAll">
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="text">
         <string>Replace All</string>
        </property>
@@ -141,6 +153,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="btn1ReplaceAllInTabs">
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="text">
         <string>Replace in All Tabs</string>
        </property>
@@ -164,7 +179,7 @@
    <item row="1" column="5" rowspan="2" colspan="4">
     <widget class="QStackedWidget" name="stButtons">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page0">
       <layout class="QGridLayout" name="gridLayout">
@@ -182,6 +197,9 @@
        </property>
        <item row="0" column="0">
         <widget class="QPushButton" name="btn0FindNext">
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="text">
           <string>Find Next</string>
          </property>
@@ -189,6 +207,9 @@
        </item>
        <item row="0" column="1">
         <widget class="QPushButton" name="btn0FindAll">
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="text">
           <string>Find All</string>
          </property>
@@ -196,6 +217,9 @@
        </item>
        <item row="1" column="0">
         <widget class="QPushButton" name="btn0FindPrev">
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="text">
           <string>Find Prev</string>
          </property>
@@ -203,6 +227,9 @@
        </item>
        <item row="1" column="1">
         <widget class="QPushButton" name="btn0FindAllInTabs">
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="text">
           <string>Find in All Tabs</string>
          </property>
@@ -226,6 +253,9 @@
        </property>
        <item row="0" column="0">
         <widget class="QPushButton" name="btn1FindNext">
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="text">
           <string>Find Next</string>
          </property>
@@ -233,6 +263,9 @@
        </item>
        <item row="0" column="1">
         <widget class="QPushButton" name="btn1Replace">
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="text">
           <string>Replace</string>
          </property>
@@ -240,6 +273,9 @@
        </item>
        <item row="1" column="0" colspan="2">
         <widget class="QPushButton" name="btn1ReplaceFind">
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="text">
           <string>Replace and Find Next</string>
          </property>
@@ -263,6 +299,9 @@
        </property>
        <item row="0" column="0">
         <widget class="QPushButton" name="btn2FindAll">
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="text">
           <string>Find All</string>
          </property>
@@ -270,6 +309,9 @@
        </item>
        <item row="1" column="0">
         <widget class="QPushButton" name="btn2ReplaceAll">
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="text">
           <string>Replace All</string>
          </property>
@@ -295,6 +337,9 @@
          <height>27</height>
         </size>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -311,6 +356,9 @@
          <height>27</height>
         </size>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -326,6 +374,9 @@
          <width>32</width>
          <height>27</height>
         </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
        </property>
        <property name="text">
         <string/>
@@ -359,6 +410,9 @@
          <height>27</height>
         </size>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -374,6 +428,9 @@
          <width>32</width>
          <height>27</height>
         </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
        </property>
        <property name="text">
         <string/>
@@ -391,6 +448,9 @@
          <height>27</height>
         </size>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -407,6 +467,9 @@
          <height>27</height>
         </size>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -422,6 +485,9 @@
          <width>32</width>
          <height>27</height>
         </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
        </property>
        <property name="text">
         <string/>
@@ -454,6 +520,9 @@
          <width>32</width>
          <height>27</height>
         </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
        </property>
        <property name="text">
         <string/>

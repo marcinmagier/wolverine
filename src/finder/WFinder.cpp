@@ -347,6 +347,8 @@ void Finder::onReqDockVisibilityChanged(bool visible)
             mFindReqWidget = new FindReqWidget(this);
             mFindReqWidget->setCurrentIndex(FindReqWidget::FindIdx);
             mDockReqWidget->setWidget(mFindReqWidget);
+            mDockReqWidget->setFocusProxy(mFindReqWidget);
+            mDockReqWidget->setFocus();
 
             mFindAction->setChecked(true);
             mFindInFilesAction->setChecked(false);
